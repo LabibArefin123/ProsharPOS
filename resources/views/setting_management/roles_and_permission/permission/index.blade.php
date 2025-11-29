@@ -3,9 +3,15 @@
 @section('title', 'Permissions List')
 
 @section('content_header')
-    <h1>Permissions List</h1>
+    <div class="d-flex justify-content-between">
+        <h1>Permissions List</h1>
+        @if (auth()->user()->hasRole('admin'))
+            <button type="button" id="delete-selected" class="btn btn-danger btn-sm ms-2" title="Delete Selected">
+                <i class="fas fa-trash-alt me-1"></i> Delete Selected
+            </button>
+        @endif
+    </div>
 @stop
-
 
 @section('content')
     @if ($errors->any())
@@ -34,13 +40,6 @@
                             <input type="text" class="form-control" name="name" value="{{ old('name') }}"
                                 placeholder="Enter permission name" required>
                         </div>
-                        <div class="form-group">
-                            <label for="guard_name">Guard Name <span class="text-danger">*</span></label>
-                            <select name="guard_name" class="form-control" required>
-
-                                <option value="web" {{ old('guard_name') == 'web' ? 'selected' : '' }}>web</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Save Permission</button>
@@ -49,22 +48,26 @@
             </form>
 
             <!-- Permissions Table -->
-            <table id="permissionsTable" class="table table-bordered table-striped">
+            <table id="dataTables" class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>SL</th>
                         <th>Permission Name</th>
-                        <th>Guard</th>
-                        <th>Action</th>
+                        <th class="text-center">Guard</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($permissions as $permission)
                         <tr>
+                            <td>
+                                <input type="checkbox" class="row-checkbox" value="{{ $permission->id }}">
+                            </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $permission->name }}</td>
-                            <td>{{ $permission->guard_name }}</td>
-                            <td>
+                            <td class="text-center">{{ $permission->guard_name }}</td>
+                            <td class="text-center">
                                 <a href="{{ route('permissions.edit', $permission->id) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
                                 <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST"
@@ -83,46 +86,50 @@
             </table>
         </div>
     </div>
-
 @stop
 @section('js')
-    @if (session('success') || session('error') || session('warning') || session('info'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer);
-                        toast.addEventListener('mouseleave', Swal.resumeTimer);
-                    }
-                });
+    <script>
+        // Select / Deselect all checkboxes
+        $('#select-all').on('click', function() {
+            const checked = $(this).prop('checked');
+            $('.row-checkbox').prop('checked', checked);
+        });
 
-                @if (session('success'))
-                    Toast.fire({
-                        icon: 'success',
-                        title: @json(session('success'))
-                    });
-                @elseif (session('error'))
-                    Toast.fire({
-                        icon: 'error',
-                        title: @json(session('error'))
-                    });
-                @elseif (session('warning'))
-                    Toast.fire({
-                        icon: 'warning',
-                        title: @json(session('warning'))
-                    });
-                @elseif (session('info'))
-                    Toast.fire({
-                        icon: 'info',
-                        title: @json(session('info'))
-                    });
-                @endif
+        // Uncheck "Select All" if any single checkbox is unchecked
+        $('#dataTables').on('change', '.row-checkbox', function() {
+            if (!$(this).prop('checked')) {
+                $('#select-all').prop('checked', false);
+            }
+        });
+
+        // Handle bulk delete
+        $('#delete-selected').on('click', function() {
+            const ids = $('.row-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+
+            if (ids.length === 0) {
+                alert('Please select at least one row to delete.');
+                return;
+            }
+
+            if (!confirm('Are you sure you want to delete selected permissions?')) return;
+
+            $.ajax({
+                url: '{{ route('permissions.deleteSelected') }}', // Route for bulk delete
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    ids: ids
+                },
+                success: function(res) {
+                    alert(res.message || 'Selected permissions deleted successfully.');
+                    location.reload();
+                },
+                error: function() {
+                    alert('Something went wrong!');
+                }
             });
-        </script>
-    @endif
+        });
+    </script>
 @endsection

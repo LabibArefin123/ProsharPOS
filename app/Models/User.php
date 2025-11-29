@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+// use Laragear\TwoFactor\Contracts\TwoFactorAuthenticatable;
+// use Laragear\TwoFactor\TwoFactorAuthentication;
 
 class User extends Authenticatable
 {
@@ -20,10 +22,17 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'logo',
+        'email',
         'username',
         'phone',
         'password',
+        'profile_picture',
+        'two_factor_enabled',
+        'two_factor_code',
+        'two_factor_expires_at',
+        'session_timeout',
+        'is_maintenance',
+        'maintenance_message',
     ];
 
     /**
@@ -47,5 +56,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function adminlte_image()
+    {
+        $path = 'uploads/images/profile/' . $this->profile_picture;
+
+        // If profile picture exists and file actually exists in public folder
+        if (!empty($this->profile_picture) && file_exists(public_path($path))) {
+            return asset($path);
+        }
+
+        // Default image if no profile picture found
+        return asset('images/default.jpg');
+    }
+
+    public function generateTwoFactorCode()
+    {
+        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_expires_at = now()->addMinutes(60);
+        $this->save();
+    }
+
+    public function resetTwoFactorCode()
+    {
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
     }
 }

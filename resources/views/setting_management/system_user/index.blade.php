@@ -2,97 +2,69 @@
 
 @section('title', 'System Users')
 
-
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1 class="mb-0">System Users</h1>
-        <a href="{{ route('system_users.create') }}" class="btn btn-success btn-sm">
-            Add
+        <a href="{{ route('system_users.create') }}"
+            class="btn btn-success btn-sm d-flex align-items-center gap-2 shadow-sm rounded-pill px-3 py-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus"
+                viewBox="0 0 16 16">
+                <path d="M6 8c1.657 0 3-1.343 3-3S7.657 2 6 2 3 3.343 3 5s1.343 3 3 3zm0 1c-2.21
+                                            0-4 1.79-4 4v1h8v-1c0-2.21-1.79-4-4-4z" />
+                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 0-.5.5V7h-1.5a.5.5 0 0 0
+                                            0 1H13v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0
+                                            0 0-1H14V5.5a.5.5 0 0 0-.5-.5z" />
+            </svg>
+            <span>Add New</span>
         </a>
     </div>
 @stop
 
 @section('content')
-
-    <div class="container-fluid"> <!-- Use container-fluid instead of container -->
-        <div class="card"> <!-- Wrap the table in a card to align with AdminLTE's layout -->
-            <div class="card-body p-0"> <!-- Remove extra padding -->
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered mb-0"> <!-- Add mb-0 to remove bottom margin -->
-                        <thead>
+    <div class="container">
+        <div class="card shadow-sm">
+            <div class="card-body table-responsive">
+                <table class="table table-striped table-hover text-nowrap text-center" id="dataTables">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Role</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Username</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
                             <tr>
-                                <th>#</th>
-                                <th>Role</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone </th>
-                                <th>Username</th>
-                                <th>Actions</th>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->phone ?? 'Not Provided' }}</td>
+                                <td>{{ $user->username ?? 'Not Provided' }}</td>
+                                <td>
+                                    <a href="{{ route('system_users.edit', $user->id) }}"
+                                        class="btn btn-warning btn-sm">Edit</a>
+
+                                    <form action="{{ route('system_users.destroy', $user->id) }}" method="POST"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="triggerDeleteModal('{{ route('system_users.destroy', $user->id) }}')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $user)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->phone ?? 'Not Provided' }}</td>
-                                    <td>{{ $user->username ?? 'Not Provided' }}</td>
-                                    <td>
-                                        <a href="{{ route('system_users.show', $user->id) }}"
-                                            class="btn btn-info btn-sm me-2">View</a> <!-- Add me-2 -->
-                                        <a href="{{ route('system_users.edit', $user->id) }}"
-                                            class="btn btn-warning btn-sm me-2">Edit</a> <!-- Add me-2 -->
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-
 @stop
-@section('js')
-    @if (session('success') || session('error') || session('warning') || session('info'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer);
-                        toast.addEventListener('mouseleave', Swal.resumeTimer);
-                    }
-                });
-
-                @if (session('success'))
-                    Toast.fire({
-                        icon: 'success',
-                        title: @json(session('success'))
-                    });
-                @elseif (session('error'))
-                    Toast.fire({
-                        icon: 'error',
-                        title: @json(session('error'))
-                    });
-                @elseif (session('warning'))
-                    Toast.fire({
-                        icon: 'warning',
-                        title: @json(session('warning'))
-                    });
-                @elseif (session('info'))
-                    Toast.fire({
-                        icon: 'info',
-                        title: @json(session('info'))
-                    });
-                @endif
-            });
-        </script>
-    @endif
-@endsection

@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <form method="POST" action="{{ route('permissions.update', $permission->id) }}">
-            @method('POST')
+            @method('PUT')
             @csrf
             <div class="card">
                 <div class="card-body">
@@ -30,5 +30,4 @@
             </div>
         </form>
     </div>
-
 @stop

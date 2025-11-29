@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::with('permissions')->get();
+        $roles = Role::with('permissions')->paginate(25);
         return view('setting_management.roles_and_permission.roles.index', compact('roles'));
     }
 
@@ -20,27 +20,32 @@ class RoleController extends Controller
         $routes = collect(Route::getRoutes())
             ->filter(function ($route) {
                 $middlewares = $route->gatherMiddleware();
-                return $route->getName() &&
-                    $route->getAction('controller') &&
-                    collect($middlewares)->contains('auth');
+
+                return $route->getName() // must have a route name
+                    && $route->getAction('controller') // must have a controller
+                    && collect($middlewares)->contains('auth')
+                    && collect($middlewares)->contains('check_permission'); // must contain both
             })
             ->groupBy(function ($route) {
+                // Group by controller name (e.g., EmployeeController)
                 return class_basename(explode('@', $route->getActionName())[0]);
             });
 
         return view('setting_management.roles_and_permission.roles.create', compact('routes'));
     }
 
+
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:roles,name',
             'permissions' => 'nullable|array',
-            // No need to validate permissions.* here
         ]);
 
+        // Create the new role
         $role = Role::create(['name' => $request->name]);
 
+        // Handle attached permissions if available
         if ($request->filled('permissions')) {
             foreach ($request->permissions as $permissionName) {
                 Permission::firstOrCreate([
@@ -49,6 +54,7 @@ class RoleController extends Controller
                 ]);
             }
 
+            // Attach permissions to the role
             $role->syncPermissions($request->permissions);
         }
 
@@ -59,13 +65,10 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        // Get assigned permissions for this role
         $rolePermissions = $role->permissions()->pluck('name')->toArray();
 
-        // Group permissions by controller/module prefix (you can customize this logic)
         $permissions = Permission::all()->groupBy(function ($permission) {
-            // Optional: Split permission names like "user.create" or "user-edit"
-            return explode('.', $permission->name)[0]; // group by first part
+            return explode('.', $permission->name)[0];
         });
 
         return view('setting_management.roles_and_permission.roles.edit', compact('role', 'rolePermissions', 'permissions'));

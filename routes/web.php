@@ -16,7 +16,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\SystemUserController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SettingController;
 
 
 // Landing page
@@ -42,13 +43,35 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
 
-    Route::get('/user_profile', [ProfileController::class, 'user_profile'])->name('user_profile_show');
+    Route::get('/user_profile', [ProfileController::class, 'user_profile_show'])->name('user_profile_show');
     Route::get('/user_profile_edit', [ProfileController::class, 'user_profile_edit'])->name('user_profile_edit');
     Route::put('/user_profile_edit', [ProfileController::class, 'user_profile_update'])->name('user_profile_update');
     Route::resource('companies', CompanyController::class);
-    Route::resource('system_users', SystemUserController::class);
+    Route::resource('system_users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
+    Route::post('/permissions/delete-selected', [PermissionController::class, 'deleteSelected'])->name('permissions.deleteSelected');
+
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::get('/settings/password_policy', [SettingController::class, 'password_policy'])->name('settings.password_policy');
+    Route::get('/settings/2fa', [SettingController::class, 'show2FA'])->name('settings.2fa');
+    Route::post('/settings/toggle-2fa', [SettingController::class, 'toggle2FA'])->name('settings.toggle2fa');
+    Route::get('/settings/2fa/resend', [SettingController::class, 'resend'])->name('settings.2fa.resend');
+    Route::post('/settings/2fa/verify', [SettingController::class, 'verify'])->name('settings.2fa.verify');
+    Route::get('/settings/timeout', [SettingController::class, 'showTimeout'])->name('settings.timeout');
+    Route::post('/settings/timeout', [SettingController::class, 'updateTimeout'])->name('settings.timeout.update');
+    Route::get('/settings/database-backup', [SettingController::class, 'databaseBackup'])->name('settings.database.backup');
+    Route::post('/settings/database-backup/download', [SettingController::class, 'downloadDatabase'])->name('settings.database.backup.download');
+    Route::get('/settings/logs', [SettingController::class, 'logs'])->name('settings.logs');
+    Route::post('/settings/logs/clear', [SettingController::class, 'clearLogs'])->name('settings.clearLogs');
+    Route::get('/settings/maintenance', [SettingController::class, 'maintenance'])->name('settings.maintenance');
+    Route::post('/settings/maintenance', [SettingController::class, 'maintenanceUpdate'])->name('settings.maintenance.update');
+    Route::get('/settings/language', [SettingController::class, 'language'])->name('settings.language');
+    Route::post('/settings/language/update', [SettingController::class, 'updateLanguage'])->name('settings.language.update');
+    Route::get('/settings/datetime', [SettingController::class, 'dateTime'])->name('settings.datetime');
+    Route::post('/settings/datetime/update', [SettingController::class, 'updateDateTime'])->name('settings.datetime.update');
+    Route::get('/settings/theme', [SettingController::class, 'theme'])->name('settings.theme');
+    Route::post('/settings/theme/update', [SettingController::class, 'updateTheme'])->name('settings.theme.update');
 });
 
 // Breeze authentication

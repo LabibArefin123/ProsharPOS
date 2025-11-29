@@ -3,19 +3,23 @@
 @section('title', 'Role List')
 
 @section('content_header')
-    <h1>Role List</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Role List</h3>
+        <a href="{{ route('roles.create') }}" class="btn btn-sm btn-success d-flex align-items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add
+        </a>
+    </div>
 @stop
-
-
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <a href="{{ route('roles.create') }}" class="btn btn-success">Add Role</a>
-        </div>
-
-        <div class="card-body">
-            <table id="rolesTable" class="table table-bordered table-striped">
-                <thead>
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive ">
+            <table class="table table-hover table-striped text-center" id="dataTables">
+                <thead class="thead-dark">
                     <tr>
                         <th>SL</th>
                         <th>Role Name</th>
@@ -35,12 +39,13 @@
                             <td>
                                 <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                                <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
-                                    style="display:inline-block;"
-                                    onsubmit="return confirm('Are you sure you want to delete this role?');">
+                                <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm ml-1">Delete</button>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        onclick="triggerDeleteModal('{{ route('roles.destroy', $role->id) }}')">
+                                        Delete
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -49,54 +54,4 @@
             </table>
         </div>
     </div>
-
 @stop
-
-@section('js')
-    <script>
-        $(document).ready(function() {
-            $('#rolesTable').DataTable();
-        });
-    </script>
-    @if (session('success') || session('error') || session('warning') || session('info'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer);
-                        toast.addEventListener('mouseleave', Swal.resumeTimer);
-                    }
-                });
-
-                @if (session('success'))
-                    Toast.fire({
-                        icon: 'success',
-                        title: @json(session('success'))
-                    });
-                @elseif (session('error'))
-                    Toast.fire({
-                        icon: 'error',
-                        title: @json(session('error'))
-                    });
-                @elseif (session('warning'))
-                    Toast.fire({
-                        icon: 'warning',
-                        title: @json(session('warning'))
-                    });
-                @elseif (session('info'))
-                    Toast.fire({
-                        icon: 'info',
-                        title: @json(session('info'))
-                    });
-                @endif
-            });
-        </script>
-    @endif
-@stop
-
-@section('plugins.Datatables', true)

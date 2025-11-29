@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class LoginRequest extends FormRequest
 {
@@ -40,9 +41,30 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         $loginInput = $this->input('login');
-        $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $password   = $this->input('password');
+        $field      = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if (!Auth::attempt([$fieldType => $loginInput, 'password' => $this->password], $this->boolean('remember'))) {
+        // Check user exists
+        $user = User::where($field, $loginInput)->first();
+
+        if ($user) {
+
+            // GLOBAL maintenance mode check
+            $globalMaintenance = User::where('is_maintenance', 1)->first();
+
+            if ($globalMaintenance) {
+                // deny if user is NOT admin
+                if (! $user->hasRole('admin')) {
+                    throw ValidationException::withMessages([
+                        'login' => $globalMaintenance->maintenance_message
+                            ?? 'The system is under maintenance. Only admins can log in.',
+                    ]);
+                }
+            }
+        }
+
+        // Try login
+        if (!Auth::attempt([$field => $loginInput, 'password' => $password], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -52,6 +74,7 @@ class LoginRequest extends FormRequest
 
         RateLimiter::clear($this->throttleKey());
     }
+
 
     /**
      * Throttle brute force login attempts.

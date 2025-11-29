@@ -3,90 +3,76 @@
 @section('title', 'Edit Role')
 
 @section('content_header')
-    <div class="d-flex justify-content-between align-items-center">
-        <h1><i class="fas fa-user-shield text-primary"></i> Edit Role: <span class="text-info">{{ $role->name }}</span></h1>
-        <a href="{{ route('roles.index') }}" class="btn btn-sm btn-warning">
-            <i class="fas fa-arrow-left"></i> Go Back
+    <div class="d-flex justify-content-between">
+        <h1>Edit Role: {{ $role->name }}</h1>
+        <a href="{{ route('roles.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back
         </a>
     </div>
 @stop
 
 @section('content')
     @if ($errors->any())
-        <div class="alert alert-danger shadow-sm">
+        <div class="alert alert-danger">
             <ul class="mb-0">
                 @foreach ($errors->all() as $error)
-                    <li><i class="fas fa-exclamation-circle"></i> {{ $error }}</li>
+                    <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
 
-    <form method="POST" action="{{ route('roles.update', $role->id) }}">
+    <form method="POST" action="{{ route('roles.update', $role->id) }}" data-confirm="edit">
         @csrf
         @method('PUT')
 
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <strong><i class="fas fa-edit"></i> Role Information</strong>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="name">Role Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" required
-                        value="{{ old('name', $role->name) }}">
-                </div>
-            </div>
+        <div class="form-group">
+            <label for="name">Role Name</label>
+            <input type="text" name="name" class="form-control" value="{{ old('name', $role->name) }}">
         </div>
 
-        <div class="mt-4">
-            @forelse ($permissions as $group => $groupPermissions)
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap">
-                        <h5 class="mb-0 text-uppercase text-primary">
-                            <i class="fas fa-folder-open"></i> {{ ucfirst($group) }}
-                        </h5>
-                        <div class="d-flex gap-2 ml-auto">
-                            <button type="button" class="btn btn-sm btn-outline-primary select-all-btn"
-                                data-group="{{ \Illuminate\Support\Str::slug($group) }}" title="Select All">
-                                <i class="fas fa-check-double"></i> Select All
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-danger unselect-all-btn"
-                                data-group="{{ \Illuminate\Support\Str::slug($group) }}" title="Unselect All">
-                                <i class="fas fa-times-circle"></i> Unselect All
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            @foreach ($groupPermissions as $permission)
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="form-check">
-                                        <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
-                                            class="form-check-input perm-{{ \Illuminate\Support\Str::slug($group) }}"
-                                            id="perm_{{ $permission->id }}"
-                                            {{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="perm_{{ $permission->id }}">
-                                            {{ $permission->name }}
-                                        </label>
-                                    </div>
+        @foreach ($permissions as $group => $groupPermissions)
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <h5 class="text-primary mb-0 text-uppercase">{{ ucfirst($group) }}</h5>
+                <div>
+                    <button type="button" class="btn btn-sm btn-outline-primary select-all-btn"
+                        data-group="{{ $group }}">
+                        Select All
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger unselect-all-btn"
+                        data-group="{{ $group }}">
+                        Unselect All
+                    </button>
+                </div>
+            </div>
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <div class="row">
+                        @foreach ($groupPermissions as $permission)
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                        class="form-check-input perm-{{ $group }}" id="perm_{{ $permission->id }}"
+                                        {{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="perm_{{ $permission->id }}">
+                                        {{ $permission->name }}
+                                    </label>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-            @empty
-                <div class="alert alert-info">No permissions available to assign.</div>
-            @endforelse
-        </div>
-
+            </div>
+        @endforeach
         <div class="text-end mt-3">
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-save"></i> Update Role
-            </button>
+            <button type="submit" class="btn btn-success">Update</button>
         </div>
     </form>
-
 @stop
 
 @section('js')
