@@ -1,0 +1,154 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Brand;
+use App\Models\Unit;
+use App\Models\Warranty;
+use Illuminate\Http\Request;
+
+class ProductController extends Controller
+{
+    public function index()
+    {
+        $products = Product::with(['category', 'brand', 'unit', 'warranty'])
+            ->latest()
+            ->get();
+
+        return view('product_management.products.index', compact('products'));
+    }
+
+    public function stock()
+    {
+        $products = Product::with(['category', 'brand'])->get();
+        return view('product_management.products.stock', compact('products'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        $brands = Brand::all();
+        $units = Unit::all();
+        $warranties = Warranty::all();
+
+        return view('product_management.products.create', compact('categories', 'brands', 'units', 'warranties'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name'               => 'required|string|max:255',
+            'category_id'        => 'required|exists:categories,id',
+            'brand_id'           => 'nullable|exists:brands,id',
+            'unit_id'            => 'required|exists:units,id',
+            'part_number'        => 'nullable|string|max:100',
+            'type_model'         => 'nullable|string|max:100',
+            'origin'             => 'nullable|string|max:100',
+            'rack_number'        => 'nullable|string|max:100',
+            'box_number'         => 'nullable|string|max:100',
+            'purchase_price'     => 'nullable|numeric',
+            'handling_charge'    => 'nullable|numeric',
+            'maintenance_charge' => 'nullable|numeric',
+            'sell_price'         => 'nullable|numeric',
+            'stock_quantity'     => 'nullable|integer',
+            'alert_quantity'     => 'nullable|integer',
+            'using_place'        => 'nullable|string',
+            'description'        => 'nullable|string',
+            'status'             => 'required|boolean',
+            'warranty_id'        => 'nullable|exists:warranties,id',
+            'image'              => 'nullable|image|max:5120',
+        ]);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/images/product');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+            $request->file('image')->move($destinationPath, $filename);
+            $validated['image'] = 'uploads/images/product/' . $filename;
+        }
+
+        Product::create($validated);
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully');
+    }
+
+    public function show(Product $product)
+    {
+        // eager load relations so show.blade.php doesn’t break
+        $product->load(['category', 'brand', 'unit', 'warranty']);
+        return view('product_management.products.show', compact('product'));
+    }
+
+    public function edit(Product $product)
+    {
+        $categories = Category::all();
+        $brands     = Brand::all();
+        $units      = Unit::all();
+        $warranties = Warranty::all();
+
+        return view('product_management.products.edit', compact('product', 'categories', 'brands', 'units', 'warranties'));
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'name'               => 'required|string|max:255',
+            'category_id'        => 'required|exists:categories,id',
+            'brand_id'           => 'nullable|exists:brands,id',
+            'unit_id'            => 'required|exists:units,id',
+            'part_number'        => 'nullable|string|max:100',
+            'type_model'         => 'nullable|string|max:100',
+            'origin'             => 'nullable|string|max:100',
+            'rack_number'        => 'nullable|string|max:100',
+            'box_number'         => 'nullable|string|max:100',
+            'purchase_price'     => 'nullable|numeric',
+            'handling_charge'    => 'nullable|numeric',
+            'maintenance_charge' => 'nullable|numeric',
+            'sell_price'         => 'nullable|numeric',
+            'stock_quantity'     => 'nullable|integer',
+            'alert_quantity'     => 'nullable|integer',
+            'using_place'        => 'nullable|string',
+            'description'        => 'nullable|string',
+            'status'             => 'required|boolean',
+            'warranty_id'        => 'nullable|exists:warranties,id',
+            'image'              => 'nullable|image|max:5120',
+        ]);
+
+        // Handle image update
+        if ($request->hasFile('image')) {
+            // delete old if exists
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
+            }
+
+            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/images/product');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+            $request->file('image')->move($destinationPath, $filename);
+            $validated['image'] = 'uploads/images/product/' . $filename;
+        }
+
+        $product->update($validated);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
+    }
+
+    public function destroy(Product $product)
+    {
+        // delete image if exists
+        if ($product->image && file_exists(public_path($product->image))) {
+            unlink(public_path($product->image));
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully');
+    }
+}
