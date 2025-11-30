@@ -442,28 +442,30 @@ return [
                     'route' => 'roles.index',
                     'can' => 'roles.index',
                     'active' => ['roles*'],
-                    'icon' => 'fas fa-user-tag',  // user tag icon
+                ],
+                [
+                    'text' => 'User Category List',
+                    'route' => 'user_categories.index',
+                    'can' => 'user_categories.index',
+                    'active' => ['user_categories*'],
                 ],
                 [
                     'text' => 'Permission List',
                     'route' => 'permissions.index',
                     'can' => 'permissions.index',
                     'active' => ['permissions*'],
-                    'icon' => 'fas fa-key',  // key icon
                 ],
                 [
                     'text' => 'System User',
                     'route' => 'system_users.index',
                     'can' => 'system_users.index',
                     'active' => ['system_users*'],
-                    'icon' => 'fas fa-users-cog',  // users with cog icon
                 ],
                 [
                     'text' => 'Company Profile',
                     'route' => 'companies.index',
                     'can' => 'companies.index',
                     'active' => ['companies*'],
-                    'icon' => 'fas fa-users-cog',  // users with cog icon
                 ],
 
             ],

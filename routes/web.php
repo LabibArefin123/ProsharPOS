@@ -17,6 +17,8 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserCategoryController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 
 
@@ -46,7 +48,10 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/user_profile', [ProfileController::class, 'user_profile_show'])->name('user_profile_show');
     Route::get('/user_profile_edit', [ProfileController::class, 'user_profile_edit'])->name('user_profile_edit');
     Route::put('/user_profile_edit', [ProfileController::class, 'user_profile_update'])->name('user_profile_update');
+    Route::get('/notifications/search', [SearchController::class, 'search'])->name('notifications.search');
+
     Route::resource('companies', CompanyController::class);
+    Route::resource('user_categories', UserCategoryController::class);
     Route::resource('system_users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
