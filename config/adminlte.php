@@ -461,21 +461,12 @@ return [
                     'route' => 'customers.index',
                     'can' => 'customers.index',
                     'active' => ['customers*'],
-                    'icon' => 'fas fa-user-tag',  // user tag icon
-                ],
-                [
-                    'text' => 'Branch List',
-                    'route' => 'branches.index',
-                    'can' => 'branches.index',
-                    'active' => ['branch*'],
-                    'icon' => 'fas fa-user',  // user tag icon
                 ],
                 [
                     'text' => 'Suppliers List',
                     'route' => 'suppliers.index',
                     'can' => 'suppliers.index',
                     'active' => ['suppliers*'],
-                    'icon' => 'fas fa-users',  // user tag icon
                 ],
             ],
         ],
@@ -486,17 +477,18 @@ return [
             // 'can'   => 'view-setting_menu',
             'submenu' => [
                 [
-                    'text' => 'Role List',
-                    'route' => 'roles.index',
-                    'can' => 'roles.index',
-                    'active' => ['roles*'],
-                ],
-                [
                     'text' => 'User Category List',
                     'route' => 'user_categories.index',
                     'can' => 'user_categories.index',
                     'active' => ['user_categories*'],
                 ],
+                [
+                    'text' => 'Role List',
+                    'route' => 'roles.index',
+                    'can' => 'roles.index',
+                    'active' => ['roles*'],
+                ],
+
                 [
                     'text' => 'Permission List',
                     'route' => 'permissions.index',

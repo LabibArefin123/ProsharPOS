@@ -6,18 +6,17 @@
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="m-0 text-dark">Warranty List</h1>
         <a href="{{ route('warranties.create') }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus"></i> Add New Warranty
+            <i class="fas fa-plus"></i> Add New
         </a>
     </div>
 @stop
 
 @section('content')
-    {{-- Card Table --}}
-    <div class="card shadow">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped m-0 text-sm bg-white">
-                    <thead class="thead-light">
+    <div class="container">
+        <div class="card shadow-sm">
+            <div class="card-body table-responsive">
+                <table class="table table-striped table-hover text-nowrap" id="dataTables">
+                    <thead class="thead-dark">
                         <tr class="text-center">
                             <th style="width: 50px;">SL</th>
                             <th>Warranty Name</th>
@@ -70,44 +69,3 @@
         </div>
     </div>
 @stop
-@section('js')
-    @if (session('success') || session('error') || session('warning') || session('info'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer);
-                        toast.addEventListener('mouseleave', Swal.resumeTimer);
-                    }
-                });
-
-                @if (session('success'))
-                    Toast.fire({
-                        icon: 'success',
-                        title: @json(session('success'))
-                    });
-                @elseif (session('error'))
-                    Toast.fire({
-                        icon: 'error',
-                        title: @json(session('error'))
-                    });
-                @elseif (session('warning'))
-                    Toast.fire({
-                        icon: 'warning',
-                        title: @json(session('warning'))
-                    });
-                @elseif (session('info'))
-                    Toast.fire({
-                        icon: 'info',
-                        title: @json(session('info'))
-                    });
-                @endif
-            });
-        </script>
-    @endif
-@endsection
