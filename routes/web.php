@@ -3,6 +3,8 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChallanController;
@@ -38,12 +40,15 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 
     Route::resource('organizations', OrganizationController::class);
 
+    Route::resource('branches', BranchController::class);
+    Route::resource('divisions', DivisionController::class);
+    Route::resource('departments', DepartmentController::class);
+
     Route::resource('units', UnitController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('brands', BrandController::class);
     Route::resource('warranties', WarrantyController::class);
     Route::resource('customers', CustomerController::class);
-    Route::resource('branches', BranchController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
