@@ -31,29 +31,44 @@
             </div>
         @endif
 
-        <form action="{{ route('customers.store') }}" method="POST">
+        <form action="{{ route('customers.store') }}" method="POST" data-confirm="create">
             @csrf
 
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="name">Customer Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
+                    <input type="text" name="name" id="name"
+                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
+                    @error('name')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="email">Email <span class="text-danger">*</span></label>
-                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}">
+                    <input type="email" name="email" id="email"
+                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
+                    @error('email')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="phone_number">Phone Number <span class="text-danger">*</span></label>
-                    <input type="text" name="phone_number" id="phone_number" class="form-control"
-                        value="{{ old('phone_number') }}">
+                    <input type="number" name="phone_number" id="phone_number"
+                        class="form-control @error('phone_number') is-invalid @enderror" value="{{ old('phone_number') }}">
+                    @error('phone_number')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="location">Location <span class="text-danger">*</span></label>
-                    <input type="text" name="location" id="location" class="form-control" value="{{ old('location') }}">
+                    <input type="text" name="location" id="location"
+                        class="form-control @error('location') is-invalid @enderror" value="{{ old('location') }}">
+                    @error('location')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
             </div>
 

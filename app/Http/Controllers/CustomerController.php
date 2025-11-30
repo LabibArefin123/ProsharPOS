@@ -32,6 +32,11 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
     }
 
+    public function show(Customer $customer)
+    {
+        return view('people_management.customers.show', compact('customer'));
+    }
+
     public function edit(Customer $customer)
     {
         return view('people_management.customers.edit', compact('customer'));

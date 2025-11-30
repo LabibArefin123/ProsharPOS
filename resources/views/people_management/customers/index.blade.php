@@ -11,17 +11,6 @@
     </div>
 @stop
 
-{{-- Error Alert --}}
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0 pl-3">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 @section('content')
     <div class="card">
 
@@ -40,7 +29,7 @@
                 <tbody>
                     @foreach ($customers as $index => $customer)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $customer->name }}</td>
                             <td>{{ $customer->email }}</td>
                             <td>{{ $customer->phone_number }}</td>
@@ -48,6 +37,8 @@
                             <td>
                                 <a href="{{ route('customers.edit', $customer->id) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('customers.show', $customer->id) }}"
+                                    class="btn btn-secondary btn-sm">View</a>
                                 <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
                                     style="display:inline-block;">
                                     @csrf
