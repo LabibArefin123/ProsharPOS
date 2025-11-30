@@ -318,6 +318,7 @@ return [
         [
             'text' => 'Dashboard',
             'route' => 'dashboard',
+            'can' => 'dashboard',
             'icon' => 'fas fa-home',
         ],
 
@@ -333,26 +334,31 @@ return [
                 [
                     'text' => 'Product List',
                     'route' => 'products.index',
+                    'can' => 'products.index',
                     'icon' => 'fas fa-list',
                 ],
                 [
                     'text' => 'Units',
                     'route' => 'units.index',
+                    'can' => 'units.index',
                     'icon' => 'fas fa-balance-scale',
                 ],
                 [
                     'text' => 'Categories',
                     'route' => 'categories.index',
+                    'can' => 'categories.index',
                     'icon' => 'fas fa-tags',
                 ],
                 [
                     'text' => 'Brands',
                     'route' => 'brands.index',
+                    'can' => 'brands.index',
                     'icon' => 'fas fa-industry',
                 ],
                 [
                     'text' => 'Warranties',
                     'route' => 'warranties.index',
+                    'can' => 'warranties.index',
                     'icon' => 'fas fa-shield-alt',
                 ],
             ],
@@ -360,6 +366,7 @@ return [
         [
             'text' => 'Product Stock',
             'route' => 'products.stock',
+            'can' => 'products.stock',
             'icon' => 'fas fa-warehouse',
         ],
 
@@ -371,12 +378,14 @@ return [
                 [
                     'text' => 'Invoice List',
                     'route' => 'invoices.index',
+                    'can' => 'invoices.index',
                     'active' => ['invoices*'],
                     'icon' => 'fas fa-file-invoice',
                 ],
                 [
                     'text' => 'Challan List',
                     'route' => 'challans.index',
+                    'can' => 'challans.index',
                     'active' => ['challans*'],
                     'icon' => 'fas fa-file-contract',
                 ],
@@ -402,18 +411,21 @@ return [
                 [
                     'text' => 'Customer List',
                     'route' => 'customers.index',
+                    'can' => 'customers.index',
                     'active' => ['customers*'],
                     'icon' => 'fas fa-user-tag',  // user tag icon
                 ],
                 [
                     'text' => 'Branch List',
                     'route' => 'branches.index',
+                    'can' => 'branches.index',
                     'active' => ['branch*'],
                     'icon' => 'fas fa-user',  // user tag icon
                 ],
                 [
                     'text' => 'Suppliers List',
                     'route' => 'suppliers.index',
+                    'can' => 'suppliers.index',
                     'active' => ['suppliers*'],
                     'icon' => 'fas fa-users',  // user tag icon
                 ],
@@ -428,35 +440,33 @@ return [
                 [
                     'text' => 'Role List',
                     'route' => 'roles.index',
+                    'can' => 'roles.index',
                     'active' => ['roles*'],
                     'icon' => 'fas fa-user-tag',  // user tag icon
                 ],
                 [
                     'text' => 'Permission List',
                     'route' => 'permissions.index',
+                    'can' => 'permissions.index',
                     'active' => ['permissions*'],
                     'icon' => 'fas fa-key',  // key icon
                 ],
                 [
                     'text' => 'System User',
                     'route' => 'system_users.index',
+                    'can' => 'system_users.index',
                     'active' => ['system_users*'],
                     'icon' => 'fas fa-users-cog',  // users with cog icon
                 ],
                 [
                     'text' => 'Company Profile',
                     'route' => 'companies.index',
+                    'can' => 'companies.index',
                     'active' => ['companies*'],
                     'icon' => 'fas fa-users-cog',  // users with cog icon
                 ],
 
             ],
-        ],
-
-        [
-            'text' => 'TimeTrack',
-            'url' => '#',
-            'icon' => 'fas fa-clock',
         ],
 
     ],
