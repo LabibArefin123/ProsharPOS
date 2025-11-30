@@ -63,9 +63,9 @@ return [
     |
     */
 
-    'logo' => '<b>SwiftTrack</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => '<b>ProsharPOS</b>',
+    'logo_img' => 'uploads/images/logor.png',
+    'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'Admin Logo',
@@ -299,7 +299,18 @@ return [
     */
 
     'menu' => [
+        [
+            'type' => 'navbar-search',
+            'text' => 'Search',
+            'topnav_right' => true,
+            'url' => 'notifications.search',     // route name
+            'method' => 'GET',
+        ],
 
+        [
+            'type' => 'fullscreen-widget',
+            'topnav_right' => true,
+        ],
         [
             'text' => 'Invoice',
             'url'  => 'invoices',
@@ -321,13 +332,22 @@ return [
             'can' => 'dashboard',
             'icon' => 'fas fa-home',
         ],
-
-        // Product Management Header
         [
-            'header' => 'Product Management',
+            'text'    => 'Organization Menu',
+            'icon'    => 'fas fa-cogs',
+            // 'route'    => 'organization_menu',
+            'submenu' => [
+
+                [
+                    'text' => 'Organization List',
+                    'route' => 'organizations.index',
+                    'can' => 'organizations.index',
+                    'active' => ['organizations*'],
+                ],
+            ],
         ],
         [
-            'text' => 'Product Manage',
+            'text' => 'Product Management',
             'icon' => 'fas fa-box',
             'submenu' => [
 

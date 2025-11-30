@@ -12,7 +12,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::latest()->paginate(10);
+        $companies = Company::orderBy('id', 'asc')->get();
         return view('setting_management.company_profile.index', compact('companies'));
     }
 
@@ -32,11 +32,11 @@ class CompanyController extends Controller
         $request->validate([
             'name'                  => 'required|unique:companies,name',
             'logo'                  => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
-            'contact_number'        => 'nullable|string|max:20',
-            'address'               => 'nullable|string|max:255',
-            'shipping_charge_inside' => 'nullable|numeric',
-            'shipping_charge_outside' => 'nullable|numeric',
-            'currency_symbol'       => 'nullable|string|max:5',
+            'contact_number'        => 'required|string|max:20',
+            'address'               => 'required|string|max:255',
+            'shipping_charge_inside' => 'required|numeric',
+            'shipping_charge_outside' => 'required|numeric',
+            'currency_symbol'       => 'required|string|max:5',
         ]);
 
         $data = $request->except('logo');
@@ -69,11 +69,11 @@ class CompanyController extends Controller
         $request->validate([
             'name'                  => 'required|unique:companies,name,' . $company->id,
             'logo'                  => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
-            'contact_number'        => 'nullable|string|max:20',
-            'address'               => 'nullable|string|max:255',
-            'shipping_charge_inside' => 'nullable|numeric',
-            'shipping_charge_outside' => 'nullable|numeric',
-            'currency_symbol'       => 'nullable|string|max:5',
+            'contact_number'        => 'required|string|max:20',
+            'address'               => 'required|string|max:255',
+            'shipping_charge_inside' => 'required|numeric',
+            'shipping_charge_outside' => 'required|numeric',
+            'currency_symbol'       => 'required|string|max:5',
         ]);
 
         $data = $request->except('logo');

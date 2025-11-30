@@ -6,7 +6,7 @@
 @section('adminlte_css')
     @stack('css')
     @yield('css')
-    <link rel="icon" type="image/png" href="{{ asset('images/visiq.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('uploads/images/logor.png') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CDN -->

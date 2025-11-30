@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
@@ -34,6 +35,8 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
     Route::resource('products', ProductController::class);
+
+    Route::resource('organizations', OrganizationController::class);
 
     Route::resource('units', UnitController::class);
     Route::resource('categories', CategoryController::class);
