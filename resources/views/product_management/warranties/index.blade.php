@@ -49,10 +49,11 @@
 
                                     {{-- Delete --}}
                                     <form action="{{ route('warranties.destroy', $warranty->id) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this warranty?');">
+                                        class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="triggerDeleteModal('{{ route('warranties.destroy', $warranty->id) }}')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>

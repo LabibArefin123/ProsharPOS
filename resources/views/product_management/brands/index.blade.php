@@ -47,12 +47,12 @@
 
                                     {{-- Delete --}}
                                     <form action="{{ route('brands.destroy', $brand->id) }}" method="POST"
-                                        class="d-inline-block"
-                                        onsubmit="return confirm('Are you sure you want to delete this brand?');">
+                                        class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-sm" type="submit" title="Delete">
-                                            <i class="fas fa-trash"></i> Delete
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="triggerDeleteModal('{{ route('brands.destroy', $brand->id) }}')">
+                                            Delete
                                         </button>
                                     </form>
                                 </td>

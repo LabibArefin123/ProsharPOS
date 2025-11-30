@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest()->get();
-        return view('categories.index', compact('categories'));
+        return view('product_management.categories.index', compact('categories'));
     }
 
     /**
@@ -21,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('product_management.categories.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         $category = Category::findOrFail($id);
-        return view('categories.show', compact('category'));
+        return view('product_management.categories.show', compact('category'));
     }
 
     /**
@@ -63,7 +63,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
-        return view('categories.edit', compact('category'));
+        return view('product_management.categories.edit', compact('category'));
     }
 
     /**
