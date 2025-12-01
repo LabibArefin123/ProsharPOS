@@ -24,7 +24,7 @@ class RoleController extends Controller
                 return $route->getName() // must have a route name
                     && $route->getAction('controller') // must have a controller
                     && collect($middlewares)->contains('auth')
-                    && collect($middlewares)->contains('check_permission'); // must contain both
+                    && collect($middlewares)->contains('permission'); // must contain both
             })
             ->groupBy(function ($route) {
                 // Group by controller name (e.g., EmployeeController)
