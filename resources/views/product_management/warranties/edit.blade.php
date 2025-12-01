@@ -16,7 +16,6 @@
     </div>
 @stop
 
-
 @section('content')
     <div class="container">
         <div class="card shadow-lg">
