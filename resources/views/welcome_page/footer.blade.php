@@ -24,10 +24,10 @@
         ProsharPOS.
     </a> All rights reserved |
     Design & Developed by
-    <a href="https://totalofftec.com" target="_blank" rel="noopener noreferrer"
+    <a href="https://labib.work" target="_blank" rel="noopener noreferrer"
         class="text-decoration-none fw-semibold d-inline-block">
         <span class="onstage-text">
-            total<span class="off-highlight">offtec</span>
+            Labib Arefin
         </span>
     </a>
 </footer>

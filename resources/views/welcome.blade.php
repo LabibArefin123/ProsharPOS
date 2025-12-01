@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Welcome to BidTrack')
+@section('title', 'Welcome to ProsharPOS')
 <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
 @section('content')

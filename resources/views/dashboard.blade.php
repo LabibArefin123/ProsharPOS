@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1 class="text-2xl font-bold text-dark mb-4">📊 Dashboard Overview</h1>
+    <h1 class="text-2xl font-bold text-dark mb-4">Dashboard Overview</h1>
 @endsection
 
 @section('content')
