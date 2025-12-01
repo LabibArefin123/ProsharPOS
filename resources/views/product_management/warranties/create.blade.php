@@ -20,11 +20,9 @@
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-body">
-                {{-- Validation Errors --}}
                 @if ($errors->any())
                     <div class="alert alert-danger">
-                        <strong>Whoops!</strong> There were some problems with your input.
-                        <ul class="mb-0 mt-2">
+                        <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li class="small">{{ $error }}</li>
                             @endforeach

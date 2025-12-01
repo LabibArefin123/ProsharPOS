@@ -3,38 +3,37 @@
 @section('title', 'Category Details')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Category Details</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Category Details</h3>
+        <div>
+            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{{ route('categories.index') }}" class="btn btn-sm btn-secondary">Go Back</a>
+        </div>
+    </div>
 @stop
 
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <table class="table table-bordered">
-                <tr>
-                    <th>Name</th>
-                    <td>{{ $category->name }}</td>
-                </tr>
-                <tr>
-                    <th>Slug</th>
-                    <td>{{ $category->slug }}</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <td>{{ $category->status ? 'Active' : 'Inactive' }}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{ $category->description ?? '-' }}</td>
-                </tr>
-            </table>
-
-            <div class="mt-3">
-                <a href="{{ route('categories.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back
-                </a>
-                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary">
-                    <i class="fas fa-edit"></i> Edit
-                </a>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Name</label>
+                        <input type="text" class="form-control" value="{{ $category->name }}" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Slug</label>
+                        <input type="text" class="form-control" value="{{ $category->slug }}" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Status</label>
+                        <input type="text" class="form-control" value="{{ $category->status }}" readonly>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="3" readonly>{{ $category->description }}</textarea>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::orderBy('id', 'asc')->get();
         return view('product_management.categories.index', compact('categories'));
     }
 
@@ -31,7 +31,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug',
+            'slug' => 'required|string|max:255|unique:categories,slug',
             'description' => 'nullable|string',
             'status' => 'required|boolean',
         ]);
@@ -51,9 +51,8 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
-        $category = Category::findOrFail($id);
         return view('product_management.categories.show', compact('category'));
     }
 
@@ -75,7 +74,7 @@ class CategoryController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
+            'slug' => 'required|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
             'status' => 'required|boolean',
         ]);

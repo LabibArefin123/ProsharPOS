@@ -53,10 +53,13 @@
                                     <a href="{{ route('companies.show', $company->id) }}"
                                         class="btn btn-sm btn-warning">View</a>
                                     <form action="{{ route('companies.destroy', $company->id) }}" method="POST"
-                                        style="display:inline-block;">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure?')">Delete</button>
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="triggerDeleteModal('{{ route('companies.destroy', $company->id) }}')">
+                                            Delete
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
