@@ -48,83 +48,9 @@
     <form action="{{ route('challans.store') }}" method="POST" id="challanForm">
         @csrf
 
-        {{-- Customer Section --}}
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <strong>👤 Customer Information</strong>
-            </div>
-            <div class="card-body row g-3">
-                <div class="col-md-3">
-                    <label for="customer_id">Customer Name</label>
-                    <select name="customer_id" id="customer_id" class="form-control" required>
-                        <option value="">Select Customer</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label>Email</label>
-                    <input type="text" id="customer_email" class="form-control" readonly>
-                </div>
-                <div class="col-md-3">
-                    <label>Phone</label>
-                    <input type="text" id="customer_phone" class="form-control" readonly>
-                </div>
-                <div class="col-md-3">
-                    <label>Location</label>
-                    <input type="text" id="customer_location" class="form-control" readonly>
-                </div>
-            </div>
-        </div>
-
-        {{-- Filters --}}
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-secondary text-white">
-                <strong>🔎 Product Filters</strong>
-            </div>
-            <div class="card-body row g-3">
-                <div class="col-md-3">
-                    <label>Search by Name</label>
-                    <input type="text" placeholder="Enter product name..." class="form-control" id="filter-name">
-                </div>
-                <div class="col-md-3">
-                    <label>Product</label>
-                    <select id="filter-product" class="form-control">
-                        <option value="">All Products</option>
-                        @foreach ($products as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label>Category</label>
-                    <select id="filter-category" class="form-control">
-                        <option value="">All Categories</option>
-                        @foreach ($products->pluck('category.name')->unique() as $category)
-                            <option>{{ $category }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label>Brand</label>
-                    <select id="filter-brand" class="form-control">
-                        <option value="">All Brands</option>
-                        @foreach ($products->pluck('brand.name')->unique() as $brand)
-                            <option>{{ $brand }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label>Branch</label>
-                    <select name="branch_id" class="form-control" required>
-                        @foreach ($branches as $branch)
-                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div>
+        @include('transaction_management.challans.partial_create.part_1_customer')
+        @include('transaction_management.challans.partial_create.part_2_filter')
+       
 
         {{-- Product & Cart Section --}}
         <div class="row">

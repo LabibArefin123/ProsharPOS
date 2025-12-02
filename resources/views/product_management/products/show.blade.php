@@ -4,10 +4,11 @@
 
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
-        <h1 class="m-0 text-dark">Product Show</h1>
-        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">
-            <i class="fas fa-edit"></i> Edit
-        </a>
+        <h3 class="mb-0">Product Details</h3>
+        <div>
+            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{{ route('products.index') }}" class="btn btn-sm btn-secondary">Go Back</a>
+        </div>
     </div>
 @stop
 
@@ -20,43 +21,43 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <strong>Product/Parts Name:</strong>
-                        <p class="text-muted">{{ $product->name }}</p>
+                        <p class="form-control">{{ $product->name }}</p>
                     </div>
                     <div class="col-md-3">
                         <strong>Category:</strong>
-                        <p class="text-muted">{{ $product->category->name ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->category->name ?? 'N/A' }}</p>
                     </div>
                     <div class="col-md-3">
                         <strong>Brand:</strong>
-                        <p class="text-muted">{{ $product->brand->name ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->brand->name ?? 'N/A' }}</p>
                     </div>
                     <div class="col-md-3">
                         <strong>Origin:</strong>
-                        <p class="text-muted">{{ $product->origin ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->origin ?? 'N/A' }}</p>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-2">
                         <strong>Unit:</strong>
-                        <p class="text-muted">{{ $product->unit->name ?? 'N/A' }} ({{ $product->unit->short_name ?? '' }})
+                        <p class="form-control">{{ $product->unit->name ?? 'N/A' }} ({{ $product->unit->short_name ?? '' }})
                         </p>
                     </div>
                     <div class="col-md-2">
                         <strong>Part Number:</strong>
-                        <p class="text-muted">{{ $product->part_number ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->part_number ?? 'N/A' }}</p>
                     </div>
                     <div class="col-md-2">
                         <strong>Type / Model:</strong>
-                        <p class="text-muted">{{ $product->type_model ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->type_model ?? 'N/A' }}</p>
                     </div>
                     <div class="col-md-3">
                         <strong>Rack:</strong>
-                        <p class="text-muted">{{ $product->rack_number ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->rack_number ?? 'N/A' }}</p>
                     </div>
                     <div class="col-md-3">
                         <strong>Box:</strong>
-                        <p class="text-muted">{{ $product->box_number ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->box_number ?? 'N/A' }}</p>
                     </div>
                 </div>
 
@@ -94,21 +95,23 @@
                 {{-- Extra Info --}}
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <strong>Image:</strong><br>
-                        @if ($product->image)
-                            <img src="{{ asset($product->image) }}" alt="Product Image" width="150"
-                                class="img-thumbnail mt-2">
-                        @else
-                            <p class="text-muted">No Image</p>
-                        @endif
+                        <div>
+                            <strong>Status:</strong>
+                            @if ($product->status == 1)
+                                <p class="form-control">Active</p>
+                            @else
+                                <p class="form-control">Inactive</p>
+                            @endif
+                        </div>
+
                     </div>
                     <div class="col-md-4">
                         <strong>Using Place:</strong>
-                        <p class="text-muted">{{ $product->using_place ?? 'N/A' }}</p>
+                        <p class="form-control">{{ $product->using_place ?? 'N/A' }}</p>
                     </div>
                     <div class="col-md-4">
                         <strong>Warranty:</strong>
-                        <p class="text-muted">
+                        <p class="form-control">
                             @if ($product->warranty)
                                 {{ $product->warranty->name }} ({{ $product->warranty->day_count }}
                                 {{ $product->warranty->duration_type }})
@@ -119,27 +122,20 @@
                     </div>
                 </div>
 
-                {{-- Description --}}
+                <div class="mb-3">
+                    <strong>Image:</strong><br>
+                    @if ($product->image)
+                        <img src="{{ asset($product->image) }}" alt="Product Image" width="150"
+                            class="img-thumbnail mt-2">
+                    @else
+                        <p class="form-control">No Image</p>
+                    @endif
+
+                </div>
                 <div class="mb-3">
                     <strong>Description:</strong>
-                    <p class="text-muted">{{ $product->description ?? 'N/A' }}</p>
+                    <p class="form-control">{{ $product->description ?? 'N/A' }}</p>
                 </div>
-
-                {{-- Status --}}
-                <div>
-                    <strong>Status:</strong>
-                    @if ($product->status == 1)
-                        <span class="badge badge-success">Active</span>
-                    @else
-                        <span class="badge badge-danger">Inactive</span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="card-footer text-end">
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back
-                </a>
             </div>
         </div>
     </div>

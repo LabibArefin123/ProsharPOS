@@ -78,6 +78,11 @@
                         <div class="form-group col-md-6">
                             <label>Upload Image</label>
                             <input type="file" name="image" class="form-control-file">
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Current Image</label>
+
                             @if ($product->image)
                                 <div class="mt-2">
                                     <img src="{{ asset($product->image) }}" alt="Product Image" width="120"
@@ -86,7 +91,7 @@
                             @endif
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group">
                             <label>Description</label>
                             <textarea name="description" rows="3" class="form-control">{{ old('description', $product->description) }}</textarea>
                         </div>

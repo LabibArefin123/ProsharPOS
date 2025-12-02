@@ -12,7 +12,6 @@
         </div>
     </div>
 @stop
-p
 
 @section('content')
     <div class="card">
