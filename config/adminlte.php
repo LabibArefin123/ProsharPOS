@@ -428,24 +428,21 @@ return [
                     'route' => 'invoices.index',
                     'can' => 'invoices.index',
                     'active' => ['invoices*'],
-                    'icon' => 'fas fa-file-invoice',
                 ],
                 [
                     'text' => 'Challan List',
                     'route' => 'challans.index',
                     'can' => 'challans.index',
                     'active' => ['challans*'],
-                    'icon' => 'fas fa-file-contract',
+
                 ],
                 [
                     'text' => 'Payment List',
                     'url' => '#',
-                    'icon' => 'fas fa-credit-card',
                 ],
                 [
                     'text' => 'Petty Cash List',
                     'url' => '#',
-                    'icon' => 'fas fa-coins',
                 ],
             ],
         ],

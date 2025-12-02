@@ -4,12 +4,17 @@
 
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
-        <h1 class="m-0 text-dark">🚚 Create Challan</h1>
-        <a href="{{ route('challans.index') }}" class="btn btn-info btn-sm">
-            <i class="fas fa-arrow-left"></i> Back to Challans
+        <h3 class="mb-0">Add New Challan</h3>
+        <a href="{{ route('challans.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back
         </a>
     </div>
-@endsection
+@stop
 
 @section('content')
     @if ($errors->any())
@@ -50,7 +55,7 @@
 
         @include('transaction_management.challans.partial_create.part_1_customer')
         @include('transaction_management.challans.partial_create.part_2_filter')
-       
+
 
         {{-- Product & Cart Section --}}
         <div class="row">
@@ -66,8 +71,7 @@
                                 <div class="col-md-3 mb-4">
                                     <div class="card product-card h-100 border" data-id="{{ $product->id }}"
                                         data-name="{{ $product->name }}" data-price="{{ $product->purchase_price }}"
-                                        data-model="{{ $product->type_model }}"
-                                        data-stock="{{ $product->stock_quantity }}">
+                                        data-model="{{ $product->type_model }}" data-stock="{{ $product->stock_quantity }}">
                                         <img src="{{ asset($product->image) }}" class="card-img-top p-2"
                                             style="height:150px; object-fit: contain;" alt="{{ $product->name }}">
                                         <div class="card-body text-center">
@@ -113,7 +117,7 @@
 
                         <div class="form-group mt-3">
                             <label>Payment Terms</label>
-                            <select name="payment_term" class="form-control" required>
+                            <select name="payment_term" class="form-control" >
                                 <option value="free">Free of Cost</option>
                                 <option value="credit">Credit</option>
                             </select>
@@ -121,7 +125,7 @@
 
                         <div class="form-group">
                             <label>Challan Date</label>
-                            <input type="date" name="challan_date" class="form-control" required>
+                            <input type="date" name="challan_date" class="form-control" >
                         </div>
 
                         <div class="form-group">
@@ -131,7 +135,7 @@
 
                         <div class="form-group">
                             <label>Status</label>
-                            <select name="status" class="form-control" required>
+                            <select name="status" class="form-control" >
                                 <option value="bill">Bill</option>
                                 <option value="unbill">Unbill</option>
                                 <option value="cancelled">Cancelled</option>

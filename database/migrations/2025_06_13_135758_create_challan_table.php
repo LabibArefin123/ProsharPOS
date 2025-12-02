@@ -28,8 +28,6 @@ return new class extends Migration
             $table->string('status'); // pending, delivered, etc.
             $table->date('valid_until')->nullable();
             $table->text('note')->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

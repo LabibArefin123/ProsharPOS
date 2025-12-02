@@ -25,8 +25,6 @@ class Challan extends Model
         'status',
         'valid_until',
         'note',
-        'created_by',
-        'updated_by',
     ];
 
     // Relationships (assuming you have these models)

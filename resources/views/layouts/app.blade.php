@@ -75,6 +75,44 @@
             padding: 3px 6px;
             border-radius: 50%;
         }
+
+        .navbar-nav .nav-item .nav-link {
+            position: relative;
+            color: #333;
+            font-size: 16px;
+            padding: 10px 15px;
+            text-decoration: none;
+            overflow: hidden;
+        }
+
+        /* Parallelogram background effect */
+        .navbar-nav .nav-item .nav-link::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #42beee;
+            transform: skewX(-20deg);
+            transform-origin: bottom left;
+            transition: transform 0.3s ease, width 0.3s ease;
+            z-index: -1;
+            /* Ensure it stays behind the text */
+            width: 0;
+        }
+
+        /* Hover effect */
+        .navbar-nav .nav-item .nav-link:hover::after {
+            width: 100%;
+            transform: skewX(0deg);
+            /* No skew on hover, making it appear like a smooth background expansion */
+        }
+
+        /* Hover text color change */
+        .navbar-nav .nav-item .nav-link:hover {
+            color: white;
+        }
     </style>
 
 
