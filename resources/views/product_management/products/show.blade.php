@@ -20,9 +20,13 @@
                 {{-- Top Info --}}
                 <div class="row mb-3">
                     <div class="col-md-3">
-                        <strong>Product/Parts Name:</strong>
-                        <p class="form-control">{{ $product->name }}</p>
+                        <strong>Name:</strong>
+                        <p class="form-control" style="white-space: normal; word-wrap: break-word;">
+                            {{ $product->name }}
+                        </p>
+
                     </div>
+
                     <div class="col-md-3">
                         <strong>Category:</strong>
                         <p class="form-control">{{ $product->category->name ?? 'N/A' }}</p>
@@ -124,12 +128,11 @@
 
                 <div class="mb-3">
                     <strong>Image:</strong><br>
-                    @if ($product->image)
-                        <img src="{{ asset($product->image) }}" alt="Product Image" width="150"
-                            class="img-thumbnail mt-2">
-                    @else
-                        <p class="form-control">No Image</p>
-                    @endif
+
+                    <div class="mt-2">
+                        <img src="{{ asset($product->image ?: 'images/default.jpg') }}" alt="Product Image" width="120"
+                            class="img-thumbnail">
+                    </div>
 
                 </div>
                 <div class="mb-3">

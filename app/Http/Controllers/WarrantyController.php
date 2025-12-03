@@ -13,7 +13,7 @@ class WarrantyController extends Controller
      */
     public function index()
     {
-        $warranties = Warranty::latest()->get();
+        $warranties = Warranty::orderBy('id', 'asc')->get();
         return view('product_management.warranties.index', compact('warranties'));
     }
 

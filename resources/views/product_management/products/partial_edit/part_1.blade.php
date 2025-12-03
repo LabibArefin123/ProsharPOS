@@ -3,7 +3,7 @@
       {{-- Product Name --}}
       <div class="col-md-3">
           <div class="form-group">
-              <label>Product/Parts Name</label>
+              <label>Name</label> <span class="text-danger">*</span>
               <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                   value="{{ old('name', $product->name) }}">
               @error('name')
@@ -15,7 +15,7 @@
       {{-- Category --}}
       <div class="col-md-3">
           <div class="form-group">
-              <label>Category</label>
+              <label>Category</label> <span class="text-danger">*</span>
               <select name="category_id" class="form-control @error('category_id') is-invalid @enderror">
                   <option value="">Select</option>
                   @foreach ($categories as $category)
@@ -34,7 +34,7 @@
       {{-- Brand --}}
       <div class="col-md-3">
           <div class="form-group">
-              <label>Brand</label>
+              <label>Brand</label> <span class="text-danger">*</span>
               <select name="brand_id" class="form-control @error('brand_id') is-invalid @enderror">
                   <option value="">Select</option>
                   @foreach ($brands as $brand)
@@ -53,7 +53,7 @@
       {{-- Origin --}}
       <div class="col-md-3">
           <div class="form-group">
-              <label>Origin</label>
+              <label>Origin</label> <span class="text-danger">*</span>
               <input type="text" name="origin" class="form-control @error('origin') is-invalid @enderror"
                   value="{{ old('origin', $product->origin) }}">
               @error('origin')

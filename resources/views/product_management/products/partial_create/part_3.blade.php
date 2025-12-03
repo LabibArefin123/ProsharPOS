@@ -1,7 +1,7 @@
   <div class="row">
       <div class="col-md-4">
           <div class="form-group">
-              <label>Using Place</label>
+              <label>Using Place</label> <span class="text-danger">*</span>
               <input type="text" name="using_place" class="form-control @error('using_place') is-invalid @enderror"
                   value="{{ old('using_place') }}">
               @error('using_place')
@@ -12,7 +12,7 @@
 
       <div class="col-md-4">
           <div class="form-group">
-              <label>Warranty</label>
+              <label>Warranty</label> <span class="text-danger">*</span>
               <select name="warranty_id" class="form-control @error('warranty_id') is-invalid @enderror">
                   <option value="">Select</option>
                   @foreach ($warranties as $warranty)
@@ -30,8 +30,9 @@
 
       <div class="col-md-4">
           <div class="form-group">
-              <label>Status</label>
+              <label>Status</label> <span class="text-danger">*</span>
               <select name="status" class="form-control @error('status') is-invalid @enderror">
+                  <option value="">Select Status</option>
                   <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
                   <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
               </select>

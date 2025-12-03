@@ -82,14 +82,12 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label>Current Image</label>
-
-                            @if ($product->image)
-                                <div class="mt-2">
-                                    <img src="{{ asset($product->image) }}" alt="Product Image" width="120"
-                                        class="img-thumbnail">
-                                </div>
-                            @endif
+                            <div class="mt-2">
+                                <img src="{{ asset($product->image ?: 'images/default.jpg') }}" alt="Product Image"
+                                    width="120" class="img-thumbnail">
+                            </div>
                         </div>
+
 
                         <div class="form-group">
                             <label>Description</label>

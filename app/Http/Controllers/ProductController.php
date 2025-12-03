@@ -14,8 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with(['category', 'brand', 'unit', 'warranty'])
-            ->latest()
-            ->get();
+            ->orderBy('id', 'asc')->get();
 
         return view('product_management.products.index', compact('products'));
     }
