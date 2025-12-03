@@ -154,6 +154,34 @@
                 `radial-gradient(circle at center, ${color} 0%, #f8f9fa 80%)`;
         }
     </script>
+    {{-- Start of second --}}
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+
+            const options = {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+            };
+
+            const formatted = now.toLocaleString('en-US', options).replace(',', '');
+
+            document.getElementById('currentDateTime').innerText = formatted;
+        }
+
+        // Update every second
+        setInterval(updateDateTime, 1000);
+
+        // Run instantly
+        updateDateTime();
+    </script>
+
+    {{-- End of second --}}
 
 </body>
 

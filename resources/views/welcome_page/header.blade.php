@@ -3,14 +3,15 @@
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <!-- Left: Email + Phone -->
         <div class="d-flex align-items-center">
-            <i class="fas fa-envelope mr-2"></i> developers@totalofftec.com
+            <i class="fas fa-envelope mr-2"></i> mdlabibarefin@gmail.com
             <span class="mx-3">|</span>
-            <i class="fas fa-phone mr-2"></i> +88 09643 111222
+            <i class="fas fa-phone mr-2"></i> +8801776197999
         </div>
         <!-- Right: Date & Time -->
         <div id="currentDateTime">
-            {{ now()->format('d M Y, h:i A') }}
+            {{ now()->format('d M Y, h:i:s A') }}
         </div>
+
     </div>
 </div>
 
