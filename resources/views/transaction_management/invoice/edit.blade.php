@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Create Invoice')
+@section('title', 'Edit Invoice')
 
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
-        <h3 class="mb-0">Add New Invoice</h3>
+        <h3 class="mb-0">Edit Invoice </h3>
         <a href="{{ route('invoices.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -27,63 +27,81 @@
         </div>
     @endif
 
-    <form action="{{ route('invoices.store') }}" method="POST" id="invoiceForm">
+    <form action="{{ route('invoices.update', $invoice->id) }}" method="POST" id="invoiceForm">
         @csrf
+        @method('PUT')
 
         {{-- Customer Section --}}
         <div class="card mb-4 shadow">
+
             <div class="card-body row">
                 <div class="form-group col-md-3">
-                    <label for="customer_id">Customer Name</label>
+                    <label for="customer">Customer Name</label>
                     <select name="customer_id" id="customer_id" class="form-control">
                         <option value="">Select Customer</option>
                         @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                            <option value="{{ $customer->id }}"
+                                {{ $invoice->customer_id == $customer->id ? 'selected' : '' }}>
+                                {{ $customer->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label>Email</label>
-                    <input type="text" id="customer_email" class="form-control" readonly>
+                    <input type="text" id="customer_email" class="form-control"
+                        value="{{ $invoice->customer->email ?? '' }}" readonly>
                 </div>
                 <div class="form-group col-md-3">
                     <label>Phone</label>
-                    <input type="text" id="customer_phone" class="form-control" readonly>
+                    <input type="text" id="customer_phone" class="form-control"
+                        value="{{ $invoice->customer->phone_number ?? '' }}" readonly>
                 </div>
                 <div class="form-group col-md-3">
-                    <label>Location</label>
-                    <input type="text" id="customer_location" class="form-control" readonly>
+                    <label>Address</label>
+                    <input type="text" id="customer_location" class="form-control"
+                        value="{{ $invoice->customer->location ?? '' }}" readonly>
                 </div>
             </div>
+        </div>
+        <div class="card mb-4 shadow">
             <div class="card-body row">
                 <div class="form-group col-md-3">
                     <label for="branch_id">Branch Name</label>
                     <select name="branch_id" id="branch_id" class="form-control">
                         <option value="">Select Branch</option>
                         @foreach ($branches as $branch)
-                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            <option value="{{ $branch->id }}" {{ $invoice->branch_id == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label>Branch Code</label>
-                    <input type="text" id="branch_code" class="form-control" readonly>
+                    <input type="text" id="branch_code" class="form-control"
+                        value="{{ $invoice->branch->branch_code ?? '' }}" readonly>
                 </div>
                 <div class="form-group col-md-3">
                     <label>Phone</label>
-                    <input type="text" id="branch_phone" class="form-control" readonly>
+                    <input type="text" id="branch_phone" class="form-control"
+                        value="{{ $invoice->branch->phone ?? '' }}" readonly>
                 </div>
                 <div class="form-group col-md-3">
-                    <label>Address</label>
-                    <input type="text" id="branch_location" class="form-control" readonly>
+                    <label>Location</label>
+                    <input type="text" id="branch_address" class="form-control"
+                        value="{{ $invoice->branch->address ?? '' }}" readonly>
                 </div>
+
             </div>
+        </div>
+        <div class="card mb-4 shadow">
             <div class="card-body row">
 
                 <div class="col-md-4 form-group">
                     <label><strong>Invoice ID</strong></label>
                     <input type="text" name="invoice_id" class="form-control @error('invoice_id') is-invalid @enderror"
-                        value="{{ old('invoice_id') }}">
+                        value="{{ old('invoice_id', $invoice->invoice_id) }}">
                     @error('invoice_id')
                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                     @enderror
@@ -92,7 +110,8 @@
                 <div class="col-md-4 form-group">
                     <label><strong>Invoice Date</strong></label>
                     <input type="date" name="invoice_date"
-                        class="form-control @error('invoice_date') is-invalid @enderror" value="{{ old('invoice_date') }}">
+                        class="form-control @error('invoice_date') is-invalid @enderror"
+                        value="{{ old('invoice_date', $invoice->invoice_date) }}">
                     @error('invoice_date')
                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                     @enderror
@@ -104,14 +123,14 @@
                         <option value="">
                             Select Status
                         </option>
-                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>
+                        <option value="1" {{ old('status', $invoice->status) == '1' ? 'selected' : '' }}>
                             Paid
                         </option>
-                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>
+                        <option value="0" {{ old('status', $invoice->status) == '0' ? 'selected' : '' }}>
                             Pending
                         </option>
                     </select>
-                    @error('status')
+                        @error('status')
                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                     @enderror
                 </div>
@@ -119,69 +138,9 @@
             </div>
         </div>
 
-        @include('transaction_management.invoice.create.partial.cart')
+        {{-- Include Cart Section --}}
+        @include('transaction_management.invoice.edit.partial.cart')
 
-        <style>
-            .product-card {
-                transition: all 0.2s ease;
-            }
 
-            .product-card:hover {
-                transform: scale(1.02);
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
-        </style>
-    </form>
 
-    {{-- --- JavaScript for Customer and Branch Details --- --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // ---------------------
-            // Customers Data
-            // ---------------------
-            const customers = @json($customers);
-            const customerSelect = document.getElementById('customer_id');
-            const customerEmail = document.getElementById('customer_email');
-            const customerPhone = document.getElementById('customer_phone');
-            const customerLocation = document.getElementById('customer_location');
-
-            customerSelect.addEventListener('change', function() {
-                const selected = customers.find(c => c.id == this.value);
-                if (selected) {
-                    customerEmail.value = selected.email;
-                    customerPhone.value = selected.phone_number;
-                    customerLocation.value = selected.location;
-                } else {
-                    customerEmail.value = '';
-                    customerPhone.value = '';
-                    customerLocation.value = '';
-                }
-            });
-
-            // ---------------------
-            // Branches Data
-            // ---------------------
-            const branches = @json($branches);
-            const branchSelect = document.getElementById('branch_id');
-            const branchCode = document.getElementById('branch_code');
-            const branchPhone = document.getElementById('branch_phone');
-            const branchLocation = document.getElementById('branch_location');
-
-            branchSelect.addEventListener('change', function() {
-                const selected = branches.find(b => b.id == this.value);
-                if (selected) {
-                    branchCode.value = selected.branch_code;
-                    branchPhone.value = selected.phone;
-                    branchLocation.value = selected.address;
-                } else {
-                    branchCode.value = '';
-                    branchPhone.value = '';
-                    branchLocation.value = '';
-                }
-            });
-
-        });
-    </script>
-    {{-- --- End JS --- --}}
-@stop
+    @stop

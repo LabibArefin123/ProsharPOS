@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     protected $fillable = [
+        'invoice_id',
         'customer_id',
         'branch_id',
+        'invoice_date',
+        'status',
         'items',
         'discount_type',
         'discount_value',
@@ -21,11 +24,13 @@ class Invoice extends Model
         'items' => 'array',
     ];
 
-    public function customer() {
+    public function customer()
+    {
         return $this->belongsTo(Customer::class);
     }
 
-    public function branch() {
+    public function branch()
+    {
         return $this->belongsTo(Branch::class);
     }
 

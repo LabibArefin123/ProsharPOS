@@ -10,13 +10,16 @@ return new class extends Migration {
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_id')->unique();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('branch_id');
+            $table->date('invoice_date')->nullable();
             $table->text('items')->nullable(); // Store cart JSON
             $table->enum('discount_type', ['percentage', 'flat'])->default('percentage');
             $table->decimal('discount_value', 10, 2)->default(0);
             $table->decimal('sub_total', 12, 2)->default(0);
             $table->decimal('total', 12, 2)->default(0);
+            $table->string('status');
             $table->timestamps();
         });
     }

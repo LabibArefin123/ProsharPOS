@@ -13,7 +13,7 @@
 
 @section('content')
     <div class="card shadow">
-     
+
 
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped text-nowrap">
@@ -24,6 +24,8 @@
                         <th>Customer</th>
                         <th>Branch</th>
                         <th>Date</th>
+                        <th>Sub Total Amount</th>
+                        <th>Discount Amount</th>
                         <th>Total Amount</th>
                         <th>Status</th>
                         <th class="text-center">Actions</th>
@@ -32,19 +34,21 @@
                 <tbody>
                     @forelse ($invoices as $invoice)
                         <tr>
-                            <td>{{ $loop->iteration  }}</td>
-                            <td>{{ $invoice->invoice_no ?? 'N/A' }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $invoice->invoice_id ?? 'N/A' }}</td>
                             <td>{{ $invoice->customer->name ?? 'N/A' }}</td>
                             <td>{{ $invoice->branch->name ?? 'N/A' }}</td>
                             <td>
                                 {{ $invoice->invoice_date ? \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') : 'N/A' }}
                             </td>
 
-                            <td>৳{{ number_format($invoice->total_amount, 2) }}</td>
+                            <td>৳{{ number_format($invoice->discount_value, 2) }}</td>
+                            <td>৳{{ number_format($invoice->sub_total, 2) }}</td>
+                            <td>৳{{ number_format($invoice->total, 2) }}</td>
                             <td>
-                                @if ($invoice->status == 'paid')
+                                @if ($invoice->status == '1')
                                     <span class="badge badge-success">Paid</span>
-                                @elseif ($invoice->status == 'pending')
+                                @elseif ($invoice->status == '0')
                                     <span class="badge badge-warning">Pending</span>
                                 @else
                                     <span class="badge badge-secondary">{{ ucfirst($invoice->status) }}</span>
