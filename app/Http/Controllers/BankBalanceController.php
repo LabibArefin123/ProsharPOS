@@ -11,8 +11,17 @@ class BankBalanceController extends Controller
     public function index()
     {
         $balances = BankBalance::with('user')->get();
+
+        // Deduct total payments for each user
+        $balances->transform(function ($balance) {
+            $totalPayments = $balance->user->payments()->sum('paid_amount');
+            $balance->balance = $balance->balance - $totalPayments;
+            return $balance;
+        });
+
         return view('transaction_management.bank_balance.index', compact('balances'));
     }
+
 
     public function create()
     {
@@ -34,8 +43,19 @@ class BankBalanceController extends Controller
 
     public function show(BankBalance $bank_balance)
     {
+        // Load user + payments
+        $bank_balance->load('user');
+
+        // Calculate deducted balance
+        $totalPayments = $bank_balance->user
+            ? $bank_balance->user->payments()->sum('paid_amount')
+            : 0;
+
+        $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
+
         return view('transaction_management.bank_balance.show', compact('bank_balance'));
     }
+
 
     public function edit(BankBalance $bank_balance)
     {

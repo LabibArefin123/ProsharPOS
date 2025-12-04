@@ -26,6 +26,9 @@
                             <th>Sub Total Amount</th>
                             <th>Discount Amount</th>
                             <th>Total Amount</th>
+                            <th>Paid By</th>
+                            <th>Paid Amount</th>
+                            <th>Total Change</th>
                             <th>Status</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -44,6 +47,11 @@
                                 <td>৳{{ number_format($invoice->discount_value, 2) }}</td>
                                 <td>৳{{ number_format($invoice->sub_total, 2) }}</td>
                                 <td>৳{{ number_format($invoice->total, 2) }}</td>
+                                <td>{{ $invoice->paidByUser->name ?? '-' }}</td>
+
+                                <td>৳{{ number_format($invoice->paid_amount ?? 0, 2) }}</td>
+                                <td>৳{{ number_format(($invoice->paid_amount ?? 0) - ($invoice->total ?? 0), 2) }}</td>
+
                                 <td>
                                     @if ($invoice->status == '1')
                                         <span class="badge badge-success">Paid</span>
@@ -74,7 +82,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center text-muted">No invoices found.</td>
+                                <td colspan="12" class="text-center text-muted">No invoices found.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -16,7 +16,7 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::with(['customer', 'branch'])
+        $invoices = Invoice::with(['customer', 'branch', 'paidByUser'])
             ->orderBy('id', 'asc')->get();
 
         return view('transaction_management.invoice.index', compact('invoices'));
@@ -52,7 +52,7 @@ class InvoiceController extends Controller
         // Default values
         $items = $payload['items'] ?? [];
         $subTotal = $payload['sub_total'] ?? 0;
-        $discountValue = $payload['discount_value'] ?? 0;   
+        $discountValue = $payload['discount_value'] ?? 0;
         $total = $payload['total'] ?? 0;
 
         DB::beginTransaction();
@@ -71,7 +71,7 @@ class InvoiceController extends Controller
 
                 // Values from JS payload
                 'sub_total' => $subTotal,
-                'discount_value' => $discountValue,  
+                'discount_value' => $discountValue,
                 'total' => $total,
                 'items' => $items,
 

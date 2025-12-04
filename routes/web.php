@@ -9,6 +9,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChallanController;
 use App\Http\Controllers\BankBalanceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
@@ -58,6 +59,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
     Route::resource('bank_balances', BankBalanceController::class);
+    Route::resource('payments', PaymentController::class);
 
     Route::get('/user_profile', [ProfileController::class, 'user_profile_show'])->name('user_profile_show');
     Route::get('/user_profile_edit', [ProfileController::class, 'user_profile_edit'])->name('user_profile_edit');

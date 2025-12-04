@@ -17,6 +17,8 @@ class Invoice extends Model
         'discount_type',
         'discount_value',
         'sub_total',
+        'paid_by',
+        'paid_amount',
         'total'
     ];
 
@@ -42,5 +44,15 @@ class Invoice extends Model
     public function invoiceItems()
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function paidByUser()
+    {
+        return $this->belongsTo(User::class, 'paid_by');
     }
 }

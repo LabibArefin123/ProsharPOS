@@ -25,6 +25,8 @@
                         <tr>
                             <th>SL</th>
                             <th>User</th>
+                            <th>Username</th>
+                            <th>Email</th>
                             <th>Balance (BDT)</th>
                             <th>Action</th>
                         </tr>
@@ -33,7 +35,9 @@
                         @forelse ($balances as $balance)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $balance->user->name ?? 'N/A' }} ({{ $balance->user->email ?? '-' }})</td>
+                                <td>{{ $balance->user->name ?? 'N/A' }}</td>
+                                <td>{{ $balance->user->username ?? 'N/A' }}</td>
+                                <td>{{ $balance->user->email ?? 'N/A' }}</td>
                                 <td>৳{{ number_format($balance->balance, 2) }}</td>
                                 <td>
                                     <a href="{{ route('bank_balances.show', $balance->id) }}"

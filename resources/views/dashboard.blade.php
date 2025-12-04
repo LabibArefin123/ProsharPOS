@@ -22,10 +22,11 @@
                         ],
                         [
                             'label' => 'Sales Amount',
-                            'value' => $salesAmount 'Tk',
+                            'value' => $salesAmount . ' Tk', 
                             'icon' => 'fas fa-cash-register',
                             'color' => 'success',
                         ],
+
                         [
                             'label' => 'Receive Amount',
                             'value' => '0 Tk',

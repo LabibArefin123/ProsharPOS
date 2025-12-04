@@ -424,6 +424,12 @@ return [
             'icon'    => 'fas fa-exchange-alt', // changed main icon
             'submenu' => [
                 [
+                    'text' => 'Payment List',
+                    'route' => 'payments.index',
+                    'can' => 'payments.index',
+                    'active' => ['payments*'],
+                ],
+                [
                     'text' => 'Bank Balance List',
                     'route' => 'bank_balances.index',
                     'can' => 'bank_balances.index',
@@ -450,6 +456,7 @@ return [
                     'text' => 'Petty Cash List',
                     'url' => '#',
                 ],
+
             ],
         ],
 
