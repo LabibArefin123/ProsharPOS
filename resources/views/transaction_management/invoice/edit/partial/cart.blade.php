@@ -115,7 +115,15 @@
         let products = @json($products);
 
         // ===== PRELOAD CART FROM DATABASE =====
-        let cartItems = @json($invoice->items ?? []);
+        // PRELOAD CART FROM DATABASE (ensure proper keys for JS)
+        let cartItems = (@json($invoice->items) || []).map(i => ({
+            id: i.id || i.product_id, // product ID
+            name: i.name || i.product_name, // product name
+            price: parseFloat(i.price),
+            qty: parseFloat(i.qty || 1),
+            discount: parseFloat(i.discount || 0)
+        }));
+
 
         // ===== SAME LOGIC FROM CREATE PAGE =====
         const perPage = 6;
@@ -173,20 +181,23 @@
                 const image = product.image ? `/uploads/images/product/${product.image}` :
                     "{{ asset('images/default.jpg') }}";
 
+                // Check if product is already in cart
+                const isSelected = cartItems.find(i => i.id == product.id) ? 'selected-product' : '';
+
                 const card = document.createElement("div");
                 card.className = "col-md-4 mb-3 d-flex justify-content-center";
                 card.innerHTML = `
-                <div class="text-center product-card p-2"
-                    data-id="${product.id}"
-                    data-name="${product.name}"
-                    data-price="${product.purchase_price}"
-                    data-image="${image}">
-                    <img src="${image}" class="mb-2 img-fluid product-img" style="width:80px;height:80px;object-fit:cover;cursor:pointer;"> 
-                    <small class="d-block text-truncate" style="max-width:100px;">${product.name}</small>
-                    <p class="mb-1">৳${product.purchase_price}</p>
-                    <button type="button" class="btn btn-outline-primary btn-sm add-to-invoice">Add</button>
-                </div>
-            `;
+            <div class="text-center product-card p-2 ${isSelected}"
+                data-id="${product.id}"
+                data-name="${product.name}"
+                data-price="${product.purchase_price}"
+                data-image="${image}">
+                <img src="${image}" class="mb-2 img-fluid product-img" style="width:80px;height:80px;object-fit:cover;cursor:pointer;"> 
+                <small class="d-block text-truncate" style="max-width:100px;">${product.name}</small>
+                <p class="mb-1">৳${product.purchase_price}</p>
+                <button type="button" class="btn btn-outline-primary btn-sm add-to-invoice">Add</button>
+            </div>
+        `;
                 productGrid.appendChild(card);
             });
 
@@ -224,19 +235,33 @@
 
                     const exist = cartItems.find(i => i.id == id);
 
-                    if (exist) exist.qty++;
-                    else cartItems.push({
-                        id,
-                        name,
-                        price,
-                        qty: 1,
-                        discount: 0
+                    if (exist) {
+                        exist.qty++;
+                    } else {
+                        cartItems.push({
+                            id,
+                            name,
+                            price,
+                            qty: 1,
+                            discount: 0
+                        });
+                    }
+
+                    // Update card selection highlight
+                    document.querySelectorAll('.product-card').forEach(c => {
+                        c.classList.remove('selected-product');
+                    });
+                    cartItems.forEach(ci => {
+                        const cardEl = document.querySelector(
+                            `.product-card[data-id="${ci.id}"]`);
+                        if (cardEl) cardEl.classList.add('selected-product');
                     });
 
                     renderCart();
                 };
             });
         }
+
 
         function attachZoom() {
             document.querySelectorAll(".product-img").forEach(img => {
@@ -309,7 +334,14 @@
 
         cartTable.addEventListener("click", function(e) {
             if (e.target.classList.contains("remove-btn")) {
-                cartItems.splice(e.target.dataset.index, 1);
+                const removed = cartItems.splice(e.target.dataset.index, 1);
+
+                // Remove highlight from product grid
+                removed.forEach(r => {
+                    const cardEl = document.querySelector(`.product-card[data-id="${r.id}"]`);
+                    if (cardEl) cardEl.classList.remove('selected-product');
+                });
+
                 renderCart();
             }
         });

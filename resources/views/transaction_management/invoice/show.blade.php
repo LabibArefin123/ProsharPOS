@@ -118,27 +118,36 @@
                 <thead class="table-dark">
                     <tr>
                         <th>#</th>
+                        <th>Image</th>
                         <th>Product</th>
                         <th>Price</th>
                         <th>Qty</th>
-                        <th>Discount</th>
+                        {{-- <th>Discount</th> --}}
                         <th>Total Amount</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach ($invoice->invoiceItems ?? [] as $item)
+                        @php
+                            $image = $item->product->image
+                                ? asset('uploads/images/product/' . $item->product->image)
+                                : asset('images/default.jpg');
+                        @endphp
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td class="text-center">
+                                <img src="{{ $image }}" class="img-fluid product-show-img"
+                                    style="width:60px; height:60px; object-fit:cover; cursor:pointer;">
+                            </td>
                             <td>{{ $item->product->name ?? 'N/A' }}</td>
                             <td>৳{{ number_format($item->price, 2) }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>৳{{ number_format($item->discount, 2) }}</td>
+                            {{-- <td>৳{{ number_format($item->discount, 2) }}</td> --}}
                             <td>৳{{ number_format($item->amount, 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
-
             </table>
 
             {{-- Totals Section --}}
@@ -147,8 +156,33 @@
                 <p class="mb-1"><strong>Discount:</strong> ৳{{ number_format($invoice->discount_value, 2) }}</p>
                 <h5><strong>Total:</strong> ৳{{ number_format($invoice->total, 2) }}</h5>
             </div>
-
         </div>
     </div>
+
+    {{-- Modal for Zoom --}}
+    <div class="modal fade" id="showImageModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content text-center p-3">
+                <img id="show-zoomed-image" class="img-fluid" style="max-height:600px;">
+                <p id="show-zoomed-name" class="fw-bold mt-2"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const showImages = document.querySelectorAll(".product-show-img");
+
+            showImages.forEach(img => {
+                img.addEventListener("click", () => {
+                    document.getElementById("show-zoomed-image").src = img.src;
+                    const nameCell = img.closest("tr").querySelector("td:nth-child(2)");
+                    document.getElementById("show-zoomed-name").innerText = nameCell ? nameCell
+                        .innerText : '';
+                    new bootstrap.Modal(document.getElementById("showImageModal")).show();
+                });
+            });
+        });
+    </script>
+
 
 @stop

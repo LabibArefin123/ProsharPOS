@@ -52,7 +52,7 @@ class InvoiceController extends Controller
         // Default values
         $items = $payload['items'] ?? [];
         $subTotal = $payload['sub_total'] ?? 0;
-        $discountValue = $payload['discount_value'] ?? 0;   // ✔ FIXED
+        $discountValue = $payload['discount_value'] ?? 0;   
         $total = $payload['total'] ?? 0;
 
         DB::beginTransaction();
@@ -71,7 +71,7 @@ class InvoiceController extends Controller
 
                 // Values from JS payload
                 'sub_total' => $subTotal,
-                'discount_value' => $discountValue,  // ✔ FIXED
+                'discount_value' => $discountValue,  
                 'total' => $total,
                 'items' => $items,
 
@@ -98,13 +98,12 @@ class InvoiceController extends Controller
         }
     }
 
-
     public function show(Invoice $invoice)
     {
-        $invoice->load(['customer', 'branch', 'items.product']); // eager load relations
+        // Eager load relations properly
+        $invoice->load(['customer', 'branch', 'invoiceItems.product']);
         return view('transaction_management.invoice.show', compact('invoice'));
     }
-
 
     public function edit(Invoice $invoice)
     {
@@ -120,7 +119,7 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'branch_id' => 'required|exists:branches,id',
-            'items' => 'required|string', // make required to avoid empty update
+            'items' => 'required|string',
             'invoice_id' => 'required|string|unique:invoices,invoice_id,' . $invoice->id,
             'status' => 'required|string',
             'invoice_date' => 'required|date',
@@ -176,6 +175,29 @@ class InvoiceController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function destroy(Invoice $invoice)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Delete related invoice items first
+            InvoiceItem::where('invoice_id', $invoice->id)->delete();
+
+            // Delete the invoice itself
+            $invoice->delete();
+
+            DB::commit();
+
+            return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('invoices.index')->withErrors([
+                'error' => 'Failed to delete invoice: ' . $e->getMessage()
+            ]);
         }
     }
 }

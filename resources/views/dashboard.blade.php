@@ -16,13 +16,13 @@
                     $metrics = [
                         [
                             'label' => 'Total Invoice',
-                            'value' => '0 Tk',
+                            'value' => $total_invoices,
                             'icon' => 'fas fa-file-invoice-dollar',
                             'color' => 'primary',
                         ],
                         [
                             'label' => 'Sales Amount',
-                            'value' => '0 Tk',
+                            'value' => $salesAmount 'Tk',
                             'icon' => 'fas fa-cash-register',
                             'color' => 'success',
                         ],

@@ -8,6 +8,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChallanController;
+use App\Http\Controllers\BankBalanceController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
@@ -30,9 +31,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', function () {
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
+
 
 // Authenticated routes
-Route::group(['middleware' => ['auth', 'permission']], function () {
+Route::middleware(['auth', 'permission'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
@@ -52,6 +57,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('suppliers', SupplierController::class);
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
+    Route::resource('bank_balances', BankBalanceController::class);
 
     Route::get('/user_profile', [ProfileController::class, 'user_profile_show'])->name('user_profile_show');
     Route::get('/user_profile_edit', [ProfileController::class, 'user_profile_edit'])->name('user_profile_edit');

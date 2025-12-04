@@ -424,6 +424,12 @@ return [
             'icon'    => 'fas fa-exchange-alt', // changed main icon
             'submenu' => [
                 [
+                    'text' => 'Bank Balance List',
+                    'route' => 'bank_balances.index',
+                    'can' => 'bank_balances.index',
+                    'active' => ['bank_balances*'],
+                ],
+                [
                     'text' => 'Invoice List',
                     'route' => 'invoices.index',
                     'can' => 'invoices.index',

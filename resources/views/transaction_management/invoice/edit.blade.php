@@ -27,6 +27,23 @@
         </div>
     @endif
 
+    <style>
+        .product-card {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            background-color: #d9f0ff;
+            /* Sky blue hover */
+        }
+
+        .selected-product {
+            background-color: #87ceeb !important;
+            /* Sky blue for selected */
+            border: 2px solid #1e90ff;
+        }
+    </style>
     <form action="{{ route('invoices.update', $invoice->id) }}" method="POST" id="invoiceForm" data-confirm="edit">
         @csrf
         @method('PUT')
