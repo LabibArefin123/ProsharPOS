@@ -27,6 +27,7 @@
                             <th>Discount Amount</th>
                             <th>Total Amount</th>
                             <th>Paid By</th>
+                            <th>Due Amount</th>
                             <th>Paid Amount</th>
                             <th>Total Change</th>
                             <th>Status</th>
@@ -49,8 +50,21 @@
                                 <td>৳{{ number_format($invoice->total, 2) }}</td>
                                 <td>{{ $invoice->paidByUser->name ?? '-' }}</td>
 
+                                <td>
+                                    @if ($invoice->status == '0')
+                                        ৳{{ number_format(($invoice->total ?? 0) - ($invoice->paid_amount ?? 0), 2) }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>৳{{ number_format($invoice->paid_amount ?? 0, 2) }}</td>
-                                <td>৳{{ number_format(($invoice->paid_amount ?? 0) - ($invoice->total ?? 0), 2) }}</td>
+                                <td>
+                                    @if ($invoice->status == '1')
+                                        ৳{{ number_format(($invoice->paid_amount ?? 0) - ($invoice->total ?? 0), 2) }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
 
                                 <td>
                                     @if ($invoice->status == '1')

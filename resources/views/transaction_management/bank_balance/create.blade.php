@@ -30,7 +30,7 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('bank_balances.store') }}" method="POST">
+                <form action="{{ route('bank_balances.store') }}" method="POST" data-confirm="create">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 form-group">

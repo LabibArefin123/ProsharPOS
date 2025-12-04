@@ -30,7 +30,7 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('bank_balances.update', $bank_balance->id) }}" method="POST">
+                <form action="{{ route('bank_balances.update', $bank_balance->id) }}" method="POST" data-confirm="edit">
                     @csrf
                     @method('PUT')
                     <div class="row">

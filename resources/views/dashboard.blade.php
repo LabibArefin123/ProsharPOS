@@ -22,20 +22,20 @@
                         ],
                         [
                             'label' => 'Sales Amount',
-                            'value' => $salesAmount . ' Tk', 
+                            'value' => $salesAmount . ' Tk',
                             'icon' => 'fas fa-cash-register',
                             'color' => 'success',
                         ],
 
                         [
                             'label' => 'Receive Amount',
-                            'value' => '0 Tk',
+                            'value' => $receiveAmount . ' Tk',
                             'icon' => 'fas fa-hand-holding-usd',
                             'color' => 'purple',
                         ],
                         [
                             'label' => 'Due Amount',
-                            'value' => '0 Tk',
+                            'value' => $dueAmount . ' Tk',
                             'icon' => 'fas fa-hourglass-end',
                             'color' => 'danger',
                         ],
