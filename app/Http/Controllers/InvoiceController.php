@@ -17,8 +17,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoice::with(['customer', 'branch'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+            ->orderBy('id', 'asc')->get();
 
         return view('transaction_management.invoice.index', compact('invoices'));
     }
@@ -34,10 +33,11 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
+        // Validate only the fields you actually submit
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'branch_id' => 'required|exists:branches,id',
-            'items' => 'nullable|string',
+            'items' => 'required|string',
             'invoice_id' => 'required|string',
             'status' => 'required|string',
             'invoice_date' => 'required|date',
@@ -46,15 +46,13 @@ class InvoiceController extends Controller
             'flat_discount' => 'nullable|numeric',
         ]);
 
+        // Decode the items JSON sent from JS
         $payload = json_decode($request->items, true);
 
-        if (!$payload || !isset($payload['items']) || !is_array($payload['items'])) {
-            return back()->withErrors(['items' => 'Invalid product items.']);
-        }
-
-        $items = $payload['items'];
+        // Default values
+        $items = $payload['items'] ?? [];
         $subTotal = $payload['sub_total'] ?? 0;
-        $discountValue = $payload['discount_value'] ?? 0;
+        $discountValue = $payload['discount_value'] ?? 0;   // ✔ FIXED
         $total = $payload['total'] ?? 0;
 
         DB::beginTransaction();
@@ -65,20 +63,23 @@ class InvoiceController extends Controller
                 'invoice_id' => $request->invoice_id,
                 'invoice_date' => $request->invoice_date,
                 'status' => $request->status,
+
+                // Save discount type as selected
                 'discount_type' => $request->discount_type,
                 'discount_percent' => $request->discount_percent,
                 'flat_discount' => $request->flat_discount,
+
+                // Values from JS payload
                 'sub_total' => $subTotal,
-                'discount_value' => $discountValue,
+                'discount_value' => $discountValue,  // ✔ FIXED
                 'total' => $total,
+                'items' => $items,
+
                 'created_by' => auth()->id(),
             ]);
 
+            // Save invoice items
             foreach ($items as $item) {
-                if (!isset($item['id'], $item['qty'], $item['price'])) {
-                    throw new \Exception("Missing product data (id, qty, price)");
-                }
-
                 InvoiceItem::create([
                     'invoice_id' => $invoice->id,
                     'product_id' => $item['id'],
@@ -98,6 +99,13 @@ class InvoiceController extends Controller
     }
 
 
+    public function show(Invoice $invoice)
+    {
+        $invoice->load(['customer', 'branch', 'items.product']); // eager load relations
+        return view('transaction_management.invoice.show', compact('invoice'));
+    }
+
+
     public function edit(Invoice $invoice)
     {
         $customers = Customer::all();
@@ -112,8 +120,8 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'branch_id' => 'required|exists:branches,id',
-            'items' => 'nullable|string',
-            'invoice_id' => 'required|string',
+            'items' => 'required|string', // make required to avoid empty update
+            'invoice_id' => 'required|string|unique:invoices,invoice_id,' . $invoice->id,
             'status' => 'required|string',
             'invoice_date' => 'required|date',
             'discount_type' => 'nullable|in:percentage,flat',
@@ -123,19 +131,13 @@ class InvoiceController extends Controller
 
         $payload = json_decode($request->items, true);
 
-        if (!$payload || !isset($payload['items']) || !is_array($payload['items'])) {
-            return back()->withErrors(['items' => 'Invalid product items.']);
-        }
-
-        $items = $payload['items'];
+        $items = $payload['items'] ?? [];
         $subTotal = $payload['sub_total'] ?? 0;
         $discountValue = $payload['discount_value'] ?? 0;
         $total = $payload['total'] ?? 0;
 
         DB::beginTransaction();
-
         try {
-            // Update invoice details
             $invoice->update([
                 'customer_id' => $request->customer_id,
                 'branch_id' => $request->branch_id,
@@ -148,15 +150,15 @@ class InvoiceController extends Controller
                 'sub_total' => $subTotal,
                 'discount_value' => $discountValue,
                 'total' => $total,
+                'items' => $items,
             ]);
 
-            // Delete old items
-            $invoice->items()->delete();
+            // Remove old items
+            InvoiceItem::where('invoice_id', $invoice->id)->delete();
 
-            // Add new/updated items
             foreach ($items as $item) {
                 if (!isset($item['id'], $item['qty'], $item['price'])) {
-                    throw new \Exception("Missing product data (id, qty, price)");
+                    throw new \Exception("Invalid item data.");
                 }
 
                 InvoiceItem::create([

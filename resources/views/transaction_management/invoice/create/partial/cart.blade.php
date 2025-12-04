@@ -224,7 +224,7 @@
             });
         }
 
-        function renderCart() {
+        function renderCart(internal = false) {
             cartTable.innerHTML = '';
             let subTotal = 0;
 
@@ -247,11 +247,10 @@
 
             subTotalDisplay.innerText = subTotal.toFixed(2);
             subTotalBDTDisplay.innerText = subTotal.toFixed(2);
-            updateDiscounts();
 
-            // -------------------------------
-            // Include discount_value, sub_total, total
-            // -------------------------------
+            // ❗ Prevent recursion loop
+            if (!internal) updateDiscounts();
+
             let discountValue = 0;
             let totalAfterDiscount = subTotal;
 
@@ -270,6 +269,7 @@
                 total: totalAfterDiscount
             });
         }
+
 
         cartTable.addEventListener('input', function(e) {
             const index = e.target.dataset.index;
@@ -309,6 +309,7 @@
 
         function updateDiscounts() {
             const subTotal = cartItems.reduce((sum, item) => sum + (item.qty * item.price - item.discount), 0);
+
             if (discountType.value === 'percentage') {
                 const percent = parseFloat(discountPercent.value) || 0;
                 const amount = subTotal * (percent / 100);
@@ -318,7 +319,11 @@
                 const flat = parseFloat(flatDiscount.value) || 0;
                 flatTotalDisplay.innerText = (subTotal - flat).toFixed(2);
             }
+
+            // 🔥 IMPORTANT: Update JSON payload
+            renderCart(true);
         }
+
 
         // ---------------------
         // Image Zoom Modal

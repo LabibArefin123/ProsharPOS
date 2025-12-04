@@ -27,7 +27,7 @@
         </div>
     @endif
 
-    <form action="{{ route('invoices.update', $invoice->id) }}" method="POST" id="invoiceForm">
+    <form action="{{ route('invoices.update', $invoice->id) }}" method="POST" id="invoiceForm" data-confirm="edit">
         @csrf
         @method('PUT')
 
@@ -130,7 +130,7 @@
                             Pending
                         </option>
                     </select>
-                        @error('status')
+                    @error('status')
                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                     @enderror
                 </div>

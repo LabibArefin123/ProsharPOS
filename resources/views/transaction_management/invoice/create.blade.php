@@ -27,7 +27,7 @@
         </div>
     @endif
 
-    <form action="{{ route('invoices.store') }}" method="POST" id="invoiceForm">
+    <form action="{{ route('invoices.store') }}" method="POST" id="invoiceForm" data-confirm="create">
         @csrf
 
         {{-- Customer Section --}}
