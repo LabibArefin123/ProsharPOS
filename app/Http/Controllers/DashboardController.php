@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\Challan;
+use App\Models\Payment;
 
 class DashboardController extends Controller
 {
@@ -18,6 +19,7 @@ class DashboardController extends Controller
         $total_invoices = Invoice::count();
         $salesAmount = Invoice::sum('total');
         $receiveAmount = Invoice::sum('paid_amount');
+        $totalPayment = Payment::sum('paid_amount');
         $dueAmount = Invoice::where('status', 0)
             ->selectRaw('SUM(total - paid_amount) as due')
             ->value('due');
@@ -25,6 +27,6 @@ class DashboardController extends Controller
         $total_challan_bill = Challan::where('status', 'bill')->count(); // adjust 'type' and value if needed
         $total_challan_unbill = Challan::where('status', 'unbill')->count(); // adjust as needed
 
-        return view('dashboard', compact('total_invoices', 'salesAmount', 'receiveAmount', 'dueAmount', 'total_challans', 'total_challan_bill', 'total_challan_unbill'));
+        return view('dashboard', compact('total_invoices', 'salesAmount', 'receiveAmount', 'dueAmount', 'totalPayment', 'total_challans', 'total_challan_bill', 'total_challan_unbill'));
     }
 }

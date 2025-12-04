@@ -19,6 +19,7 @@
                             'value' => $total_invoices,
                             'icon' => 'fas fa-file-invoice-dollar',
                             'color' => 'primary',
+                            'route' => route('invoices.index'),
                         ],
                         [
                             'label' => 'Sales Amount',
@@ -87,9 +88,10 @@
                         ],
                         [
                             'label' => 'BDT Payment',
-                            'value' => '0 Tk',
+                            'value' => $totalPayment . ' Tk',
                             'icon' => 'fas fa-credit-card',
                             'color' => 'cyan',
+                            'route' => route('payments.index'),
                         ],
                         [
                             'label' => 'Dollar Payment',
