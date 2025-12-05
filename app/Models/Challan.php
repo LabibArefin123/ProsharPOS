@@ -15,13 +15,11 @@ class Challan extends Model
         'supplier_id',
         'product_id',
         'branch_id',
-        'quantity',
         'pdf_path',
         'challan_ref',
         'out_ref',
         'warranty_id',
         'warranty_period',
-        'serial_no',
         'status',
         'valid_until',
         'note',
@@ -31,10 +29,6 @@ class Challan extends Model
         'challan_bill',
         'challan_unbill',
         'challan_foc',
-
-        // Tracking
-        'created_by',
-        'updated_by',
     ];
 
     public function customer()
@@ -60,16 +54,6 @@ class Challan extends Model
     public function warranty()
     {
         return $this->belongsTo(Warranty::class);
-    }
-
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updater()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
     }
 
     // Virtual attribute for display

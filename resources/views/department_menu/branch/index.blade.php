@@ -14,9 +14,10 @@
 @section('content')
     <div class="container">
         <div class="card shadow-sm">
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover table-striped align-middle">
-                    <thead class="table-dark">
+            <div class="card-body table-responsive">
+                <table class="table table-striped table-hover text-nowrap" id="dataTables">
+                    <thead class="thead-dark">
+                        <tr class="text-center">
                         <tr>
                             <th>#</th>
                             <th>Branch Code</th>

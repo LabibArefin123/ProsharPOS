@@ -9,7 +9,7 @@ class SupplierController extends Controller
 {
     public function index()
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::orderBy('id', 'asc')->get();
         return view('people_management.suppliers.index', compact('suppliers'));
     }
 

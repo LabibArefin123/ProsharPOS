@@ -15,7 +15,7 @@ class ChallanController extends Controller
 {
     public function index()
     {
-        $challans = Challan::with(['supplier', 'product', 'branch', 'warranty'])
+        $challans = Challan::with(['supplier', 'branch'])
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -40,56 +40,55 @@ class ChallanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'products'      => 'required|json',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'branch_id' => 'required|exists:branches,id',
-            'challan_no'  => 'required|date',
+            'items'         => 'required|json',
+            'supplier_id'   => 'required|exists:suppliers,id',
+            'branch_id'     => 'required|exists:branches,id',
+            'challan_no'    => 'nullable|string',
             'challan_date'  => 'required|date',
-            'challan_ref'  => 'required|date',
-            'status'        => 'required',
+            'valid_until'   => 'required|date',
+            'challan_ref'   => 'required|string',
+            'note'          => 'nullable',
         ]);
 
-        $products = json_decode($request->products, true);
+        $products = json_decode($request->items, true);
 
-        // Generate 1 challan number for all rows
-        $challanNo = 'CH-' . now()->format('ymdHis') . rand(10, 99);
+        if (!is_array($products) || count($products) == 0) {
+            return back()->with('error', 'No products received.');
+        }
 
-        // Calculate challan totals
-        $challan_total  = array_sum(array_column($products, 'quantity'));
-        $challan_bill   = $request->challan_bill ?? 0;
-        $challan_unbill = $request->challan_unbill ?? 0;
-        $challan_foc    = $request->challan_foc ?? 0;
+        // Generate unique challan number
+        $challanNo = $request->challan_no ?: 'CH-' . now()->format('ymdHis') . rand(10, 99);
 
+        // Store each item as separate challan row
         foreach ($products as $item) {
+            if (!isset($item['id']) && !isset($item['product_id'])) {
+                return back()->with('error', 'Product ID missing in item data.');
+            }
             Challan::create([
-                'challan_no'     => $challanNo,
-                'challan_date'   => $request->challan_date,
-                'challan_ref'   => $request->challan_ref,
-                'supplier_id'    => $request->supplier_id,
-                'branch_id'      => $request->branch_id,
-                'product_id'     => $item['product_id'],
-                'quantity'       => $item['quantity'],
+                'challan_no'      => $challanNo,
+                'challan_date'    => $request->challan_date,
+                'challan_ref'     => $request->challan_ref,
+                'supplier_id'     => $request->supplier_id,
+                'branch_id'       => $request->branch_id,
 
-                'challan_total'  => $challan_total,
-                'challan_bill'   => $challan_bill,
-                'challan_unbill' => $challan_unbill,
-                'challan_foc'    => $challan_foc,
+                'product_id'      =>  $item['id'] ?? $item['product_id'],
+                'challan_total'   => $item['qty'],
+                'challan_bill'    => $item['bill_qty'],
+                'challan_unbill'  => $item['unbill_qty'],
+                'challan_foc'     => $item['foc_qty'],
 
-                'warranty_id'    => $item['warranty_id'] ?? null,
+                'warranty_id'     => $item['warranty_id'] ?? null,
                 'warranty_period' => $item['warranty_period'] ?? null,
-                'serial_no'      => $item['serial_no'] ?? null,
 
-                'status'         => $request->status,
-                'valid_until'    => $request->valid_until,
-                'note'           => $request->note,
-
-                'created_by'     => Auth::id(),
+                'valid_until'     => $request->valid_until,
+                'note'            => $request->note,
             ]);
         }
 
         return redirect()->route('challans.index')
             ->with('success', 'Challan created successfully!');
     }
+
 
     public function show($id)
     {

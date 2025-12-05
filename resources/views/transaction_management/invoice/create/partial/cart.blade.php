@@ -110,7 +110,6 @@
             filterBox.style.display = (filterBox.style.display === 'block') ? 'none' : 'block';
         });
 
-
         document.addEventListener('click', function(e) {
             if (!filterBox.contains(e.target) && e.target !== toggleFilterBtn) {
                 filterBox.style.display = 'none';
