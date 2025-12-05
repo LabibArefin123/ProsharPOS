@@ -12,7 +12,7 @@ class Challan extends Model
     protected $fillable = [
         'challan_no',
         'challan_date',
-        'customer_id',
+        'supplier_id',
         'product_id',
         'branch_id',
         'quantity',
@@ -25,12 +25,26 @@ class Challan extends Model
         'status',
         'valid_until',
         'note',
+
+        // Challan type fields
+        'challan_total',
+        'challan_bill',
+        'challan_unbill',
+        'challan_foc',
+
+        // Tracking
+        'created_by',
+        'updated_by',
     ];
 
-    // Relationships (assuming you have these models)
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function product()
@@ -48,7 +62,7 @@ class Challan extends Model
         return $this->belongsTo(Warranty::class);
     }
 
-       public function creator()
+    public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
@@ -56,5 +70,14 @@ class Challan extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    // Virtual attribute for display
+    public function getChallanTypeAttribute()
+    {
+        if ($this->challan_bill > 0) return 'Bill';
+        if ($this->challan_unbill > 0) return 'Unbill';
+        if ($this->challan_foc > 0) return 'FOC';
+        return 'Mixed';
     }
 }

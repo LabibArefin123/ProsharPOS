@@ -3,47 +3,108 @@
 @section('title', 'Add Supplier')
 
 @section('content_header')
-    <h1>Add Supplier</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Add New Supplier</h3>
+        <a href="{{ route('suppliers.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back
+        </a>
+    </div>
 @stop
 
 @section('content')
-<form action="{{ route('suppliers.store') }}" method="POST">
-    @csrf
-    <div class="card">
-        <div class="card-body">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" class="form-control" required>
+
+    <div class="card p-4">
+
+        {{-- Error Alert --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0 pl-3">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-            <div class="form-group">
-                <label>Company Name</label>
-                <input type="text" name="company_name" class="form-control" required>
+        @endif
+
+        <form action="{{ route('suppliers.store') }}" method="POST" data-confirm="create">
+            @csrf
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="name">Customer Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" id="name"
+                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
+                    @error('name')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="email">Email <span class="text-danger">*</span></label>
+                    <input type="email" name="email" id="email"
+                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
+                    @error('email')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="phone_number">Phone Number <span class="text-danger">*</span></label>
+                    <input type="number" name="phone_number" id="phone_number"
+                        class="form-control @error('phone_number') is-invalid @enderror" value="{{ old('phone_number') }}">
+                    @error('phone_number')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="company_name">Company Name <span class="text-danger">*</span></label>
+                    <input type="text" name="company_name" id="company_name"
+                        class="form-control @error('company_name') is-invalid @enderror" value="{{ old('company_name') }}">
+                    @error('company_name')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="company_number">Company Number <span class="text-danger">*</span></label>
+                    <input type="number" name="company_number" id="company_number"
+                        class="form-control @error('company_number') is-invalid @enderror"
+                        value="{{ old('company_number') }}">
+                    @error('company_number')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="license_number">License Number <span class="text-danger">*</span></label>
+                    <input type="number" name="license_number" id="license_number"
+                        class="form-control @error('license_number') is-invalid @enderror"
+                        value="{{ old('license_number') }}">
+                    @error('license_number')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="location ">Location <span class="text-danger">*</span></label>
+                    <input type="text" name="location" id="location"
+                        class="form-control @error('location') is-invalid @enderror" value="{{ old('location') }}">
+                    @error('location')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
             </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control">
+
+            <div class="text-end mt-3">
+                <button type="submit" class="btn btn-success">Save</button>
             </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" name="phone_number" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Company Number</label>
-                <input type="text" name="company_number" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>License Number</label>
-                <input type="text" name="license_number" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Location</label>
-                <input type="text" name="location" class="form-control">
-            </div>
-        </div>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-success">Save</button>
-            <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">Back</a>
-        </div>
+        </form>
     </div>
-</form>
-@stop
+@endsection

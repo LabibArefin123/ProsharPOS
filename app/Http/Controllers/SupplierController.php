@@ -10,19 +10,24 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::all();
-        return view('suppliers.index', compact('suppliers'));
+        return view('people_management.suppliers.index', compact('suppliers'));
     }
 
     public function create()
     {
-        return view('suppliers.create');
+        return view('people_management.suppliers.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'company_name' => 'required',
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'company_name' => 'required|string',
+            'company_number' => 'required|string',
+            'phone_number' => 'required|string|max:15',
+            'license_number' => 'required|string',
+            'location' => 'required|string',
         ]);
 
         Supplier::create($request->all());
@@ -31,14 +36,19 @@ class SupplierController extends Controller
 
     public function edit(Supplier $supplier)
     {
-        return view('suppliers.edit', compact('supplier'));
+        return view('people_management.suppliers.edit', compact('supplier'));
     }
 
     public function update(Request $request, Supplier $supplier)
     {
         $request->validate([
-            'name' => 'required',
-            'company_name' => 'required',
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'company_name' => 'required|string',
+            'company_number' => 'required|string',
+            'phone_number' => 'required|string|max:15',
+            'license_number' => 'required|string',
+            'location' => 'required|string',
         ]);
 
         $supplier->update($request->all());

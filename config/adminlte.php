@@ -449,10 +449,6 @@ return [
 
                 ],
                 [
-                    'text' => 'Payment List',
-                    'url' => '#',
-                ],
-                [
                     'text' => 'Petty Cash List',
                     'url' => '#',
                 ],

@@ -11,10 +11,6 @@
     </div>
 @stop
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <div class="card">
         <div class="card-header">
             <a href="{{ route('suppliers.create') }}" class="btn btn-success">Add Supplier</a>

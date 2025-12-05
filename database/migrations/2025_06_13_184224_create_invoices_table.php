@@ -19,7 +19,9 @@ return new class extends Migration {
             $table->decimal('discount_value', 10, 2)->default(0);
             $table->decimal('sub_total', 12, 2)->default(0);
             $table->decimal('total', 12, 2)->default(0);
-            $table->string('status');
+            $table->string('status')->nullable();
+            $table->string('paid_amount')->nullable();
+            $table->string('paid_by')->nullable();
             $table->timestamps();
         });
     }
