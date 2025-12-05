@@ -61,7 +61,12 @@
                             'color' => 'info',
                             'route' => route('challans.index'),
                         ],
-                        ['label' => 'Challan FOC', 'value' => '0', 'icon' => 'fas fa-gift', 'color' => 'indigo'],
+                        [
+                            'label' => 'Challan FOC',
+                            'value' => $total_challan_foc,
+                            'icon' => 'fas fa-gift',
+                            'color' => 'indigo',
+                        ],
                         [
                             'label' => 'Petty Cash Receive',
                             'value' => '0 Tk',

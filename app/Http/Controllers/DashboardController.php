@@ -24,9 +24,20 @@ class DashboardController extends Controller
             ->selectRaw('SUM(total - paid_amount) as due')
             ->value('due');
         $total_challans = Challan::count();
-        $total_challan_bill = Challan::where('status', 'bill')->count(); // adjust 'type' and value if needed
-        $total_challan_unbill = Challan::where('status', 'unbill')->count(); // adjust as needed
+        $total_challan_bill = Challan::sum('challan_bill'); // adjust 'type' and value if needed
+        $total_challan_unbill = Challan::sum('challan_unbill'); // adjust as needed
+        $total_challan_foc = Challan::sum('challan_foc'); // adjust as needed
 
-        return view('dashboard', compact('total_invoices', 'salesAmount', 'receiveAmount', 'dueAmount', 'totalPayment', 'total_challans', 'total_challan_bill', 'total_challan_unbill'));
+        return view('dashboard', compact(
+            'total_invoices',
+            'salesAmount',
+            'receiveAmount',
+            'dueAmount',
+            'totalPayment',
+            'total_challans',
+            'total_challan_bill',
+            'total_challan_unbill',
+            'total_challan_foc'
+        ));
     }
 }
