@@ -3,183 +3,177 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1 class="font-bold text-dark mb-1">Dashboard Overview</h1>
+    <h1 class="font-bold text-dark mb-1">ProsharPOS Dashboard</h1>
+    <p class="text-muted">Your business performance summary at a glance.</p>
 @endsection
 
 @section('content')
 
-    <div class="card">
-        <div class="card-body">
+    <div class="row g-4">
 
-            <div class="row">
-                @php
-                    $metrics = [
-                        [
-                            'label' => 'Total Invoice',
-                            'value' => $total_invoices,
-                            'icon' => 'fas fa-file-invoice-dollar',
-                            'color' => 'primary',
-                            'route' => route('invoices.index'),
-                        ],
-                        [
-                            'label' => 'Sales Amount',
-                            'value' => $salesAmount . ' Tk',
-                            'icon' => 'fas fa-cash-register',
-                            'color' => 'success',
-                        ],
+        {{-- TOTAL INVOICE --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-primary text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $total_invoices }}</h3>
+                    <p>Total Invoice</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <a href="{{ route('invoices.index') }}" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 
-                        [
-                            'label' => 'Receive Amount',
-                            'value' => $receiveAmount . ' Tk',
-                            'icon' => 'fas fa-hand-holding-usd',
-                            'color' => 'purple',
-                        ],
-                        [
-                            'label' => 'Due Amount',
-                            'value' => $dueAmount . ' Tk',
-                            'icon' => 'fas fa-hourglass-end',
-                            'color' => 'danger',
-                        ],
-                        [
-                            'label' => 'Total Challan',
-                            'value' => $total_challans,
-                            'icon' => 'fas fa-truck-loading',
-                            'color' => 'warning',
-                            'route' => route('challans.index'),
-                        ],
-                        [
-                            'label' => 'Challan Unbill',
-                            'value' => $total_challan_unbill,
-                            'icon' => 'fas fa-ban',
-                            'color' => 'pink',
-                            'route' => route('challans.index'),
-                        ],
-                        [
-                            'label' => 'Challan Bill',
-                            'value' => $total_challan_bill,
-                            'icon' => 'fas fa-file-invoice',
-                            'color' => 'info',
-                            'route' => route('challans.index'),
-                        ],
-                        [
-                            'label' => 'Challan FOC',
-                            'value' => $total_challan_foc,
-                            'icon' => 'fas fa-gift',
-                            'color' => 'indigo',
-                            'route' => route('challans.index'),
-                        ],
-                        [
-                            'label' => 'Petty Cash Receive',
-                            'value' => '0 Tk',
-                            'icon' => 'fas fa-coins',
-                            'color' => 'orange',
-                        ],
-                        [
-                            'label' => 'Petty Cash Expense',
-                            'value' => '0 Tk',
-                            'icon' => 'fas fa-wallet',
-                            'color' => 'lime',
-                        ],
-                        [
-                            'label' => 'Petty Cash Dollar Receive',
-                            'value' => '0$',
-                            'icon' => 'fas fa-dollar-sign',
-                            'color' => 'emerald',
-                        ],
-                        [
-                            'label' => 'Petty Cash Dollar Expense',
-                            'value' => '0$',
-                            'icon' => 'fas fa-money-bill-wave',
-                            'color' => 'rose',
-                        ],
-                        [
-                            'label' => 'BDT Payment',
-                            'value' => $totalPayment . ' Tk',
-                            'icon' => 'fas fa-credit-card',
-                            'color' => 'cyan',
-                            'route' => route('payments.index'),
-                        ],
-                        [
-                            'label' => 'Dollar Payment',
-                            'value' => '0$',
-                            'icon' => 'fas fa-money-check-alt',
-                            'color' => 'secondary',
-                        ],
-                    ];
-                @endphp
+        {{-- SALES AMOUNT --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-success text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $salesAmount }} Tk</h3>
+                    <p>Sales Amount</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-cash-register"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 
-                @foreach ($metrics as $metric)
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
-                        <a href="{{ $metric['route'] ?? '#' }}" class="text-decoration-none metric-card-link"
-                            data-label="{{ $metric['label'] }}">
-                            <div class="card border border-{{ $metric['color'] }} shadow-sm h-100 hover-shadow">
-                                <div class="card-body d-flex align-items-center justify-content-between gap-3">
-                                    <div class="flex-grow-1 text-wrap">
-                                        <h6 class="text-{{ $metric['color'] }} mb-1 font-weight-bold">
-                                            {{ $metric['label'] }}
-                                        </h6>
-                                        <div class="text-dark font-weight-bold" style="font-size: 1.25rem;">
-                                            {{ $metric['value'] }}</div>
-                                    </div>
-                                    <div class="icon-container text-{{ $metric['color'] }} flex-shrink-0 text-end"
-                                        style="width: 48px;">
-                                        <i class="{{ $metric['icon'] }} fa-2x"></i>
-                                    </div>
-                                </div>
+        {{-- RECEIVE AMOUNT --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-indigo text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $receiveAmount }} Tk</h3>
+                    <p>Receive Amount</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+        {{-- DUE AMOUNT --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-danger text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $dueAmount }} Tk</h3>
+                    <p>Due Amount</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-hourglass-end"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        {{-- TOTAL CHALLAN --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-warning text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $total_challans }}</h3>
+                    <p>Total Challan</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-truck-loading"></i>
+                </div>
+                <a href="{{ route('challans.index') }}" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        {{-- CHALLAN UNBILLED --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-pink text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $total_challan_unbill }}</h3>
+                    <p>Challan Unbilled</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <a href="{{ route('challans.index') }}" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        {{-- CHALLAN BILLED --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-info text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $total_challan_bill }}</h3>
+                    <p>Challan Billed</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <a href="{{ route('challans.index') }}" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        {{-- CHALLAN FOC --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-purple text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $total_challan_foc }}</h3>
+                    <p>Challan FOC</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <a href="{{ route('challans.index') }}" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        {{-- BDT PAYMENT --}}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>{{ $totalPayment }} Tk</h3>
+                    <p>BDT Payment</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <a href="{{ route('payments.index') }}" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
         </div>
     </div>
 
-
     <style>
-        .metric-card-link {
-            position: relative;
-            display: block;
+        .dashboard-box {
+            transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
+            border-radius: 8px;
         }
 
-        .metric-card-link::after {
-            content: attr(data-label);
+        .dashboard-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .small-box .icon i {
+            opacity: 0.3;
+            font-size: 70px;
             position: absolute;
-            bottom: 100%;
-            left: 0;
-            background-color: #ff9900;
-            color: white;
-            padding: 4px 8px;
-            font-size: 0.75rem;
-            border-radius: 4px;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateY(-5px);
-            pointer-events: none;
-            transition: all 0.3s ease-in-out;
-            z-index: 99;
-        }
-
-        .metric-card-link:hover::after {
-            opacity: 1;
-            transform: translateY(-10px);
-        }
-
-        .icon-container {
-            transition: transform 0.3s ease;
-            text-align: right;
-        }
-
-        .metric-card-link:hover .icon-container {
-            transform: scale(1.2);
-        }
-
-        .metric-card-link .card-body {
-            min-height: 100px;
-        }
-
-        .hover-shadow:hover {
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.2) !important;
+            top: 15px;
+            right: 15px;
         }
     </style>
+
 @endsection

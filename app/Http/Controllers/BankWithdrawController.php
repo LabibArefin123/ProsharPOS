@@ -13,7 +13,7 @@ class BankWithdrawController extends Controller
     public function index()
     {
         $withdraws = BankWithdraw::with('bankBalance.user', 'user')->latest()->get();
-        return view('transaction_management.bank_withdraw.index', compact('withdraws'));
+        return view('financial_management.bank_withdraw.index', compact('withdraws'));
     }
 
     // Show create form
@@ -21,7 +21,7 @@ class BankWithdrawController extends Controller
     {
         $users = User::all();
         $balances = BankBalance::with('user')->get();
-        return view('transaction_management.bank_withdraw.create', compact('users', 'balances'));
+        return view('financial_management.bank_withdraw.create', compact('users', 'balances'));
     }
 
     // Store new withdraw
@@ -59,7 +59,7 @@ class BankWithdrawController extends Controller
 
     public function show(BankWithdraw $bankWithdraw)
     {
-        return view('transaction_management.bank_withdraw.show', compact('bankWithdraw'));
+        return view('financial_management.bank_withdraw.show', compact('bankWithdraw'));
     }
 
     // Show edit form
@@ -67,7 +67,7 @@ class BankWithdrawController extends Controller
     {
         $users = User::all();
         $balances = BankBalance::with('user')->get();
-        return view('transaction_management.bank_withdraw.edit', compact('bankWithdraw', 'users', 'balances'));
+        return view('financial_management.bank_withdraw.edit', compact('bankWithdraw', 'users', 'balances'));
     }
 
     // Update withdrawal

@@ -13,7 +13,7 @@ class BankDepositController extends Controller
     public function index()
     {
         $deposits = BankDeposit::with('bankBalance.user', 'user')->orderBy('id', 'asc')->get();
-        return view('transaction_management.bank_deposit.index', compact('deposits'));
+        return view('financial_management.bank_deposit.index', compact('deposits'));
     }
 
     // Show create form
@@ -21,7 +21,7 @@ class BankDepositController extends Controller
     {
         $users = User::all();
         $balances = BankBalance::with('user')->get();
-        return view('transaction_management.bank_deposit.create', compact('users', 'balances'));
+        return view('financial_management.bank_deposit.create', compact('users', 'balances'));
     }
 
     // Store new deposit
@@ -54,7 +54,7 @@ class BankDepositController extends Controller
 
     public function show(BankDeposit $bankDeposit)
     {
-        return view('transaction_management.bank_deposit.show', compact('bankDeposit'));
+        return view('financial_management.bank_deposit.show', compact('bankDeposit'));
     }
 
     // Show edit form
@@ -62,7 +62,7 @@ class BankDepositController extends Controller
     {
         $users = User::all();
         $balances = BankBalance::with('user')->get();
-        return view('transaction_management.bank_deposit.edit', compact('bankDeposit', 'users', 'balances'));
+        return view('financial_management.bank_deposit.edit', compact('bankDeposit', 'users', 'balances'));
     }
 
     // Update deposit

@@ -44,7 +44,6 @@
                                 <td>
                                     {{ $invoice->invoice_date ? \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') : 'N/A' }}
                                 </td>
-
                                 <td>৳{{ number_format($invoice->discount_value, 2) }}</td>
                                 <td>৳{{ number_format($invoice->sub_total, 2) }}</td>
                                 <td>৳{{ number_format($invoice->total, 2) }}</td>

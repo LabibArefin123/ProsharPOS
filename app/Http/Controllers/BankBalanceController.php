@@ -19,14 +19,14 @@ class BankBalanceController extends Controller
             return $balance;
         });
 
-        return view('transaction_management.bank_balance.index', compact('balances'));
+        return view('financial_management.bank_balance.index', compact('balances'));
     }
 
 
     public function create()
     {
         $users = User::all();
-        return view('transaction_management.bank_balance.create', compact('users'));
+        return view('financial_management.bank_balance.create', compact('users'));
     }
 
     public function store(Request $request)
@@ -53,14 +53,14 @@ class BankBalanceController extends Controller
 
         $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
 
-        return view('transaction_management.bank_balance.show', compact('bank_balance'));
+        return view('financial_management.bank_balance.show', compact('bank_balance'));
     }
 
 
     public function edit(BankBalance $bank_balance)
     {
         $users = User::all();
-        return view('transaction_management.bank_balance.edit', compact('bank_balance', 'users'));
+        return view('financial_management.bank_balance.edit', compact('bank_balance', 'users'));
     }
 
     public function update(Request $request, BankBalance $bank_balance)
