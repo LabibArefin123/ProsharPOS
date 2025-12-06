@@ -19,6 +19,7 @@ class Invoice extends Model
         'sub_total',
         'paid_by',
         'paid_amount',
+        'dollar_amount',
         'total'
     ];
 

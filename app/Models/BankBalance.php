@@ -12,6 +12,7 @@ class BankBalance extends Model
     protected $fillable = [
         'user_id',
         'balance',
+        'balance_in_dollars',
         'currency',
     ];
 

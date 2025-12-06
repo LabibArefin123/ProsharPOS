@@ -13,6 +13,7 @@ class Payment extends Model
         'invoice_id',
         'paid_amount',
         'due_amount',
+        'dollar_amount',
         'paid_by',
         'payment_type'
     ];

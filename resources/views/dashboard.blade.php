@@ -138,13 +138,85 @@
                 </a>
             </div>
         </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 ">
+            <div class="small-box bg-orange text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>00 Tk</h3>
+                    <p>Petty Cash Receive</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 
+        <div class="col-lg-3 col-md-6 col-sm-12 ">
+            <div class="small-box bg-lime text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>00 Tk</h3>
+                    <p>Petty Cash Expense</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12 ">
+            <div class="small-box bg-warning text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>00$</h3>
+                    <p>Petty Cash Dollar Receive</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12 ">
+            <div class="small-box bg-pink text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>00$</h3>
+                    <p>Petty Cash Dollar Expense</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
         {{-- BDT PAYMENT --}}
         <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
                 <div class="inner">
                     <h3>{{ $totalPayment }} Tk</h3>
                     <p>BDT Payment</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <a href="{{ route('payments.index') }}" class="small-box-footer">
+                    More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
+                <div class="inner">
+                    <h3>$ {{ $totalPaymentInDollar }} </h3>
+                    <p>Dollar Payment</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-credit-card"></i>

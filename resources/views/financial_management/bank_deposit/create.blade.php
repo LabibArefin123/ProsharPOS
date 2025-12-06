@@ -52,20 +52,24 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
                         <div class="col-md-6 form-group">
-                            <label for="bank_balance_id"><strong>Bank Balance</strong> <span
-                                    class="text-danger">*</span></label>
+                            <label for="bank_balance_id"><strong>Bank Balance</strong>
+                                <span class="text-danger">*</span>
+                            </label>
+
                             <select name="bank_balance_id" id="bank_balance_id"
                                 class="form-control @error('bank_balance_id') is-invalid @enderror">
-                                <option value="">Select Bank Balannce</option>
+                                <option value="">Select Bank Balance</option>
+
                                 @foreach ($balances as $balance)
                                     <option value="{{ $balance->id }}"
                                         {{ old('bank_balance_id') == $balance->id ? 'selected' : '' }}>
-                                        {{ $balance->balance }} Taka
+                                        {{ number_format($balance->balance, 2) }} Taka
+                                        (${{ number_format($balance->balance_in_dollars, 2) }})
                                     </option>
                                 @endforeach
                             </select>
+
                             @error('bank_balance_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -77,6 +81,16 @@
                             <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror"
                                 value="{{ old('amount') }}" placeholder="Enter deposit amount">
                             @error('amount')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label><strong>Deposit Amount (in USD)</strong> <span class="text-danger">*</span></label>
+                            <input type="number" name="amount_in_dollar"
+                                class="form-control @error('amount_in_dollar') is-invalid @enderror"
+                                value="{{ old('amount_in_dollar') }}" placeholder="Enter deposit amount">
+                            @error('amount_in_dollar')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -110,8 +124,8 @@
                         {{-- Reference --}}
                         <div class="col-md-6 form-group">
                             <label><strong>Reference</strong></label>
-                            <input type="text" name="reference_no" class="form-control" value="{{ old('reference_no') }}"
-                                placeholder="e.g., TRX ID / Cheque No">
+                            <input type="text" name="reference_no" class="form-control"
+                                value="{{ old('reference_no') }}" placeholder="e.g., TRX ID / Cheque No">
                         </div>
 
                         {{-- Note --}}

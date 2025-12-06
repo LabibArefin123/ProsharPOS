@@ -16,6 +16,7 @@ class DashboardController extends Controller
         $salesAmount = Invoice::sum('total');
         $receiveAmount = Invoice::sum('paid_amount');
         $totalPayment = Payment::sum('paid_amount');
+        $totalPaymentInDollar = Payment::sum('dollar_amount');
         $dueAmount = Invoice::where('status', 0)
             ->selectRaw('SUM(total - paid_amount) as due')
             ->value('due');
@@ -30,6 +31,7 @@ class DashboardController extends Controller
             'receiveAmount',
             'dueAmount',
             'totalPayment',
+            'totalPaymentInDollar',
             'total_challans',
             'total_challan_bill',
             'total_challan_unbill',

@@ -27,6 +27,7 @@
                         <th>User</th>
                         <th>Email</th>
                         <th>Bank Balance</th>
+                        <th>Bank Balance (in Dollar)</th>
                         <th>Amount (BDT)</th>
                         <th>Method</th>
                         <th>Reference</th>
@@ -41,6 +42,7 @@
                             <td>{{ $deposit->user->name }}</td>
                             <td>{{ $deposit->user->email }}</td>
                             <td>{{ $deposit->bankBalance->balance . ' Tk' }}</td>
+                            <td>{{ '$' . $deposit->bankBalance->balance_in_dollars ?? '0.00' }}</td>
                             <td>৳{{ number_format($deposit->amount, 2) }}</td>
                             <td>{{ ucfirst(str_replace('_', ' ', $deposit->deposit_method)) }}</td>
                             <td>{{ $deposit->reference_no }}</td>

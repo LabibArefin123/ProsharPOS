@@ -5,7 +5,15 @@
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="mb-0">Edit Bank Deposit</h3>
-        <a href="{{ route('bank_deposits.index') }}" class="btn btn-sm btn-secondary">Back</a>
+        <a href="{{ route('bank_deposits.index') }}"
+            class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back
+        </a>
     </div>
 @stop
 
@@ -40,22 +48,37 @@
                             </select>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="bank_balance_id">Bank Balance</label>
+                        <div class="col-md-6 form-group">
+                            <label for="bank_balance_id">
+                                <strong>Bank Balance (BDT / USD)</strong>
+                                <span class="text-danger">*</span>
+                            </label>
+
                             <select name="bank_balance_id" id="bank_balance_id"
                                 class="form-control @error('bank_balance_id') is-invalid @enderror">
-                                <option value="">Select Balance</option>
+
+                                <option value="">Select Bank Balance</option>
 
                                 @foreach ($balances as $balance)
                                     <option value="{{ $balance->id }}"
-                                        {{ $bankDeposit->bank_balance_id == $balance->id ? 'selected' : '' }}>
-                                        {{ $balance->balance }} Taka
+                                        {{ old('bank_balance_id', $bankDeposit->bank_balance_id) == $balance->id ? 'selected' : '' }}>
+                                        ৳{{ number_format($balance->balance, 2) }}
+                                        —
+                                        ${{ number_format($balance->balance_in_dollars, 2) }}
                                     </option>
                                 @endforeach
-
                             </select>
 
                             @error('bank_balance_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label><strong>Deposit Amount (BDT)</strong></label>
+                            <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror"
+                                value="{{ old('amount', $bankDeposit->amount) }}">
+                            @error('amount')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -63,9 +86,15 @@
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label><strong>Deposit Amount (BDT)</strong></label>
-                            <input type="number" name="amount" class="form-control"
-                                value="{{ old('amount', $bankDeposit->amount) }}">
+                            <label><strong>Deposit Amount (in USD)</strong></label>
+                            <input type="number" name="amount_in_dollar"
+                                class="form-control @error('amount_in_dollar') is-invalid @enderror"
+                                value="{{ old('amount_in_dollar', $bankDeposit->amount_in_dollar) }}">
+                            @error('amount_in_dollar')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="col-md-6 form-group">

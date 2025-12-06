@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->decimal('total', 12, 2)->default(0);
             $table->string('status')->nullable();
             $table->string('paid_amount')->nullable();
+            $table->string('dollar_amount')->nullable();
             $table->string('paid_by')->nullable();
             $table->timestamps();
         });

@@ -20,6 +20,7 @@
                         <tr>
                             <th>#</th>
                             <th>Invoice No</th>
+                            <th>Item Name</th>
                             <th>Customer</th>
                             <th>Branch</th>
                             <th>Date</th>
@@ -29,6 +30,7 @@
                             <th>Paid By</th>
                             <th>Due Amount</th>
                             <th>Paid Amount</th>
+                            <th>Paid Amount (in Dollar)</th>
                             <th>Total Change</th>
                             <th>Status</th>
                             <th class="text-center">Actions</th>
@@ -39,6 +41,13 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $invoice->invoice_id ?? 'N/A' }}</td>
+                                  <td>
+                                    @forelse ($invoice->invoiceItems as $item)
+                                        <div>{{ $item->product?->name ?? 'N/A' }}</div>
+                                    @empty
+                                        <span class="text-muted">No items</span>
+                                    @endforelse
+                                </td>
                                 <td>{{ $invoice->customer->name ?? 'N/A' }}</td>
                                 <td>{{ $invoice->branch->name ?? 'N/A' }}</td>
                                 <td>
@@ -57,6 +66,7 @@
                                     @endif
                                 </td>
                                 <td>৳{{ number_format($invoice->paid_amount ?? 0, 2) }}</td>
+                                <td>${{ number_format($invoice->dollar_amount ?? 0, 2) }}</td>
                                 <td>
                                     @if ($invoice->status == '1')
                                         ৳{{ number_format(($invoice->paid_amount ?? 0) - ($invoice->total ?? 0), 2) }}

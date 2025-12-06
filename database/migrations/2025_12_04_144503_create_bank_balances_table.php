@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id'); // Link to users
             $table->decimal('balance', 12, 2)->default(0); // Current balance
+            $table->decimal('balance_in_dollars', 12, 2)->default(0); // Current balance
             $table->string('currency', 10)->default('BDT'); // Currency
             $table->timestamps();
 

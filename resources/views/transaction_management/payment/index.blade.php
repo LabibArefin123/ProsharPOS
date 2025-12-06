@@ -22,6 +22,7 @@
                             <th>Invoice</th>
                             <th>Paid By</th>
                             <th>Paid Amount</th>
+                            <th>Paid Amount(in Dollar)</th>
                             <th>Due Amount</th>
                             <th>Payment Type</th>
                             <th>Date</th>
@@ -37,6 +38,7 @@
                                 <td>{{ $payment->invoice ? $payment->invoice->invoice_id : '-' }}</td>
                                 <td>{{ $payment->paidBy ? $payment->paidBy->name : '-' }}</td>
                                 <td>৳{{ number_format($payment->paid_amount, 2) }}</td>
+                                <td>${{ number_format($payment->dollar_amount, 2) }}</td>
                                 <td>৳{{ number_format($payment->due_amount, 2) }}</td>
                                 <td>{{ ucfirst($payment->payment_type) }}</td>
                                 <td>{{ $payment->created_at->format('d M, Y') }}</td>

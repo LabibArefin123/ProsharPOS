@@ -14,6 +14,7 @@ class BankDeposit extends Model
         'user_id',
         'deposit_date',
         'amount',
+        'amount_in_dollar',
         'deposit_method',
         'reference_no',
         'note',

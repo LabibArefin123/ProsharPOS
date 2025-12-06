@@ -7,7 +7,12 @@
         <h3 class="mb-0">Edit Bank Withdraw</h3>
         <a href="{{ route('bank_withdraws.index') }}"
             class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
-            <i class="fas fa-arrow-left"></i> Back
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back
         </a>
     </div>
 @stop
