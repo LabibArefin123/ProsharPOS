@@ -180,17 +180,16 @@
                     let exists = cartItems.find(item => item.id == id);
 
                     if (exists) {
-                        exists.qty++;
+                        exists.challan_total++;
                     } else {
                         cartItems.push({
                             id,
                             name,
-                            qty: 1,
-                            bill_qty: 1,
-                            unbill_qty: 0,
-                            foc_qty: 0,
+                            challan_total: 1,
+                            challan_bill: 1,
+                            challan_unbill: 0,
+                            challan_foc: 0,
                             warranty_id: null,
-                            warranty_period: 0
                         });
                     }
 
@@ -214,15 +213,15 @@
             let totalQty = 0;
 
             cartItems.forEach((item, index) => {
-                totalQty += item.qty;
+                totalQty += item.challan_total;
 
                 cartTable.innerHTML += `
                     <tr>
                         <td>${item.name}</td>
-                        <td><input type="number" min="1" value="${item.qty}" class="form-control form-control-sm cart-qty" data-index="${index}"></td>
-                        <td><input type="number" min="0" value="${item.bill_qty}" class="form-control form-control-sm bill-qty" data-index="${index}"></td>
-                        <td><input type="number" min="0" value="${item.unbill_qty}" class="form-control form-control-sm unbill-qty" data-index="${index}"></td>
-                        <td><input type="number" min="0" value="${item.foc_qty}" class="form-control form-control-sm foc-qty" data-index="${index}"></td>
+                        <td><input type="number" min="1" value="${item.challan_total}" class="form-control form-control-sm cart-qty" data-index="${index}"></td>
+                        <td><input type="number" min="0" value="${item.challan_bill}" class="form-control form-control-sm bill-qty" data-index="${index}"></td>
+                        <td><input type="number" min="0" value="${item.challan_unbill}" class="form-control form-control-sm unbill-qty" data-index="${index}"></td>
+                        <td><input type="number" min="0" value="${item.challan_foc}" class="form-control form-control-sm foc-qty" data-index="${index}"></td>
                        <td>
                             <select class="form-control form-control-sm warranty-select" data-index="${index}">
                                 ${getWarrantyOptions()}
@@ -254,13 +253,15 @@
             let index = e.target.dataset.index;
             if (!cartItems[index]) return;
 
-            if (e.target.classList.contains('cart-qty')) cartItems[index].qty = parseInt(e.target
+            if (e.target.classList.contains('cart-qty')) cartItems[index].challan_total = parseInt(e
+                .target
                 .value);
-            if (e.target.classList.contains('bill-qty')) cartItems[index].bill_qty = parseInt(e.target
+            if (e.target.classList.contains('bill-qty')) cartItems[index].challan_bill = parseInt(e
+                .target
                 .value);
-            if (e.target.classList.contains('unbill-qty')) cartItems[index].unbill_qty = parseInt(e
+            if (e.target.classList.contains('unbill-qty')) cartItems[index].challan_unbill = parseInt(e
                 .target.value);
-            if (e.target.classList.contains('foc-qty')) cartItems[index].foc_qty = parseInt(e.target
+            if (e.target.classList.contains('foc-qty')) cartItems[index].challan_foc = parseInt(e.target
                 .value);
 
             renderCart();
@@ -275,8 +276,6 @@
                 const selected = e.target.selectedOptions[0];
 
                 cartItems[index].warranty_id = selected.value || null;
-                cartItems[index].warranty_period = selected.dataset.days ? parseInt(selected.dataset
-                    .days) : 0;
 
                 itemsInput.value = JSON.stringify(cartItems);
                 console.log("WARRANTY UPDATED:", cartItems[index]);

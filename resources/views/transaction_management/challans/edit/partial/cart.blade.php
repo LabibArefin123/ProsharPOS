@@ -241,7 +241,10 @@
             // SET WARRANTY VALUES
             cartItems.forEach((item, i) => {
                 let sel = document.querySelector(`.warranty-select[data-index="${i}"]`);
-                if (sel) sel.value = item.warranty_id ?? "";
+                if (sel && item.warranty_id) {
+                    sel.value = item.warranty_id;
+                }
+
             });
 
             totalQtyEl.innerText = totalQty;

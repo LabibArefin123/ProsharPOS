@@ -90,7 +90,6 @@ class ChallanController extends Controller
             ->with('success', 'Challan created successfully!');
     }
 
-
     public function show($id)
     {
         $challan = Challan::with(['supplier', 'product', 'branch', 'warranty'])
@@ -103,63 +102,87 @@ class ChallanController extends Controller
     {
         $challan = Challan::with('citems.product')->findOrFail($id);
 
-        $products = Product::orderBy('name')->get();
-        $branches = Branch::orderBy('name')->get();
-        $suppliers = Supplier::orderBy('name')->get();
-        $warranties = Warranty::all();
-
-        // Prepare edit items for JS cart
+        // Convert items to the exact format used by JavaScript
         $editItems = $challan->citems->map(function ($item) {
             return [
-                'id' => $item->product_id,
-                'name' => $item->product->name,
-                'qty' => $item->challan_total,
-                'bill_qty' => $item->challan_bill,
-                'unbill_qty' => $item->challan_unbill,
-                'foc_qty' => $item->challan_foc,
+                'id' => $item->product_id,                 
+                'name' => $item->product->name ?? '',          
+                'challan_total' => $item->challan_total,
+                'challan_bill' => $item->challan_bill,
+                'challan_unbill' => $item->challan_unbill,
+                'challan_foc' => $item->challan_foc,
                 'warranty_id' => $item->warranty_id,
-                'warranty_period' => $item->warranty?->day_count ?? 0,
             ];
         });
 
-        return view('transaction_management.challans.edit', compact(
-            'challan',
-            'products',
-            'warranties',
-            'branches',
-            'suppliers',
-            'editItems'
-        ));
+        return view('transaction_management.challans.edit', [
+            'challan'     => $challan,
+            'editItems'   => $editItems,
+            'products'    => Product::all(),
+            'warranties'  => Warranty::all(),
+            'suppliers'   => Supplier::all(),
+            'branches'    => Branch::all(),
+        ]);
     }
+
 
     public function update(Request $request, $id)
     {
         $challan = Challan::findOrFail($id);
 
         $request->validate([
-            'challan_date' => 'required|date',
-            'status'       => 'required',
+            'items'         => 'required|json',
+            'supplier_id'   => 'required|exists:suppliers,id',
+            'branch_id'     => 'required|exists:branches,id',
+            'challan_date'  => 'required|date',
+            'valid_until'   => 'required|date',
+            'challan_ref'   => 'required|string',
+            'note'          => 'nullable',
+            'out_ref'       => 'nullable',
+            'challan_doc'   => 'nullable|file|mimes:pdf,jpg,png',
         ]);
 
+        // Decode items
+        $products = json_decode($request->items, true);
+
+        if (empty($products)) {
+            return back()->withInput()->with('error', 'No products received.');
+        }
+
+        // --- FILE UPLOAD ---
+        $fileName = $challan->challan_doc;
+        if ($request->hasFile('challan_doc')) {
+            $fileName = time() . '-' . $request->file('challan_doc')->getClientOriginalName();
+            $request->file('challan_doc')->move(public_path('uploads/files/challans'), $fileName);
+        }
+
+        // UPDATE MAIN CHALLAN
         $challan->update([
-            'challan_date'   => $request->challan_date,
-            'supplier_id'    => $request->supplier_id,
-            'branch_id'      => $request->branch_id,
-
-            'challan_bill'   => $request->challan_bill,
-            'challan_unbill' => $request->challan_unbill,
-            'challan_foc'    => $request->challan_foc,
-
-            'pdf_path'       => $request->pdf_path,
-            'challan_ref'    => $request->challan_ref,
-            'out_ref'        => $request->out_ref,
-
-            'status'         => $request->status,
-            'valid_until'    => $request->valid_until,
-            'note'           => $request->note,
-
-            'updated_by'     => Auth::id(),
+            'challan_date' => $request->challan_date,
+            'supplier_id'  => $request->supplier_id,
+            'branch_id'    => $request->branch_id,
+            'challan_ref'  => $request->challan_ref,
+            'out_ref'      => $request->out_ref,
+            'valid_until'  => $request->valid_until,
+            'note'         => $request->note,
+            'challan_doc'  => $fileName,
         ]);
+
+        // DELETE OLD ITEMS
+        ChallanItem::where('challan_id', $challan->id)->delete();
+
+        // INSERT NEW ITEMS
+        foreach ($products as $item) {
+            ChallanItem::create([
+                'challan_id'      => $challan->id,
+                'product_id'      => $item['id'],
+                'challan_total'   => $item['challan_total'],
+                'challan_bill'    => $item['challan_bill'],
+                'challan_unbill'  => $item['challan_unbill'],
+                'challan_foc'     => $item['challan_foc'],
+                'warranty_id'     => $item['warranty_id'] ?? null,
+            ]);
+        }
 
         return redirect()->route('challans.index')
             ->with('success', 'Challan updated successfully!');
