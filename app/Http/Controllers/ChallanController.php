@@ -78,10 +78,10 @@ class ChallanController extends Controller
             ChallanItem::create([
                 'challan_id'     => $challan->id,
                 'product_id'     => $item['id'],
-                'qty'            => $item['qty'],
-                'bill_qty'       => $item['bill_qty'],
-                'unbill_qty'     => $item['unbill_qty'],
-                'foc_qty'        => $item['foc_qty'],
+                'challan_total'            => $item['challan_total'],
+                'challan_bill'       => $item['challan_bill'],
+                'challan_unbill'     => $item['challan_unbill'],
+                'challan_foc'        => $item['challan_foc'],
                 'warranty_id'    => $item['warranty_id'] ?? null,
             ]);
         }
@@ -101,18 +101,34 @@ class ChallanController extends Controller
 
     public function edit($id)
     {
-        $challan    = Challan::findOrFail($id);
-        $products   = Product::with(['brand', 'category'])->get();
+        $challan = Challan::with('citems.product')->findOrFail($id);
+
+        $products = Product::orderBy('name')->get();
+        $branches = Branch::orderBy('name')->get();
+        $suppliers = Supplier::orderBy('name')->get();
         $warranties = Warranty::all();
-        $suppliers  = Supplier::all();
-        $branches   = Branch::all();
+
+        // Prepare edit items for JS cart
+        $editItems = $challan->citems->map(function ($item) {
+            return [
+                'id' => $item->product_id,
+                'name' => $item->product->name,
+                'qty' => $item->challan_total,
+                'bill_qty' => $item->challan_bill,
+                'unbill_qty' => $item->challan_unbill,
+                'foc_qty' => $item->challan_foc,
+                'warranty_id' => $item->warranty_id,
+                'warranty_period' => $item->warranty?->day_count ?? 0,
+            ];
+        });
 
         return view('transaction_management.challans.edit', compact(
             'challan',
             'products',
             'warranties',
+            'branches',
             'suppliers',
-            'branches'
+            'editItems'
         ));
     }
 
