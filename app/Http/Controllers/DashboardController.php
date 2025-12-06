@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\Challan;
+use App\Models\ChallanItem;
 use App\Models\Payment;
 
 class DashboardController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
     public function index()
     {
         $total_invoices = Invoice::count();
@@ -24,9 +20,9 @@ class DashboardController extends Controller
             ->selectRaw('SUM(total - paid_amount) as due')
             ->value('due');
         $total_challans = Challan::count();
-        $total_challan_bill = Challan::sum('challan_bill'); // adjust 'type' and value if needed
-        $total_challan_unbill = Challan::sum('challan_unbill'); // adjust as needed
-        $total_challan_foc = Challan::sum('challan_foc'); // adjust as needed
+        $total_challan_bill = ChallanItem::sum('challan_bill'); 
+        $total_challan_unbill = ChallanItem::sum('challan_unbill');
+        $total_challan_foc = ChallanItem::sum('challan_foc');
 
         return view('dashboard', compact(
             'total_invoices',
