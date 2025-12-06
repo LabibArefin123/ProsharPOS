@@ -20,14 +20,18 @@
                         <tr>
                             <th>ID</th>
                             <th>Challan No</th>
-                            <th>Date</th>
+                            <th>Item Name</th>
+                            <th>Challan Date</th>
+                            <th>Challan Expiry Date</th>
                             <th>Supplier</th>
                             <th>Branch</th>
                             <th>Total Qty</th>
                             <th>Bill Qty</th>
                             <th>Unbill Qty</th>
                             <th>FOC Qty</th>
-                            <th>Status</th>
+                            <th>Challan Reference</th>
+                            <th>Out Reference</th>
+                            <th>Note</th>
                             <th width="110">Action</th>
                         </tr>
                     </thead>
@@ -35,29 +39,27 @@
                     <tbody>
                         @forelse ($challans as $challan)
                             <tr>
-                                <td>{{ $challan->id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $challan->challan_no }}</td>
-                                <td>{{ $challan->challan_date }}</td>
-
-                                <td>{{ $challan->supplier?->name ?? 'N/A' }}</td>
-                                <td>{{ $challan->branch?->name ?? 'N/A' }}</td>
-
-                                <td>{{ $challan->challan_total }}</td>
-                                <td>{{ $challan->challan_bill }}</td>
-                                <td>{{ $challan->challan_unbill }}</td>
-                                <td>{{ $challan->challan_foc }}</td>
-
                                 <td>
-                                    <span
-                                        class="badge 
-                                    @if ($challan->status == 'delivered') bg-success
-                                    @elseif($challan->status == 'pending') bg-warning
-                                    @elseif($challan->status == 'returned') bg-danger
-                                    @else bg-secondary @endif">
-                                        {{ ucfirst($challan->status ?? 'N/A') }}
-                                    </span>
+                                    @forelse ($challan->citems as $item)
+                                        <div>{{ $item->product?->name ?? 'N/A' }}</div>
+                                    @empty
+                                        <span class="text-muted">No items</span>
+                                    @endforelse
                                 </td>
 
+                                <td>{{ \Carbon\Carbon::parse($challan->challan_date)->format('d F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($challan->valid_until)->format('d F Y') }}</td>
+                                <td>{{ $challan->supplier?->name ?? 'N/A' }}</td>
+                                <td>{{ $challan->branch?->name ?? 'N/A' }}</td>
+                                <td>{{ $challan->citems?->sum('challan_total') ?? 0 }}</td>
+                                <td>{{ $challan->citems?->sum('challan_bill') ?? 0 }}</td>
+                                <td>{{ $challan->citems?->sum('challan_unbill') ?? 0 }}</td>
+                                <td>{{ $challan->citems?->sum('challan_foc') ?? 0 }}</td>
+                                <td>{{ $challan->challan_ref }}</td>
+                                <td>{{ $challan->out_ref }}</td>
+                                <td>{{ $challan->note }}</td>
                                 <td>
                                     <a href="{{ route('challans.show', $challan->id) }}" class="btn btn-info btn-sm">
                                         <i class="fas fa-eye"></i>

@@ -27,8 +27,7 @@ return new class extends Migration
             $table->string('challan_ref')->nullable();
             $table->string('out_ref')->nullable();
             $table->unsignedBigInteger('warranty_id')->nullable();
-            $table->string('warranty_period')->nullable();
-            $table->string('status')->nullable(); // delivered, pending, returned
+            $table->string('status')->nullable();
             $table->date('valid_until')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();

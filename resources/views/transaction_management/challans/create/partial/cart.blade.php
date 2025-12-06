@@ -68,7 +68,6 @@
     </div>
 </div>
 
-
 {{-- Modal for Image Zoom --}}
 <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -85,7 +84,7 @@
         /* ============================================================
            RESTORE OLD DATA AFTER VALIDATION ERROR
         ============================================================ */
-        let oldItems = {!! json_encode(json_decode(old('challan_items'), true)) ?? 'null' !!};
+        let oldItems = {!! json_encode(json_decode(old('items'), true)) !!} ?? [];
         let cartItems = oldItems ?? [];
         // console.log("RESTORED OLD CART ITEMS:", cartItems);
 
@@ -238,7 +237,8 @@
             // Set selected warranty values
             cartItems.forEach((item, index) => {
                 const select = document.querySelector(`.warranty-select[data-index="${index}"]`);
-                if (select) select.value = item.warranty_id ?? "";
+                if (select) select.value = String(item.warranty_id ?? "");
+
             });
 
             totalQtyEl.innerText = totalQty;
@@ -314,5 +314,20 @@
         renderProducts(currentPage);
         renderCart();
 
+    });
+</script>
+<script>
+    const toggleFilterBtn = document.getElementById('toggle-filter');
+    const filterBox = document.getElementById('filter-box');
+    const productSearch = document.getElementById('product-search');
+    toggleFilterBtn.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent any default action
+        filterBox.style.display = (filterBox.style.display === 'block') ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!filterBox.contains(e.target) && e.target !== toggleFilterBtn) {
+            filterBox.style.display = 'none';
+        }
     });
 </script>

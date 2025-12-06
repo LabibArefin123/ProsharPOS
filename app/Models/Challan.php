@@ -19,16 +19,17 @@ class Challan extends Model
         'challan_ref',
         'out_ref',
         'warranty_id',
-        'warranty_period',
-        'status',
         'valid_until',
         'note',
-
-        // Challan type fields
         'challan_total',
         'challan_bill',
         'challan_unbill',
         'challan_foc',
+        'items',
+    ];
+
+    protected $casts = [
+        'items' => 'array',
     ];
 
     public function customer()
@@ -63,5 +64,10 @@ class Challan extends Model
         if ($this->challan_unbill > 0) return 'Unbill';
         if ($this->challan_foc > 0) return 'FOC';
         return 'Mixed';
+    }
+
+    public function citems()
+    {
+        return $this->hasMany(ChallanItem::class);
     }
 }

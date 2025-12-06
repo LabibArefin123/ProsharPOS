@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Challan;
+use App\Models\ChallanItem;
 use App\Models\Customer;
 use App\Models\Supplier;
 use App\Models\Product;
@@ -15,7 +16,7 @@ class ChallanController extends Controller
 {
     public function index()
     {
-        $challans = Challan::with(['supplier', 'branch'])
+        $challans = Challan::with(['supplier', 'branch', 'citems.product'])
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -50,38 +51,38 @@ class ChallanController extends Controller
             'note'          => 'nullable',
         ]);
 
+        // Decode items JSON
         $products = json_decode($request->items, true);
 
-        if (!is_array($products) || count($products) == 0) {
-            return back()->with('error', 'No products received.');
+        if (empty($products)) {
+            return back()->withInput()->with('error', 'No products received.');
         }
 
-        // Generate unique challan number
+        // Generate challan number if empty
         $challanNo = $request->challan_no ?: 'CH-' . now()->format('ymdHis') . rand(10, 99);
 
-        // Store each item as separate challan row
+        // 1️⃣ CREATE MAIN CHALLAN
+        $challan = Challan::create([
+            'challan_no'    => $challanNo,
+            'challan_date'  => $request->challan_date,
+            'challan_ref'   => $request->challan_ref,
+            'supplier_id'   => $request->supplier_id,
+            'branch_id'     => $request->branch_id,
+            'valid_until'   => $request->valid_until,
+            'note'          => $request->note,
+        ]);
+
+        // 2️⃣ LOOP AND STORE ITEMS IN A SEPARATE TABLE
         foreach ($products as $item) {
-            if (!isset($item['id']) && !isset($item['product_id'])) {
-                return back()->with('error', 'Product ID missing in item data.');
-            }
-            Challan::create([
-                'challan_no'      => $challanNo,
-                'challan_date'    => $request->challan_date,
-                'challan_ref'     => $request->challan_ref,
-                'supplier_id'     => $request->supplier_id,
-                'branch_id'       => $request->branch_id,
 
-                'product_id'      =>  $item['id'] ?? $item['product_id'],
-                'challan_total'   => $item['qty'],
-                'challan_bill'    => $item['bill_qty'],
-                'challan_unbill'  => $item['unbill_qty'],
-                'challan_foc'     => $item['foc_qty'],
-
-                'warranty_id'     => $item['warranty_id'] ?? null,
-                'warranty_period' => $item['warranty_period'] ?? null,
-
-                'valid_until'     => $request->valid_until,
-                'note'            => $request->note,
+            ChallanItem::create([
+                'challan_id'     => $challan->id,
+                'product_id'     => $item['id'],
+                'qty'            => $item['qty'],
+                'bill_qty'       => $item['bill_qty'],
+                'unbill_qty'     => $item['unbill_qty'],
+                'foc_qty'        => $item['foc_qty'],
+                'warranty_id'    => $item['warranty_id'] ?? null,
             ]);
         }
 
@@ -92,7 +93,7 @@ class ChallanController extends Controller
 
     public function show($id)
     {
-        $challan = Challan::with(['supplier', 'product', 'branch', 'warranty', 'creator'])
+        $challan = Challan::with(['supplier', 'product', 'branch', 'warranty'])
             ->findOrFail($id);
 
         return view('transaction_management.challans.show', compact('challan'));
