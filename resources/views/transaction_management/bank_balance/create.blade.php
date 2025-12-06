@@ -33,6 +33,8 @@
                 <form action="{{ route('bank_balances.store') }}" method="POST" data-confirm="create">
                     @csrf
                     <div class="row">
+                       
+
                         <div class="col-md-6 form-group">
                             <label for="user_id"><strong>User</strong> <span class="text-danger">*</span></label>
                             <select name="user_id" id="user_id"

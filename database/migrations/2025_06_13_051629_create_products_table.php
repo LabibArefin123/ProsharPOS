@@ -35,8 +35,6 @@ return new class extends Migration
             $table->foreignId('warranty_id');
             $table->string('image')->nullable();
             $table->string('barcode_path')->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
