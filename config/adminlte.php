@@ -443,7 +443,9 @@ return [
                 ],
                 [
                     'text' => 'Petty Cash List',
-                    'url' => '#',
+                    'route' => 'petty_cashes.index',
+                    'can' => 'petty_cashes.index',
+                    'active' => ['petty_cashes*'],
                 ],
 
             ],

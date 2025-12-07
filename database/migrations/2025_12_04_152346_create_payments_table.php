@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('invoice_id')->nullable()->index(); 
             $table->decimal('paid_amount', 12, 2)->default(0);
             $table->decimal('due_amount', 12, 2)->default(0);
+            $table->decimal('due_amount_in_dollar', 12, 2)->default(0);
             $table->decimal('dollar_amount', 12, 2)->default(0);
             $table->foreignId('paid_by')->nullable()->index();
             $table->string('payment_type')->nullable(); 

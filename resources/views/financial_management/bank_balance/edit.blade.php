@@ -34,14 +34,14 @@
                     @csrf
                     @method('PUT')
                     <div class="row">
-                        {{-- User --}}
                         <div class="col-md-6 form-group">
-                            <label><strong>User</strong></label>
-                            <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                            <label><strong>User Name</strong></label>
+                            <select name="user_id" id="user_name_select"
+                                class="form-control @error('user_id') is-invalid @enderror">
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}"
                                         {{ $bank_balance->user_id == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} ({{ $user->email }})
+                                        {{ $user->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -50,12 +50,37 @@
                             @enderror
                         </div>
 
+                        <div class="col-md-6 form-group">
+                            <label><strong>Username</strong></label>
+                            <input type="text" id="username_field" value="{{ $bank_balance->user->username }}"
+                                class="form-control" readonly style="background:#e9ecef;">
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label><strong>Email</strong></label>
+                            <input type="text" id="email_field" value="{{ $bank_balance->user->email }}"
+                                class="form-control" readonly style="background:#e9ecef;">
+                        </div>
+
                         {{-- Balance --}}
                         <div class="col-md-6 form-group">
                             <label><strong>Balance (BDT)</strong></label>
                             <input type="number" name="balance" class="form-control @error('balance') is-invalid @enderror"
                                 value="{{ old('balance', $bank_balance->balance) }}">
+                            <small>
+                                <p>[Current Balance: ৳ {{ $bank_balance->deducted_balance }}]</p>
+                            </small>
                             @error('balance')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label><strong>Balance (USD)</strong></label>
+                            <input type="number" name="balance"
+                                class="form-control @error('balance_in_dollars') is-invalid @enderror"
+                                value="{{ old('balance_in_dollars', $bank_balance->balance_in_dollars) }}">
+                            @error('balance_in_dollars')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -68,4 +93,24 @@
             </div>
         </div>
     </div>
+    {{--  Start of user credential js --}}
+    <script>
+        const nameSelect = document.getElementById('user_name_select');
+
+        const usernameField = document.getElementById('username_field');
+        const emailField = document.getElementById('email_field');
+
+        // Convert user data to JS object
+        const users = @json($users);
+
+        nameSelect.addEventListener('change', function() {
+            const selectedUser = users.find(u => u.id == this.value);
+
+            if (selectedUser) {
+                usernameField.value = selectedUser.username;
+                emailField.value = selectedUser.email;
+            }
+        });
+    </script>
+    {{--  End of user credential js --}}
 @stop

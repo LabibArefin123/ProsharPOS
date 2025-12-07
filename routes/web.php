@@ -14,6 +14,7 @@ use App\Http\Controllers\BankWithdrawController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PettyCashController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -43,40 +44,52 @@ Route::get('/home', function () {
 Route::middleware(['auth', 'permission'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
-    Route::resource('products', ProductController::class);
 
-    Route::resource('organizations', OrganizationController::class);
-
-    Route::resource('branches', BranchController::class);
-    Route::resource('divisions', DivisionController::class);
-    Route::resource('departments', DepartmentController::class);
-
-    Route::resource('units', UnitController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('brands', BrandController::class);
-    Route::resource('warranties', WarrantyController::class);
-    Route::resource('customers', CustomerController::class);
-    Route::resource('suppliers', SupplierController::class);
-    Route::resource('challans', ChallanController::class);
-    Route::resource('invoices', InvoiceController::class);
-    Route::resource('bank_balances', BankBalanceController::class);
-    Route::resource('bank_deposits', BankDepositController::class);
-    Route::resource('bank_withdraws', BankWithdrawController::class);
-    Route::resource('payments', PaymentController::class);
-
+    //top menu
     Route::get('/user_profile', [ProfileController::class, 'user_profile_show'])->name('user_profile_show');
     Route::get('/user_profile_edit', [ProfileController::class, 'user_profile_edit'])->name('user_profile_edit');
     Route::put('/user_profile_edit', [ProfileController::class, 'user_profile_update'])->name('user_profile_update');
     Route::get('/notifications/search', [SearchController::class, 'search'])->name('notifications.search');
+    
+    //organization menu
+    Route::resource('organizations', OrganizationController::class);
+    
+    //department menu
+    Route::resource('branches', BranchController::class);
+    Route::resource('divisions', DivisionController::class);
+    Route::resource('departments', DepartmentController::class);
+    
+    //product management menu
+    Route::resource('units', UnitController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('brands', BrandController::class);
+    Route::resource('warranties', WarrantyController::class);
+    Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
+    Route::resource('products', ProductController::class);
+    
+    //people management menu
+    Route::resource('customers', CustomerController::class);
+    Route::resource('suppliers', SupplierController::class);
 
+    //transaction management menu
+    Route::resource('challans', ChallanController::class);
+    Route::resource('invoices', InvoiceController::class);
+    Route::resource('payments', PaymentController::class);
+    Route::resource('petty_cashes', PettyCashController::class);
+
+    //financial management menu
+    Route::resource('bank_balances', BankBalanceController::class);
+    Route::resource('bank_deposits', BankDepositController::class);
+    Route::resource('bank_withdraws', BankWithdrawController::class);
+
+
+    //setting menu
     Route::resource('companies', CompanyController::class);
     Route::resource('user_categories', UserCategoryController::class);
     Route::resource('system_users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::post('/permissions/delete-selected', [PermissionController::class, 'deleteSelected'])->name('permissions.deleteSelected');
-
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::get('/settings/password_policy', [SettingController::class, 'password_policy'])->name('settings.password_policy');
     Route::get('/settings/2fa', [SettingController::class, 'show2FA'])->name('settings.2fa');

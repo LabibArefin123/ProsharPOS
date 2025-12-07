@@ -114,6 +114,17 @@
                             @enderror
                         </div>
 
+                        <div class="col-md-6 form-group">
+                            <label><strong>Dollar Amount</strong></label> 
+                            <input type="number" step="0.01" name="dollar_amount" id="paid-amount"
+                                class="form-control @error('dollar_amount') is-invalid @enderror"
+                                value="{{ old('dollar_amount', 0) }}">
+
+                            @error('dollar_amount')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                         {{-- Due Amount --}}
                         <div class="col-md-6 form-group">
                             <label><strong>Due Amount</strong></label>
@@ -122,6 +133,17 @@
                                 value="{{ old('due_amount', 0) }}" readonly>
 
                             @error('due_amount')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        {{-- Due Amount --}}
+                        <div class="col-md-6 form-group">
+                            <label><strong>Due Amount (in Dollar)</strong></label>
+                            <input type="number" step="0.01" name="due_amount_in_dollar" id="due-amount"
+                                class="form-control @error('due_amount_in_dollar') is-invalid @enderror"
+                                value="{{ old('due_amount_in_dollar', 0) }}" readonly>
+
+                            @error('due_amount_in_dollar')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -155,6 +177,23 @@
 
             invoiceSelect.addEventListener('change', updateDue);
             paidAmountInput.addEventListener('input', updateDue);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const invoiceSelect = document.getElementById('invoice-select');
+            const paidAmountInputDollar = document.getElementById('dollar_amount');
+            const dueAmountInputDollar = document.getElementById('due_amount_in_dollar');
+
+            function updateDue() {
+                const selectedOption = invoiceSelect.options[invoiceSelect.selectedIndex];
+                const total = parseFloat(selectedOption.dataset.total) || 0;
+                const paid = parseFloat(paidAmountInputDollar.value) || 0;
+                dueAmountInputDollar.value = Math.max(total - paid, 0).toFixed(2);
+            }
+
+            invoiceSelect.addEventListener('change', updateDue);
+            paidAmountInputDollar.addEventListener('input', updateDue);
         });
     </script>
 @stop

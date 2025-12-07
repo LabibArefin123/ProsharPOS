@@ -14,6 +14,7 @@ class Payment extends Model
         'paid_amount',
         'due_amount',
         'dollar_amount',
+        'dollar_amount_in_dollar',
         'paid_by',
         'payment_type'
     ];

@@ -42,6 +42,11 @@
                         <input type="text" class="form-control"
                             value="৳{{ number_format($bank_balance->deducted_balance, 2) }}" readonly>
                     </div>
+                    <div class="col-md-6 form-group">
+                        <label><strong>Balance (USD)</strong></label>
+                        <input type="text" class="form-control"
+                            value="${{ number_format($bank_balance->balance_in_dollars, 2) }}" readonly>
+                    </div>
                 </div>
             </div>
         </div>

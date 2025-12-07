@@ -34,6 +34,7 @@ class BankBalanceController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'balance' => 'required|numeric|min:0',
+            'balance_in_dollars' => 'nullable|numeric|min:0',
         ]);
 
         BankBalance::create($request->all());
@@ -59,7 +60,16 @@ class BankBalanceController extends Controller
 
     public function edit(BankBalance $bank_balance)
     {
+
+        $bank_balance->load('user');
+
+        $totalPayments = $bank_balance->user
+            ? $bank_balance->user->payments()->sum('paid_amount')
+            : 0;
+
+        $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
         $users = User::all();
+
         return view('financial_management.bank_balance.edit', compact('bank_balance', 'users'));
     }
 
@@ -68,6 +78,7 @@ class BankBalanceController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'balance' => 'required|numeric|min:0',
+            'balance_in_dollars' => 'nullable|numeric|min:0',
         ]);
 
         $bank_balance->update($request->all());
