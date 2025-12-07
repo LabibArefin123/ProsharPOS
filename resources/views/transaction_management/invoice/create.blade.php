@@ -78,7 +78,7 @@
                     <input type="text" id="branch_location" class="form-control" readonly>
                 </div>
             </div>
-          
+
         </div>
 
         @include('transaction_management.invoice.create.partial.cart')
@@ -112,7 +112,7 @@
                 const selected = customers.find(c => c.id == this.value);
                 if (selected) {
                     customerEmail.value = selected.email;
-                    customerPhone.value = selected.phone_number;
+                    customerPhone.value = selected.phone;
                     customerLocation.value = selected.location;
                 } else {
                     customerEmail.value = '';

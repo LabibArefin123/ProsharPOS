@@ -37,12 +37,42 @@
                     data-confirm="create">
                     @csrf
                     <div class="row">
+                        {{-- User --}}
+                        @include('transaction_management.petty_cash.partial_create.part_1')
+                        @include('transaction_management.petty_cash.partial_create.part_2')
 
+                        {{-- Bank Balance --}}
+                        <div class="col-md-6 form-group">
+                            <label><strong>Bank Balance</strong></label>
+                            <select name="bank_balance_id" class="form-control">
+                                <option value="">Select</option>
+                                @foreach ($bank_balances as $balance)
+                                    <option value="{{ $balance->id }}"
+                                        {{ old('bank_balance_id') == $balance->id ? 'selected' : '' }}>
+                                        {{ $balance->user->name }} — {{ $balance->balance }} BDT
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Customer --}}
+                        <div class="col-md-6 form-group">
+                            <label><strong>Customer</strong></label>
+                            <select name="customer_id" class="form-control">
+                                <option value="">Select Customer</option>
+                                @foreach ($customers as $cus)
+                                    <option value="{{ $cus->id }}"
+                                        {{ old('customer_id') == $cus->id ? 'selected' : '' }}>
+                                        {{ $cus->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         {{-- Reference No --}}
                         <div class="col-md-6 form-group">
                             <label><strong>Reference No</strong></label>
-                            <input type="text" name="reference_no" class="form-control" value="{{ old('reference_no') }}"
-                                placeholder="Auto or Manual">
+                            <input type="text" name="reference_no" class="form-control"
+                                value="{{ old('reference_no') }}" placeholder="Auto or Manual">
                         </div>
 
                         {{-- Type --}}
@@ -130,7 +160,8 @@
                             <select name="status" id="payment-type-select"
                                 class="form-control @error('status') is-invalid @enderror">
                                 <option value="">--- Select Status ---</option>
-                                <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending
+                                </option>
                                 <option value="approved" {{ old('status') == 'approved' ? 'selected' : '' }}>Approved
                                 </option>
                                 <option value="rejected" {{ old('status') == 'rejected' ? 'selected' : '' }}>Rejected
@@ -140,48 +171,6 @@
                             @error('status')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
-                        </div>
-
-                        {{-- Bank Balance --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Bank Balance</strong></label>
-                            <select name="bank_balance_id" class="form-control">
-                                <option value="">Select</option>
-                                @foreach ($bank_balances as $balance)
-                                    <option value="{{ $balance->id }}"
-                                        {{ old('bank_balance_id') == $balance->id ? 'selected' : '' }}>
-                                        {{ $balance->user->name }} — {{ $balance->balance }} BDT
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        {{-- Supplier --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Supplier</strong></label>
-                            <select name="supplier_id" class="form-control">
-                                <option value="">Select Supplier</option>
-                                @foreach ($suppliers as $sup)
-                                    <option value="{{ $sup->id }}"
-                                        {{ old('supplier_id') == $sup->id ? 'selected' : '' }}>
-                                        {{ $sup->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        {{-- Customer --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Customer</strong></label>
-                            <select name="customer_id" class="form-control">
-                                <option value="">Select Customer</option>
-                                @foreach ($customers as $cus)
-                                    <option value="{{ $cus->id }}"
-                                        {{ old('customer_id') == $cus->id ? 'selected' : '' }}>
-                                        {{ $cus->name }}
-                                    </option>
-                                @endforeach
-                            </select>
                         </div>
 
                         <div class="col-md-6 form-group">
@@ -195,23 +184,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
-
-                        {{-- User --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>User</strong> <span class="text-danger">*</span></label>
-                            <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
-                                <option value="">Select User</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}"
-                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} ({{ $user->email }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('user_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
                         </div>
 
                         {{-- Attachment --}}
@@ -235,4 +207,60 @@
             </div>
         </div>
     </div>
+    {{-- Start of user data autofetch js --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ---------------------
+            // users Data
+            // ---------------------
+            const users = @json($users);
+            const userSelect = document.getElementById('user_id');
+            const userEmail = document.getElementById('user-email');
+            const userPhone = document.getElementById('user-phone');
+            const userUsername = document.getElementById('user-username');
+
+            userSelect.addEventListener('change', function() {
+                const selected = users.find(c => c.id == this.value);
+                if (selected) {
+                    userEmail.value = selected.email;
+                    userPhone.value = selected.phone;
+                    userUsername.value = selected.username;
+                } else {
+                    userEmail.value = '';
+                    userPhone.value = '';
+                    userUsername.value = '';
+                }
+            });
+        });
+    </script>
+    {{-- End of user data autofetch js --}}
+    {{-- Start of supplier data autofetch js --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ---------------------
+            // suppliers Data
+            // ---------------------
+            const suppliers = @json($suppliers);
+            const supplierSelect = document.getElementById('supplier_id');
+            const supplierEmail = document.getElementById('supplier-email');
+            const supplierPhone = document.getElementById('supplier-phone');
+            const supplierLicense = document.getElementById('supplier-license');
+
+            supplierSelect.addEventListener('change', function() {
+                const selected = suppliers.find(c => c.id == this.value);
+                if (selected) {
+                    supplierEmail.value = selected.email;
+                    supplierPhone.value = selected.phone_number;
+                    supplierLicense.value = selected.license_number;
+                } else {
+                    supplierEmail.value = '';
+                    supplierPhone.value = '';
+                    supplierLicense.value = '';
+                }
+            });
+        });
+    </script>
+    {{-- End of supplier data autofetch js --}}
 @stop

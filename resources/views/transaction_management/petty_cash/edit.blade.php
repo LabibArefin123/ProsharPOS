@@ -39,7 +39,8 @@
                     @method('PUT')
 
                     <div class="row">
-
+                        @include('transaction_management.petty_cash.partial_edit.part_1')
+                        @include('transaction_management.petty_cash.partial_edit.part_2')
                         {{-- Reference No --}}
                         <div class="col-md-6 form-group">
                             <label><strong>Reference No</strong></label>
@@ -73,7 +74,7 @@
                         </div>
 
                         {{-- Item Name --}}
-                         <div class="col-md-6 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Product Item Name</strong></label>
                             <select name="product_id" class="form-control">
                                 <option value="">Select Supplier</option>
@@ -141,7 +142,8 @@
                                 class="form-control @error('status') is-invalid @enderror">
                                 <option value="">--- Select Status ---</option>
                                 <option value="pending"
-                                    {{ old('status', $petty_cash->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    {{ old('status', $petty_cash->status) == 'pending' ? 'selected' : '' }}>Pending
+                                </option>
                                 <option value="approved"
                                     {{ old('status', $petty_cash->status) == 'approved' ? 'selected' : '' }}>Approved
                                 </option>
@@ -169,20 +171,7 @@
                             </select>
                         </div>
 
-                        {{-- Supplier --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Supplier</strong></label>
-                            <select name="supplier_id" class="form-control">
-                                <option value="">Select Supplier</option>
-                                @foreach ($suppliers as $sup)
-                                    <option value="{{ $sup->id }}"
-                                        {{ old('supplier_id', $petty_cash->supplier_id) == $sup->id ? 'selected' : '' }}>
-                                        {{ $sup->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
+                      
                         {{-- Customer --}}
                         <div class="col-md-6 form-group">
                             <label><strong>Customer</strong></label>
@@ -198,7 +187,7 @@
                         </div>
 
                         {{-- Category --}}
-                       <div class="col-md-6 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Category</strong></label>
                             <select name="category_id" class="form-control">
                                 <option value="">Select Category</option>
@@ -211,22 +200,7 @@
                             </select>
                         </div>
 
-                        {{-- User --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>User</strong> <span class="text-danger">*</span></label>
-                            <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
-                                <option value="">Select User</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}"
-                                        {{ old('user_id', $petty_cash->user_id) == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} ({{ $user->email }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('user_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+
 
                         {{-- Attachment --}}
                         <div class="col-md-6 form-group">
@@ -257,4 +231,83 @@
             </div>
         </div>
     </div>
+    {{-- Start of user data autofetch js --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ---------------------
+            // users Data
+            // ---------------------
+            const users = @json($users);
+            const userSelect = document.getElementById('user_id');
+            const userEmail = document.getElementById('user-email');
+            const userPhone = document.getElementById('user-phone');
+            const userUsername = document.getElementById('user-username');
+
+            // Fill input fields when dropdown changes
+            function fillUserFields() {
+                const selected = users.find(c => c.id == userSelect.value);
+
+                if (selected) {
+                    userEmail.value = selected.email ?? '';
+                    userPhone.value = selected.phone ?? '';
+                    userUsername.value = selected.username ?? '';
+                } else {
+                    userEmail.value = '';
+                    userPhone.value = '';
+                    userUsername.value = '';
+                }
+            }
+
+            userSelect.addEventListener('change', fillUserFields);
+
+            // ----------------------------
+            // AUTO-FILL ON EDIT PAGE LOAD
+            // ----------------------------
+            if (userSelect.value) {
+                fillUserFields(); // or: userSelect.dispatchEvent(new Event('change'));
+            }
+        });
+    </script>
+
+    {{-- End of user data autofetch js --}}
+    {{-- Start of supplier data autofetch js --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const suppliers = @json($suppliers);
+            const supplierSelect = document.getElementById('supplier_id');
+            const supplierEmail = document.getElementById('supplier-email');
+            const supplierPhone = document.getElementById('supplier-phone');
+            const supplierLicense = document.getElementById('supplier-license');
+
+            // Function to populate supplier fields
+            function fillSupplierFields() {
+                const selected = suppliers.find(s => s.id == supplierSelect.value);
+
+                if (selected) {
+                    supplierEmail.value = selected.email ?? '';
+                    supplierPhone.value = selected.phone_number ?? '';
+                    supplierLicense.value = selected.license_number ?? '';
+                } else {
+                    supplierEmail.value = '';
+                    supplierPhone.value = '';
+                    supplierLicense.value = '';
+                }
+            }
+
+            // Trigger when dropdown changes
+            supplierSelect.addEventListener('change', fillSupplierFields);
+
+            // ----------------------------
+            // AUTO-FILL ON EDIT PAGE LOAD
+            // ----------------------------
+            if (supplierSelect.value) {
+                fillSupplierFields();
+                // or: supplierSelect.dispatchEvent(new Event('change'));
+            }
+
+        });
+    </script>
+    {{-- End of supplier data autofetch js --}}
 @stop
