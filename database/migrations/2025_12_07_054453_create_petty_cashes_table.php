@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('petty_cashes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignId('bank_balance_id')->nullable()->index();
+            $table->foreignId('supplier_id')->nullable()->index();
+            $table->foreignId('customer_id')->nullable()->index();
+            $table->foreignId('category_id')->nullable()->index();
+            $table->foreignId('product_id')->nullable()->index();
             $table->string('reference_no')->nullable()->index();
             $table->enum('type', ['receive', 'expense']);
             $table->string('reference_type')->nullable(); // e.g. cash_in, cash_out, transfer
-            $table->string('item_name')->nullable();
             $table->decimal('amount', 15, 2)->default(0);
             $table->decimal('amount_in_dollar', 15, 2)->nullable();
             $table->decimal('exchange_rate', 18, 6)->nullable();
             $table->string('currency', 10)->default('BDT');
             $table->string('payment_method')->nullable();
-            $table->foreignId('bank_balance_id')->nullable()->index();
-            $table->foreignId('supplier_id')->nullable()->index();
-            $table->foreignId('customer_id')->nullable()->index();
-            $table->string('category')->nullable();
             $table->text('note')->nullable();
             $table->string('attachment')->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('status'); //['pending', 'approved', 'rejected']
             $table->timestamps();
         });

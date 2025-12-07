@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label><strong>Dollar Amount</strong></label> 
+                            <label><strong>Dollar Amount</strong></label>
                             <input type="number" step="0.01" name="dollar_amount" id="paid-amount"
                                 class="form-control @error('dollar_amount') is-invalid @enderror"
                                 value="{{ old('dollar_amount', 0) }}">

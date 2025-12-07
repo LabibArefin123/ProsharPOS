@@ -10,17 +10,17 @@ class PettyCash extends Model
         'bank_balance_id',
         'supplier_id',
         'customer_id',
+        'category_id',
+        'product_id',
         'user_id',
         'reference_no',
         'type',
         'reference_type',
-        'item_name',
         'amount',
         'amount_in_dollar',
         'exchange_rate',
         'currency',
         'payment_method',
-        'category',
         'note',
         'attachment',
         'status',
@@ -48,5 +48,15 @@ class PettyCash extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(User::class, 'product_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(User::class, 'category_id');
     }
 }

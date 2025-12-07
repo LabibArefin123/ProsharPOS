@@ -41,14 +41,14 @@
                     <div class="row">
 
                         {{-- Reference No --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Reference No</strong></label>
                             <input type="text" name="reference_no" class="form-control"
                                 value="{{ old('reference_no', $petty_cash->reference_no) }}" placeholder="Auto or Manual">
                         </div>
 
                         {{-- Type --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Type</strong> <span class="text-danger">*</span></label>
                             <select name="type" class="form-control @error('type') is-invalid @enderror">
                                 <option value="">Select Type</option>
@@ -65,7 +65,7 @@
                         </div>
 
                         {{-- Reference Type --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Reference Type</strong></label>
                             <input type="text" name="reference_type" class="form-control"
                                 value="{{ old('reference_type', $petty_cash->reference_type) }}"
@@ -73,14 +73,17 @@
                         </div>
 
                         {{-- Item Name --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Item Name</strong> <span class="text-danger">*</span></label>
-                            <input type="text" name="item_name"
-                                class="form-control @error('item_name') is-invalid @enderror"
-                                value="{{ old('item_name', $petty_cash->item_name) }}" placeholder="Ex: Office Pen">
-                            @error('item_name')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                         <div class="col-md-6 form-group">
+                            <label><strong>Product Item Name</strong></label>
+                            <select name="product_id" class="form-control">
+                                <option value="">Select Supplier</option>
+                                @foreach ($products as $prod)
+                                    <option value="{{ $prod->id }}"
+                                        {{ old('product_id', $petty_cash->product_id) == $prod->id ? 'selected' : '' }}>
+                                        {{ $prod->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         {{-- Amount --}}
@@ -95,28 +98,28 @@
                         </div>
 
                         {{-- Amount in Dollar --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Amount (USD)</strong></label>
                             <input type="number" step="0.01" name="amount_in_dollar" class="form-control"
                                 value="{{ old('amount_in_dollar', $petty_cash->amount_in_dollar) }}">
                         </div>
 
                         {{-- Exchange Rate --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Exchange Rate</strong></label>
                             <input type="number" step="0.0001" name="exchange_rate" class="form-control"
                                 value="{{ old('exchange_rate', $petty_cash->exchange_rate) }}">
                         </div>
 
                         {{-- Currency --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Currency</strong></label>
                             <input type="text" name="currency" class="form-control"
                                 value="{{ old('currency', $petty_cash->currency) }}">
                         </div>
 
                         {{-- Payment Method --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Payment Method</strong></label>
                             <select name="payment_method" class="form-control">
                                 <option value="">Select</option>
@@ -132,7 +135,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Status</strong></label> <span class="text-danger">*</span>
                             <select name="status" id="payment-type-select"
                                 class="form-control @error('status') is-invalid @enderror">
@@ -153,7 +156,7 @@
                         </div>
 
                         {{-- Bank Balance --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Bank Balance</strong></label>
                             <select name="bank_balance_id" class="form-control">
                                 <option value="">Select</option>
@@ -167,7 +170,7 @@
                         </div>
 
                         {{-- Supplier --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Supplier</strong></label>
                             <select name="supplier_id" class="form-control">
                                 <option value="">Select Supplier</option>
@@ -181,7 +184,7 @@
                         </div>
 
                         {{-- Customer --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Customer</strong></label>
                             <select name="customer_id" class="form-control">
                                 <option value="">Select Customer</option>
@@ -195,14 +198,21 @@
                         </div>
 
                         {{-- Category --}}
-                        <div class="col-md-4 form-group">
+                       <div class="col-md-6 form-group">
                             <label><strong>Category</strong></label>
-                            <input type="text" name="category" class="form-control"
-                                value="{{ old('category', $petty_cash->category) }}">
+                            <select name="category_id" class="form-control">
+                                <option value="">Select Category</option>
+                                @foreach ($categories as $cat)
+                                    <option value="{{ $cat->id }}"
+                                        {{ old('category_id', $petty_cash->category_id) == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         {{-- User --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>User</strong> <span class="text-danger">*</span></label>
                             <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
                                 <option value="">Select User</option>
@@ -219,7 +229,7 @@
                         </div>
 
                         {{-- Attachment --}}
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label><strong>Attachment</strong></label>
                             <input type="file" name="attachment" class="form-control">
 
