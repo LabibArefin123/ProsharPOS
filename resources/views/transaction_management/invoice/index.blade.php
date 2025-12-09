@@ -25,8 +25,11 @@
                             <th>Branch</th>
                             <th>Date</th>
                             <th>Sub Total Amount</th>
+                            <th>Sub Total Amount(in Dollar)</th>
                             <th>Discount Amount</th>
+                            <th>Discount Amount(in Dollar)</th>
                             <th>Total Amount</th>
+                            <th>Total Amount(in Dollar)</th>
                             <th>Paid By</th>
                             <th>Due Amount</th>
                             <th>Paid Amount</th>
@@ -41,7 +44,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $invoice->invoice_id ?? 'N/A' }}</td>
-                                  <td>
+                                <td>
                                     @forelse ($invoice->invoiceItems as $item)
                                         <div>{{ $item->product?->name ?? 'N/A' }}</div>
                                     @empty
@@ -53,9 +56,18 @@
                                 <td>
                                     {{ $invoice->invoice_date ? \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') : 'N/A' }}
                                 </td>
-                                <td>৳{{ number_format($invoice->discount_value, 2) }}</td>
-                                <td>৳{{ number_format($invoice->sub_total, 2) }}</td>
-                                <td>৳{{ number_format($invoice->total, 2) }}</td>
+                                <td class="discount" data-taka="{{ $invoice->discount_value }}">
+                                    ৳{{ number_format($invoice->discount_value, 2) }}</td>
+                                <td class="discount-dollar" data-taka="{{ $invoice->discount_value }}">$0.00</td>
+
+                                <td class="sub_total" data-taka="{{ $invoice->sub_total }}">
+                                    ৳{{ number_format($invoice->sub_total, 2) }}</td>
+                                <td class="sub_total-dollar" data-taka="{{ $invoice->sub_total }}">$0.00</td>
+
+                                <td class="total" data-taka="{{ $invoice->total }}">
+                                    ৳{{ number_format($invoice->total, 2) }}</td>
+                                <td class="total-dollar" data-taka="{{ $invoice->total }}">$0.00</td>
+
                                 <td>{{ $invoice->paidByUser->name ?? '-' }}</td>
 
                                 <td>
@@ -113,4 +125,32 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const exchangeRate = 120; // 1 USD = 120 Taka
+
+            function formatDollar(value) {
+                return '$' + value.toFixed(2);
+            }
+
+            // Discount
+            document.querySelectorAll('.discount-dollar').forEach(td => {
+                let taka = parseFloat(td.dataset.taka);
+                td.textContent = formatDollar(taka / exchangeRate);
+            });
+
+            // Sub Total
+            document.querySelectorAll('.sub_total-dollar').forEach(td => {
+                let taka = parseFloat(td.dataset.taka);
+                td.textContent = formatDollar(taka / exchangeRate);
+            });
+
+            // Total
+            document.querySelectorAll('.total-dollar').forEach(td => {
+                let taka = parseFloat(td.dataset.taka);
+                td.textContent = formatDollar(taka / exchangeRate);
+            });
+        });
+    </script>
+
 @endsection
