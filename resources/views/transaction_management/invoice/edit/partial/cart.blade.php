@@ -1,14 +1,12 @@
-{{-- ========================= --}}
-{{-- EDIT PAGE: Product + Cart --}}
-{{-- ========================= --}}
-
 <div class="row">
     {{-- Product Grid --}}
     <div class="col-md-6 position-relative">
         <div class="card shadow mb-4">
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">📦 Products</h5>
-                <button class="btn btn-light btn-sm" id="toggle-filter"><i class="fas fa-filter"></i> Filter</button>
+                <button class="btn btn-light btn-sm position-absolute end-0 top-50 translate-middle-y" id="toggle-filter">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
             </div>
 
             <div class="card-body position-relative">
@@ -89,7 +87,7 @@
                 {{-- Hidden JSON --}}
                 <input type="hidden" name="items" id="invoice-items" value="{{ json_encode($invoice->items) }}">
 
-                <button type="submit" class="btn btn-success btn-block mt-3">💾 Update Invoice</button>
+                <button type="submit" class="btn btn-success btn-block">Update</button>
             </div>
         </div>
     </div>
