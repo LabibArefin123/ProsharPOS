@@ -1,4 +1,8 @@
 <div class="row">
+    @php
+        $savedPercent = $invoice->discount_type == 'percentage' ? $invoice->discount_percent : 0;
+    @endphp
+
     {{-- Product Grid --}}
     <div class="col-md-6 position-relative">
         <div class="card shadow mb-4">
@@ -72,8 +76,12 @@
                         <label>Discount (%)</label>
                         <input type="number" name="discount_percent" id="discount-percent"
                             value="{{ $invoice->discount_percent }}" class="form-control">
-                        <p class="mt-2 mb-0">Discount Amount: <span id="discount-amount">0</span></p>
-                        <p>Total After Discount: <span id="total-after-discount">0</span></p>
+                        <p class="mb-0">Discount Amount: <span id="discount-amount">0</span></p>
+                        <p class="mb-0">Total After Discount: <span id="total-after-discount">0</span></p>
+                        <p class="mb-0">Discount Amount ($): <span id="discount-amount-dollar">0.00</span></p>
+                        <p class="mb-0">Total After Discount ($): <span id="total-after-discount-dollar">0.00</span>
+                        </p>
+
                     </div>
 
                     <div id="flat-section" style="{{ $invoice->discount_type == 'flat' ? '' : 'display:none' }}">
@@ -103,9 +111,6 @@
     </div>
 </div>
 
-{{-- ========================= --}}
-{{-- JS SECTION --}}
-{{-- ========================= --}}
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -121,7 +126,6 @@
             qty: parseFloat(i.qty || 1),
             discount: parseFloat(i.discount || 0)
         }));
-
 
         // ===== SAME LOGIC FROM CREATE PAGE =====
         const perPage = 6;
@@ -139,16 +143,19 @@
         const discountType = document.getElementById("discount-type");
         const discountPercent = document.getElementById("discount-percent");
         const flatDiscount = document.getElementById("flat-discount");
-
         const percentSection = document.getElementById("percent-section");
         const flatSection = document.getElementById("flat-section");
-
         const discountAmountDisplay = document.getElementById("discount-amount");
         const totalAfterDiscountDisplay = document.getElementById("total-after-discount");
         const flatTotalDisplay = document.getElementById("flat-total");
 
         const subTotalDisplay = document.getElementById("sub-total");
         const subTotalBDTDisplay = document.getElementById("sub-total-bdt");
+
+        const exchangeRate = parseFloat("{{ $invoice->exchange_rate ?? 122.2 }}");
+        const discountAmountDollar = document.getElementById("discount-amount-dollar");
+        const totalAfterDiscountDollar = document.getElementById("total-after-discount-dollar");
+
 
         toggleFilter.onclick = () => {
             filterBox.style.display = filterBox.style.display === "none" ? "block" : "none";
@@ -179,30 +186,34 @@
                 const image = product.image ? `/uploads/images/product/${product.image}` :
                     "{{ asset('images/default.jpg') }}";
 
-                // Check if product is already in cart
-                const isSelected = cartItems.find(i => i.id == product.id) ? 'selected-product' : '';
-
                 const card = document.createElement("div");
                 card.className = "col-md-4 mb-3 d-flex justify-content-center";
                 card.innerHTML = `
-            <div class="text-center product-card p-2 ${isSelected}"
-                data-id="${product.id}"
-                data-name="${product.name}"
-                data-price="${product.purchase_price}"
-                data-image="${image}">
-                <img src="${image}" class="mb-2 img-fluid product-img" style="width:80px;height:80px;object-fit:cover;cursor:pointer;"> 
-                <small class="d-block text-truncate" style="max-width:100px;">${product.name}</small>
-                <p class="mb-1">৳${product.purchase_price}</p>
-                <button type="button" class="btn btn-outline-primary btn-sm add-to-invoice">Add</button>
-            </div>
-        `;
+                    <div class="text-center product-card p-2"
+                        data-id="${product.id}"
+                        data-name="${product.name}"
+                        data-price="${product.purchase_price}"
+                        data-image="${image}">
+                        <img src="${image}" class="mb-2 img-fluid product-img" style="width:80px;height:80px;object-fit:cover;cursor:pointer;"> 
+                        <small class="d-block text-truncate" style="max-width:100px;">${product.name}</small>
+                        <p class="mb-1">৳${product.purchase_price}</p>
+                        <button type="button" class="btn btn-outline-primary btn-sm add-to-invoice">Add</button>
+                    </div>
+                    `;
                 productGrid.appendChild(card);
+            });
+
+            // ===== Highlight products already in cart (edit page) =====
+            cartItems.forEach(ci => {
+                const cardEl = document.querySelector(`.product-card[data-id="${ci.id}"]`);
+                if (cardEl) cardEl.classList.add('selected-product');
             });
 
             renderPagination(page, filtered.length);
             attachAddEvents();
             attachZoom();
         }
+
 
         function renderPagination(page, totalFiltered) {
             const totalPages = Math.ceil(totalFiltered / perPage);
@@ -314,7 +325,9 @@
                 items: cartItems,
                 sub_total: subTotal,
                 discount_value: discountValue,
-                total: totalAfterDiscount
+                total: totalAfterDiscount,
+                discount_value_dollar: discountValue / exchangeRate,
+                total_dollar: totalAfterDiscount / exchangeRate
             });
         }
 
@@ -344,6 +357,16 @@
             }
         });
 
+        // ===== PRELOAD OLD DISCOUNT VALUES FROM DATABASE =====
+        discountType.value = "{{ $invoice->discount_type }}";
+
+        // Parse old discount percent as float to ensure proper JS number
+        discountPercent.value = parseFloat("{{ $savedPercent ?? 0 }}") || 0;
+
+        flatDiscount.value = parseFloat(
+            "{{ $invoice->discount_type == 'flat' ? $invoice->flat_discount : 0 }}") || 0;
+
+
         discountType.onchange = () => {
             if (discountType.value === "percentage") {
                 percentSection.style.display = "block";
@@ -360,21 +383,35 @@
         flatDiscount.oninput = updateDiscounts;
 
         function updateDiscounts() {
+
             let subTotal = cartItems.reduce((sum, item) => sum + (item.qty * item.price - item.discount), 0);
 
-            if (discountType.value === "percentage") {
-                let percent = parseFloat(discountPercent.value) || 0;
-                let amount = subTotal * (percent / 100);
+            let discountValue = 0;
+            let totalAfterDiscount = subTotal;
 
-                discountAmountDisplay.innerText = amount.toFixed(2);
-                totalAfterDiscountDisplay.innerText = (subTotal - amount).toFixed(2);
+            if (discountType.value === "percentage") {
+
+                let percent = parseFloat(discountPercent.value) || 0;
+                discountValue = subTotal * (percent / 100);
+                totalAfterDiscount = subTotal - discountValue;
+
+                discountAmountDisplay.innerText = discountValue.toFixed(2);
+                totalAfterDiscountDisplay.innerText = Math.max(totalAfterDiscount, 0).toFixed(2);
 
             } else {
-                let flat = parseFloat(flatDiscount.value) || 0;
-                flatTotalDisplay.innerText = (subTotal - flat).toFixed(2);
+
+                discountValue = parseFloat(flatDiscount.value) || 0;
+                totalAfterDiscount = subTotal - discountValue;
+
+                flatTotalDisplay.innerText = Math.max(totalAfterDiscount, 0).toFixed(2);
             }
 
-            renderCart(true);
+            // ========= Dollar Calculations =========
+            let discountDollar = (discountValue / exchangeRate).toFixed(2);
+            let totalAfterDiscountDollarVal = (Math.max(totalAfterDiscount, 0) / exchangeRate).toFixed(2);
+
+            discountAmountDollar.innerText = discountDollar;
+            totalAfterDiscountDollar.innerText = totalAfterDiscountDollarVal;
         }
 
         // INITIAL LOAD

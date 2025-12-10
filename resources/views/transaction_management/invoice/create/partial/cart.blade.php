@@ -22,7 +22,6 @@
                     {{-- Products will be rendered here by JS --}}
                 </div>
 
-                {{-- Pagination Controls --}}
                 <nav>
                     <ul class="pagination justify-content-center" id="product-pagination"></ul>
                 </nav>
