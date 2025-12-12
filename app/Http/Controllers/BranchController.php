@@ -13,7 +13,7 @@ class BranchController extends Controller
     public function index()
     {
         $branches = Branch::latest()->paginate(10);
-        return view('department_menu.branch.index', compact('branches'));
+        return view('backend.department_menu.branch.index', compact('branches'));
     }
 
     /**
@@ -21,7 +21,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('department_menu.branch.create');
+        return view('backend.department_menu.branch.create');
     }
 
     /**
@@ -49,7 +49,7 @@ class BranchController extends Controller
      */
     public function show(Branch $branch)
     {
-        return view('department_menu.branch.show', compact('branch'));
+        return view('backend.department_menu.branch.show', compact('branch'));
     }
 
     /**
@@ -57,7 +57,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        return view('department_menu.branch.edit', compact('branch'));
+        return view('backend.department_menu.branch.edit', compact('branch'));
     }
 
     /**
