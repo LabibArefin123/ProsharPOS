@@ -250,7 +250,7 @@
         @endempty
 
         {{-- Footer --}}
-        @include('layouts.footer')
+        @include('frontend.layouts.footer')
         @hasSection('footer')
             @include('adminlte::partials.footer.footer')
         @endif

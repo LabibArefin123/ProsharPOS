@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WelcomePageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\BranchController;
@@ -31,9 +32,7 @@ use App\Http\Controllers\SettingController;
 
 
 // Landing page
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomePageController::class, 'index'])->name('welcome');
 
 Route::get('/home', function () {
     return view('home');
@@ -50,15 +49,15 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/user_profile_edit', [ProfileController::class, 'user_profile_edit'])->name('user_profile_edit');
     Route::put('/user_profile_edit', [ProfileController::class, 'user_profile_update'])->name('user_profile_update');
     Route::get('/notifications/search', [SearchController::class, 'search'])->name('notifications.search');
-    
+
     //organization menu
     Route::resource('organizations', OrganizationController::class);
-    
+
     //department menu
     Route::resource('branches', BranchController::class);
     Route::resource('divisions', DivisionController::class);
     Route::resource('departments', DepartmentController::class);
-    
+
     //product management menu
     Route::resource('units', UnitController::class);
     Route::resource('categories', CategoryController::class);
@@ -66,7 +65,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('warranties', WarrantyController::class);
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
     Route::resource('products', ProductController::class);
-    
+
     //people management menu
     Route::resource('customers', CustomerController::class);
     Route::resource('suppliers', SupplierController::class);

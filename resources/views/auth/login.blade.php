@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('content')
     <div class="container"><br>
@@ -69,7 +69,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Helpdesk -->
         <div class="row justify-content-center mt-5">
