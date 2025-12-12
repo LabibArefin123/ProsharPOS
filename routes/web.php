@@ -6,9 +6,8 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ChallanController;
+use App\Http\Controllers\BrandController;
 
 //Financial Management Part
 use App\Http\Controllers\Backend\Financial_Management\BankBalanceController;
@@ -19,9 +18,12 @@ use App\Http\Controllers\Backend\Financial_Management\BankWithdrawController;
 use App\Http\Controllers\Backend\People_Management\CustomerController;
 use App\Http\Controllers\Backend\People_Management\SupplierController;
 
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\PettyCashController;
+//Transaction Management Part
+use App\Http\Controllers\Backend\Transaction_Management\ChallanController;
+use App\Http\Controllers\Backend\Transaction_Management\PaymentController;
+use App\Http\Controllers\Backend\Transaction_Management\InvoiceController;
+use App\Http\Controllers\Backend\Transaction_Management\PettyCashController;
+
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;

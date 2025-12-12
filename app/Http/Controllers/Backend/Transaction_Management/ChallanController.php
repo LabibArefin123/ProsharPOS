@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend\Transaction_Management;
 
+use App\Http\Controllers\Controller;
 use App\Models\Challan;
 use App\Models\ChallanItem;
 use App\Models\Customer;
@@ -105,8 +106,8 @@ class ChallanController extends Controller
         // Convert items to the exact format used by JavaScript
         $editItems = $challan->citems->map(function ($item) {
             return [
-                'id' => $item->product_id,                 
-                'name' => $item->product->name ?? '',          
+                'id' => $item->product_id,
+                'name' => $item->product->name ?? '',
                 'challan_total' => $item->challan_total,
                 'challan_bill' => $item->challan_bill,
                 'challan_unbill' => $item->challan_unbill,

@@ -1,8 +1,8 @@
 <?php
 
-// app/Http/Controllers/InvoiceController.php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend\Transaction_Management;
 
+use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\Invoice;
 use App\Models\Customer;

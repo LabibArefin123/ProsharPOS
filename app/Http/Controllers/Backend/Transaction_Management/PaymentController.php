@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend\Transaction_Management;
 
+use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
