@@ -10,9 +10,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        integrity="sha512-vbTyr9k8rB7WcqFvS+/vS0u+zM0Vh60VwV+XN4dLbEyp6bR9bplG8q1sI+3+V9YJhCihN5yN8b1Nx5dzjF1/6g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
     <!-- Toast Image Editor -->
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.min.css">
@@ -383,7 +381,7 @@
     <!--end of image editor -->
 
     <!-- start of image function for toast editor code -->
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('iconInput');
             const preview = document.getElementById('imagePreview');
@@ -502,11 +500,11 @@
                 imageEditor = null;
             });
         });
-    </script>
+    </script> --}}
     <!-- end of image function for toast editor code -->
 
     <!-- start of image preview section -->
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('iconInput');
             const preview = document.getElementById('imagePreview');
@@ -634,7 +632,7 @@
                 textarea.value = smartFormat(textarea.value);
             });
         });
-    </script>
+    </script> --}}
     <!-- end of of image preview section -->
 
     <!-- start of notification toaster notification -->

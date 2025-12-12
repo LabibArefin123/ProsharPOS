@@ -3,8 +3,17 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1 class="font-bold text-dark mb-1">ProsharPOS Dashboard</h1>
+    <h3 class="fw-bold mb-2">Welcome {{ Auth::user()->name }} 👋</h3>
     <p class="text-muted">Your business performance summary at a glance.</p>
+
+    <div class="mt-2 p-2 bg-light">
+        <p class="mb-1">
+            💡 ProsharPOS is ready to help you manage sales, track inventory, and keep your customers happy!
+        </p>
+        <p class="mb-0 small text-muted">
+            Tip: Check your daily sales and pending orders to stay on top of your business.
+        </p>
+    </div>
 @endsection
 
 @section('content')

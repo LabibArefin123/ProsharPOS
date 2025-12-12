@@ -46,7 +46,7 @@
 
     @font-face {
         font-family: "OnStage";
-        src: url("{{ asset('assets/frontend/fonts/Onstage_regular.ttf') }}") format("truetype");
+        src: url("{{ asset('/fonts/OnStage_regular.ttf') }}") format("truetype");
         font-weight: normal;
         font-style: normal;
     }
