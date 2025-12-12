@@ -9,9 +9,12 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChallanController;
-use App\Http\Controllers\BankBalanceController;
-use App\Http\Controllers\BankDepositController;
-use App\Http\Controllers\BankWithdrawController;
+
+//Financial Management Part
+use App\Http\Controllers\Backend\Financial_Management\BankBalanceController;
+use App\Http\Controllers\Backend\Financial_Management\BankDepositController;
+use App\Http\Controllers\Backend\Financial_Management\BankWithdrawController;
+
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;

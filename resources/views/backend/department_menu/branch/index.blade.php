@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+{{-- @extends('backend.vendor.page') --}}
 
 @section('title', 'Branch List')
 

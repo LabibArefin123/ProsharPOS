@@ -14,7 +14,7 @@ class UnitController extends Controller
     public function index()
     {
         $units = Unit::latest()->get();
-        return view('product_management.units.index', compact('units'));
+        return view('backend.product_management.units.index', compact('units'));
     }
 
     /**
@@ -22,7 +22,7 @@ class UnitController extends Controller
      */
     public function create()
     {
-        return view('product_management.units.create');
+        return view('backend.product_management.units.create');
     }
 
     /**
@@ -50,7 +50,7 @@ class UnitController extends Controller
     public function show(string $id)
     {
         $unit = Unit::findOrFail($id);
-        return view('product_management.units.show', compact('unit'));
+        return view('backend.product_management.units.show', compact('unit'));
     }
 
     /**
@@ -59,7 +59,7 @@ class UnitController extends Controller
     public function edit(string $id)
     {
         $unit = Unit::findOrFail($id);
-        return view('product_management.units.edit', compact('unit'));
+        return view('backend.product_management.units.edit', compact('unit'));
     }
 
     /**

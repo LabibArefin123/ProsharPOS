@@ -14,7 +14,7 @@ class WarrantyController extends Controller
     public function index()
     {
         $warranties = Warranty::orderBy('id', 'asc')->get();
-        return view('product_management.warranties.index', compact('warranties'));
+        return view('backend.product_management.warranties.index', compact('warranties'));
     }
 
     /**
@@ -22,7 +22,7 @@ class WarrantyController extends Controller
      */
     public function create()
     {
-        return view('product_management.warranties.create');
+        return view('backend.product_management.warranties.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class WarrantyController extends Controller
     public function show(string $id)
     {
         $warranty = Warranty::findOrFail($id);
-        return view('product_management.warranties.show', compact('warranty'));
+        return view('backend.product_management.warranties.show', compact('warranty'));
     }
 
     /**
@@ -63,7 +63,7 @@ class WarrantyController extends Controller
     public function edit(string $id)
     {
         $warranty = Warranty::findOrFail($id);
-        return view('product_management.warranties.edit', compact('warranty'));
+        return view('backend.product_management.warranties.edit', compact('warranty'));
     }
 
     /**

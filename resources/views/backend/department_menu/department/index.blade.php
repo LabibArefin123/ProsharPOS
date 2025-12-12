@@ -12,7 +12,7 @@
 @stop
 
 @section('content')
-    <div class="container">
+   
         <div class="card shadow-sm">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped align-middle">
@@ -79,5 +79,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 @stop

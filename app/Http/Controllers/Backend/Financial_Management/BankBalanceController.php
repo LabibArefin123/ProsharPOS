@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend\Financial_Management;
+use App\Http\Controllers\Controller;
 
 use App\Models\BankBalance;
 use App\Models\User;
@@ -19,14 +20,14 @@ class BankBalanceController extends Controller
             return $balance;
         });
 
-        return view('financial_management.bank_balance.index', compact('balances'));
+        return view('backend.financial_management.bank_balance.index', compact('balances'));
     }
 
 
     public function create()
     {
         $users = User::all();
-        return view('financial_management.bank_balance.create', compact('users'));
+        return view('backend.financial_management.bank_balance.create', compact('users'));
     }
 
     public function store(Request $request)
@@ -54,7 +55,7 @@ class BankBalanceController extends Controller
 
         $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
 
-        return view('financial_management.bank_balance.show', compact('bank_balance'));
+        return view('backend.financial_management.bank_balance.show', compact('bank_balance'));
     }
 
 
@@ -70,7 +71,7 @@ class BankBalanceController extends Controller
         $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
         $users = User::all();
 
-        return view('financial_management.bank_balance.edit', compact('bank_balance', 'users'));
+        return view('backend.financial_management.bank_balance.edit', compact('bank_balance', 'users'));
     }
 
     public function update(Request $request, BankBalance $bank_balance)

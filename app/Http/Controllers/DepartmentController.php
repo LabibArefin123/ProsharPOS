@@ -15,7 +15,7 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = Department::with(['branch', 'division'])->paginate(10);
-        return view('department_menu.department.index', compact('departments'));
+        return view('backend.department_menu.department.index', compact('departments'));
     }
 
     /**
@@ -24,7 +24,7 @@ class DepartmentController extends Controller
     public function create()
     {
         $branches = Branch::all();
-        return view('department_menu.department.create', compact('branches'));
+        return view('backend.department_menu.department.create', compact('branches'));
     }
 
     /**
@@ -55,7 +55,7 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        return view('department_menu.department.show', compact('department'));
+        return view('backend.department_menu.department.show', compact('department'));
     }
 
     /**
@@ -64,7 +64,7 @@ class DepartmentController extends Controller
     public function edit(Department $department)
     {
         $branches = Branch::all();
-        return view('department_menu.department.edit', compact('department', 'branches'));
+        return view('backend.department_menu.department.edit', compact('department', 'branches'));
     }
 
     /**

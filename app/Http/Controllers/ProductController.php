@@ -16,13 +16,13 @@ class ProductController extends Controller
         $products = Product::with(['category', 'brand', 'unit', 'warranty'])
             ->orderBy('id', 'asc')->get();
 
-        return view('product_management.products.index', compact('products'));
+        return view('backend.product_management.products.index', compact('products'));
     }
 
     public function stock()
     {
         $products = Product::with(['category', 'brand'])->get();
-        return view('product_management.products.stock', compact('products'));
+        return view('backend.product_management.products.stock', compact('products'));
     }
 
     public function create()
@@ -32,7 +32,7 @@ class ProductController extends Controller
         $units = Unit::all();
         $warranties = Warranty::all();
 
-        return view('product_management.products.create', compact('categories', 'brands', 'units', 'warranties'));
+        return view('backend.product_management.products.create', compact('categories', 'brands', 'units', 'warranties'));
     }
 
     public function store(Request $request)
@@ -80,7 +80,7 @@ class ProductController extends Controller
     {
         // eager load relations so show.blade.php doesn’t break
         $product->load(['category', 'brand', 'unit', 'warranty']);
-        return view('product_management.products.show', compact('product'));
+        return view('backend.product_management.products.show', compact('product'));
     }
 
     public function edit(Product $product)
@@ -90,7 +90,7 @@ class ProductController extends Controller
         $units      = Unit::all();
         $warranties = Warranty::all();
 
-        return view('product_management.products.edit', compact('product', 'categories', 'brands', 'units', 'warranties'));
+        return view('backend.product_management.products.edit', compact('product', 'categories', 'brands', 'units', 'warranties'));
     }
 
     public function update(Request $request, Product $product)

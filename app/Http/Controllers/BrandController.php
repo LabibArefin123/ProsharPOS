@@ -15,7 +15,7 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::with('category')->orderBy('id', 'asc')->get();
-        return view('product_management.brands.index', compact('brands'));
+        return view('backend.product_management.brands.index', compact('brands'));
     }
 
     /**
@@ -24,7 +24,7 @@ class BrandController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('product_management.brands.create', compact('categories'));
+        return view('backend.product_management.brands.create', compact('categories'));
     }
 
     /**
@@ -54,7 +54,7 @@ class BrandController extends Controller
     public function show(string $id)
     {
         $brand = Brand::with('category')->findOrFail($id);
-        return view('product_management.brands.show', compact('brand'));
+        return view('backend.product_management.brands.show', compact('brand'));
     }
 
     /**
@@ -64,7 +64,7 @@ class BrandController extends Controller
     {
         $brand = Brand::findOrFail($id);
         $categories = Category::all();
-        return view('product_management.brands.edit', compact('brand', 'categories'));
+        return view('backend.product_management.brands.edit', compact('brand', 'categories'));
     }
 
     /**

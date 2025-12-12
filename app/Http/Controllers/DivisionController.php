@@ -14,7 +14,7 @@ class DivisionController extends Controller
     public function index()
     {
         $divisions = Division::with('branch')->paginate(10);
-        return view('department_menu.division.index', compact('divisions'));
+        return view('backend.department_menu.division.index', compact('divisions'));
     }
 
     /**
@@ -23,7 +23,7 @@ class DivisionController extends Controller
     public function create()
     {
         $branches = Branch::all();
-        return view('department_menu.division.create', compact('branches'));
+        return view('backend.department_menu.division.create', compact('branches'));
     }
 
     /**
@@ -52,7 +52,7 @@ class DivisionController extends Controller
      */
     public function show(Division $division)
     {
-        return view('department_menu.division.show', compact('division'));
+        return view('backend.department_menu.division.show', compact('division'));
     }
 
     /**
@@ -61,7 +61,7 @@ class DivisionController extends Controller
     public function edit(Division $division)
     {
         $branches = Branch::all();
-        return view('department_menu.division.edit', compact('division', 'branches'));
+        return view('backend.department_menu.division.edit', compact('division', 'branches'));
     }
 
     /**

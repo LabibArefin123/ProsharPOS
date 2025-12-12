@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('id', 'asc')->get();
-        return view('product_management.categories.index', compact('categories'));
+        return view('backend.product_management.categories.index', compact('categories'));
     }
 
     /**
@@ -21,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('product_management.categories.create');
+        return view('backend.product_management.categories.create');
     }
 
     /**
@@ -53,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('product_management.categories.show', compact('category'));
+        return view('backend.product_management.categories.show', compact('category'));
     }
 
     /**
@@ -62,7 +62,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
-        return view('product_management.categories.edit', compact('category'));
+        return view('backend.product_management.categories.edit', compact('category'));
     }
 
     /**
