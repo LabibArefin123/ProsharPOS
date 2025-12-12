@@ -19,12 +19,12 @@ class InvoiceController extends Controller
         $invoices = Invoice::with(['customer', 'branch', 'paidByUser'])
             ->orderBy('id', 'asc')->get();
 
-        return view('transaction_management.invoice.index', compact('invoices'));
+        return view('backend.transaction_management.invoice.index', compact('invoices'));
     }
 
     public function create()
     {
-        return view('transaction_management.invoice.create', [
+        return view('backend.transaction_management.invoice.create', [
             'customers' => Customer::all(),
             'products' => Product::with('category', 'brand')->get(),
             'branches' => Branch::all(),
@@ -102,7 +102,7 @@ class InvoiceController extends Controller
     {
         // Eager load relations properly
         $invoice->load(['customer', 'branch', 'invoiceItems.product']);
-        return view('transaction_management.invoice.show', compact('invoice'));
+        return view('backend.transaction_management.invoice.show', compact('invoice'));
     }
 
     public function edit(Invoice $invoice)
@@ -111,7 +111,7 @@ class InvoiceController extends Controller
         $products = Product::with('category', 'brand')->get();
         $branches = Branch::all();
 
-        return view('transaction_management.invoice.edit', compact('invoice', 'customers', 'products', 'branches'));
+        return view('backend.transaction_management.invoice.edit', compact('invoice', 'customers', 'products', 'branches'));
     }
 
     public function update(Request $request, Invoice $invoice)

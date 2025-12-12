@@ -6,8 +6,13 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\BrandController;
+
+//Product Management Part
+use App\Http\Controllers\Backend\Product_Management\CategoryController;
+use App\Http\Controllers\Backend\Product_Management\BrandController;
+use App\Http\Controllers\Backend\Product_Management\UnitController;
+use App\Http\Controllers\Backend\Product_Management\WarrantyController;
+use App\Http\Controllers\Backend\Product_Management\ProductController;
 
 //Financial Management Part
 use App\Http\Controllers\Backend\Financial_Management\BankBalanceController;
@@ -24,13 +29,11 @@ use App\Http\Controllers\Backend\Transaction_Management\PaymentController;
 use App\Http\Controllers\Backend\Transaction_Management\InvoiceController;
 use App\Http\Controllers\Backend\Transaction_Management\PettyCashController;
 
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\UnitController;
-use App\Http\Controllers\WarrantyController;
+
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserCategoryController;

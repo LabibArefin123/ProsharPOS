@@ -13,14 +13,14 @@ class PaymentController extends Controller
     public function index()
     {
         $payments = Payment::with(['invoice', 'paidBy'])->orderBy('id', 'desc')->get();
-        return view('transaction_management.payment.index', compact('payments'));
+        return view('backend.transaction_management.payment.index', compact('payments'));
     }
 
     public function create()
     {
         $invoices = Invoice::where('status', 0)->get(); // pending invoices
         $users = User::all();
-        return view('transaction_management.payment.create', compact('invoices', 'users'));
+        return view('backend.transaction_management.payment.create', compact('invoices', 'users'));
     }
 
     public function store(Request $request)
@@ -62,14 +62,14 @@ class PaymentController extends Controller
 
     public function show(Payment $payment)
     {
-        return view('transaction_management.payment.show', compact('payment'));
+        return view('backend.transaction_management.payment.show', compact('payment'));
     }
 
     public function edit(Payment $payment)
     {
         $invoices = Invoice::where('status', 0)->orWhere('id', $payment->invoice_id)->get();
         $users = User::all();
-        return view('transaction_management.payment.edit', compact('payment', 'invoices', 'users'));
+        return view('backend.transaction_management.payment.edit', compact('payment', 'invoices', 'users'));
     }
 
     public function update(Request $request, Payment $payment)

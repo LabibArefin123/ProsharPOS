@@ -21,7 +21,7 @@ class ChallanController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('transaction_management.challans.index', compact('challans'));
+        return view('backend.transaction_management.challans.index', compact('challans'));
     }
 
     public function create()
@@ -31,7 +31,7 @@ class ChallanController extends Controller
         $suppliers  = Supplier::all();
         $branches   = Branch::all();
 
-        return view('transaction_management.challans.create', compact(
+        return view('backend.transaction_management.challans.create', compact(
             'products',
             'warranties',
             'suppliers',
@@ -96,7 +96,7 @@ class ChallanController extends Controller
         $challan = Challan::with(['supplier', 'product', 'branch', 'warranty'])
             ->findOrFail($id);
 
-        return view('transaction_management.challans.show', compact('challan'));
+        return view('backend.transaction_management.challans.show', compact('challan'));
     }
 
     public function edit($id)
@@ -116,7 +116,7 @@ class ChallanController extends Controller
             ];
         });
 
-        return view('transaction_management.challans.edit', [
+        return view('backend.transaction_management.challans.edit', [
             'challan'     => $challan,
             'editItems'   => $editItems,
             'products'    => Product::all(),

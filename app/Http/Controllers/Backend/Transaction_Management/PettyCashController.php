@@ -21,12 +21,12 @@ class PettyCashController extends Controller
         $petty_cashes = PettyCash::with(['bankBalance', 'supplier', 'customer'])
             ->orderBy('id', 'asc')->get();
 
-        return view('transaction_management.petty_cash.index', compact('petty_cashes'));
+        return view('backend.transaction_management.petty_cash.index', compact('petty_cashes'));
     }
 
     public function create()
     {
-        return view('transaction_management.petty_cash.create', [
+        return view('backend.transaction_management.petty_cash.create', [
             'users'         => User::all(),
             'customers'     => Customer::all(),
             'suppliers'     => Supplier::orderBy('name', 'asc')->get(),
@@ -214,13 +214,13 @@ class PettyCashController extends Controller
             'user'
         ])->findOrFail($id);
 
-        return view('transaction_management.petty_cash.show', compact('petty_cash'));
+        return view('backend.transaction_management.petty_cash.show', compact('petty_cash'));
     }
 
 
     public function edit($id)
     {
-        return view('transaction_management.petty_cash.edit', [
+        return view('backend.transaction_management.petty_cash.edit', [
             'petty_cash'    => PettyCash::findOrFail($id),
             'users'         => User::all(),
             'customers'     => Customer::all(),
