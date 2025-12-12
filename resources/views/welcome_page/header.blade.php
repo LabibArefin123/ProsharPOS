@@ -2,11 +2,39 @@
 <div class="py-1" style="background-color: #003366; color: #fff; font-size: 14px;">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <!-- Left: Email + Phone -->
-        <div class="d-flex align-items-center">
-            <i class="fas fa-envelope mr-2"></i> mdlabibarefin@gmail.com
-            <span class="mx-3">|</span>
-            <i class="fas fa-phone mr-2"></i> +8801776197999
+        <div class="contact-info d-flex align-items-center p-2 rounded">
+            <a href="mailto:mdlabibarefin@gmail.com"
+                class="contact-item text-decoration-none text-dark d-flex align-items-center me-3 text-white">
+                <i class="fas fa-envelope me-2 text-white"></i> mdlabibarefin@gmail.com
+            </a>
+            <span class="mx-2">|</span>
+            <a href="tel:+8801776197999"
+                class="contact-item text-decoration-none text-dark d-flex align-items-center me-3 text-white">
+                <i class="fas fa-phone me-2 text-white"></i> +8801776197999
+            </a>
+            <a href="https://wa.me/8801776197999" target="_blank"
+                class="contact-item text-decoration-none text-dark d-flex align-items-center text-white">
+                <i class="fab fa-whatsapp me-2 text-white"></i> WhatsApp
+            </a>
         </div>
+
+        <style>
+            .contact-item {
+                transition: background-color 0.3s, color 0.3s;
+                padding: 2px 6px;
+                border-radius: 4px;
+            }
+
+            .contact-item:hover {
+                background-color: #d9f0ff;
+                /* light blue hover */
+                color: #007bff;
+                /* optional: text turns blue on hover */
+                text-decoration: none;
+            }
+        </style>
+
+
         <!-- Right: Date & Time -->
         <div id="currentDateTime">
             {{ now()->format('d M Y, h:i:s A') }}

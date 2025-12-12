@@ -89,7 +89,7 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png') }}">
     @endif
 
-    @include('partials.alerts')
+    {{-- @include('partials.alerts') --}}
 
 </head>
 

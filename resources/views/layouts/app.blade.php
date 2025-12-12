@@ -117,7 +117,7 @@
 
 
     <!-- Scripts -->
-    @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -128,7 +128,7 @@
     </div>
     <!-- Bootstrap JS + dependencies -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
@@ -138,49 +138,39 @@
             once: true, // Only animate once
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('a[href^="#"]').on('click', function(e) {
-                e.preventDefault();
-                var target = this.hash;
-                $('html, body').animate({
-                    scrollTop: $(target).offset().top
-                }, 800);
-            });
-        });
 
-        function changeBackground(color) {
-            document.getElementById('features').style.transition = "background 1.5s ease-in-out";
-            document.getElementById('features').style.background =
-                `radial-gradient(circle at center, ${color} 0%, #f8f9fa 80%)`;
-        }
-    </script>
     {{-- Start of second --}}
-    <script>
-        function updateDateTime() {
-            const now = new Date();
+    @if (!request()->is('login'))
+        <script>
+            function updateDateTime() {
+                const now = new Date();
 
-            const options = {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true,
-            };
+                const options = {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true,
+                };
 
-            const formatted = now.toLocaleString('en-US', options).replace(',', '');
+                const formatted = now.toLocaleString('en-US', options).replace(',', '');
 
-            document.getElementById('currentDateTime').innerText = formatted;
-        }
+                const dateTimeEl = document.getElementById('currentDateTime');
+                if (dateTimeEl) {
+                    dateTimeEl.innerText = formatted;
+                }
+            }
 
-        // Update every second
-        setInterval(updateDateTime, 1000);
+            // Update every second
+            setInterval(updateDateTime, 1000);
 
-        // Run instantly
-        updateDateTime();
-    </script>
+            // Run instantly
+            updateDateTime();
+        </script>
+    @endif
+
 
     {{-- End of second --}}
 

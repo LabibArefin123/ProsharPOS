@@ -12,22 +12,13 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    /**
-     * Redirect users after login.
-     */
     protected $redirectTo = '/home';
 
-    /**
-     * Custom login field (username or email).
-     */
     public function username()
     {
         return 'login';
     }
 
-    /**
-     * Handle login using either email or username.
-     */
     protected function attemptLogin(Request $request)
     {
         $loginInput = $request->input($this->username());
@@ -36,9 +27,9 @@ class LoginController extends Controller
 
         $user = User::where($field, $loginInput)->first();
 
+        // Maintenance check
         $globalMaintenance = User::where('is_maintenance', 1)->first();
-
-        if ($globalMaintenance && !$user->hasRole('admin')) {
+        if ($globalMaintenance && !$user?->hasRole('admin')) {
             session()->flash('error', $globalMaintenance->maintenance_message);
             return false;
         }
@@ -47,17 +38,30 @@ class LoginController extends Controller
     }
 
     /**
-     * Handle actions after successful login.
+     * ALWAYS runs after successful login.
+     * This is the correct place to flash login_success.
      */
-    protected function authenticated(Request $request, $user)
+    protected function sendLoginResponse(Request $request)
     {
-        // Flash a session variable for SweetAlert
-        session()->flash('login_success', 'Welcome back, ' . $user->name . '!');
+        logger('LOGIN_DEBUG: sendLoginResponse executed');
+        logger('LOGIN_DEBUG: User = ' . Auth::user()->name);
+
+        $request->session()->regenerate();
+
+        session()->flash('login_success', 'Welcome back, ' . Auth::user()->name . '!');
+
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
     }
 
-    /**
-     * Handle logout request.
-     */
+
+    protected function authenticated(Request $request, $user)
+    {
+        // You may keep this or leave empty — it's optional now
+    }
+
     public function logout(Request $request)
     {
         $userName = Auth::user()->name ?? 'User';
@@ -66,15 +70,8 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Flash message for logout
         session()->flash('logout_success', 'Goodbye, ' . $userName . '! You have logged out successfully.');
 
         return redirect('/login');
-    }
-
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
     }
 }

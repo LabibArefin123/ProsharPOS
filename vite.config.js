@@ -6,14 +6,10 @@ export default defineConfig({
         laravel({
             input: [
                 "resources/css/app.css",
+                "resources/sass/app.scss",
                 "resources/js/app.js",
-                // "resources/sass/app.scss",
-            ], // Use 'css' if 'sass' is missing
+            ],
             refresh: true,
         }),
     ],
-    build: {
-        outDir: "public/build",
-        manifest: true,
-    },
 });

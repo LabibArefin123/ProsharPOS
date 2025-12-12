@@ -1,8 +1,72 @@
-// Fonts
+// ----------------------------------
+// app.scss - clean working version
+// ----------------------------------
+
+// 1️⃣ Fonts
 @import url('https://fonts.bunny.net/css?family=Nunito');
 
-// Variables
-@import 'variables';
+// 2️⃣ Bootstrap 5 Custom Variables (optional, can override default colors)
+$body-bg: #f8f9fa; // light gray background
+$primary: #007bff;
+$secondary: #6c757d;
+$success: #28a745;
+$danger: #dc3545;
+$warning: #ffc107;
+$info: #17a2b8;
+$light: #f8f9fa;
+$dark: #343a40;
 
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';
+// Optional: Font family for Bootstrap
+$font-family-sans-serif: 'Nunito', sans-serif;
+
+// 3️⃣ Bootstrap 5
+// @import 'bootstrap/scss/bootstrap';
+
+// 4️⃣ Optional: Additional custom styles
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: $body-bg;
+}
+
+// Custom primary button
+.btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+
+    &:hover {
+        background-color: darken($primary, 10%);
+        border-color: darken($primary, 10%);
+    }
+}
+
+// Custom card shadow
+.card {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+// Example hover animation
+.hover-bounce:hover {
+    animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-10px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    70% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
