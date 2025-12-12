@@ -26,7 +26,7 @@ class DashboardController extends Controller
         $total_challan_unbill = ChallanItem::sum('challan_unbill');
         $total_challan_foc = ChallanItem::sum('challan_foc');
 
-        return view('dashboard', compact(
+        return view('backend.dashboard', compact(
             'total_invoices',
             'salesAmount',
             'receiveAmount',

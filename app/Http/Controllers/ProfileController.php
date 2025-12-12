@@ -19,7 +19,7 @@ class ProfileController extends Controller
     public function user_profile_show()
     {
         $user = Auth::user();
-        return view('setting_management.profile.show', compact('user'));
+        return view('setting_management.profile_page.show', compact('user'));
     }
     /**
      * Display the user's profile form.
@@ -29,7 +29,7 @@ class ProfileController extends Controller
     public function user_profile_edit()
     {
         $user = Auth::user();
-        return view('setting_management.profile.edit', compact('user'));
+        return view('setting_management.profile_page.edit', compact('user'));
     }
 
     public function user_profile_update(Request $request)
