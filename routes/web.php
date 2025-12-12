@@ -15,14 +15,16 @@ use App\Http\Controllers\Backend\Financial_Management\BankBalanceController;
 use App\Http\Controllers\Backend\Financial_Management\BankDepositController;
 use App\Http\Controllers\Backend\Financial_Management\BankWithdrawController;
 
+//People Management Part
+use App\Http\Controllers\Backend\People_Management\CustomerController;
+use App\Http\Controllers\Backend\People_Management\SupplierController;
+
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PettyCashController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UnitController;

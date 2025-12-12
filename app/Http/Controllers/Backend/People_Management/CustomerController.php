@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend\People_Management;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -10,12 +12,12 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::orderBy('id', 'asc')->get();;
-        return view('people_management.customers.index', compact('customers'));
+        return view('backend.people_management.customers.index', compact('customers'));
     }
 
     public function create()
     {
-        return view('people_management.customers.create');
+        return view('backend.people_management.customers.create');
     }
 
     public function store(Request $request)
@@ -34,12 +36,12 @@ class CustomerController extends Controller
 
     public function show(Customer $customer)
     {
-        return view('people_management.customers.show', compact('customer'));
+        return view('backend.people_management.customers.show', compact('customer'));
     }
 
     public function edit(Customer $customer)
     {
-        return view('people_management.customers.edit', compact('customer'));
+        return view('backend.people_management.customers.edit', compact('customer'));
     }
 
     public function update(Request $request, Customer $customer)
