@@ -3,9 +3,9 @@
 use App\Http\Controllers\WelcomePageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\DivisionController;
-use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\Backend\Department_Management\BranchController;
+use App\Http\Controllers\Backend\Department_Management\DivisionController;
+use App\Http\Controllers\Backend\Department_Management\DepartmentController;
 
 //Product Management Part
 use App\Http\Controllers\Backend\Product_Management\CategoryController;

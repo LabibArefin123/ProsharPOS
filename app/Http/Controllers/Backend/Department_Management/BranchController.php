@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+
+namespace App\Http\Controllers\Backend\Department_Management;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Branch;
 use Illuminate\Http\Request;
