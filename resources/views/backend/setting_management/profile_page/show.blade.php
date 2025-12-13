@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>User Profile</h1>
-        <a href="{{ route('profile.edit') }}" class="btn btn-warning" id="editProfileBtn">
+        <a href="{{ route('user_profile_show') }}" class="btn btn-warning" id="editProfileBtn">
             <i class="fas fa-edit me-1"></i> Edit Profile
         </a>
     </div>
@@ -54,7 +54,7 @@
                 cancelButtonText: 'No, cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "{{ route('profile.edit') }}";
+                    window.location.href = "{{ route('user_profile_edit') }}";
                 }
             });
         });

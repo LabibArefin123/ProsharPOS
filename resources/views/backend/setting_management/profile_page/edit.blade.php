@@ -19,7 +19,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('user_profile_update') }}" method="POST" enctype="multipart/form-data"
                 id="profileUpdateForm">
                 @csrf
                 @method('PUT')
