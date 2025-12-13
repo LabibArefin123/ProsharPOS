@@ -36,15 +36,17 @@ use App\Http\Controllers\Backend\Transaction_Management\InvoiceController;
 use App\Http\Controllers\Backend\Transaction_Management\PettyCashController;
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PermissionController;
 
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserCategoryController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SettingController;
+//Setting Management Part
+use App\Http\Controllers\Backend\Setting_Management\ProfileController;
+use App\Http\Controllers\Backend\Setting_Management\RoleController;
+use App\Http\Controllers\Backend\Setting_Management\PermissionController;
+
+use App\Http\Controllers\Backend\Setting_Management\CompanyController;
+use App\Http\Controllers\Backend\Setting_Management\UserController;
+use App\Http\Controllers\Backend\Setting_Management\UserCategoryController;
+use App\Http\Controllers\Backend\Setting_Management\SearchController;
+use App\Http\Controllers\Backend\Setting_Management\SettingController;
 
 
 // Landing page
