@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend\Organization_Management;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Organization;
 use Illuminate\Http\Request;

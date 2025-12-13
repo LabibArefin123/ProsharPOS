@@ -1,8 +1,14 @@
 <?php
 
-use App\Http\Controllers\WelcomePageController;
+//Welcome Page Part
+use App\Http\Controllers\Frontend\WelcomePageController;
+
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\OrganizationController;
+
+//Organization Management Part
+use App\Http\Controllers\Backend\Organization_Management\OrganizationController;
+
+//Department Management Part
 use App\Http\Controllers\Backend\Department_Management\BranchController;
 use App\Http\Controllers\Backend\Department_Management\DivisionController;
 use App\Http\Controllers\Backend\Department_Management\DepartmentController;
