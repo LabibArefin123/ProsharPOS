@@ -31,7 +31,7 @@
                 <tbody>
                     @foreach ($suppliers as $index => $supplier)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $supplier->name }}</td>
                             <td>{{ $supplier->company_name }}</td>
                             <td>{{ $supplier->email }}</td>
@@ -41,12 +41,16 @@
                             <td>
                                 <a href="{{ route('suppliers.edit', $supplier->id) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('suppliers.show', $supplier->id) }}"
+                                    class="btn btn-secondary btn-sm">View</a>
                                 <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST"
-                                    style="display:inline-block;">
+                                    class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        onclick="triggerDeleteModal('{{ route('suppliers.destroy', $supplier->id) }}')">
+                                        Delete
+                                    </button>
                                 </form>
                             </td>
                         </tr>

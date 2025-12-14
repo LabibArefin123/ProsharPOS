@@ -36,6 +36,11 @@ class SupplierController extends Controller
         return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully.');
     }
 
+    public function show(Supplier $supplier)
+    {
+        return view('backend.people_management.suppliers.show', compact('supplier'));
+    }
+
     public function edit(Supplier $supplier)
     {
         return view('backend.people_management.suppliers.edit', compact('supplier'));
