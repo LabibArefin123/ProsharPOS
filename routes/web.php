@@ -4,6 +4,7 @@
 use App\Http\Controllers\Frontend\WelcomePageController;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CartController;
 
 //Organization Management Part
 use App\Http\Controllers\Backend\Organization_Management\OrganizationController;
@@ -61,6 +62,7 @@ Route::get('/home', function () {
 Route::middleware(['auth', 'permission'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
     //top menu
     Route::get('/user_profile', [ProfileController::class, 'user_profile_show'])->name('user_profile_show');

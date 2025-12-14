@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h3 class="fw-bold mb-2">Welcome {{ Auth::user()->name }} 👋</h3>
+    <h3 class="fw-bold mb-2">Welcome {{ Auth::user()->name }} </h3>
     <p class="text-muted">Your business performance summary at a glance.</p>
 
     <div class="mt-2 p-2 bg-light">

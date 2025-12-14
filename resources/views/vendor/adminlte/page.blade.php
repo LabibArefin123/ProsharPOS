@@ -9,6 +9,10 @@
     <link rel="icon" type="image/png" href="{{ asset('uploads/images/logor.png') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> --}}
+
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
@@ -222,6 +226,23 @@
             </div>
         </div>
         <!-- end of delete animation model -->
+        {{-- <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="fas fa-shopping-cart"></i>
+
+                @if ($cartCount > 0)
+                    <span class="badge badge-danger navbar-badge">
+                        {{ $cartCount }}
+                    </span>
+                @endif
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0">
+                @include('backend.cart.cart_box')
+            </div>
+        </li> --}}
+
+
 
         {{-- Preloader Animation (fullscreen mode) --}}
         @if ($preloaderHelper->isPreloaderEnabled())
@@ -969,6 +990,7 @@
         });
     </script>
     <!-- end of manual search -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 @section('plugins.Datatables', true)
 @stop
