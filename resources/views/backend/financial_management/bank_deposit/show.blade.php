@@ -22,20 +22,36 @@
 
                     {{-- User --}}
                     <div class="col-md-6 form-group">
-                        <label><strong>User</strong></label>
+                        <label><strong>Name</strong></label>
                         <input class="form-control" value="{{ $bankDeposit->user->name }}" readonly>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Email</strong></label>
+                        <input class="form-control" value="{{ $bankDeposit->user->email }}" readonly>
                     </div>
 
                     {{-- Bank Balance --}}
                     <div class="col-md-6 form-group">
                         <label><strong>Bank Balance</strong></label>
-                        <input class="form-control" value="{{ $bankDeposit->bankBalance->balance . ' Tk' }}" readonly>
+                        <input class="form-control" value="{{ number_format($adjustedBalance, 2) }} Tk" readonly>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Bank Balance(USD)</strong></label>
+                        <input class="form-control" value="{{ '$' . $bankDeposit->bankBalance->balance_in_dollars }}"
+                            readonly>
                     </div>
 
                     {{-- Amount --}}
                     <div class="col-md-6 form-group">
                         <label><strong>Amount (BDT)</strong></label>
                         <input class="form-control" value="৳{{ number_format($bankDeposit->amount, 2) }}" readonly>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Amount (USD)</strong></label>
+                        <input class="form-control" value="${{ number_format($bankDeposit->amount_in_dollar, 2) }}" readonly>
                     </div>
 
                     {{-- Deposit Method --}}

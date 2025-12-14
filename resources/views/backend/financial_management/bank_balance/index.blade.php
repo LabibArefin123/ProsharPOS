@@ -28,6 +28,7 @@
                             <th>Username</th>
                             <th>Email</th>
                             <th class="text-center">Balance (BDT)</th>
+                            <th class="text-center">Balance (USD)</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -39,6 +40,7 @@
                                 <td>{{ $balance->user->username ?? 'N/A' }}</td>
                                 <td>{{ $balance->user->email ?? 'N/A' }}</td>
                                 <td class="text-center">৳{{ number_format($balance->balance, 2) }}</td>
+                                <td class="text-center">${{ number_format($balance->balance_in_dollars, 2) }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('bank_balances.show', $balance->id) }}"
                                         class="btn btn-sm btn-info">View</a>

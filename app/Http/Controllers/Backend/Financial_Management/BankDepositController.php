@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend\Financial_Management;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\BankBalance;
@@ -15,8 +16,40 @@ class BankDepositController extends Controller
     // Show list of deposits
     public function index()
     {
-        $deposits = BankDeposit::with('bankBalance.user', 'user')->orderBy('id', 'asc')->get();
-        return view('backend.financial_management.bank_deposit.index', compact('deposits'));
+        // STEP 1: Sync USD balances from deposits (safe recalculation)
+        if (Schema::hasColumn('bank_balances', 'balance_in_dollars')) {
+
+            BankBalance::query()->each(function ($bank) {
+                $bank->update([
+                    'balance_in_dollars' => BankDeposit::where(
+                        'bank_balance_id',
+                        $bank->id
+                    )->sum('amount_in_dollar')
+                ]);
+            });
+        }
+
+        // STEP 2: Load deposits
+        $deposits = BankDeposit::with(['bankBalance.user', 'user'])
+            ->orderBy('id', 'asc')
+            ->get();
+
+        // STEP 3: Calculate adjusted balance (same logic as bank_balance index)
+        $deposits->transform(function ($deposit) {
+
+            $bank = $deposit->bankBalance;
+            $totalPayments = $bank->user->payments()->sum('paid_amount');
+
+            // Virtual value (NOT saved in DB)
+            $deposit->adjusted_balance = $bank->balance - $totalPayments;
+
+            return $deposit;
+        });
+
+        return view(
+            'backend.financial_management.bank_deposit.index',
+            compact('deposits')
+        );
     }
 
     // Show create form
@@ -30,30 +63,43 @@ class BankDepositController extends Controller
     // Store new deposit
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
-            'bank_balance_id' => 'required|exists:bank_balances,id',
-            'deposit_date' => 'required|date',
-            'amount' => 'required|numeric|min:1',
-            'amount_in_dollar' => 'nullable|numeric|min:0',
-            'deposit_method' => 'required|string',
-            'reference_no' => 'required|string',
+            'bank_balance_id'   => 'required|exists:bank_balances,id',
+            'deposit_date'      => 'required|date',
+            'amount'            => 'required|numeric|min:50',
+            'amount_in_dollar'  => 'nullable|numeric|min:0',
+            'deposit_method'    => 'required|string',
+            'reference_no'      => 'required|string',
         ]);
 
-        // Create deposit
-        $deposit = BankDeposit::create([
-            'bank_balance_id' => $request->bank_balance_id,
-            'user_id' => auth()->id(),
-            'deposit_date' => $request->deposit_date,
-            'amount' => $request->amount,
-            'amount_in_dollar' => $request->amount_in_dollar ?? 0,
-            'deposit_method' => $request->deposit_method,
-            'reference_no' => $request->reference_no,
-            'note' => $request->note,
-        ]);
+        $amountBDT   = $request->amount;
+        $amountUSD   = $request->amount_in_dollar ?? 0;
+        $bankId      = $request->bank_balance_id;
 
-        // Update bank balance (BDT only since your model only has `balance`)
-        $bankBalance = BankBalance::findOrFail($request->bank_balance_id);
-        $bankBalance->increment('balance', $deposit->amount);
+        DB::transaction(function () use ($request, $amountBDT, $amountUSD, $bankId) {
+
+            // Create deposit
+            $deposit = BankDeposit::create([
+                'bank_balance_id'   => $bankId,
+                'user_id'           => auth()->id(),
+                'deposit_date'      => $request->deposit_date,
+                'amount'            => $amountBDT,
+                'amount_in_dollar'  => $amountUSD,
+                'deposit_method'    => $request->deposit_method,
+                'reference_no'      => $request->reference_no,
+                'note'              => $request->note,
+            ]);
+
+            // Update BDT balance
+            $bankBalance = BankBalance::findOrFail($bankId);
+            $bankBalance->increment('balance', $amountBDT);
+
+            // Update USD balance if column exists
+            if (Schema::hasColumn('bank_balances', 'balance_in_dollars')) {
+                $bankBalance->increment('balance_in_dollars', $amountUSD);
+            }
+        });
 
         return redirect()
             ->route('bank_deposits.index')
@@ -62,8 +108,23 @@ class BankDepositController extends Controller
 
     public function show(BankDeposit $bankDeposit)
     {
-        return view('backend.financial_management.bank_deposit.show', compact('bankDeposit'));
+        // Load relations safely
+        $bankDeposit->load(['bankBalance.user', 'user']);
+
+        $bank = $bankDeposit->bankBalance;
+
+        // Same logic used everywhere
+        $totalPayments = $bank->user->payments()->sum('paid_amount');
+
+        // Virtual / calculated balance
+        $adjustedBalance = $bank->balance - $totalPayments;
+
+        return view(
+            'backend.financial_management.bank_deposit.show',
+            compact('bankDeposit', 'adjustedBalance')
+        );
     }
+
 
     // Show edit form
     public function edit(BankDeposit $bankDeposit)

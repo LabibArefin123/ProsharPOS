@@ -73,8 +73,6 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
         // SweetAlert for Profile Update Button
         document.getElementById('updateProfileBtn').addEventListener('click', function(e) {
