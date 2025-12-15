@@ -10,20 +10,21 @@
     .onstage-text {
         font-family: 'OnStage', sans-serif;
         color: #ff9900;
-    }
-
-    .off-highlight {
-        color: #B2BEB5 !important;
+        cursor: default;
     }
 
     .footer-links a {
-        color: #6c757d;
+        color: #ffffff;
         text-decoration: none;
-        transition: color 0.3s;
+        transition: color 0.3s ease;
     }
 
     .footer-links a:hover {
-        color: #0d6efd;
+        color: #ff9900;
+    }
+
+    .brand-hover:hover {
+        color: #ff9900 !important;
     }
 
     .newsletter-input {
@@ -31,74 +32,76 @@
         display: inline-block;
     }
 
-    .newsletter-btn {
-        margin-left: 5px;
-    }
-
     footer {
-        background-color: #f8f9fa;
+        background-color: #003366;
     }
 </style>
 
-<footer class="pt-2">
+<footer class="pt-4">
     <div class="container">
         <div class="row text-start">
 
-            <!-- Logo + Description -->
+            <!-- Brand -->
             <div class="col-md-4 mb-4">
                 <h3 class="fw-bold onstage-text">ProsharPOS</h3>
-                <p class="text-muted">
-                    ProsharPOS is the ultimate point-of-sale software designed to make your business simpler, faster,
-                    and smarter. Manage sales, inventory, customers, and analytics effortlessly.
+                <p class="text-white small">
+                    ProsharPOS helps businesses run smarter and faster.
+                    Easily manage sales, inventory, customers, and insights
+                    from one simple platform.
                 </p>
             </div>
 
             <!-- Quick Links -->
             <div class="col-md-2 mb-4">
-                <h5 class="fw-semibold">Quick Links</h5>
-                <ul class="list-unstyled footer-links">
+                <h6 class="text-white fw-semibold">Quick Links</h6>
+                <ul class="list-unstyled footer-links small">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Features</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#client-feedback">Feedback</a></li>
+                    <li><a href="#blog">Blog</a></li>
                 </ul>
             </div>
 
-            <!-- Support Links -->
+            <!-- Support -->
             <div class="col-md-2 mb-4">
-                <h5 class="fw-semibold">Support</h5>
-                <ul class="list-unstyled footer-links">
-                    <li><a href="#">FAQ’s</a></li>
-                    <li><a href="#">Articles</a></li>
+                <h6 class="text-white fw-semibold">Support</h6>
+                <ul class="list-unstyled footer-links small">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Help Articles</a></li>
                     <li><a href="#">Live Chat</a></li>
                 </ul>
             </div>
 
             <!-- Newsletter -->
             <div class="col-md-4 mb-4">
-                <h5 class="fw-semibold">Subscribe Newsletter</h5>
-                <p class="text-muted">Get the latest updates and offers from ProsharPOS.</p>
-                <form class="d-flex flex-wrap align-items-center">
-                    <input type="email" class="form-control newsletter-input mb-2" placeholder="Your email address"
-                        required>
-                    <button type="submit" class="btn btn-primary newsletter-btn mb-2">Send</button>
+                <h6 class="text-white fw-semibold">Stay Updated</h6>
+                <p class="text-white small">
+                    Subscribe to receive updates, tips, and exclusive offers.
+                </p>
+                <form class="d-flex flex-wrap gap-2">
+                    <input type="email" class="form-control newsletter-input" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary">
+                        Subscribe
+                    </button>
                 </form>
             </div>
         </div>
 
-        <hr>
+        <hr class="border-light">
 
         <!-- Bottom -->
-        <div class="text-center text-muted small py-3">
-            &copy; {{ date('Y') }}
-            <a href="#" target="_blank" class="text-decoration-none text-primary fw-semibold">
-                ProsharPOS
-            </a> All rights reserved |
-            Designed & Developed by
-            <a href="https://labib.work" target="_blank" class="text-decoration-none fw-semibold">
-                <span class="onstage-text">Labib Arefin</span>
-            </a>
+        <div class="text-center small text-white pb-3">
+            <div>
+                © {{ date('Y') }} <span class="onstage-text brand-hover">ProsharPOS</span>. All rights reserved.
+            </div>
+            <div class="mt-1">
+                Designed & Developed by
+                <a href="https://labib.work" target="_blank" class="text-white text-decoration-none brand-hover">
+                    <span class="onstage-text">Labib Arefin</span>
+                </a>
+            </div>
         </div>
     </div>
 </footer>

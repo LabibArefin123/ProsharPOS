@@ -63,12 +63,12 @@
         <!-- Center Menu -->
         <div class="collapse navbar-collapse justify-content-center order-2" id="navbarCollapse">
             <ul class="navbar-nav">
+                <li class="nav-item"><a href="{{ route('welcome') }}" class="nav-link custom-link">Home</a></li>
                 <li class="nav-item"><a href="#about" class="nav-link custom-link">About</a></li>
                 <li class="nav-item"><a href="#features" class="nav-link custom-link">Features</a></li>
                 <li class="nav-item"><a href="#services" class="nav-link custom-link">Services</a></li>
                 <li class="nav-item"><a href="#client-feedback" class="nav-link custom-link">Feedback</a></li>
                 <li class="nav-item"><a href="#blog" class="nav-link custom-link">Blog</a></li>
-                <li class="nav-item"><a href="#contact" class="nav-link custom-link">Contact</a></li>
             </ul>
         </div>
 
