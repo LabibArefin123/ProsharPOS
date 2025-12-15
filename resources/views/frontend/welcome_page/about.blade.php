@@ -16,19 +16,19 @@
             <div class="col-lg-6">
                 <div class="about-text">
                     <p>
-                        Our <strong>Point of Sale (POS) system</strong> is built to make running your business simple
+                        Our <strong>ProsharPOS</strong> is built to make running your business simple
                         and stress-free. From quick checkout counters to smart inventory tracking, our platform keeps
                         everything organized so you can focus on serving your customers.
                     </p>
                     <p>
                         With features like <strong>real-time stock updates, sales insights, and customer
                             management</strong>,
-                        our POS adapts to your needs—whether you run a retail shop, a restaurant, or a multi-branch
+                        our ProsharPOS adapts to your needs—whether you run a retail shop, a restaurant, or a multi-branch
                         business. It’s fast, reliable, and designed to grow with you.
                     </p>
                     <p>
                         Our mission is simple: to give you the tools to <strong>sell smarter, save time, and boost
-                            profits</strong>. Friendly, intuitive, and secure—our POS software is your trusted partner
+                            profits</strong>. Friendly, intuitive, and secure—our software is your trusted partner
                         for
                         everyday success.
                     </p>

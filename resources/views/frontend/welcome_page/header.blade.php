@@ -49,7 +49,7 @@
     <div class="container-fluid">
 
         <!-- Left: Logo -->
-        <a href="#" class="navbar-brand d-flex align-items-center">
+        <a href="{{ route('welcome') }}" class="navbar-brand d-flex align-items-center">
             <img src="{{ asset('uploads/images/welcome_page/logo.JPG') }}" alt="Logo"
                 class="brand-image img-circle elevation-3" style="width:250px; height:75px;">
         </a>

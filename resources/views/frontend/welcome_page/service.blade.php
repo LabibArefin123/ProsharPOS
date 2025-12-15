@@ -15,7 +15,7 @@
                 <div class="service-box bg-primary text-white p-4 rounded shadow-sm h-100">
                     <i class="fas fa-bolt fa-3x mb-3"></i>
                     <h5>Quick Billing</h5>
-                    <p class="text-justify">
+                    <p style="text-align: justify;">
                         Generate invoices quickly and accurately. ProsharPOS ensures fast billing even during peak
                         hours,
                         minimizing wait times and enhancing customer satisfaction.
@@ -28,7 +28,7 @@
                 <div class="service-box bg-success text-white p-4 rounded shadow-sm h-100">
                     <i class="fas fa-boxes fa-3x mb-3"></i>
                     <h5>Smart Inventory</h5>
-                    <p class="text-justify">
+                    <p style="text-align: justify;">
                         Track stock in real time, get low-stock alerts, and manage products efficiently. Prevent
                         shortages
                         and overstock issues across all your branches.
@@ -41,7 +41,7 @@
                 <div class="service-box bg-warning text-dark p-4 rounded shadow-sm h-100">
                     <i class="fas fa-users fa-3x mb-3"></i>
                     <h5>Customer Management</h5>
-                    <p class="text-justify">
+                    <p style="text-align: justify;">
                         Record customer details, track purchase history, and offer loyalty rewards. Build lasting
                         relationships and encourage repeat business effortlessly.
                     </p>
@@ -57,7 +57,7 @@
                 <div class="service-box bg-danger text-white p-4 rounded shadow-sm h-100">
                     <i class="fas fa-chart-line fa-3x mb-3 "></i>
                     <h5>Business Insights</h5>
-                    <p class="text-justify">
+                    <p style="text-align: justify;">
                         Access detailed reports and analytics. Monitor sales, revenue, and staff performance to make
                         informed decisions and drive business growth.
                     </p>
@@ -69,7 +69,7 @@
                 <div class="service-box bg-info text-white p-4 rounded shadow-sm h-100">
                     <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
                     <h5>Cloud Backup</h5>
-                    <p class="text-justify">
+                    <p style="text-align: justify;">
                         Your data is secure with automatic cloud backup. Sync across multiple devices and branches to
                         ensure smooth operations anywhere, anytime.
                     </p>
@@ -81,7 +81,7 @@
                 <div class="service-box bg-secondary text-white p-4 rounded shadow-sm h-100">
                     <i class="fas fa-headset fa-3x mb-3"></i>
                     <h5>24/7 Support</h5>
-                    <p class="text-justify">
+                    <p style="text-align: justify;">
                         Get round-the-clock assistance for setup, troubleshooting, and guidance. ProsharPOS support
                         ensures your business runs without interruptions.
                     </p>
