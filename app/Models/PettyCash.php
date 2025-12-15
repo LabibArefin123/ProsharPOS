@@ -52,11 +52,11 @@ class PettyCash extends Model
 
     public function product()
     {
-        return $this->belongsTo(User::class, 'product_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function category()
     {
-        return $this->belongsTo(User::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

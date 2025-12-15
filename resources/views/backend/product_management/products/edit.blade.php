@@ -33,8 +33,8 @@
                     @csrf
                     @method('PUT')
 
-                    @include('product_management.products.partial_edit.part_1')
-                    @include('product_management.products.partial_edit.part_2')
+                    @include('backend.product_management.products.partial_edit.part_1')
+                    @include('backend.product_management.products.partial_edit.part_2')
 
                     <hr>
 
@@ -72,7 +72,8 @@
                             </tbody>
                         </table>
                     </div>
-                    @include('product_management.products.partial_edit.part_3')
+                    @include('backend.product_management.products.partial_edit.part_3')
+                    @include('backend.product_management.products.partial_edit.part_4')
                     <hr>
                     <div class="row">
                         <div class="form-group col-md-6">

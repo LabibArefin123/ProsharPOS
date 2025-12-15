@@ -22,6 +22,10 @@ return new class extends Migration
             $table->string('origin')->nullable();
             $table->smallInteger('rack_number')->nullable();
             $table->smallInteger('box_number')->nullable();
+            $table->string('rack_no')->nullable();
+            $table->string('rack_location')->nullable();
+            $table->string('box_no')->nullable();
+            $table->string('box_location')->nullable();
             $table->decimal('purchase_price', 10, 2)->default(0);
             $table->decimal('handling_charge', 10, 2)->default(0);
             $table->decimal('maintenance_charge', 10, 2)->default(0);

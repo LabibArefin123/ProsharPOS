@@ -38,8 +38,8 @@
                     @csrf
                     <div class="row">
                         {{-- User --}}
-                        @include('transaction_management.petty_cash.partial_create.part_1')
-                        @include('transaction_management.petty_cash.partial_create.part_2')
+                        @include('backend.transaction_management.petty_cash.partial_create.part_1')
+                        @include('backend.transaction_management.petty_cash.partial_create.part_2')
 
                         {{-- Bank Balance --}}
                         <div class="col-md-6 form-group">

@@ -27,6 +27,7 @@
                         <th>Type</th>
                         <th>Item</th>
                         <th>Amount</th>
+                        <th>Amount (USD)</th>
                         <th>Payment Method</th>
                         {{-- <th>User</th> --}}
                         <th>Status</th>
@@ -42,8 +43,9 @@
                             <td class="text-capitalize">
                                 <span class="badge bg-info">{{ $row->type }}</span>
                             </td>
-                            <td>{{ $row->item_name }}</td>
-                            <td>{{ number_format($row->amount, 2) }} BDT</td>
+                            <td>{{ $row->product->name ?? '-' }}</td>
+                            <td>{{ number_format($row->amount, 2) }} Taka</td>
+                            <td>${{ number_format($row->amount_in_dollar, 2) }}</td>
                             <td>
                                 <span class="badge bg-secondary text-capitalize">{{ $row->payment_method ?? 'N/A' }}</span>
                             </td>

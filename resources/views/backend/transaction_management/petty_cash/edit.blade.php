@@ -39,8 +39,8 @@
                     @method('PUT')
 
                     <div class="row">
-                        @include('transaction_management.petty_cash.partial_edit.part_1')
-                        @include('transaction_management.petty_cash.partial_edit.part_2')
+                        @include('backend.transaction_management.petty_cash.partial_edit.part_1')
+                        @include('backend.transaction_management.petty_cash.partial_edit.part_2')
                         {{-- Reference No --}}
                         <div class="col-md-6 form-group">
                             <label><strong>Reference No</strong></label>

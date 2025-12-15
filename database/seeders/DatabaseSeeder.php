@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             // BrandSeeder::class,
             // ProductSeeder::class,
             // CustomerSeeder::class,
-            SupplierSeeder::class,
+            // SupplierSeeder::class,
+            PettyCashSeeder::class,
             // ViewPermissionSeeder::class,
         ]);
     }

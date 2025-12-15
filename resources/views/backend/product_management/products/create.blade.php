@@ -32,8 +32,8 @@
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data"
                     data-confirm="create">
                     @csrf
-                    @include('product_management.products.partial_create.part_1')
-                    @include('product_management.products.partial_create.part_2')
+                    @include('backend.product_management.products.partial_create.part_1')
+                    @include('backend.product_management.products.partial_create.part_2')
 
                     <hr>
                     {{-- Price & Stock Table --}}
@@ -95,9 +95,8 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <hr>
-                    @include('product_management.products.partial_create.part_3')
+                    @include('backend.product_management.products.partial_create.part_3')
+                    @include('backend.product_management.products.partial_create.part_4')
 
                     {{-- Description --}}
                     <div class="form-group">
