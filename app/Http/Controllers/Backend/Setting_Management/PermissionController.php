@@ -12,7 +12,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::orderBy('id', 'asc')->get();
-        return view('setting_management.roles_and_permission.permission.index', compact('permissions'));
+        return view('backend.setting_management.roles_and_permission.permission.index', compact('permissions'));
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $permission = Permission::findOrFail($id);
-        return view('setting_management.roles_and_permission.permission.edit', compact('permission'));
+        return view('backend.setting_management.roles_and_permission.permission.edit', compact('permission'));
     }
 
     public function update(Request $request, $id)

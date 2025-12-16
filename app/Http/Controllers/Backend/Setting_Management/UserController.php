@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('setting_management.system_user.index', compact('users'));
+        return view('backend.setting_management.system_user.index', compact('users'));
     }
 
     /**
@@ -27,7 +27,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('setting_management.system_user.create', compact('roles'));
+        return view('backend.setting_management.system_user.create', compact('roles'));
     }
 
     /**
@@ -80,7 +80,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('setting_management.system_user.show', compact('user'));
+        return view('backend.setting_management.system_user.show', compact('user'));
     }
 
     /**
@@ -90,7 +90,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
-        return view('setting_management.system_user.edit', compact('user', 'roles'));
+        return view('backend.setting_management.system_user.edit', compact('user', 'roles'));
     }
 
     /**

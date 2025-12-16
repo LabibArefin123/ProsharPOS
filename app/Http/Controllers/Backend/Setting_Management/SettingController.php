@@ -16,13 +16,13 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('setting_management.setting.index');
+        return view('backend.setting_management.setting.index');
     }
 
     public function show2FA()
     {
         $user = auth()->user();
-        return view('setting_management.setting.security_setting.2fa', compact('user'));
+        return view('backend.setting_management.setting.security_setting.2fa', compact('user'));
     }
 
     // Toggle 2FA on/off
@@ -93,7 +93,7 @@ class SettingController extends Controller
 
     public function password_policy()
     {
-        return view('setting_management.setting.security_setting.password_policy');
+        return view('backend.setting_management.setting.security_setting.password_policy');
     }
 
     // Show timeout settings page
@@ -102,7 +102,7 @@ class SettingController extends Controller
         // Get current timeout from config or database; default 15 sec
         $timeout = config('session.lifetime') ?? 0.25;
 
-        return view('setting_management.setting.security_setting.timeout', compact('timeout'));
+        return view('backend.setting_management.setting.security_setting.timeout', compact('timeout'));
     }
 
     // Update timeout
@@ -129,7 +129,7 @@ class SettingController extends Controller
 
     public function databaseBackup()
     {
-        return view('setting_management.setting.backup_setting.database_backup');
+        return view('backend.setting_management.setting.backup_setting.database_backup');
     }
 
     public function downloadDatabase()
@@ -281,7 +281,7 @@ class SettingController extends Controller
             $logs = array_reverse($logs);
         }
 
-        return view('setting_management.setting.log_setting.log', compact('logs', 'range'));
+        return view('backend.setting_management.setting.log_setting.log', compact('logs', 'range'));
     }
 
     public function clearLogs()
@@ -304,7 +304,7 @@ class SettingController extends Controller
     public function maintenance()
     {
         $user = User::first(); // assuming one main record to store settings
-        return view('setting_management.setting.backup_setting.maintenance', compact('user'));
+        return view('backend.setting_management.setting.backup_setting.maintenance', compact('user'));
     }
 
     // Update maintenance mode
@@ -325,7 +325,7 @@ class SettingController extends Controller
 
     public function language()
     {
-        return view('setting_management.setting.language_setting.language');
+        return view('backend.setting_management.setting.language_setting.language');
     }
 
     public function updateLanguage(Request $request)
@@ -341,7 +341,7 @@ class SettingController extends Controller
 
     public function dateTime()
     {
-        return view('setting_management.setting.system_setting.date_time');
+        return view('backend.setting_management.setting.system_setting.date_time');
     }
 
     public function updateDateTime(Request $request)
@@ -359,7 +359,7 @@ class SettingController extends Controller
 
     public function theme()
     {
-        return view('setting_management.setting.ui_setting.theme');
+        return view('backend.setting_management.setting.ui_setting.theme');
     }
 
     public function updateTheme(Request $request)

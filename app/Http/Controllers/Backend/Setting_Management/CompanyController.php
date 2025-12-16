@@ -14,7 +14,7 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = Company::orderBy('id', 'asc')->get();
-        return view('setting_management.company_profile.index', compact('companies'));
+        return view('backend.setting_management.company_profile.index', compact('companies'));
     }
 
     /**
@@ -22,7 +22,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('setting_management.company_profile.create');
+        return view('backend.setting_management.company_profile.create');
     }
 
     /**
@@ -59,7 +59,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return view('setting_management.company_profile.edit', compact('company'));
+        return view('backend.setting_management.company_profile.edit', compact('company'));
     }
 
     /**
@@ -116,6 +116,6 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return view('setting_management.company_profile.show', compact('company'));
+        return view('backend.setting_management.company_profile.show', compact('company'));
     }
 }

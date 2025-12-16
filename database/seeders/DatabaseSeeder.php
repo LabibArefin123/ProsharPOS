@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             // ProductSeeder::class,
             // CustomerSeeder::class,
             // SupplierSeeder::class,
-            PettyCashSeeder::class,
+            // PettyCashSeeder::class,
+            StorageSeeder::class,
             // ViewPermissionSeeder::class,
         ]);
     }

@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'SwiftTrack',
+    'title' => 'ProsharPOS',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -409,6 +409,12 @@ return [
                     'can' => 'warranties.index',
                     'active' => ['warranties*'],
                 ],
+                [
+                    'text' => 'Storage List',
+                    'route' => 'storages.index',
+                    'can' => 'storages.index',
+                    'active' => ['storages*'],
+                ],
             ],
         ],
         [
@@ -482,7 +488,7 @@ return [
 
         [
             'text'    => 'People Management',
-            'icon'    => 'fas fa-cogs',
+            'icon'    => 'fas fa-people-group',
             // 'route'    => 'setting_menu',
             // 'can'   => 'view-setting_menu',
             'submenu' => [

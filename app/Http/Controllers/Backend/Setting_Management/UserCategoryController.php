@@ -11,12 +11,12 @@ class UserCategoryController extends Controller
     public function index()
     {
         $userCategories = UserCategory::orderBy('id', 'asc')->get();
-        return view('setting_management.user_category.index', compact('userCategories'));
+        return view('backend.setting_management.user_category.index', compact('userCategories'));
     }
 
     public function create()
     {
-        return view('setting_management.user_category.create');
+        return view('backend.setting_management.user_category.create');
     }
 
     public function store(Request $request)
@@ -34,12 +34,12 @@ class UserCategoryController extends Controller
 
     public function show(UserCategory $userCategory)
     {
-        return view('setting_management.user_category.show', compact('userCategory'));
+        return view('backend.setting_management.user_category.show', compact('userCategory'));
     }
 
     public function edit(UserCategory $userCategory)
     {
-        return view('setting_management.user_category.edit', compact('userCategory'));
+        return view('backend.setting_management.user_category.edit', compact('userCategory'));
     }
 
     public function update(Request $request, UserCategory $userCategory)

@@ -22,17 +22,12 @@
                         <th>Image</th>
                         <th>Part Number</th>
                         <th>Name</th>
+                        <th>SKU</th>
                         <th>Type/Model</th>
                         <th>Category</th>
                         <th>Brand</th>
                         <th>Origin</th>
                         <th>Stock Quantity</th>
-                        <th>Rack</th>
-                        <th>Rack No</th>
-                        <th>Rack Location</th>
-                        <th>Box</th>
-                        <th>Box No</th>
-                        <th>Box Location</th>
                         <th>Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -48,17 +43,12 @@
 
                             <td>{{ $product->part_number }}</td>
                             <td>{{ $product->name }}</td>
+                            <td>{{ $product->sku ?? "-" }}</td>
                             <td>{{ $product->type_model }}</td>
                             <td>{{ $product->category->name ?? '-' }}</td>
                             <td>{{ $product->brand->name ?? 'N/A' }}</td>
                             <td>{{ $product->origin }}</td>
                             <td>{{ $product->stock_quantity }}</td>
-                            <td>{{ $product->rack_number }}</td>
-                            <td>{{ $product->rack_no }}</td>
-                            <td>{{ $product->rack_location }}</td>
-                            <td>{{ $product->box_number }}</td>
-                            <td>{{ $product->box_no }}</td>
-                            <td>{{ $product->box_location }}</td>
                             <td>
                                 <span class="badge {{ $product->status ? 'bg-success' : 'bg-danger' }}">
                                     {{ $product->status ? 'Active' : 'Inactive' }}
