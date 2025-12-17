@@ -504,6 +504,12 @@ return [
                     'can' => 'suppliers.index',
                     'active' => ['suppliers*'],
                 ],
+                [
+                    'text' => 'Manufacturer List',
+                    'route' => 'manufacturers.index',
+                    'can' => 'manufacturers.index',
+                    'active' => ['manufacturers*'],
+                ],
             ],
         ],
         [

@@ -30,6 +30,7 @@ use App\Http\Controllers\Backend\Financial_Management\BankWithdrawController;
 //People Management Part
 use App\Http\Controllers\Backend\People_Management\CustomerController;
 use App\Http\Controllers\Backend\People_Management\SupplierController;
+use App\Http\Controllers\Backend\People_Management\ManufacturerController;
 
 //Transaction Management Part
 use App\Http\Controllers\Backend\Transaction_Management\ChallanController;
@@ -91,6 +92,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     //people management menu
     Route::resource('customers', CustomerController::class);
     Route::resource('suppliers', SupplierController::class);
+    Route::resource('manufacturers', ManufacturerController::class);
 
     //transaction management menu
     Route::resource('challans', ChallanController::class);
@@ -102,7 +104,6 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('bank_balances', BankBalanceController::class);
     Route::resource('bank_deposits', BankDepositController::class);
     Route::resource('bank_withdraws', BankWithdrawController::class);
-
 
     //setting menu
     Route::resource('companies', CompanyController::class);
