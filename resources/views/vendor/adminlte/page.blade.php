@@ -285,6 +285,45 @@
     @stack('js')
     @yield('js')
     {{-- Jquery table format --}}
+    <!-- Start of Login / Logout -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            console.log('JS LOADED');
+
+            @if (session()->has('login_success'))
+                console.log('LOGIN SUCCESS SESSION:', "{{ session('login_success') }}");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Welcome back!',
+                    text: "{{ session('login_success') }}",
+                    timer: 2500,
+                    showConfirmButton: false
+                });
+            @endif
+
+            @if (session()->has('login_error'))
+                console.log('LOGIN ERROR SESSION:', "{{ session('login_error') }}");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: "{{ session('login_error') }}"
+                });
+            @endif
+
+            @if (session()->has('logout_success'))
+                console.log('LOGOUT SESSION:', "{{ session('logout_success') }}");
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Logged Out',
+                    text: "{{ session('logout_success') }}"
+                });
+            @endif
+
+        });
+    </script>
+
+    <!-- End of Login / Logout -->
 
     {{-- start of bangla-date --}}
     <script>

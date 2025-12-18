@@ -14,63 +14,74 @@ class LoginController extends Controller
 
     protected $redirectTo = '/home';
 
+    /**
+     * Login field name
+     */
     public function username()
     {
         return 'login';
     }
 
+    /**
+     * Custom login logic
+     */
     protected function attemptLogin(Request $request)
     {
-        $loginInput = $request->input($this->username());
-        $field = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $password = $request->input('password');
+        $loginInput = $request->input('login');
+        $password   = $request->input('password');
+
+        $field = filter_var($loginInput, FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : 'username';
 
         $user = User::where($field, $loginInput)->first();
 
         // Maintenance check
-        $globalMaintenance = User::where('is_maintenance', 1)->first();
-        if ($globalMaintenance && !$user?->hasRole('admin')) {
-            session()->flash('error', $globalMaintenance->maintenance_message);
+        $maintenance = User::where('is_maintenance', 1)->first();
+        if ($maintenance && (!$user || !$user->hasRole('admin'))) {
+            session()->flash('login_error', $maintenance->maintenance_message);
             return false;
         }
 
-        return Auth::attempt([$field => $loginInput, 'password' => $password], $request->filled('remember'));
+        return Auth::attempt(
+            [$field => $loginInput, 'password' => $password],
+            $request->filled('remember')
+        );
     }
 
     /**
-     * ALWAYS runs after successful login.
-     * This is the correct place to flash login_success.
+     * ✅ THIS is where login success MUST be handled
      */
     protected function sendLoginResponse(Request $request)
     {
-        logger('LOGIN_DEBUG: sendLoginResponse executed');
-        logger('LOGIN_DEBUG: User = ' . Auth::user()->name);
-
         $request->session()->regenerate();
 
-        session()->flash('login_success', 'Welcome back, ' . Auth::user()->name . '!');
+        session()->flash(
+            'login_success',
+            'Welcome back, ' . Auth::user()->name . '!'
+        );
 
         $this->clearLoginAttempts($request);
 
-        return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->intended($this->redirectPath());
+        return redirect()->intended($this->redirectPath());
     }
 
-
-    protected function authenticated(Request $request, $user)
-    {
-        // You may keep this or leave empty — it's optional now
-    }
-
+    /**
+     * Logout
+     */
     public function logout(Request $request)
     {
-        $userName = Auth::user()->name ?? 'User';
+        $name = Auth::user()->name ?? 'User';
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        session()->flash('logout_success', 'Goodbye, ' . $userName . '! You have logged out successfully.');
+        session()->flash(
+            'logout_success',
+            'Goodbye, ' . $name . '! You have logged out successfully.'
+        );
 
         return redirect('/login');
     }
