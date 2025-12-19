@@ -36,9 +36,7 @@
 
 
         <!-- Right: Date & Time -->
-        <div id="currentDateTime">
-            {{ now()->format('d M Y, h:i:s A') }}
-        </div>
+        {{ now()->format('l, d F Y, h:i:s A') }}
 
     </div>
 </div>
