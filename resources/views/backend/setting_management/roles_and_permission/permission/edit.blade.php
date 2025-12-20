@@ -16,12 +16,12 @@
                     <div class="form-group">
                         <label for="name">Permission Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control" placeholder="Permission Name"
-                            value="{{ old('name', $permission->name) }}" required>
+                            value="{{ old('name', $permission->name) }}" >
                     </div>
                     <div class="form-group">
                         <label for="guard_name">Guard <span class="text-danger">*</span></label>
                         <input type="text" name="guard_name" class="form-control" placeholder="Guard Name"
-                            value="{{ old('guard_name', $permission->guard_name) }}" required>
+                            value="{{ old('guard_name', $permission->guard_name) }}" >
                     </div>
                 </div>
                 <div class="card-footer">

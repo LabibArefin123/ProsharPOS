@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\WelcomePageController;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AjaxController;
 
 //Organization Management Part
 use App\Http\Controllers\Backend\Organization_Management\OrganizationController;
@@ -104,6 +105,10 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('bank_balances', BankBalanceController::class);
     Route::resource('bank_deposits', BankDepositController::class);
     Route::resource('bank_withdraws', BankWithdrawController::class);
+
+    //ajax menu
+    Route::get('/get-division-by-branch', [AjaxController::class, 'getDivisionByBranch'])->name('ajax.get_division_by_branch');
+    Route::get('/get-department-by-division', [AjaxController::class, 'getDepartmentByDivision'])->name('ajax.get_department_by_division');
 
     //setting menu
     Route::resource('companies', CompanyController::class);

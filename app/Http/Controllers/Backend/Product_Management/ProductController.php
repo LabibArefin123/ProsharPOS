@@ -28,9 +28,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
-        $brands = Brand::all();
-        $units = Unit::all();
+        $categories = Category::orderBy('name', 'asc')->get();
+        $brands = Brand::orderBy('name', 'asc')->get();
+        $units = Unit::orderBy('name', 'asc')->get();
         $warranties = Warranty::all();
 
         return view('backend.product_management.products.create', compact('categories', 'brands', 'units', 'warranties'));
@@ -46,18 +46,10 @@ class ProductController extends Controller
             'part_number'        => 'required|string|max:100',
             'type_model'         => 'required|string|max:100',
             'origin'             => 'required|string|max:100',
-            'rack_number'        => 'required|string|max:100',
-            'box_number'         => 'required|string|max:100',
-            'rack_no'            => 'required|string|max:100',
-            'box_no'             => 'required|string|max:100',
-            'rack_location'      => 'required|string|max:100',
-            'box_location'       => 'required|string|max:100',
             'purchase_price'     => 'required|numeric',
             'handling_charge'    => 'nullable|numeric',
             'maintenance_charge' => 'nullable|numeric',
             'sell_price'         => 'required|numeric',
-            'stock_quantity'     => 'required|integer',
-            'alert_quantity'     => 'required|integer',
             'using_place'        => 'nullable|string',
             'description'        => 'nullable|string',
             'status'             => 'required|boolean',

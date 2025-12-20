@@ -43,8 +43,6 @@
                                 <th>Handling Charge (%)</th>
                                 <th>Office Maintenance (%)</th>
                                 <th>Selling Price</th>
-                                <th>Stock Quantity</th>
-                                <th>Alert Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,27 +71,11 @@
                                         <span class="text-danger small">{{ $message }}</span>
                                     @enderror
                                 </td>
-                                <td>
-                                    <input type="number" name="stock_quantity"
-                                        class="form-control @error('stock_quantity') is-invalid @enderror"
-                                        value="{{ old('stock_quantity') }}">
-                                    @error('stock_quantity')
-                                        <span class="text-danger small">{{ $message }}</span>
-                                    @enderror
-                                </td>
-                                <td>
-                                    <input type="number" name="alert_quantity"
-                                        class="form-control @error('alert_quantity') is-invalid @enderror"
-                                        value="{{ old('alert_quantity') }}">
-                                    @error('alert_quantity')
-                                        <span class="text-danger small">{{ $message }}</span>
-                                    @enderror
-                                </td>
+
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                @include('backend.product_management.products.partial_create.part_3')
                 @include('backend.product_management.products.partial_create.part_4')
 
                 {{-- Description --}}
@@ -112,23 +94,13 @@
                         <span class="text-danger small">{{ $message }}</span>
                     @enderror
                 </div>
-
-
-                {{-- Status --}}
-
-
         </div> <!-- /.card-body -->
-
 
     </div>
     <div class="text-end mt-3">
         <button type="submit" class="btn btn-success">Save</button>
     </div>
     </form>
-
-
-
-
     <script>
         document.getElementById('purchase_price').addEventListener('input', function() {
             let purchase = parseFloat(this.value) || 0;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Setting_Management;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -16,23 +17,48 @@ class RoleController extends Controller
         return view('backend.setting_management.roles_and_permission.roles.index', compact('roles'));
     }
 
+
     public function create()
     {
-        $routes = collect(Route::getRoutes())
+        $routesCollection = collect(Route::getRoutes())
             ->filter(function ($route) {
                 $middlewares = $route->gatherMiddleware();
 
-                return $route->getName() // must have a route name
-                    && $route->getAction('controller') // must have a controller
+                return $route->getName()
+                    && $route->getAction('controller')
                     && collect($middlewares)->contains('auth')
-                    && collect($middlewares)->contains('permission'); // must contain both
+                    && collect($middlewares)->contains('permission');
             })
-            ->groupBy(function ($route) {
-                // Group by controller name (e.g., EmployeeController)
-                return class_basename(explode('@', $route->getActionName())[0]);
-            });
+            ->values(); // reset keys (important)
 
-        return view('backend.setting_management.roles_and_permission.roles.create', compact('routes'));
+        // Pagination settings
+        $perPage = 15;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentItems = $routesCollection
+            ->slice(($currentPage - 1) * $perPage, $perPage)
+            ->values();
+
+        // Create paginator
+        $routes = new LengthAwarePaginator(
+            $currentItems,
+            $routesCollection->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => request()->url(),
+                'query' => request()->query(),
+            ]
+        );
+
+        // Group paginated routes only
+        $groupedRoutes = $routes->getCollection()->groupBy(function ($route) {
+            return class_basename(explode('@', $route->getActionName())[0]);
+        });
+
+        return view(
+            'backend.setting_management.roles_and_permission.roles.create',
+            compact('routes', 'groupedRoutes')
+        );
     }
 
 
@@ -68,12 +94,25 @@ class RoleController extends Controller
 
         $rolePermissions = $role->permissions()->pluck('name')->toArray();
 
-        $permissions = Permission::all()->groupBy(function ($permission) {
+        // Paginate permissions
+        $permissions = Permission::orderBy('name')->paginate(15);
+
+        // Group paginated items only
+        $groupedPermissions = $permissions->getCollection()->groupBy(function ($permission) {
             return explode('.', $permission->name)[0];
         });
 
-        return view('backend.setting_management.roles_and_permission.roles.edit', compact('role', 'rolePermissions', 'permissions'));
+        return view(
+            'backend.setting_management.roles_and_permission.roles.edit',
+            compact(
+                'role',
+                'rolePermissions',
+                'permissions',
+                'groupedPermissions'
+            )
+        );
     }
+
 
     public function update(Request $request, $id)
     {

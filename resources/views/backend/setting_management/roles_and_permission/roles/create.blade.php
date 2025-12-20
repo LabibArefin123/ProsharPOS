@@ -38,7 +38,7 @@
             @enderror
         </div>
 
-        @foreach ($routes as $group => $groupRoutes)
+        @foreach ($groupedRoutes as $group => $groupRoutes)
             <div class="d-flex justify-content-between align-items-center mt-4">
                 <h5 class="text-primary mb-0 text-uppercase">{{ ucfirst($group) }}</h5>
                 <div>
@@ -53,15 +53,16 @@
                 </div>
             </div>
 
-            <div class="card shadow-lg">
+            <div class="card shadow-lg mt-2">
                 <div class="card-body">
                     <div class="row">
                         @foreach ($groupRoutes as $route)
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-2">
                                 <div class="form-check">
                                     <input type="checkbox" name="permissions[]" value="{{ $route->getName() }}"
                                         class="form-check-input perm-{{ $group }}"
                                         id="route_{{ md5($route->getName()) }}">
+
                                     <label class="form-check-label" for="route_{{ md5($route->getName()) }}">
                                         {{ $route->getName() }}
                                     </label>
@@ -72,9 +73,15 @@
                 </div>
             </div>
         @endforeach
+
+        <div class="d-flex justify-content-center mt-4">
+            {{ $routes->links('pagination::bootstrap-5') }}
+        </div>
+
         <div class="text-end mt-3">
             <button type="submit" class="btn btn-success">Save</button>
         </div>
+
     </form>
 @stop
 

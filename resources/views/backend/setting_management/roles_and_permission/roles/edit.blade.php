@@ -36,7 +36,7 @@
             <input type="text" name="name" class="form-control" value="{{ old('name', $role->name) }}">
         </div>
 
-        @foreach ($permissions as $group => $groupPermissions)
+        @foreach ($groupedPermissions as $group => $groupPermissions)
             <div class="d-flex justify-content-between align-items-center mt-4">
                 <h5 class="text-primary mb-0 text-uppercase">{{ ucfirst($group) }}</h5>
                 <div>
@@ -44,21 +44,24 @@
                         data-group="{{ $group }}">
                         Select All
                     </button>
+
                     <button type="button" class="btn btn-sm btn-outline-danger unselect-all-btn"
                         data-group="{{ $group }}">
                         Unselect All
                     </button>
                 </div>
             </div>
-            <div class="card shadow-lg">
+
+            <div class="card shadow-lg mt-2">
                 <div class="card-body">
                     <div class="row">
                         @foreach ($groupPermissions as $permission)
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-2">
                                 <div class="form-check">
                                     <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
                                         class="form-check-input perm-{{ $group }}" id="perm_{{ $permission->id }}"
                                         {{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }}>
+
                                     <label class="form-check-label" for="perm_{{ $permission->id }}">
                                         {{ $permission->name }}
                                     </label>
@@ -69,6 +72,10 @@
                 </div>
             </div>
         @endforeach
+        <div class="d-flex justify-content-center mt-4">
+            {{ $permissions->links('pagination::bootstrap-5') }}
+        </div>
+
         <div class="text-end mt-3">
             <button type="submit" class="btn btn-success">Update</button>
         </div>

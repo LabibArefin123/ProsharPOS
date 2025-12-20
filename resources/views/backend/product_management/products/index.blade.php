@@ -27,7 +27,6 @@
                         <th>Category</th>
                         <th>Brand</th>
                         <th>Origin</th>
-                        <th>Stock Quantity</th>
                         <th>Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -48,7 +47,6 @@
                             <td>{{ $product->category->name ?? '-' }}</td>
                             <td>{{ $product->brand->name ?? 'N/A' }}</td>
                             <td>{{ $product->origin }}</td>
-                            <td>{{ $product->stock_quantity }}</td>
                             <td>
                                 <span class="badge {{ $product->status ? 'bg-success' : 'bg-danger' }}">
                                     {{ $product->status ? 'Active' : 'Inactive' }}
