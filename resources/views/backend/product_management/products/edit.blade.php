@@ -47,8 +47,7 @@
                                     <th>Handling Charge (%)</th>
                                     <th>Office Maintenance (%)</th>
                                     <th>Selling Price</th>
-                                    <th>Stock Quantity</th>
-                                    <th>Alert Quantity</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,15 +63,10 @@
                                     </td>
                                     <td><input type="number" name="sell_price" id="sell_price" class="form-control"
                                             value="{{ old('sell_price', $product->sell_price) }}"></td>
-                                    <td><input type="number" name="stock_quantity" class="form-control"
-                                            value="{{ old('stock_quantity', $product->stock_quantity) }}"></td>
-                                    <td><input type="number" name="alert_quantity" class="form-control"
-                                            value="{{ old('alert_quantity', $product->alert_quantity) }}"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    @include('backend.product_management.products.partial_edit.part_3')
                     @include('backend.product_management.products.partial_edit.part_4')
                     <hr>
                     <div class="row">

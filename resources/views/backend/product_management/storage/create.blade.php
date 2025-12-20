@@ -34,6 +34,7 @@
                 @include('backend.product_management.storage.partial_create.part_1')
                 @include('backend.product_management.storage.partial_create.part_2')
                 @include('backend.product_management.storage.partial_create.part_3')
+                @include('backend.product_management.storage.partial_create.part_4')
                 <div class="form-group">
                     <label>Upload Image</label>
                     <input type="file" name="image_path"
@@ -79,25 +80,52 @@
         });
     </script>
     {{-- End of product load auto --}}
+    {{-- Start of supplier load auto --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('supplier_id');
+            if (!select) return;
+
+            function fillSupplier() {
+                const selected = select.options[select.selectedIndex];
+                if (!selected || !selected.value) return;
+
+                document.getElementById('supplier_location').value = selected.dataset.location || '';
+                document.getElementById('supplier_email').value = selected.dataset.email || '';
+                document.getElementById('supplier_phone_number').value = selected.dataset.phone || '';
+                document.getElementById('supplier_license_no').value = selected.dataset.license || '';
+            }
+
+            select.addEventListener('change', fillSupplier);
+
+            // ✅ Force load for edit + old()
+            window.requestAnimationFrame(fillSupplier);
+        });
+    </script>
+    {{-- End of supplier load auto --}}
+
     {{-- Start of manufacturer load auto --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const manufacturerSelect = document.getElementById('manufacturer_id');
+            const select = document.getElementById('manufacturer_id');
+            if (!select) return;
 
-            manufacturerSelect.addEventListener('change', function() {
-                const selected = this.options[this.selectedIndex];
+            function fillManufacturer() {
+                const selected = select.options[select.selectedIndex];
+                if (!selected || !selected.value) return;
 
-                document.getElementById('country').value = selected.dataset.country || '';
-                document.getElementById('location').value = selected.dataset.location || '';
-                document.getElementById('email').value = selected.dataset.email || '';
-                document.getElementById('phone').value = selected.dataset.phone || '';
-            });
-
-            // Trigger change on page load (for edit page / old value)
-            if (manufacturerSelect.value) {
-                manufacturerSelect.dispatchEvent(new Event('change'));
+                document.getElementById('manufacturer_country').value = selected.dataset.country || '';
+                document.getElementById('manufacturer_location').value = selected.dataset.location || '';
+                document.getElementById('manufacturer_email').value = selected.dataset.email || '';
+                document.getElementById('manufacturer_phone').value = selected.dataset.phone || '';
             }
+
+            select.addEventListener('change', fillManufacturer);
+
+            // ✅ Force load for edit + old()
+            window.requestAnimationFrame(fillManufacturer);
         });
     </script>
     {{-- End of manufacturer load auto --}}
+
 @endsection

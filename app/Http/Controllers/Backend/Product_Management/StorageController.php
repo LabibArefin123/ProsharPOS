@@ -43,7 +43,6 @@ class StorageController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'               => 'required|string|max:255',
             'product_id'         => 'required|exists:products,id',
             'supplier_id'        => 'required|exists:suppliers,id',
             'manufacturer_id'    => 'required|exists:manufacturers,id',
