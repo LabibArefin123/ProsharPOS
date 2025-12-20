@@ -9,12 +9,14 @@ class Storage extends Model
     protected $fillable = [
         'product_id',
         'supplier_id',
+        'manufacturer_id',
         'rack_number',
         'box_number',
         'rack_no',
         'box_no',
         'rack_location',
         'box_location',
+        'alert_quantity',
         'stock_quantity',
         'image_path',
         'barcode_path',
@@ -29,5 +31,10 @@ class Storage extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(Manufacturer::class);
     }
 }

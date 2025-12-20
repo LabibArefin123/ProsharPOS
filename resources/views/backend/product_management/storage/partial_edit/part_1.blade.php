@@ -9,7 +9,7 @@
                       <option value="{{ $prod->id }}" data-sku="{{ $prod->sku }}"
                           data-part_number="{{ $prod->part_number }}" data-type_model="{{ $prod->type_model }}"
                           data-origin="{{ $prod->origin }}" data-using_place="{{ $prod->using_place }}"
-                          {{ old('product_id') == $prod->id ? 'selected' : '' }}>
+                          {{ old('product_id', $storage->product_id ?? '') == $prod->id ? 'selected' : '' }}>
                           {{ $prod->name }}
                       </option>
                   @endforeach

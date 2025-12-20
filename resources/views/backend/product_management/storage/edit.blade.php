@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Product')
+@section('title', 'Edit Storage')
 
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
-        <h3 class="mb-0">Edit Product</h3>
-        <a href="{{ route('products.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
+        <h3 class="mb-0">Edit Storage</h3>
+        <a href="{{ route('storages.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -15,6 +15,7 @@
         </a>
     </div>
 @stop
+
 @section('content')
     <div class="container">
         <div class="card shadow-lg">
@@ -28,81 +29,29 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
+                <form action="{{ route('storages.update', $storage->id) }}" method="POST" enctype="multipart/form-data"
                     data-confirm="edit">
                     @csrf
                     @method('PUT')
-
-                    @include('backend.product_management.products.partial_edit.part_1')
-                    @include('backend.product_management.products.partial_edit.part_2')
-
-                    <hr>
-
-                    {{-- Price & Stock --}}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-sm text-center">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Purchase Price</th>
-                                    <th>Handling Charge (%)</th>
-                                    <th>Office Maintenance (%)</th>
-                                    <th>Selling Price</th>
-                                    <th>Stock Quantity</th>
-                                    <th>Alert Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="number" name="purchase_price" id="purchase_price" class="form-control"
-                                            value="{{ old('purchase_price', $product->purchase_price) }}"></td>
-                                    <td><input type="number" name="handling_charge" id="handling_charge"
-                                            class="form-control bg-light" readonly
-                                            value="{{ old('handling_charge', $product->handling_charge) }}"></td>
-                                    <td><input type="number" name="maintenance_charge" id="maintenance_charge"
-                                            class="form-control bg-light" readonly
-                                            value="{{ old('maintenance_charge', $product->maintenance_charge) }}">
-                                    </td>
-                                    <td><input type="number" name="sell_price" id="sell_price" class="form-control"
-                                            value="{{ old('sell_price', $product->sell_price) }}"></td>
-                                    <td><input type="number" name="stock_quantity" class="form-control"
-                                            value="{{ old('stock_quantity', $product->stock_quantity) }}"></td>
-                                    <td><input type="number" name="alert_quantity" class="form-control"
-                                            value="{{ old('alert_quantity', $product->alert_quantity) }}"></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    @include('backend.product_management.storage.partial_edit.part_1')
+                    @include('backend.product_management.storage.partial_edit.part_2')
+                    @include('backend.product_management.storage.partial_edit.part_3')
+                    <div class="form-group">
+                        <label>Upload Image</label>
+                        <input type="file" name="image_path"
+                            class="form-control-file @error('image_path') is-invalid @enderror">
+                        @error('image_path')
+                            <span class="text-danger small">{{ $message }}</span>
+                        @enderror
                     </div>
-                    @include('backend.product_management.products.partial_edit.part_3')
-                    @include('backend.product_management.products.partial_edit.part_4')
-                    <hr>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label>Upload Image</label>
-                            <input type="file" name="image" class="form-control-file">
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Current Image</label>
-                            <div class="mt-2">
-                                <img src="{{ asset($product->image ?: 'images/default.jpg') }}" alt="Product Image"
-                                    width="120" class="img-thumbnail">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea name="description" rows="3" class="form-control">{{ old('description', $product->description) }}</textarea>
-                        </div>
-                    </div>
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Update</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+        <div class="text-end mt-3">
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+        </form>
 
+    </div>
     <script>
         document.getElementById('purchase_price').addEventListener('input', function() {
             let purchase = parseFloat(this.value) || 0;
@@ -110,4 +59,53 @@
             document.getElementById('maintenance_charge').value = (purchase * 0.03).toFixed(2);
         });
     </script>
+    
+    {{-- Start of product load auto --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('product_id');
+
+            function fillProduct() {
+                const selected = select.options[select.selectedIndex];
+                if (!selected || !selected.value) return;
+
+                document.getElementById('sku').value = selected.dataset.sku || '';
+                document.getElementById('part_number').value = selected.dataset.part_number || '';
+                document.getElementById('type_model').value = selected.dataset.type_model || '';
+                document.getElementById('origin').value = selected.dataset.origin || '';
+                document.getElementById('using_place').value = selected.dataset.using_place || '';
+            }
+
+            // Change event
+            select.addEventListener('change', fillProduct);
+
+            // ✅ FORCE load for edit + old()
+            window.requestAnimationFrame(fillProduct);
+        });
+    </script>
+    {{-- End of product load auto --}}
+
+    {{-- Start of manufacturer load auto --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const manufacturerSelect = document.getElementById('manufacturer_id');
+
+            function loadManufacturerData() {
+                const selected = manufacturerSelect.querySelector('option:checked');
+                if (!selected) return;
+
+                document.getElementById('country').value = selected.dataset.country || '';
+                document.getElementById('location').value = selected.dataset.location || '';
+                document.getElementById('email').value = selected.dataset.email || '';
+                document.getElementById('phone').value = selected.dataset.phone || '';
+            }
+
+            manufacturerSelect.addEventListener('change', loadManufacturerData);
+
+            // ✅ Delay trigger so old()/edit value is applied
+            setTimeout(loadManufacturerData, 0);
+        });
+    </script>
+    {{-- End of manufacturer load auto --}}
+
 @endsection

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->nullable()->index();
             $table->foreignId('supplier_id')->nullable()->index();
+            $table->foreignId('manufacturer_id')->nullable()->index();
             $table->unsignedInteger('rack_number');
             $table->unsignedInteger('box_number');
             $table->string('rack_no');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('rack_location', 150)->nullable();
             $table->string('box_location', 150)->nullable();
             $table->unsignedInteger('stock_quantity')->default(0);
+            $table->unsignedInteger('alert_quantity')->default(0);
             $table->string('image_path')->nullable();
             $table->string('barcode_path')->nullable();
             $table->boolean('is_active')->default(true);

@@ -17,49 +17,39 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li class="small">{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form action="{{ route('storages.store') }}" method="POST" enctype="multipart/form-data"
-                    data-confirm="create">
-                    @csrf
-                    @include('backend.product_management.storage.partial_create.part_1')
-                    @include('backend.product_management.storage.partial_create.part_2')
-                    {{-- Description --}}
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea name="description" rows="3" class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
-                        @error('description')
-                            <span class="text-danger small">{{ $message }}</span>
-                        @enderror
-                    </div>
 
-                    <div class="form-group">
-                        <label>Upload Image</label>
-                        <input type="file" name="image" class="form-control-file @error('image') is-invalid @enderror">
-                        @error('image')
-                            <span class="text-danger small">{{ $message }}</span>
-                        @enderror
-                    </div>
-            </div>
-
-
+    <div class="card shadow-lg">
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li class="small">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('storages.store') }}" method="POST" enctype="multipart/form-data" data-confirm="create">
+                @csrf
+                @include('backend.product_management.storage.partial_create.part_1')
+                @include('backend.product_management.storage.partial_create.part_2')
+                @include('backend.product_management.storage.partial_create.part_3')
+                <div class="form-group">
+                    <label>Upload Image</label>
+                    <input type="file" name="image_path"
+                        class="form-control-file @error('image_path') is-invalid @enderror">
+                    @error('image_path')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
+                </div>
         </div>
-        <div class="text-end mt-3">
-            <button type="submit" class="btn btn-success">Save</button>
-        </div>
-        </form>
-
     </div>
+    <div class="text-end mt-3">
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+    </form>
+
+
     <script>
         document.getElementById('purchase_price').addEventListener('input', function() {
             let purchase = parseFloat(this.value) || 0;
@@ -89,4 +79,25 @@
         });
     </script>
     {{-- End of product load auto --}}
+    {{-- Start of manufacturer load auto --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const manufacturerSelect = document.getElementById('manufacturer_id');
+
+            manufacturerSelect.addEventListener('change', function() {
+                const selected = this.options[this.selectedIndex];
+
+                document.getElementById('country').value = selected.dataset.country || '';
+                document.getElementById('location').value = selected.dataset.location || '';
+                document.getElementById('email').value = selected.dataset.email || '';
+                document.getElementById('phone').value = selected.dataset.phone || '';
+            });
+
+            // Trigger change on page load (for edit page / old value)
+            if (manufacturerSelect.value) {
+                manufacturerSelect.dispatchEvent(new Event('change'));
+            }
+        });
+    </script>
+    {{-- End of manufacturer load auto --}}
 @endsection

@@ -60,4 +60,24 @@
               @enderror
           </div>
       </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>Alert Quantity</label> <span class="text-danger">*</span>
+              <input type="number" name="alert_quantity" class="form-control @error('alert_quantity') is-invalid @enderror"
+                  value="{{ old('alert_quantity') }}">
+              @error('alert_quantity')
+                  <span class="text-danger small">{{ $message }}</span>
+              @enderror
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>Stock Quantity</label> <span class="text-danger">*</span>
+              <input type="number" name="stock_quantity" class="form-control @error('stock_quantity') is-invalid @enderror"
+                  value="{{ old('stock_quantity') }}">
+              @error('stock_quantity')
+                  <span class="text-danger small">{{ $message }}</span>
+              @enderror
+          </div>
+      </div>
   </div>
