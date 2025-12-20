@@ -52,14 +52,6 @@
         </form>
 
     </div>
-    <script>
-        document.getElementById('purchase_price').addEventListener('input', function() {
-            let purchase = parseFloat(this.value) || 0;
-            document.getElementById('handling_charge').value = (purchase * 0.05).toFixed(2);
-            document.getElementById('maintenance_charge').value = (purchase * 0.03).toFixed(2);
-        });
-    </script>
-    
     {{-- Start of product load auto --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
