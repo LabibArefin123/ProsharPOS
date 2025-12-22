@@ -5,7 +5,7 @@
 
 @section('content')
     @include('frontend.welcome_page.header')
-    @include('frontend.welcome_page.banner')
+    @include('frontend.welcome_page.hero')
     @include('frontend.welcome_page.about')
     @include('frontend.welcome_page.features')
     @include('frontend.welcome_page.service')

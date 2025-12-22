@@ -9,7 +9,8 @@
                       <option value="{{ $supply->id }}" data-email="{{ $supply->email }}"
                           data-phone="{{ $supply->phone_number }}" data-location="{{ $supply->location }}"
                           data-license={{ $supply->license_number }}
-                          {{ old('supplier_id', $storage->supplier_id ?? '') == $supply->id ? 'selected' : '' }}>
+                          {{'
+                          ;' old('supplier_id', $storage->supplier_id ?? '') == $supply->id ? 'selected' : '' }}>
                           {{ $supply->name }}
                       </option>
                   @endforeach
