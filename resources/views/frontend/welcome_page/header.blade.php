@@ -66,6 +66,7 @@
                 <li class="nav-item"><a href="#features" class="nav-link custom-link">Features</a></li>
                 <li class="nav-item"><a href="#services" class="nav-link custom-link">Services</a></li>
                 <li class="nav-item"><a href="#client-feedback" class="nav-link custom-link">Feedback</a></li>
+                <li class="nav-item"><a href="#faq" class="nav-link custom-link">FAQ</a></li>
                 <li class="nav-item"><a href="#blog" class="nav-link custom-link">Blog</a></li>
             </ul>
         </div>
