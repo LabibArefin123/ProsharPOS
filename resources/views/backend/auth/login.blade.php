@@ -7,10 +7,8 @@
             <div class="col-xl-9 col-lg-11">
                 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                     <div class="row g-0">
-
                         @include('backend.auth.login.left')
                         @include('backend.auth.login.right')
-
                     </div>
                 </div>
 
