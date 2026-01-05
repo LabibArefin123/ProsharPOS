@@ -33,10 +33,10 @@
                 text-decoration: none;
             }
         </style>
-
-
         <!-- Right: Date & Time -->
-        {{ now()->format('l, d F Y, h:i:s A') }}
+        <span id="currentDateTime">
+            {{ \Carbon\Carbon::now()->format('l, d F Y, h:i:s A') }}
+        </span>
 
     </div>
 </div>

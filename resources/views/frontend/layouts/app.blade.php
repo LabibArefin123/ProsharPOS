@@ -146,8 +146,9 @@
                 const now = new Date();
 
                 const options = {
+                    weekday: 'long',
                     day: '2-digit',
-                    month: 'short',
+                    month: 'long',
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit',
@@ -155,22 +156,21 @@
                     hour12: true,
                 };
 
-                const formatted = now.toLocaleString('en-US', options).replace(',', '');
+                const formatted = now.toLocaleString('en-US', options);
 
                 const dateTimeEl = document.getElementById('currentDateTime');
                 if (dateTimeEl) {
-                    dateTimeEl.innerText = formatted;
+                    dateTimeEl.textContent = formatted;
                 }
             }
 
+            // Run immediately
+            updateDateTime();
+
             // Update every second
             setInterval(updateDateTime, 1000);
-
-            // Run instantly
-            updateDateTime();
         </script>
     @endif
-
 
     {{-- End of second --}}
 
