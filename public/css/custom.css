@@ -1,0 +1,16 @@
+.top-info-bar {
+    background-color: #003366;
+    font-size: 14px;
+}
+
+.contact-item {
+    padding: 3px 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.contact-item:hover {
+    background-color: #d9f0ff;
+    color: #007bff !important;
+    text-decoration: none;
+}

@@ -13,6 +13,9 @@
     <!-- Fonts -->
     <link rel="icon" type="image/png" href="{{ asset('uploads/images/icon.JPG') }}">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <!-- AOS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">

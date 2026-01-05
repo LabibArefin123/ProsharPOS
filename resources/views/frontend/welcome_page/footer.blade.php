@@ -60,6 +60,7 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#client-feedback">Feedback</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                     <li><a href="#blog">Blog</a></li>
                 </ul>
             </div>
@@ -68,7 +69,6 @@
             <div class="col-md-2 mb-4">
                 <h6 class="text-white fw-semibold">Support</h6>
                 <ul class="list-unstyled footer-links small">
-                    <li><a href="#">FAQ</a></li>
                     <li><a href="#">Help Articles</a></li>
                     <li><a href="#">Live Chat</a></li>
                 </ul>
@@ -91,17 +91,24 @@
 
         <hr class="border-light">
 
-        <!-- Bottom -->
-        <div class="text-center small text-white pb-3">
+        <!-- Bottom Bar -->
+        <div
+            class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center small text-white pb-3">
+
+            <!-- Left -->
             <div>
-                © {{ date('Y') }} <span class="onstage-text brand-hover">ProsharPOS</span>. All rights reserved.
+                © 2026 <span class="onstage-text brand-hover">ProsharPOS</span>. All rights reserved.
             </div>
-            <div class="mt-1">
+
+            <!-- Right -->
+            <div class="mt-2 mt-md-0">
                 Designed & Developed by
                 <a href="https://labib.work" target="_blank" class="text-white text-decoration-none brand-hover">
                     <span class="onstage-text">Labib Arefin</span>
                 </a>
             </div>
+
         </div>
+
     </div>
 </footer>
