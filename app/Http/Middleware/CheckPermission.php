@@ -4,30 +4,42 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Illuminate\Support\Facades\Auth;
 
 class CheckPermission
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
+        // 1️⃣ Must be logged in
         if (!$user) {
-            abort(403, 'Unauthorized'); // User not logged in
+            abort(403, 'Unauthorized');
         }
 
-        // Get the current route name as permission (you must name routes properly)
-        $routeName = $request->route()->getName();
+        // 2️⃣ ADMIN ROLE → ACCESS EVERYTHING
+        if ($user->hasRole('admin')) {
+            return $next($request);
+        }
 
-        // Check if the permission exists in the database
+        // 3️⃣ Get route name
+        $routeName = $request->route()?->getName();
+
+        // If route has no name, allow it
+        if (!$routeName) {
+            return $next($request);
+        }
+
+        // 4️⃣ Permission must exist
         if (!Permission::where('name', $routeName)->where('guard_name', 'web')->exists()) {
-            abort(403, "Permission '$routeName' does not exist.");
+            abort(403, "Permission '{$routeName}' does not exist.");
         }
 
-        // Check if the user has this permission
-        if (!$user->hasPermissionTo($routeName)) {
+        // 5️⃣ Check permission for non-admin users
+        if (!$user->can($routeName)) {
             throw UnauthorizedException::forPermissions([$routeName]);
         }
 

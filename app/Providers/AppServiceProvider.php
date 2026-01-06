@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Invoice;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use App\Http\Middleware\CheckPermission;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        app('router')->aliasMiddleware('permission', \App\Http\Middleware\CheckPermission::class);
+        app('router')->aliasMiddleware('permission', CheckPermission::class);
         View::composer('*', function ($view) {
 
             $cartInvoices = Invoice::with('invoiceItems.product')

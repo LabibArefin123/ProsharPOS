@@ -80,8 +80,11 @@
                 <p class="text-white small">
                     Subscribe to receive updates, tips, and exclusive offers.
                 </p>
-                <form class="d-flex flex-wrap gap-2">
-                    <input type="email" class="form-control newsletter-input" placeholder="Enter your email" required>
+                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="d-flex flex-wrap gap-2">
+                    @csrf
+                    <input type="email" name="email" class="form-control newsletter-input"
+                        placeholder="Enter your email" required>
+
                     <button type="submit" class="btn btn-primary">
                         Subscribe
                     </button>

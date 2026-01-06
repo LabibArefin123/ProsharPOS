@@ -515,8 +515,6 @@ return [
         [
             'text'    => 'Setting Management',
             'icon'    => 'fas fa-cogs',
-            // 'route'    => 'setting_menu',
-            // 'can'   => 'view-setting_menu',
             'submenu' => [
                 [
                     'text' => 'User Category List',
@@ -549,8 +547,15 @@ return [
                     'can' => 'companies.index',
                     'active' => ['companies*'],
                 ],
-
             ],
+
+        ],
+        [
+            'text' => 'Newsletter Subscribers',
+            'route' => 'newsletter-subscribers.index',
+            'can' => 'newsletter-subscribers.index',
+            'icon' => 'fas fa-envelope-open-text',
+            'active' => ['newsletter-subscribers*'],
         ],
 
     ],

@@ -36,6 +36,26 @@
             <input type="text" name="name" class="form-control" value="{{ old('name', $role->name) }}">
         </div>
 
+        {{-- GLOBAL SELECT ALL --}}
+        <div class="card border-primary mb-4">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-primary fw-bold">
+                    All Permissions
+                </h5>
+
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-primary" id="selectAllPermissions">
+                        Select All
+                    </button>
+
+                    <button type="button" class="btn btn-sm btn-danger" id="unselectAllPermissions">
+                        Unselect All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
         @foreach ($groupedPermissions as $group => $groupPermissions)
             <div class="d-flex justify-content-between align-items-center mt-4">
                 <h5 class="text-primary mb-0 text-uppercase">{{ ucfirst($group) }}</h5>
@@ -59,7 +79,8 @@
                             <div class="col-md-4 mb-2">
                                 <div class="form-check">
                                     <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
-                                        class="form-check-input perm-{{ $group }}" id="perm_{{ $permission->id }}"
+                                        class="form-check-input perm-all perm-{{ $group }}"
+                                        id="perm_{{ $permission->id }}"
                                         {{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="perm_{{ $permission->id }}">
@@ -85,6 +106,17 @@
 @section('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            // 🔹 GLOBAL SELECT ALL
+            document.getElementById('selectAllPermissions')?.addEventListener('click', function() {
+                document.querySelectorAll('.perm-all').forEach(cb => cb.checked = true);
+            });
+
+            document.getElementById('unselectAllPermissions')?.addEventListener('click', function() {
+                document.querySelectorAll('.perm-all').forEach(cb => cb.checked = false);
+            });
+
+            // 🔹 GROUP SELECT
             document.querySelectorAll('.select-all-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const group = this.getAttribute('data-group');
@@ -98,6 +130,7 @@
                     document.querySelectorAll(`.perm-${group}`).forEach(cb => cb.checked = false);
                 });
             });
+
         });
     </script>
 @stop
