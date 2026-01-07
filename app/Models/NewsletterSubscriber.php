@@ -10,6 +10,13 @@ class NewsletterSubscriber extends Model
 
     protected $fillable = [
         'email',
+        'ip_address',
+        'country',
+        'region',
+        'city',
+        'latitude',
+        'longitude',
+        'user_agent',
         'subscribed_at',
     ];
 

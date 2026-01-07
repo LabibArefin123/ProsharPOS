@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('newsletter_subscribers', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
+            $table->string('ip_address', 45)->nullable();
+            $table->string('country')->nullable();
+            $table->string('region')->nullable();
+            $table->string('city')->nullable();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
+            $table->text('user_agent')->nullable();
             $table->timestamp('subscribed_at')->nullable();
             $table->timestamps();
         });
