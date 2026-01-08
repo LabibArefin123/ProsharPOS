@@ -547,6 +547,12 @@ return [
                     'can' => 'companies.index',
                     'active' => ['companies*'],
                 ],
+                [
+                    'text' => 'System Information',
+                    'route' => 'system_informations.index',
+                    'can' => 'system_informations.index',
+                    'active' => ['system_informations*'],
+                ],
             ],
 
         ],

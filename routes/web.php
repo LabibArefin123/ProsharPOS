@@ -51,6 +51,7 @@ use App\Http\Controllers\Backend\Setting_Management\CompanyController;
 use App\Http\Controllers\Backend\Setting_Management\UserController;
 use App\Http\Controllers\Backend\Setting_Management\UserCategoryController;
 use App\Http\Controllers\Backend\Setting_Management\SearchController;
+use App\Http\Controllers\Backend\Setting_Management\SystemInformationController;
 use App\Http\Controllers\Backend\Setting_Management\SettingController;
 
 
@@ -112,6 +113,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
 
     //setting menu
     Route::resource('companies', CompanyController::class);
+    Route::resource('system_informations', SystemInformationController::class);
     Route::resource('user_categories', UserCategoryController::class);
     Route::resource('system_users', UserController::class);
     Route::resource('roles', RoleController::class);
