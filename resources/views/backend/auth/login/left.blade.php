@@ -4,7 +4,7 @@
 
         <div class="text-center mb-4">
             <img src="{{ asset('uploads/images/logor.png') }}" style="width:110px;height:110px;" class="mb-3">
-            <h2 class="fw-bold">ProsharPOS</h2>
+            <h2 class="fw-bold">{{ $systemInfo->name ?? 'NA' }}</h2>
             <p class="small opacity-75">
                 Bangladesh’s Smart POS & Inventory Solution
             </p>
