@@ -1,7 +1,7 @@
 <footer class="main-footer d-flex justify-content-between align-items-center px-4 py-3 bg-light shadow-sm">
     <div>
         © {{ date('Y') }} <a href="#" target="_blank" class="dev-link fw-bold text-decoration-none">
-            <strong>ProsharPOS</strong>
+            <strong> {{ $systemInfo->name ?? 'NA' }}</strong>
         </a> All rights reserved.
     </div>
     <div>

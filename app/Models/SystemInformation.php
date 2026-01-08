@@ -14,4 +14,10 @@ class SystemInformation extends Model
         'slogan',
         'photo'
     ];
+    public static function info()
+    {
+        return cache()->rememberForever('system_information', function () {
+            return self::first();
+        });
+    }
 }
