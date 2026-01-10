@@ -57,6 +57,7 @@ use App\Http\Controllers\Backend\Setting_Management\SettingController;
 
 // Landing page
 Route::get('/', [WelcomePageController::class, 'index'])->name('welcome');
+Route::get('/help', [WelcomePageController::class, 'help'])->name('help');
 
 Route::get('/home', function () {
     return view('home');

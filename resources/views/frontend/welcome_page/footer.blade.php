@@ -56,12 +56,11 @@
                 <h6 class="text-white fw-semibold">Quick Links</h6>
                 <ul class="list-unstyled footer-links small">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#client-feedback">Feedback</a></li>
                     <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#about">About</a></li>
                 </ul>
             </div>
 
@@ -69,7 +68,7 @@
             <div class="col-md-2 mb-4">
                 <h6 class="text-white fw-semibold">Support</h6>
                 <ul class="list-unstyled footer-links small">
-                    <li><a href="#">Help Articles</a></li>
+                    <li><a href="{{ route('help') }}">Help Articles</a></li>
                     <li><a href="#">Live Chat</a></li>
                 </ul>
             </div>

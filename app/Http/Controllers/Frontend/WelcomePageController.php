@@ -11,4 +11,9 @@ class WelcomePageController extends Controller
     {
         return view('frontend.welcome');
     }
+
+    public function help()
+    {
+        return view('frontend.welcome_page.public.help');
+    }
 }

@@ -116,6 +116,14 @@
         .navbar-nav .nav-item .nav-link:hover {
             color: white;
         }
+
+        /*navbar stick part */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            background: #fff;
+        }
     </style>
 
 
