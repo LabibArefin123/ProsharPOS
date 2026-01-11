@@ -19,7 +19,7 @@
             <div class="card-body">
                 {{-- Top Info --}}
                 <div class="row mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <strong>Name:</strong>
                         <p class="form-control" style="white-space: normal; word-wrap: break-word;">
                             {{ $product->name }}
@@ -27,41 +27,37 @@
 
                     </div>
 
-                    <div class="col-md-3">
-                        <strong>Category:</strong>
-                        <p class="form-control">{{ $product->category->name ?? 'N/A' }}</p>
+                    <div class="col-md-4">
+                        <strong>SKU:</strong>
+                        <p class="form-control">{{ $product->sku ?? 'N/A' }}</p>
                     </div>
-                    <div class="col-md-3">
-                        <strong>Brand:</strong>
-                        <p class="form-control">{{ $product->brand->name ?? 'N/A' }}</p>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <strong>Origin:</strong>
                         <p class="form-control">{{ $product->origin ?? 'N/A' }}</p>
                     </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-2">
+                    <div class="col-md-4">
+                        <strong>Category:</strong>
+                        <p class="form-control">{{ $product->category->name ?? 'N/A' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Brand:</strong>
+                        <p class="form-control">{{ $product->brand->name ?? 'N/A' }}</p>
+                    </div>
+                    <div class="col-md-4">
                         <strong>Unit:</strong>
                         <p class="form-control">{{ $product->unit->name ?? 'N/A' }} ({{ $product->unit->short_name ?? '' }})
                         </p>
                     </div>
-                    <div class="col-md-2">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
                         <strong>Part Number:</strong>
                         <p class="form-control">{{ $product->part_number ?? 'N/A' }}</p>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-6">
                         <strong>Type / Model:</strong>
                         <p class="form-control">{{ $product->type_model ?? 'N/A' }}</p>
-                    </div>
-                    <div class="col-md-3">
-                        <strong>Rack:</strong>
-                        <p class="form-control">{{ $product->rack_number ?? 'N/A' }}</p>
-                    </div>
-                    <div class="col-md-3">
-                        <strong>Box:</strong>
-                        <p class="form-control">{{ $product->box_number ?? 'N/A' }}</p>
                     </div>
                 </div>
 
@@ -77,8 +73,7 @@
                                 <th>Handling Charge (%)</th>
                                 <th>Office Maintenance (%)</th>
                                 <th>Selling Price</th>
-                                <th>Stock Quantity</th>
-                                <th>Alert Quantity</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -87,8 +82,7 @@
                                 <td>{{ number_format($product->handling_charge, 2) }}</td>
                                 <td>{{ number_format($product->maintenance_charge, 2) }}</td>
                                 <td>{{ number_format($product->sell_price, 2) }}</td>
-                                <td>{{ $product->stock_quantity }}</td>
-                                <td>{{ $product->alert_quantity }}</td>
+
                             </tr>
                         </tbody>
                     </table>

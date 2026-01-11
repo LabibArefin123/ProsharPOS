@@ -21,8 +21,6 @@ class Product extends Model
         'purchase_price',
         'handling_charge',
         'maintenance_charge',
-        'stock_quantity',
-        'alert_quantity',
         'sell_price',
         'image',
         'using_place',
