@@ -73,7 +73,6 @@
                                 <th>Handling Charge (%)</th>
                                 <th>Office Maintenance (%)</th>
                                 <th>Selling Price</th>
-
                             </tr>
                         </thead>
                         <tbody>

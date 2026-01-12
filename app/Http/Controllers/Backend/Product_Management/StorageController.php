@@ -86,11 +86,16 @@ class StorageController extends Controller
      */
     public function edit(Storage $storage)
     {
-        
+
         $suppliers = Supplier::all();
         $products = Product::orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
-        return view('backend.product_management.storage.edit', compact('storage', 'suppliers', 'products', 'manufacturers'));
+        return view('backend.product_management.storage.edit', compact(
+            'storage',
+            'suppliers',
+            'products',
+            'manufacturers'
+        ));
     }
 
     /**
@@ -137,8 +142,15 @@ class StorageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Storage $storage)
     {
-        //
+        // delete image if exists
+        if ($storage->image && file_exists(public_path($storage->image))) {
+            unlink(public_path($storage->image));
+        }
+
+        $storage->delete();
+
+        return redirect()->route('storages.index')->with('success', 'Storage deleted successfully');
     }
 }

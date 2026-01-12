@@ -45,8 +45,6 @@ class ProductSeeder extends Seeder
                 'handling_charge'   => rand(10, 300),
                 'maintenance_charge' => rand(0, 200),
                 'sell_price'        => rand(500, 20000),
-                'stock_quantity'    => rand(1, 200),
-                'alert_quantity'    => rand(1, 10),
                 'image'             => null,
                 'using_place'       => ['Store Room', 'Front Desk', 'Office', 'Warehouse'][rand(0, 3)],
                 'warranty_id'       => $warranties->random()->id,
