@@ -21,6 +21,10 @@ class Storage extends Model
         'image_path',
         'barcode_path',
         'is_active',
+        'is_damaged',
+        'is_expired',
+        'last_stocked_at',
+        'last_sold_at',
     ];
 
     public function product()

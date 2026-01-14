@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->string('barcode_path')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_damaged')->default(true);
+            $table->boolean('is_expired')->default(true);
+            $table->timestamp('last_stocked_at')->nullable();
+            $table->timestamp('last_sold_at')->nullable();
             $table->timestamps();
         });
     }
