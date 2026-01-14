@@ -30,6 +30,8 @@ return new class extends Migration
             $table->boolean('is_damaged')->default(true);
             $table->boolean('is_expired')->default(true);
             $table->timestamp('last_stocked_at')->nullable();
+            $table->string('damage_note');
+            $table->string('expiry_note');
             $table->timestamp('last_sold_at')->nullable();
             $table->timestamps();
         });
