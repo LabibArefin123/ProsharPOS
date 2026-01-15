@@ -24,6 +24,9 @@ return new class extends Migration
             $table->string('box_location', 150)->nullable();
             $table->unsignedInteger('stock_quantity')->default(0);
             $table->unsignedInteger('alert_quantity')->default(0);
+            $table->unsignedInteger('minimum_stock_level')->default(0);
+            $table->unsignedInteger('maximum_stock_level')->default(0);
+            $table->unsignedInteger('reorder_quantity')->default(0);
             $table->string('image_path')->nullable();
             $table->string('barcode_path')->nullable();
             $table->boolean('is_active')->default(true);
