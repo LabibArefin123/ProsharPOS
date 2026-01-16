@@ -67,6 +67,7 @@ Route::get('/home', function () {
 Route::middleware(['auth', 'permission'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/system_dashboard', [DashboardController::class, 'system_index'])->name('dashboard.system');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
     //top menu

@@ -136,7 +136,7 @@ class SettingController extends Controller
     {
         try {
             // DB Credentials
-            $db   = env('DB_DATABASE', 'tot_visiq');
+            $db   = env('DB_DATABASE', 'tot_pos');
             $user = env('DB_USERNAME', 'root');
             $pass = env('DB_PASSWORD', '');
             $host = env('DB_HOST', '127.0.0.1');
@@ -175,7 +175,6 @@ class SettingController extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
-
 
     public function logs(Request $request)
     {

@@ -333,6 +333,12 @@ return [
             'icon' => 'fas fa-home',
         ],
         [
+            'text' => 'System Dashboard',
+            'route' => 'dashboard.system',
+            'can' => 'dashboard.system',
+            'icon' => 'fas fa-home',
+        ],
+        [
             'text'    => 'Organization Menu',
             'icon'    => 'fas fa-cogs',
             // 'route'    => 'organization_menu',

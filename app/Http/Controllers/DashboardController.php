@@ -10,6 +10,10 @@ use App\Models\ChallanItem;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use App\Models\User;
+
 class DashboardController extends Controller
 {
     public function index()
@@ -152,6 +156,86 @@ class DashboardController extends Controller
             'totalPettyCashExpensePending',
             'totalPettyCashDollarReceivePending',
             'totalPettyCashDollarExpensePending'
+        ));
+    }
+
+    public function system_index()
+    {
+        // -----------------------------
+        // Total Users
+        // -----------------------------
+        $totalUsers = User::count();
+
+        // -----------------------------
+        // Table Row Counts + Last Updated Time
+        // -----------------------------
+        $dbName = DB::getDatabaseName();
+
+        $tables = DB::select("
+            SELECT 
+                TABLE_NAME,
+                UPDATE_TIME
+            FROM information_schema.tables
+            WHERE table_schema = ?
+        ", [$dbName]);
+
+        $tableCounts = [];
+        $totalRecords = 0;
+
+        foreach ($tables as $table) {
+            $tableName = $table->TABLE_NAME;
+
+            if (in_array($tableName, ['migrations', 'failed_jobs'])) {
+                continue;
+            }
+
+            $count = DB::table($tableName)->count();
+
+            $tableCounts[$tableName] = [
+                'count' => $count,
+                'updated_at' => $table->UPDATE_TIME
+                    ? date('Y-m-d H:i:s', strtotime($table->UPDATE_TIME))
+                    : null,
+            ];
+
+            $totalRecords += $count;
+        }
+
+
+        // -----------------------------
+        // Database Size
+        // -----------------------------
+        $dbSize = DB::selectOne("
+            SELECT 
+                ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS size
+            FROM information_schema.tables
+            WHERE table_schema = ?
+        ", [$dbName]);
+
+        $databaseSize = $dbSize->size ?? 0;
+
+        // -----------------------------
+        // Last Backup Time
+        // -----------------------------
+        $backupPath = storage_path('app');
+        $lastBackupTime = 'No backup found';
+
+        if (File::exists($backupPath)) {
+            $files = collect(File::files($backupPath))
+                ->filter(fn($file) => $file->getExtension() === 'sql');
+
+            if ($files->isNotEmpty()) {
+                $latestFile = $files->sortByDesc(fn($f) => $f->getMTime())->first();
+                $lastBackupTime = date('Y-m-d H:i:s', $latestFile->getMTime());
+            }
+        }
+
+        return view('backend.dashboard_section.system_dashboard', compact(
+            'totalUsers',
+            'totalRecords',
+            'tableCounts',
+            'databaseSize',
+            'lastBackupTime'
         ));
     }
 }
