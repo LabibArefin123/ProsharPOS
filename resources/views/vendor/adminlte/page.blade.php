@@ -100,7 +100,7 @@
 @section('body')
     <div class="wrapper">
         <!-- start of modal validation -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/backend/admin/logo.JPG') }}">
+        {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/backend/admin/logo.JPG') }}"> --}}
         <div class="modal fade" id="backConfirmModal" tabindex="-1" role="dialog" aria-labelledby="backConfirmLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -129,121 +129,102 @@
         </div>
         <!-- end of modal animation -->
 
-        <!-- start of create animation model -->
-        <div class="modal fade" id="createConfirmModal" tabindex="-1" role="dialog" aria-labelledby="createConfirmLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content text-center p-4">
+            <!-- start of create animation model -->
+            <div class="modal fade" id="createConfirmModal" tabindex="-1" role="dialog" aria-labelledby="createConfirmLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center p-4">
 
-                    <!-- Animated Check Icon -->
-                    <div class="mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#28A745"
-                            viewBox="0 0 16 16">
-                            <path
-                                d="M16 2a2 2 0 0 1-2 2h-1v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4H2a2 2 0 0 1 0-4h12a2 2 0 0 1 2 2zM5 4v10h6V4H5zm3 7.5a.5.5 0 0 1-.374-.832l1.5-1.5a.5.5 0 1 1 .707.707L8.707 10.5l1.126 1.126a.5.5 0 1 1-.707.707l-1.5-1.5A.5.5 0 0 1 8 11.5z" />
-                        </svg>
+                        <!-- Animated Check Icon -->
+                        <div class="mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#28A745"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M16 2a2 2 0 0 1-2 2h-1v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4H2a2 2 0 0 1 0-4h12a2 2 0 0 1 2 2zM5 4v10h6V4H5zm3 7.5a.5.5 0 0 1-.374-.832l1.5-1.5a.5.5 0 1 1 .707.707L8.707 10.5l1.126 1.126a.5.5 0 1 1-.707.707l-1.5-1.5A.5.5 0 0 1 8 11.5z" />
+                            </svg>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="modal-body mb-3">
+                            Are you sure you want to <strong>create</strong> this record?
+                        </div>
+
+                        <!-- Footer Buttons -->
+                        <div class="modal-footer d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Confirm</button>
+                        </div>
+
                     </div>
-
-                    <!-- Message -->
-                    <div class="modal-body mb-3">
-                        Are you sure you want to <strong>create</strong> this record?
-                    </div>
-
-                    <!-- Footer Buttons -->
-                    <div class="modal-footer d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success">Confirm</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
-        <!-- end of create animation model -->
+            <!-- end of create animation model -->
 
-        <!-- start of edit animation model -->
-        <div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog" aria-labelledby="editConfirmLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content text-center p-4">
+            <!-- start of edit animation model -->
+            <div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog" aria-labelledby="editConfirmLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center p-4">
 
-                    <!-- Animated Pencil Icon -->
-                    <div class="mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#17A2B8"
-                            viewBox="0 0 16 16">
-                            <path
-                                d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708l-9.193 9.193a.5.5 0 0 1-.168.11l-4 1.5a.5.5 0 0 1-.65-.65l1.5-4a.5.5 0 0 1 .11-.168l9.193-9.193zM11.207 2L3.5 9.707l-.793 2.121 2.121-.793L13.293 3 11.207 2z" />
-                        </svg>
+                        <!-- Animated Pencil Icon -->
+                        <div class="mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#17A2B8"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708l-9.193 9.193a.5.5 0 0 1-.168.11l-4 1.5a.5.5 0 0 1-.65-.65l1.5-4a.5.5 0 0 1 .11-.168l9.193-9.193zM11.207 2L3.5 9.707l-.793 2.121 2.121-.793L13.293 3 11.207 2z" />
+                            </svg>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="modal-body mb-3">
+                            Are you sure you want to <strong>update</strong> this record?
+                        </div>
+
+                        <!-- Footer Buttons -->
+                        <div class="modal-footer d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-info">Confirm</button>
+                        </div>
+
                     </div>
-
-                    <!-- Message -->
-                    <div class="modal-body mb-3">
-                        Are you sure you want to <strong>update</strong> this record?
-                    </div>
-
-                    <!-- Footer Buttons -->
-                    <div class="modal-footer d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-info">Confirm</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
-        <!-- end of edit animation model -->
+            <!-- end of edit animation model -->
 
-        <!-- start of delete animation model -->
-        <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content text-center p-4">
+            <!-- start of delete animation model -->
+            <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center p-4">
 
-                    <!-- Animated Warning Icon -->
-                    <div class="mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="animate-bounce" width="50" height="50"
-                            fill="#DC3545" viewBox="0 0 16 16">
-                            <path
-                                d="M8.982 1.566a1 1 0 0 0-1.964 0L.165 13.233A1 1 0 0 0 1 14.5h14a1 1 0 0 0 .835-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1-2.002 0 1 1 0 0 1 2.002 0z" />
-                        </svg>
+                        <!-- Animated Warning Icon -->
+                        <div class="mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="animate-bounce" width="50" height="50"
+                                fill="#DC3545" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.982 1.566a1 1 0 0 0-1.964 0L.165 13.233A1 1 0 0 0 1 14.5h14a1 1 0 0 0 .835-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1-2.002 0 1 1 0 0 1 2.002 0z" />
+                            </svg>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="modal-body mb-3">
+                            Are you sure you want to <strong>delete</strong> this record? <br>
+                            This action cannot be undone.
+                        </div>
+
+                        <!-- Footer Buttons -->
+                        <div class="modal-footer d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <form id="deleteForm" method="POST" action="#">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+
                     </div>
-
-                    <!-- Message -->
-                    <div class="modal-body mb-3">
-                        Are you sure you want to <strong>delete</strong> this record? <br>
-                        This action cannot be undone.
-                    </div>
-
-                    <!-- Footer Buttons -->
-                    <div class="modal-footer d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <form id="deleteForm" method="POST" action="#">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-
                 </div>
             </div>
-        </div>
-        <!-- end of delete animation model -->
-        {{-- <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="fas fa-shopping-cart"></i>
-
-                @if ($cartCount > 0)
-                    <span class="badge badge-danger navbar-badge">
-                        {{ $cartCount }}
-                    </span>
-                @endif
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0">
-                @include('backend.cart.cart_box')
-            </div>
-        </li> --}}
-
-
-
         {{-- Preloader Animation (fullscreen mode) --}}
         @if ($preloaderHelper->isPreloaderEnabled())
             @include('adminlte::partials.common.preloader')
