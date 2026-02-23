@@ -13,26 +13,24 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label>Warranty Name</label>
-                        <input type="text" class="form-control" value="{{ $warranty->name }}" readonly>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Duration Type</label>
-                        <input type="text" class="form-control" value="{{ ucfirst($warranty->duration_type) }}" readonly>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Day Count</label>
-                        <input type="text" class="form-control" value="{{ $warranty->day_count }}" readonly>
-                    </div>
-                    <div class="form-group col-md-12">
-                        <label>Description</label>
-                        <textarea class="form-control" rows="3" readonly>{{ $warranty->description }}</textarea>
-                    </div>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Warranty Name</label>
+                    <input type="text" class="form-control" value="{{ $warranty->name }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Duration Type</label>
+                    <input type="text" class="form-control" value="{{ ucfirst($warranty->duration_type) }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Day Count</label>
+                    <input type="text" class="form-control" value="{{ $warranty->day_count }}" readonly>
+                </div>
+                <div class="form-group col-md-12">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="3" readonly>{{ $warranty->description }}</textarea>
                 </div>
             </div>
         </div>
