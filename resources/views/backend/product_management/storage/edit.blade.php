@@ -51,7 +51,7 @@
     </div>
     </form>
 
-    <script src="{{ asset('js/backend/storage/product_load.js') }}"></script> {{--  Product load  JS --}}
-    <script src="{{ asset('js/backend/storage/supplier_load.js') }}"></script> {{--  Supplier load  JS --}}
-    <script src="{{ asset('js/backend/storage/manufacture_load.js') }}"></script> {{--  Manufacture load  JS --}}
+    <script src="{{ asset('js/backend/storage/edit_page/product_load.js') }}"></script> {{--  Product load  JS --}}
+    <script src="{{ asset('js/backend/storage/edit_page/supplier_load.js') }}"></script> {{--  Supplier load  JS --}}
+    <script src="{{ asset('js/backend/storage/edit_page/manufacture_load.js') }}"></script> {{--  Manufacture load  JS --}}
 @endsection

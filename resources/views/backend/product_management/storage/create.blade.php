@@ -17,7 +17,6 @@
 @stop
 
 @section('content')
-
     <div class="card shadow-lg">
         <div class="card-body">
             @if ($errors->any())
@@ -58,74 +57,8 @@
             document.getElementById('maintenance_charge').value = (purchase * 0.03).toFixed(2);
         });
     </script>
-    {{-- Start of product load auto --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const productSelect = document.getElementById('product_id');
-
-            productSelect.addEventListener('change', function() {
-                const selected = this.options[this.selectedIndex];
-
-                document.getElementById('sku').value = selected.dataset.sku || '';
-                document.getElementById('part_number').value = selected.dataset.part_number || '';
-                document.getElementById('type_model').value = selected.dataset.type_model || '';
-                document.getElementById('origin').value = selected.dataset.origin || '';
-                document.getElementById('using_place').value = selected.dataset.using_place || '';
-            });
-
-            // Trigger change on page load (for edit page)
-            if (productSelect.value) {
-                productSelect.dispatchEvent(new Event('change'));
-            }
-        });
-    </script>
-    {{-- End of product load auto --}}
-    {{-- Start of supplier load auto --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const select = document.getElementById('supplier_id');
-            if (!select) return;
-
-            function fillSupplier() {
-                const selected = select.options[select.selectedIndex];
-                if (!selected || !selected.value) return;
-
-                document.getElementById('supplier_location').value = selected.dataset.location || '';
-                document.getElementById('supplier_email').value = selected.dataset.email || '';
-                document.getElementById('supplier_phone_number').value = selected.dataset.phone || '';
-                document.getElementById('supplier_license_no').value = selected.dataset.license || '';
-            }
-
-            select.addEventListener('change', fillSupplier);
-
-            // ✅ Force load for edit + old()
-            window.requestAnimationFrame(fillSupplier);
-        });
-    </script>
-    {{-- End of supplier load auto --}}
-
-    {{-- Start of manufacturer load auto --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const select = document.getElementById('manufacturer_id');
-            if (!select) return;
-
-            function fillManufacturer() {
-                const selected = select.options[select.selectedIndex];
-                if (!selected || !selected.value) return;
-
-                document.getElementById('manufacturer_country').value = selected.dataset.country || '';
-                document.getElementById('manufacturer_location').value = selected.dataset.location || '';
-                document.getElementById('manufacturer_email').value = selected.dataset.email || '';
-                document.getElementById('manufacturer_phone').value = selected.dataset.phone || '';
-            }
-
-            select.addEventListener('change', fillManufacturer);
-
-            // ✅ Force load for edit + old()
-            window.requestAnimationFrame(fillManufacturer);
-        });
-    </script>
-    {{-- End of manufacturer load auto --}}
+    <script src="{{ asset('js/backend/storage/create_page/product_load.js') }}"></script> {{--  Product load  JS --}}
+    <script src="{{ asset('js/backend/storage/create_page/supplier_load.js') }}"></script> {{--  Supplier load  JS --}}
+    <script src="{{ asset('js/backend/storage/create_page/manufacture_load.js') }}"></script> {{--  Manufacture load  JS --}}
 
 @endsection

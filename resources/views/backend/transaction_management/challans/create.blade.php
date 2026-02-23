@@ -30,17 +30,13 @@
 
     <form action="{{ route('challans.store') }}" method="POST" id="challanForm">
         @csrf
-
-
-
-
         <div class="card mb-4 shadow">
-            @include('transaction_management.challans.partial_create.part_1_supplier')
-            @include('transaction_management.challans.partial_create.part_2_branch')
-            @include('transaction_management.challans.partial_create.part_3_information')
+            @include('backend.transaction_management.challans.partial_create.part_1_supplier')
+            @include('backend.transaction_management.challans.partial_create.part_2_branch')
+            @include('backend.transaction_management.challans.partial_create.part_3_information')
         </div>
 
-        @include('transaction_management.challans.create.partial.cart')
+        @include('backend.transaction_management.challans.create.partial.cart')
 
 
     </form>
