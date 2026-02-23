@@ -68,280 +68,35 @@
 
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    window.products = @json($products ?? []);
+    window.warranties = @json($warranties ?? []);
 
-        /* ============================================================
-           RESTORE ITEMS (EDIT MODE OR OLD FORM ERROR)
-        ============================================================ */
-        let oldItems = {!! json_encode(old('items') ? json_decode(old('items'), true) : []) !!};
+    // If validation error
+    window.oldItems = @json(old('items') ? json_decode(old('items'), true) : []);
 
-        let cartItems =
-            oldItems.length > 0 ?
-            oldItems :
-            {!! json_encode($editItems ?? []) !!};
+    // Items from database (edit mode)
+    window.editItems = @json($editItems ?? []);
 
-        /* ============================================================
-           PRODUCT LIST + PAGINATION
-        ============================================================ */
-        let products = @json($products);
-        const perPage = 6;
-        let currentPage = 1;
-
-        const productGrid = document.getElementById("product-grid");
-        const paginationEl = document.getElementById("product-pagination");
-        const searchInput = document.getElementById("product-search");
-
-        function renderProducts(page = 1, search = "") {
-            let filtered = products.filter(p =>
-                p.name.toLowerCase().includes(search.toLowerCase())
-            );
-
-            const start = (page - 1) * perPage;
-            const list = filtered.slice(start, start + perPage);
-
-            productGrid.innerHTML = "";
-
-            list.forEach(p => {
-                const image = p.image ?
-                    `/uploads/images/product/${p.image}` :
-                    "{{ asset('images/default.jpg') }}";
-
-                const isSelected = cartItems.some(ci => ci.id == p.id);
-
-                let div = document.createElement("div");
-                div.className = "col-md-4 mb-3 d-flex justify-content-center";
-
-                div.innerHTML = `
-                <div class="text-center product-card p-2 ${isSelected ? "selected-product" : ""}"
-                    data-id="${p.id}"
-                    data-name="${p.name}"
-                    data-image="${image}"
-                    style="cursor:pointer;">
-
-                    <img src="${image}"
-                         class="mb-2 img-fluid product-img"
-                         style="width:80px;height:80px;object-fit:cover;">
-                    
-                    <small class="d-block text-truncate" style="max-width:100px;">
-                        ${p.name}
-                    </small>
-
-                    <button class="btn btn-outline-primary btn-sm add-btn mt-1">
-                        ${isSelected ? "Added" : "Add"}
-                    </button>
-                </div>
-            `;
-
-                productGrid.appendChild(div);
-            });
-
-            renderPagination(page, filtered.length);
-            bindProductEvents();
-            bindZoomEvents();
-        }
-
-        function renderPagination(page, total) {
-            const pages = Math.ceil(total / perPage);
-            paginationEl.innerHTML = "";
-
-            for (let i = 1; i <= pages; i++) {
-                let li = document.createElement("li");
-                li.className = `page-item ${i === page ? "active" : ""}`;
-                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-
-                li.onclick = e => {
-                    e.preventDefault();
-                    currentPage = i;
-                    renderProducts(i, searchInput.value);
-                };
-
-                paginationEl.appendChild(li);
-            }
-        }
-
-        searchInput.addEventListener("input", function() {
-            renderProducts(1, this.value);
-        });
-
-        /* ============================================================
-           CART HANDLER
-        ============================================================ */
-        const cartTable = document.querySelector("#challan-cart tbody");
-        const totalQtyEl = document.getElementById("total-qty");
-        const itemsInput = document.getElementById("challan-items");
-
-        function bindProductEvents() {
-            document.querySelectorAll(".add-btn").forEach(btn => {
-                btn.onclick = function(e) {
-                    e.stopPropagation();
-
-                    let card = this.closest(".product-card");
-                    let id = card.dataset.id;
-                    let name = card.dataset.name;
-
-                    let exists = cartItems.find(i => i.id == id);
-
-                    if (exists) {
-                        exists.challan_total++;
-                    } else {
-                        cartItems.push({
-                            id,
-                            name,
-                            challan_total: 1,
-                            challan_bill: 1,
-                            challan_unbill: 0,
-                            challan_foc: 0,
-                            warranty_id: null,
-                            warranty_period: 0
-                        });
-                    }
-
-                    renderCart();
-                    renderProducts(currentPage, searchInput.value);
-                };
-            });
-        }
-
-        function renderCart() {
-            cartTable.innerHTML = "";
-            let totalQty = 0;
-
-            cartItems.forEach((item, index) => {
-                totalQty += item.challan_total;
-
-                cartTable.innerHTML += `
-                <tr>
-                    <td>${item.name}</td>
-
-                    <td><input type="number" min="1" value="${item.challan_total}"
-                        class="form-control form-control-sm cart-qty" data-index="${index}"></td>
-
-                    <td><input type="number" min="0" value="${item.challan_bill}"
-                        class="form-control form-control-sm bill-qty" data-index="${index}"></td>
-
-                    <td><input type="number" min="0" value="${item.challan_unbill}"
-                        class="form-control form-control-sm unbill-qty" data-index="${index}"></td>
-
-                    <td><input type="number" min="0" value="${item.challan_foc}"
-                        class="form-control form-control-sm foc-qty" data-index="${index}"></td>
-
-                    <td>
-                        <select class="form-control form-control-sm warranty-select" data-index="${index}">
-                            ${loadWarrantyOptions()}
-                        </select>
-                    </td>
-
-                    <td>
-                        <button class="btn btn-danger btn-sm remove-btn" data-index="${index}">✕</button>
-                    </td>
-                </tr>
-            `;
-            });
-
-            // SET WARRANTY VALUES
-            cartItems.forEach((item, i) => {
-                let sel = document.querySelector(`.warranty-select[data-index="${i}"]`);
-                if (sel && item.warranty_id) {
-                    sel.value = item.warranty_id;
-                }
-
-            });
-
-            totalQtyEl.innerText = totalQty;
-
-            itemsInput.value = JSON.stringify(cartItems);
-        }
-
-        cartTable.addEventListener("input", function(e) {
-            let i = e.target.dataset.index;
-
-            if (e.target.classList.contains("cart-qty"))
-                cartItems[i].challan_total = parseInt(e.target.value);
-
-            if (e.target.classList.contains("bill-qty"))
-                cartItems[i].challan_bill = parseInt(e.target.value);
-
-            if (e.target.classList.contains("unbill-qty"))
-                cartItems[i].challan_unbill = parseInt(e.target.value);
-
-            if (e.target.classList.contains("foc-qty"))
-                cartItems[i].challan_foc = parseInt(e.target.value);
-
-            itemsInput.value = JSON.stringify(cartItems);
-            renderCart();
-        });
-
-        cartTable.addEventListener("change", function(e) {
-            if (!e.target.classList.contains("warranty-select")) return;
-
-            let i = e.target.dataset.index;
-            let opt = e.target.selectedOptions[0];
-
-            cartItems[i].warranty_id = opt.value;
-            cartItems[i].warranty_period = opt.dataset.days ?? 0;
-
-            itemsInput.value = JSON.stringify(cartItems);
-        });
-
-        cartTable.addEventListener("click", function(e) {
-            if (e.target.classList.contains("remove-btn")) {
-                let index = e.target.dataset.index;
-                let removed = cartItems[index].id;
-
-                cartItems.splice(index, 1);
-
-                renderCart();
-                renderProducts(currentPage, searchInput.value);
-            }
-        });
-
-        /* ============================================================
-           WARRANTY OPTIONS
-        ============================================================ */
-        function loadWarrantyOptions() {
-            let list = @json($warranties);
-            let html = `<option value="">None</option>`;
-
-            list.forEach(w => {
-                html += `<option value="${w.id}" data-days="${w.day_count}">${w.name}</option>`;
-            });
-
-            return html;
-        }
-
-        /* ============================================================
-           IMAGE ZOOM
-        ============================================================ */
-        function bindZoomEvents() {
-            document.querySelectorAll(".product-img").forEach(img => {
-                img.onclick = () => {
-                    document.getElementById("zoomed-image").src = img.src;
-                    document.getElementById("zoomed-name").innerText = img.closest(".product-card")
-                        .dataset.name;
-                    new bootstrap.Modal(document.getElementById("imageModal")).show();
-                };
-            });
-        }
-
-        /* ============================================================
-           INITIAL LOAD
-        ============================================================ */
-        renderProducts();
-        renderCart();
-    });
+    window.defaultProductImage = "{{ asset('images/default.jpg') }}";
 </script>
+<script src="{{ asset('js/backend/transaction_management/challan/edit_page/cart.js') }}"></script>
 <script>
-    const toggleFilterBtn = document.getElementById('toggle-filter');
-    const filterBox = document.getElementById('filter-box');
-    const productSearch = document.getElementById('product-search');
-    toggleFilterBtn.addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent any default action
-        filterBox.style.display = (filterBox.style.display === 'block') ? 'none' : 'block';
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleFilterBtn = document.getElementById('toggle-filter');
+        const filterBox = document.getElementById('filter-box');
 
-    document.addEventListener('click', function(e) {
-        if (!filterBox.contains(e.target) && e.target !== toggleFilterBtn) {
-            filterBox.style.display = 'none';
+        if (toggleFilterBtn && filterBox) {
+            toggleFilterBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                filterBox.style.display =
+                    (filterBox.style.display === 'block') ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!filterBox.contains(e.target) && e.target !== toggleFilterBtn) {
+                    filterBox.style.display = 'none';
+                }
+            });
         }
     });
 </script>
