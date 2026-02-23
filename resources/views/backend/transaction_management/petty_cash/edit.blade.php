@@ -85,16 +85,11 @@
                             @endforeach
                         </select>
                     </div>
-
-                    {{-- Amount --}}
+                    {{-- Amount (BDT) --}}
                     <div class="col-md-6 form-group">
                         <label><strong>Amount (BDT)</strong> <span class="text-danger">*</span></label>
-                        <input type="number" step="0.01" name="amount"
-                            class="form-control @error('amount') is-invalid @enderror"
+                        <input type="number" step="0.01" name="amount" class="form-control"
                             value="{{ old('amount', $petty_cash->amount) }}" placeholder="Enter amount">
-                        @error('amount')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     {{-- Amount in Dollar --}}
@@ -108,7 +103,7 @@
                     <div class="col-md-6 form-group">
                         <label><strong>Exchange Rate</strong></label>
                         <input type="number" step="0.0001" name="exchange_rate" class="form-control"
-                            value="{{ old('exchange_rate', $petty_cash->exchange_rate) }}">
+                            value="{{ old('exchange_rate', $petty_cash->exchange_rate ?? 108.5) }}">
                     </div>
 
                     {{-- Currency --}}
@@ -308,4 +303,74 @@
         });
     </script>
     {{-- End of supplier data autofetch js --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Stage 1: DOM Loaded, JS is supported.");
+
+            const amountBDT = document.querySelector('input[name="amount"]');
+            const amountUSD = document.querySelector('input[name="amount_in_dollar"]');
+            const exchangeInput = document.querySelector('input[name="exchange_rate"]');
+
+            if (!amountBDT || !amountUSD || !exchangeInput) {
+                console.error("Stage 1 Error: Required input fields not found in DOM.");
+                return;
+            }
+
+            let exchangeRate = parseFloat(exchangeInput.value) || 108.50; // fallback
+
+            // Safe calculation functions
+            function calculateBDTtoUSD(value) {
+                return exchangeRate > 0 && value !== '' ? (parseFloat(value) / exchangeRate).toFixed(2) : '';
+            }
+
+            function calculateUSDtoBDT(value) {
+                return exchangeRate > 0 && value !== '' ? (parseFloat(value) * exchangeRate).toFixed(2) : '';
+            }
+
+            // Initialize on page load: auto-fill missing field
+            if (amountBDT.value && (!amountUSD.value || amountUSD.value == 0)) {
+                amountUSD.value = calculateBDTtoUSD(amountBDT.value);
+            } else if (amountUSD.value && (!amountBDT.value || amountBDT.value == 0)) {
+                amountBDT.value = calculateUSDtoBDT(amountUSD.value);
+            }
+
+            // BDT -> USD live update
+            amountBDT.addEventListener("input", function() {
+                console.log("Stage 3: BDT input changed:", this.value);
+                if (this.value !== '') {
+                    amountUSD.value = calculateBDTtoUSD(this.value);
+                    amountUSD.disabled = true;
+                    amountBDT.disabled = false;
+                } else {
+                    amountUSD.value = '';
+                    amountUSD.disabled = false;
+                }
+            });
+
+            // USD -> BDT live update
+            amountUSD.addEventListener("input", function() {
+                console.log("Stage 3: USD input changed:", this.value);
+                if (this.value !== '') {
+                    amountBDT.value = calculateUSDtoBDT(this.value);
+                    amountBDT.disabled = true;
+                    amountUSD.disabled = false;
+                } else {
+                    amountBDT.value = '';
+                    amountBDT.disabled = false;
+                }
+            });
+
+            // Exchange rate change recalc
+            exchangeInput.addEventListener("input", function() {
+                exchangeRate = parseFloat(this.value) || 108.50;
+                console.log("Stage 4: Exchange rate updated:", exchangeRate);
+
+                if (amountBDT.value && !amountBDT.disabled) {
+                    amountUSD.value = calculateBDTtoUSD(amountBDT.value);
+                } else if (amountUSD.value && !amountUSD.disabled) {
+                    amountBDT.value = calculateUSDtoBDT(amountUSD.value);
+                }
+            });
+        });
+    </script>
 @stop

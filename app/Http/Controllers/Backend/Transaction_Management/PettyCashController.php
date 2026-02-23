@@ -26,26 +26,30 @@ class PettyCashController extends Controller
 
     public function create()
     {
+        // Default exchange rate (USD -> BDT)
+        $defaultExchangeRate = 108.50; // you can update this manually
+
         return view('backend.transaction_management.petty_cash.create', [
             'users'         => User::all(),
             'customers'     => Customer::all(),
             'suppliers'     => Supplier::orderBy('name', 'asc')->get(),
-            'categories'     => Category::orderBy('name', 'asc')->get(),
-            'products'     => Product::orderBy('name', 'asc')->get(),
+            'categories'    => Category::orderBy('name', 'asc')->get(),
+            'products'      => Product::orderBy('name', 'asc')->get(),
             'bank_balances' => BankBalance::all(),
+            'exchangeRate'  => $defaultExchangeRate, // Pass to Blade
         ]);
     }
 
     public function store(Request $request)
     {
         // ============================================================
-        // START OF VALIDATION
+        // VALIDATION
         // ============================================================
         $validated = $request->validate([
             'reference_no'      => 'nullable|string|max:191',
-            'type'              => 'required|in:receive,expense', // receive adds money, expense deducts
+            'type'              => 'required|in:receive,expense',
             'reference_type'    => 'nullable|string|max:100',
-            'amount'            => 'required|numeric|min:0',
+            'amount'            => 'nullable|numeric|min:0',
             'amount_in_dollar'  => 'nullable|numeric|min:0',
             'exchange_rate'     => 'nullable|numeric|min:0',
             'currency'          => 'nullable|string|max:10',
@@ -57,16 +61,12 @@ class PettyCashController extends Controller
             'product_id'        => 'nullable|exists:products,id',
             'note'              => 'nullable|string',
             'attachment'        => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
-            'status'            => 'required|string', // pending OR approved
+            'status'            => 'required|string',
             'user_id'           => 'required|exists:users,id',
         ]);
-        // ============================================================
-        // END OF VALIDATION
-        // ============================================================
-
 
         // ============================================================
-        // START OF SANITIZING & PREPARING DATA
+        // SANITIZE & PREPARE DATA
         // ============================================================
         $data = $request->only([
             'bank_balance_id',
@@ -91,19 +91,28 @@ class PettyCashController extends Controller
         if (empty($data['reference_no'])) {
             $data['reference_no'] = 'PC-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
         }
-        // ============================================================
-        // END OF SANITIZING & PREPARING DATA
-        // ============================================================
-
 
         // ============================================================
-        // START OF ATTACHMENT HANDLING
+        // AUTO-CALCULATE AMOUNT FIELDS
+        // ============================================================
+        $exchangeRate = $data['exchange_rate'] ?? 108.50; // fallback
+
+        // If user entered only BDT
+        if (!empty($data['amount']) && (empty($data['amount_in_dollar']) || $data['amount_in_dollar'] == 0)) {
+            $data['amount_in_dollar'] = round($data['amount'] / $exchangeRate, 2);
+        }
+
+        // If user entered only USD
+        if (!empty($data['amount_in_dollar']) && (empty($data['amount']) || $data['amount'] == 0)) {
+            $data['amount'] = round($data['amount_in_dollar'] * $exchangeRate, 2);
+        }
+
+        // ============================================================
+        // HANDLE ATTACHMENT
         // ============================================================
         if ($request->hasFile('attachment')) {
-
             $file = $request->file('attachment');
             $ext = $file->getClientOriginalExtension();
-
             $filename = 'petty_cash_' . date('Ymd_His') . '.' . $ext;
 
             $destination = public_path('uploads/petty_cash/');
@@ -114,91 +123,44 @@ class PettyCashController extends Controller
             $file->move($destination, $filename);
             $data['attachment'] = $filename;
         }
-        // ============================================================
-        // END OF ATTACHMENT HANDLING
-        // ============================================================
-
 
         // ============================================================
-        // START OF DATABASE TRANSACTION
+        // DATABASE TRANSACTION
         // ============================================================
         DB::beginTransaction();
 
         try {
-
-            // Create petty cash record
             $petty = PettyCash::create($data);
 
-
-            // ============================================================
-            // START OF BANK BALANCE UPDATE
-            // IMPORTANT RULE:
-            // If STATUS = "pending" → DO NOT update bank balance
-            // If STATUS = "approved" → UPDATE bank balance
-            // ============================================================
-            if (
-                !empty($data['bank_balance_id']) &&
-                isset($data['status']) &&
-                strtolower($data['status']) === 'approved'
-            ) {
-                // Load bank record
+            // Update bank balances if approved
+            if (!empty($data['bank_balance_id']) && strtolower($data['status']) === 'approved') {
                 $bank = BankBalance::find($data['bank_balance_id']);
-
                 if ($bank) {
-
-                    // ----------- Update BDT amount -----------
-                    if (
-                        !empty($data['amount']) &&
-                        (empty($data['currency']) || strtoupper($data['currency']) === 'BDT')
-                    ) {
-                        if ($data['type'] === 'expense') {
-                            $bank->balance -= $data['amount']; // deduct
-                        } else {
-                            $bank->balance += $data['amount']; // add
-                        }
+                    // BDT
+                    if (!empty($data['amount']) && (empty($data['currency']) || strtoupper($data['currency']) === 'BDT')) {
+                        $bank->balance += $data['type'] === 'expense' ? -$data['amount'] : $data['amount'];
                     }
 
-                    // ----------- Update USD amount -----------
+                    // USD
                     if (!empty($data['amount_in_dollar'])) {
-                        if ($data['type'] === 'expense') {
-                            $bank->balance_in_dollars -= $data['amount_in_dollar'];
-                        } else {
-                            $bank->balance_in_dollars += $data['amount_in_dollar'];
-                        }
+                        $bank->balance_in_dollars += $data['type'] === 'expense' ? -$data['amount_in_dollar'] : $data['amount_in_dollar'];
                     }
 
-                    // Save updated bank
                     $bank->save();
                 }
             }
-            // ============================================================
-            // END OF BANK BALANCE UPDATE
-            // ============================================================
-
 
             DB::commit();
         } catch (\Throwable $e) {
-
             DB::rollBack();
 
-            // Delete uploaded file on failure
-            if (
-                !empty($data['attachment']) &&
-                file_exists(public_path('uploads/petty_cash/' . $data['attachment']))
-            ) {
+            if (!empty($data['attachment']) && file_exists(public_path('uploads/petty_cash/' . $data['attachment']))) {
                 @unlink(public_path('uploads/petty_cash/' . $data['attachment']));
             }
 
             return back()->withInput()->with('error', 'Failed to save petty cash: ' . $e->getMessage());
         }
-        // ============================================================
-        // END OF DATABASE TRANSACTION
-        // ============================================================
 
-
-        // ============================================================
-        // RETURN SUCCESS
-        // ============================================================
         return redirect()->route('petty_cashes.index')
             ->with('success', 'Petty Cash created successfully.');
     }
@@ -230,11 +192,10 @@ class PettyCashController extends Controller
             'products'     => Product::orderBy('name', 'asc')->get(),
         ]);
     }
-
     public function update(Request $request, $id)
     {
         // ============================================================
-        // START OF FETCHING OLD RECORD
+        // FETCH OLD RECORD
         // ============================================================
         $petty_cash = PettyCash::findOrFail($id);
         $old_status = strtolower($petty_cash->status);
@@ -242,13 +203,9 @@ class PettyCashController extends Controller
         $old_amount_bdt = $petty_cash->amount;
         $old_amount_usd = $petty_cash->amount_in_dollar;
         $old_bank_id = $petty_cash->bank_balance_id;
-        // ============================================================
-        // END OF FETCHING OLD RECORD
-        // ============================================================
-
 
         // ============================================================
-        // START OF VALIDATION
+        // VALIDATION
         // ============================================================
         $validated = $request->validate([
             'user_id'           => 'required|exists:users,id',
@@ -256,26 +213,22 @@ class PettyCashController extends Controller
             'supplier_id'       => 'nullable|exists:suppliers,id',
             'customer_id'       => 'nullable|exists:customers,id',
             'category_id'       => 'nullable|exists:categories,id',
-            'product_id'       => 'nullable|exists:products,id',
+            'product_id'        => 'nullable|exists:products,id',
             'reference_no'      => 'nullable|string|max:191',
             'type'              => 'required|in:receive,expense',
             'reference_type'    => 'nullable|string|max:100',
-            'amount'            => 'required|numeric|min:0', 
-            'amount_in_dollar'  => 'nullable|numeric|min:0',  
-            'exchange_rate'     => 'nullable|numeric|min:0', 
+            'amount'            => 'nullable|numeric|min:0',
+            'amount_in_dollar'  => 'nullable|numeric|min:0',
+            'exchange_rate'     => 'nullable|numeric|min:0',
             'currency'          => 'nullable|string|max:10',
             'payment_method'    => 'required|string|max:50',
-            'note'              => 'nullable|string', 
-            'attachment'        => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120', 
+            'note'              => 'nullable|string',
+            'attachment'        => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
             'status'            => 'required|string',
         ]);
-        // ============================================================
-        // END OF VALIDATION
-        // ============================================================
-
 
         // ============================================================
-        // START OF SANITIZING & PREPARING DATA
+        // SANITIZE & PREPARE DATA
         // ============================================================
         $data = $request->only([
             'bank_balance_id',
@@ -285,7 +238,6 @@ class PettyCashController extends Controller
             'reference_no',
             'type',
             'reference_type',
-            'item_name',
             'amount',
             'amount_in_dollar',
             'exchange_rate',
@@ -302,24 +254,30 @@ class PettyCashController extends Controller
 
         $new_status = strtolower($data['status']);
         $new_type = strtolower($data['type']);
-        // ============================================================
-        // END OF SANITIZING & PREPARING DATA
-        // ============================================================
-
 
         // ============================================================
-        // START OF ATTACHMENT HANDLING
+        // AUTO-CALCULATE AMOUNTS
+        // ============================================================
+        $exchangeRate = $data['exchange_rate'] ?? 108.50;
+
+        if (!empty($data['amount']) && (empty($data['amount_in_dollar']) || $data['amount_in_dollar'] == 0)) {
+            $data['amount_in_dollar'] = round($data['amount'] / $exchangeRate, 2);
+        }
+
+        if (!empty($data['amount_in_dollar']) && (empty($data['amount']) || $data['amount'] == 0)) {
+            $data['amount'] = round($data['amount_in_dollar'] * $exchangeRate, 2);
+        }
+
+        // ============================================================
+        // ATTACHMENT HANDLING
         // ============================================================
         if ($request->hasFile('attachment')) {
-
             $file = $request->file('attachment');
             $ext = $file->getClientOriginalExtension();
             $filename = 'petty_cash_' . date('Ymd_His') . '.' . $ext;
 
             $destination = public_path('uploads/petty_cash/');
-            if (!file_exists($destination)) {
-                mkdir($destination, 0755, true);
-            }
+            if (!file_exists($destination)) mkdir($destination, 0755, true);
 
             // Delete old file
             if ($petty_cash->attachment && file_exists($destination . $petty_cash->attachment)) {
@@ -329,110 +287,54 @@ class PettyCashController extends Controller
             $file->move($destination, $filename);
             $data['attachment'] = $filename;
         }
-        // ============================================================
-        // END OF ATTACHMENT HANDLING
-        // ============================================================
-
 
         // ============================================================
-        // START OF TRANSACTION
+        // DATABASE TRANSACTION
         // ============================================================
         DB::beginTransaction();
 
         try {
-
-            // Update petty cash first
+            // Update petty cash
             $petty_cash->update($data);
 
-            // ============================================================
-            // START OF BANK BALANCE LOGIC
-            // RULES:
-            // 1) If NEW STATUS = pending → no update
-            // 2) If OLD STATUS = pending AND NEW STATUS = approved → apply new amounts
-            // 3) If OLD STATUS = approved AND NEW STATUS = approved → rollback old + apply new
-            // 4) If OLD STATUS = approved AND NEW STATUS = pending → rollback old impact
-            // ============================================================
-
+            // Update bank balance logic
             $bank = BankBalance::find($data['bank_balance_id']);
             if ($bank) {
-
-                // -------- CASE A: OLD approved → rollback old amounts --------
+                // -------- ROLLBACK OLD AMOUNTS IF OLD STATUS = approved --------
                 if ($old_status === 'approved') {
-
-                    // rollback BDT
                     if ($old_amount_bdt > 0 && (empty($petty_cash->currency) || strtoupper($petty_cash->currency) === 'BDT')) {
-                        if ($old_type === 'expense') {
-                            $bank->balance += $old_amount_bdt;
-                        } else {
-                            $bank->balance -= $old_amount_bdt;
-                        }
+                        $bank->balance += ($old_type === 'expense') ? $old_amount_bdt : -$old_amount_bdt;
                     }
 
-                    // rollback USD
                     if ($old_amount_usd > 0) {
-                        if ($old_type === 'expense') {
-                            $bank->balance_in_dollars += $old_amount_usd;
-                        } else {
-                            $bank->balance_in_dollars -= $old_amount_usd;
-                        }
+                        $bank->balance_in_dollars += ($old_type === 'expense') ? $old_amount_usd : -$old_amount_usd;
                     }
                 }
 
-                // -------- CASE B: NEW status = approved → apply NEW amounts --------
+                // -------- APPLY NEW AMOUNTS IF NEW STATUS = approved --------
                 if ($new_status === 'approved') {
-
-                    // Apply BDT
-                    if (
-                        !empty($data['amount']) &&
-                        (empty($data['currency']) || strtoupper($data['currency']) === 'BDT')
-                    ) {
-                        if ($new_type === 'expense') {
-                            $bank->balance -= $data['amount'];
-                        } else {
-                            $bank->balance += $data['amount'];
-                        }
+                    if (!empty($data['amount']) && (empty($data['currency']) || strtoupper($data['currency']) === 'BDT')) {
+                        $bank->balance += ($new_type === 'expense') ? -$data['amount'] : $data['amount'];
                     }
 
-                    // Apply USD
                     if (!empty($data['amount_in_dollar'])) {
-                        if ($new_type === 'expense') {
-                            $bank->balance_in_dollars -= $data['amount_in_dollar'];
-                        } else {
-                            $bank->balance_in_dollars += $data['amount_in_dollar'];
-                        }
+                        $bank->balance_in_dollars += ($new_type === 'expense') ? -$data['amount_in_dollar'] : $data['amount_in_dollar'];
                     }
                 }
 
-                // -------- CASE C: NEW status = pending → do nothing more --------
-
-                // Save bank record
                 $bank->save();
             }
 
-            // ============================================================
-            // END OF BANK BALANCE LOGIC
-            // ============================================================
-
             DB::commit();
         } catch (\Throwable $e) {
-
             DB::rollBack();
 
-            // Delete uploaded file on error
-            if (
-                !empty($data['attachment']) &&
-                file_exists(public_path('uploads/petty_cash/' . $data['attachment']))
-            ) {
+            if (!empty($data['attachment']) && file_exists(public_path('uploads/petty_cash/' . $data['attachment']))) {
                 @unlink(public_path('uploads/petty_cash/' . $data['attachment']));
             }
 
             return back()->withInput()->with('error', 'Failed to update petty cash: ' . $e->getMessage());
         }
-
-        // ============================================================
-        // END OF TRANSACTION
-        // ============================================================
-
 
         return redirect()->route('petty_cashes.index')->with('success', 'Petty Cash updated successfully.');
     }
