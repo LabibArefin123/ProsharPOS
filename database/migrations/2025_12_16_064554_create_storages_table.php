@@ -30,8 +30,19 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->string('barcode_path')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->boolean('is_damaged')->default(true);
-            $table->boolean('is_expired')->default(true);
+            
+            /* 🧨 Damage Section */
+            $table->boolean('is_damaged')->default(false);
+            $table->text('damage_description')->nullable();
+            $table->string('damage_image')->nullable();
+            $table->unsignedInteger('damage_qty')->default(0);
+            $table->string('damage_solution')->nullable();
+
+            /* ⏳ Expiry Section */
+            $table->boolean('is_expired')->default(false);
+            $table->text('expiry_description')->nullable();
+            $table->string('expiry_image')->nullable();
+            $table->unsignedInteger('expired_qty')->default(0);
             $table->timestamp('last_stocked_at')->nullable();
             $table->string('damage_note');
             $table->string('expiry_note');
