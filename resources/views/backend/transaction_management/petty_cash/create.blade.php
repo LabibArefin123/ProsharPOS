@@ -53,26 +53,6 @@
                         </select>
                     </div>
 
-                    {{-- Customer --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>Customer</strong></label>
-                        <select name="customer_id" class="form-control">
-                            <option value="">Select Customer</option>
-                            @foreach ($customers as $cus)
-                                <option value="{{ $cus->id }}" {{ old('customer_id') == $cus->id ? 'selected' : '' }}>
-                                    {{ $cus->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    {{-- Reference No --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>Reference No</strong></label>
-                        <input type="text" name="reference_no" class="form-control" value="{{ old('reference_no') }}"
-                            placeholder="Auto or Manual">
-                    </div>
-
-                    {{-- Type --}}
                     <div class="col-md-6 form-group">
                         <label><strong>Type</strong> <span class="text-danger">*</span></label>
                         <select name="type" class="form-control @error('type') is-invalid @enderror">
@@ -84,6 +64,28 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Customer</strong></label>
+                        <select name="customer_id" class="form-control">
+                            <option value="">Select Customer</option>
+                            @foreach ($customers as $cus)
+                                <option value="{{ $cus->id }}"
+                                    {{ old('customer_id') == $cus->id ? 'selected' : '' }}>
+                                    {{ $cus->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                 
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Reference No</strong></label>
+                        <input type="text" name="reference_no" class="form-control" value="{{ old('reference_no') }}"
+                            placeholder="Auto or Manual">
+                    </div>
+
+
 
                     {{-- Reference Type --}}
                     <div class="col-md-6 form-group">
@@ -134,7 +136,7 @@
                     {{-- Currency --}}
                     <div class="col-md-6 form-group">
                         <label><strong>Currency</strong></label>
-                        <input type="text" name="currency" class="form-control" value="{{ old('currency', 'BDT') }}">
+                        <input type="text" name="currency" class="form-control" value="">
                     </div>
 
                     {{-- Payment Method --}}

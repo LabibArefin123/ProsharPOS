@@ -8,8 +8,7 @@
     @yield('css')
     <link rel="icon" type="image/png" href="{{ asset('uploads/images/logor.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
@@ -174,7 +173,10 @@
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content text-center p-4">
-
+                    <!-- Close (X) Button -->
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
                     <!-- Animated Pencil Icon -->
                     <div class="mb-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#17A2B8"
@@ -191,7 +193,7 @@
 
                     <!-- Footer Buttons -->
                     <div class="modal-footer d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-info">Confirm</button>
                     </div>
 

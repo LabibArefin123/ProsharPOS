@@ -194,18 +194,33 @@
                         </select>
                     </div>
 
-
-
                     {{-- Attachment --}}
                     <div class="col-md-6 form-group">
                         <label><strong>Attachment</strong></label>
-                        <input type="file" name="attachment" class="form-control">
 
+                        <!-- Input Group -->
+                        <div class="input-group">
+                            <input type="text" id="attachmentDisplayEdit" class="form-control"
+                                placeholder="Choose PDF file..." readonly>
+
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#attachmentModalEdit">
+                                Browse
+                            </button>
+                        </div>
+
+                        <!-- Hidden Real File Input -->
+                        <input type="file" name="attachment" id="attachmentInputEdit" accept="application/pdf"
+                            hidden>
+
+                        <!-- Existing File -->
                         @if ($petty_cash->attachment)
-                            <p class="mt-1">
+                            <div class="mt-2">
                                 <a href="{{ asset('uploads/petty_cash/' . $petty_cash->attachment) }}" target="_blank"
-                                    class="text-primary">View Existing File</a>
-                            </p>
+                                    class="text-primary">
+                                    View Existing File
+                                </a>
+                            </div>
                         @endif
                     </div>
 
@@ -216,7 +231,78 @@
                     </div>
 
                 </div>
+                <div class="modal fade" id="attachmentModalEdit" tabindex="-1">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content">
 
+                            <div class="modal-header">
+                                <h5 class="modal-title">Update Attachment</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row align-items-center">
+
+                                    <!-- LEFT SIDE (Progress Section) -->
+                                    <div class="col-md-5 text-center border-end">
+
+                                        <div class="position-relative d-inline-block mt-3">
+                                            <svg width="160" height="160">
+                                                <circle cx="80" cy="80" r="70" stroke="#eee"
+                                                    stroke-width="10" fill="none" />
+
+                                                <circle id="progressCircleEdit" cx="80" cy="80" r="70"
+                                                    stroke="#0d6efd" stroke-width="10" fill="none"
+                                                    stroke-dasharray="440" stroke-dashoffset="440"
+                                                    transform="rotate(-90 80 80)" />
+                                            </svg>
+
+                                            <div id="progressTextEdit"
+                                                style="position:absolute;
+                                        top:50%;
+                                        left:50%;
+                                        transform:translate(-50%,-50%);
+                                        font-size:22px;
+                                        font-weight:bold;">
+                                                0%
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4" id="fileInfoEdit">
+                                            [ Only PDF allowed | Max 5MB ]
+                                        </div>
+
+                                        <button class="btn btn-success mt-3" id="chooseFileBtnEdit">
+                                            Choose PDF
+                                        </button>
+
+                                    </div>
+
+                                    <!-- RIGHT SIDE (PDF Preview) -->
+                                    <div class="col-md-7">
+
+                                        <div
+                                            style="height:400px;
+                                    overflow-y:auto;
+                                    border:1px solid #ddd;
+                                    border-radius:8px;
+                                    padding:10px;">
+
+                                            <div id="previewAreaEdit" class="text-muted text-center">
+                                                PDF preview will appear here
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
                 <div class="text-end mt-3">
                     <button type="submit" class="btn btn-success">Update</button>
                 </div>
@@ -229,134 +315,10 @@
         window.users = @json($users ?? []);
         window.suppliers = @json($suppliers ?? []);
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("Stage 1: DOM Loaded, JS is supported.");
 
-            const amountBDT = document.querySelector('input[name="amount"]');
-            const amountUSD = document.querySelector('input[name="amount_in_dollar"]');
-            const exchangeInput = document.querySelector('input[name="exchange_rate"]');
-
-            if (!amountBDT || !amountUSD || !exchangeInput) {
-                console.error("Stage 1 Error: Required input fields not found in DOM.");
-                return;
-            }
-
-            let exchangeRate = parseFloat(exchangeInput.value) || 108.50; // fallback
-
-            // Safe calculation functions
-            function calculateBDTtoUSD(value) {
-                return exchangeRate > 0 && value !== '' ? (parseFloat(value) / exchangeRate).toFixed(2) : '';
-            }
-
-            function calculateUSDtoBDT(value) {
-                return exchangeRate > 0 && value !== '' ? (parseFloat(value) * exchangeRate).toFixed(2) : '';
-            }
-
-            // Initialize on page load: auto-fill missing field
-            if (amountBDT.value && (!amountUSD.value || amountUSD.value == 0)) {
-                amountUSD.value = calculateBDTtoUSD(amountBDT.value);
-            } else if (amountUSD.value && (!amountBDT.value || amountBDT.value == 0)) {
-                amountBDT.value = calculateUSDtoBDT(amountUSD.value);
-            }
-
-            // BDT -> USD live update
-            amountBDT.addEventListener("input", function() {
-                console.log("Stage 3: BDT input changed:", this.value);
-                if (this.value !== '') {
-                    amountUSD.value = calculateBDTtoUSD(this.value);
-                    amountUSD.disabled = true;
-                    amountBDT.disabled = false;
-                } else {
-                    amountUSD.value = '';
-                    amountUSD.disabled = false;
-                }
-            });
-
-            // USD -> BDT live update
-            amountUSD.addEventListener("input", function() {
-                console.log("Stage 3: USD input changed:", this.value);
-                if (this.value !== '') {
-                    amountBDT.value = calculateUSDtoBDT(this.value);
-                    amountBDT.disabled = true;
-                    amountUSD.disabled = false;
-                } else {
-                    amountBDT.value = '';
-                    amountBDT.disabled = false;
-                }
-            });
-
-            // Exchange rate change recalc
-            exchangeInput.addEventListener("input", function() {
-                exchangeRate = parseFloat(this.value) || 108.50;
-                console.log("Stage 4: Exchange rate updated:", exchangeRate);
-
-                if (amountBDT.value && !amountBDT.disabled) {
-                    amountUSD.value = calculateBDTtoUSD(amountBDT.value);
-                } else if (amountUSD.value && !amountUSD.disabled) {
-                    amountBDT.value = calculateUSDtoBDT(amountUSD.value);
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const userSelect = document.getElementById("user_id");
-            const bankSelect = document.getElementById("bank_balance_id");
-
-            function filterBankBalances(autoSelect = true) {
-
-                const selectedUserId = userSelect.value;
-                let firstVisibleOption = null;
-
-                Array.from(bankSelect.options).forEach(option => {
-
-                    if (option.value === "") {
-                        option.hidden = false;
-                        return;
-                    }
-
-                    if (option.dataset.user === selectedUserId) {
-                        option.hidden = false;
-
-                        // store first visible bank for auto select
-                        if (!firstVisibleOption) {
-                            firstVisibleOption = option;
-                        }
-
-                    } else {
-                        option.hidden = true;
-                    }
-                });
-
-                const currentSelected = bankSelect.options[bankSelect.selectedIndex];
-
-                // If selected bank doesn't belong to user → auto select first valid
-                if (
-                    autoSelect &&
-                    firstVisibleOption &&
-                    (!currentSelected || currentSelected.hidden)
-                ) {
-                    bankSelect.value = firstVisibleOption.value;
-                }
-
-                // If no user selected → reset bank
-                if (!selectedUserId) {
-                    bankSelect.value = "";
-                }
-            }
-
-            // When user changes manually
-            userSelect.addEventListener("change", function() {
-                filterBankBalances(true);
-            });
-
-            // 🔥 IMPORTANT → For Edit Page Load
-            filterBankBalances(false);
-
-        });
-    </script>
     <script src="{{ asset('js/backend/transaction_management/petty_cash/edit_page/user_load.js') }}"></script> {{-- User Load JS --}}
     <script src="{{ asset('js/backend/transaction_management/petty_cash/edit_page/supplier_load.js') }}"></script> {{-- Supplier Load JS --}}
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/edit_page/user_balance.js') }}"></script> {{-- User Balance Load JS --}}
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/edit_page/exchange_rate.js') }}"></script> {{-- Exchange Rate Load JS --}}
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/edit_page/pdf_confirm.js') }}"></script> {{-- Exchange Rate Load JS --}}
 @stop
