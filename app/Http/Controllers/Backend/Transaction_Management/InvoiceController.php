@@ -200,4 +200,39 @@ class InvoiceController extends Controller
             ]);
         }
     }
+
+    // ==============================
+    // Invoice Return System
+    // ==============================
+
+    public function returnIndex()
+    {
+        $invoices = Invoice::with(['customer', 'branch'])
+            ->latest()
+            ->get();
+
+        return view('backend.transaction_management.invoice.return.index', compact('invoices'));
+    }
+
+
+    public function returnCreate($id)
+    {
+        $invoice = Invoice::with('invoiceItems.product')->findOrFail($id);
+
+        return view('backend.transaction_management.invoice.return.create', compact('invoice'));
+    }
+
+
+    public function returnStore(Request $request, $id)
+    {
+        $invoice = Invoice::findOrFail($id);
+
+        // Example: Mark invoice as returned
+        $invoice->status = 'returned';
+        $invoice->save();
+
+        return redirect()
+            ->route('invoice-return.index')
+            ->with('success', 'Invoice returned successfully.');
+    }
 }

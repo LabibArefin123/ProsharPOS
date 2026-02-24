@@ -40,6 +40,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name'               => 'required|string|max:255',
+            'sku'               => 'required|string|max:255',
             'category_id'        => 'required|exists:categories,id',
             'brand_id'           => 'required|exists:brands,id',
             'unit_id'            => 'required|exists:units,id',
@@ -54,19 +55,7 @@ class ProductController extends Controller
             'description'        => 'nullable|string',
             'status'             => 'required|boolean',
             'warranty_id'        => 'required|exists:warranties,id',
-            'image'              => 'nullable|image|max:5120',
         ]);
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/images/product');
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0777, true);
-            }
-            $request->file('image')->move($destinationPath, $filename);
-            $validated['image'] = 'uploads/images/product/' . $filename;
-        }
 
         Product::create($validated);
 
@@ -109,25 +98,8 @@ class ProductController extends Controller
             'description'        => 'nullable|string',
             'status'             => 'required|boolean',
             'warranty_id'        => 'required|exists:warranties,id',
-            'image'              => 'nullable|image|max:5120',
         ]);
-
-        // Handle image update
-        if ($request->hasFile('image')) {
-            // delete old if exists
-            if ($product->image && file_exists(public_path($product->image))) {
-                unlink(public_path($product->image));
-            }
-
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/images/product');
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0777, true);
-            }
-            $request->file('image')->move($destinationPath, $filename);
-            $validated['image'] = 'uploads/images/product/' . $filename;
-        }
-
+      
         $product->update($validated);
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully');

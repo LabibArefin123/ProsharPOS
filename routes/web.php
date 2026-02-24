@@ -39,6 +39,7 @@ use App\Http\Controllers\Backend\Transaction_Management\ChallanController;
 use App\Http\Controllers\Backend\Transaction_Management\PaymentController;
 use App\Http\Controllers\Backend\Transaction_Management\InvoiceController;
 use App\Http\Controllers\Backend\Transaction_Management\PettyCashController;
+use App\Http\Controllers\Backend\Transaction_Management\SalesReturnController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -101,8 +102,12 @@ Route::middleware(['auth', 'permission'])->group(function () {
     //transaction management menu
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
+    Route::get('/invoice-return', [InvoiceController::class, 'returnIndex'])->name('invoice-return.index');
+    Route::get('/invoice-return/{id}', [InvoiceController::class, 'returnCreate'])->name('invoice-return.create');
+    Route::post('/invoice-return/store/{id}', [InvoiceController::class, 'returnStore'])->name('invoice-return.store');
     Route::resource('payments', PaymentController::class);
     Route::resource('petty_cashes', PettyCashController::class);
+    Route::resource('sales_returns', SalesReturnController::class);
 
     //financial management menu
     Route::resource('bank_balances', BankBalanceController::class);

@@ -460,6 +460,12 @@ return [
                     'active' => ['petty_cashes*'],
                 ],
 
+                [
+                    'text' => 'Sales Return',
+                    'route' => 'sales_returns.index',
+                    'can' => 'sales_returns.index',
+                    'active' => ['sales_returns*'],
+                ],
             ],
         ],
 

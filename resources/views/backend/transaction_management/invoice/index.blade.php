@@ -5,9 +5,16 @@
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="m-0 text-dark">Invoice List</h1>
-        <a href="{{ route('invoices.create') }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus"></i> Add Invoice
-        </a>
+
+        <div class="d-flex gap-2">
+            <a href="{{ route('invoice-return.index') }}" class="btn btn-warning btn-sm">
+                <i class="fas fa-undo"></i> Return System
+            </a>
+
+            <a href="{{ route('invoices.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Add Invoice
+            </a>
+        </div>
     </div>
 @endsection
 
