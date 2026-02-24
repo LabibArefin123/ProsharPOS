@@ -17,7 +17,6 @@
 @stop
 
 @section('content')
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> Something went wrong:
@@ -47,10 +46,7 @@
             @include('backend.transaction_management.challans.partial_edit.part_2_branch')
             @include('backend.transaction_management.challans.partial_edit.part_3_information')
         </div>
-
-
         @include('backend.transaction_management.challans.edit.partial.cart')
-
     </form>
     {{-- --- JavaScript for supplier and Branch Details --- --}}
     <script>
@@ -58,5 +54,4 @@
         window.branches = @json($branches ?? []);
     </script>
     <script src="{{ asset('js/backend/transaction_management/challan/edit_page/supplier_branch_load.js') }}"></script> {{--  Supplier + Branch load  JS --}}
-
 @stop

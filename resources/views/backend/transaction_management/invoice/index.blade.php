@@ -12,7 +12,6 @@
 @endsection
 
 @section('content')
-    <div class="container">
         <div class="card shadow-sm">
             <div class="card-body table-responsive">
                 <table class="table table-striped table-hover text-nowrap" id="dataTables">
@@ -124,33 +123,5 @@
                 </table>
             </div>
         </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const exchangeRate = 120; // 1 USD = 120 Taka
-
-            function formatDollar(value) {
-                return '$' + value.toFixed(2);
-            }
-
-            // Discount
-            document.querySelectorAll('.discount-dollar').forEach(td => {
-                let taka = parseFloat(td.dataset.taka);
-                td.textContent = formatDollar(taka / exchangeRate);
-            });
-
-            // Sub Total
-            document.querySelectorAll('.sub_total-dollar').forEach(td => {
-                let taka = parseFloat(td.dataset.taka);
-                td.textContent = formatDollar(taka / exchangeRate);
-            });
-
-            // Total
-            document.querySelectorAll('.total-dollar').forEach(td => {
-                let taka = parseFloat(td.dataset.taka);
-                td.textContent = formatDollar(taka / exchangeRate);
-            });
-        });
-    </script>
-
+    <script src="{{ asset('js/backend/transaction_management/invoice/index_page/convert.js') }}"></script> {{--  TK to USD Convert JS --}}
 @endsection

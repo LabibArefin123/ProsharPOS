@@ -71,7 +71,7 @@
     window.products = @json($products ?? []);
     window.warranties = @json($warranties ?? []);
 
-    // If validation error
+    // If validation error  
     window.oldItems = @json(old('items') ? json_decode(old('items'), true) : []);
 
     // Items from database (edit mode)

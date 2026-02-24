@@ -50,14 +50,12 @@
 
         {{-- Customer Section --}}
         <div class="card mb-4 shadow">
-            @include('transaction_management.invoice.edit.partial.part_1')
-            @include('transaction_management.invoice.edit.partial.part_2')
-            @include('transaction_management.invoice.edit.partial.part_3')
+            @include('backend.transaction_management.invoice.edit.partial.part_1')
+            @include('backend.transaction_management.invoice.edit.partial.part_2')
+            @include('backend.transaction_management.invoice.edit.partial.part_3')
         </div>
 
         {{-- Include Cart Section --}}
-        @include('transaction_management.invoice.edit.partial.cart')
-
-
+        @include('backend.transaction_management.invoice.edit.partial.cart')
     </form>
 @stop

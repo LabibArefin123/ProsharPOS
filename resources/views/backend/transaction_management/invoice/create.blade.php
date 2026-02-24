@@ -32,12 +32,12 @@
 
         {{-- Customer Section --}}
         <div class="card mb-4 shadow">
-            @include('transaction_management.invoice.create.partial.part_1')
-            @include('transaction_management.invoice.create.partial.part_2')
-            @include('transaction_management.invoice.create.partial.part_3')
+            @include('backend.transaction_management.invoice.create.partial.part_1')
+            @include('backend.transaction_management.invoice.create.partial.part_2')
+            @include('backend.transaction_management.invoice.create.partial.part_3')
         </div>
 
-        @include('transaction_management.invoice.create.partial.cart')
+        @include('backend.transaction_management.invoice.create.partial.cart')
 
         <style>
             .product-card {
@@ -52,54 +52,9 @@
     </form>
 
     {{-- --- JavaScript for Customer and Branch Details --- --}}
+    <script src="{{ asset('js/backend/transaction_management/invoice/create_page/supplier_customer.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // ---------------------
-            // Customers Data
-            // ---------------------
-            const customers = @json($customers);
-            const customerSelect = document.getElementById('customer_id');
-            const customerEmail = document.getElementById('customer_email');
-            const customerPhone = document.getElementById('customer_phone');
-            const customerLocation = document.getElementById('customer_location');
-
-            customerSelect.addEventListener('change', function() {
-                const selected = customers.find(c => c.id == this.value);
-                if (selected) {
-                    customerEmail.value = selected.email;
-                    customerPhone.value = selected.phone;
-                    customerLocation.value = selected.location;
-                } else {
-                    customerEmail.value = '';
-                    customerPhone.value = '';
-                    customerLocation.value = '';
-                }
-            });
-
-            // ---------------------
-            // Branches Data
-            // ---------------------
-            const branches = @json($branches);
-            const branchSelect = document.getElementById('branch_id');
-            const branchCode = document.getElementById('branch_code');
-            const branchPhone = document.getElementById('branch_phone');
-            const branchLocation = document.getElementById('branch_location');
-
-            branchSelect.addEventListener('change', function() {
-                const selected = branches.find(b => b.id == this.value);
-                if (selected) {
-                    branchCode.value = selected.branch_code;
-                    branchPhone.value = selected.phone;
-                    branchLocation.value = selected.address;
-                } else {
-                    branchCode.value = '';
-                    branchPhone.value = '';
-                    branchLocation.value = '';
-                }
-            });
-
-        });
+        window.customers = @json($customers ?? []);
+        window.branches = @json($branches ?? []);
     </script>
-    {{-- --- End JS --- --}}
 @stop
