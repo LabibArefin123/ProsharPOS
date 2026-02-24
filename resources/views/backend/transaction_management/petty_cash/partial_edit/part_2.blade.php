@@ -1,6 +1,6 @@
   {{-- Supplier --}}
   <div class="col-md-6 form-group">
-      <label><strong>Supplier</strong></label>
+      <label><strong>Supplier Name</strong></label>
       <select name="supplier_id" id="supplier_id" class="form-control">
           <option value="">Select Supplier</option>
           @foreach ($suppliers as $sup)

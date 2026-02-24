@@ -40,7 +40,34 @@
                 <div class="row">
                     @include('backend.transaction_management.petty_cash.partial_edit.part_1')
                     @include('backend.transaction_management.petty_cash.partial_edit.part_2')
-                    {{-- Reference No --}}
+                    {{-- Bank Balance --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Bank Balance</strong></label>
+                        <select name="bank_balance_id" class="form-control">
+                            <option value="">Select</option>
+                            @foreach ($bank_balances as $balance)
+                                <option value="{{ $balance->id }}"
+                                    {{ old('bank_balance_id', $petty_cash->bank_balance_id) == $balance->id ? 'selected' : '' }}>
+                                    {{ $balance->user->name }} — {{ $balance->balance }} BDT
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Customer --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Customer</strong></label>
+                        <select name="customer_id" class="form-control">
+                            <option value="">Select Customer</option>
+                            @foreach ($customers as $cus)
+                                <option value="{{ $cus->id }}"
+                                    {{ old('customer_id', $petty_cash->customer_id) == $cus->id ? 'selected' : '' }}>
+                                    {{ $cus->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="col-md-6 form-group">
                         <label><strong>Reference No</strong></label>
                         <input type="text" name="reference_no" class="form-control"
@@ -151,34 +178,7 @@
                         @enderror
                     </div>
 
-                    {{-- Bank Balance --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>Bank Balance</strong></label>
-                        <select name="bank_balance_id" class="form-control">
-                            <option value="">Select</option>
-                            @foreach ($bank_balances as $balance)
-                                <option value="{{ $balance->id }}"
-                                    {{ old('bank_balance_id', $petty_cash->bank_balance_id) == $balance->id ? 'selected' : '' }}>
-                                    {{ $balance->user->name }} — {{ $balance->balance }} BDT
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
 
-
-                    {{-- Customer --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>Customer</strong></label>
-                        <select name="customer_id" class="form-control">
-                            <option value="">Select Customer</option>
-                            @foreach ($customers as $cus)
-                                <option value="{{ $cus->id }}"
-                                    {{ old('customer_id', $petty_cash->customer_id) == $cus->id ? 'selected' : '' }}>
-                                    {{ $cus->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
 
                     {{-- Category --}}
                     <div class="col-md-6 form-group">
@@ -226,83 +226,9 @@
     </div>
     {{-- Start of user data autofetch js --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // ---------------------
-            // users Data
-            // ---------------------
-            const users = @json($users);
-            const userSelect = document.getElementById('user_id');
-            const userEmail = document.getElementById('user-email');
-            const userPhone = document.getElementById('user-phone');
-            const userUsername = document.getElementById('user-username');
-
-            // Fill input fields when dropdown changes
-            function fillUserFields() {
-                const selected = users.find(c => c.id == userSelect.value);
-
-                if (selected) {
-                    userEmail.value = selected.email ?? '';
-                    userPhone.value = selected.phone ?? '';
-                    userUsername.value = selected.username ?? '';
-                } else {
-                    userEmail.value = '';
-                    userPhone.value = '';
-                    userUsername.value = '';
-                }
-            }
-
-            userSelect.addEventListener('change', fillUserFields);
-
-            // ----------------------------
-            // AUTO-FILL ON EDIT PAGE LOAD
-            // ----------------------------
-            if (userSelect.value) {
-                fillUserFields(); // or: userSelect.dispatchEvent(new Event('change'));
-            }
-        });
+        window.users = @json($users ?? []);
+        window.suppliers = @json($suppliers ?? []);
     </script>
-
-    {{-- End of user data autofetch js --}}
-    {{-- Start of supplier data autofetch js --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            const suppliers = @json($suppliers);
-            const supplierSelect = document.getElementById('supplier_id');
-            const supplierEmail = document.getElementById('supplier-email');
-            const supplierPhone = document.getElementById('supplier-phone');
-            const supplierLicense = document.getElementById('supplier-license');
-
-            // Function to populate supplier fields
-            function fillSupplierFields() {
-                const selected = suppliers.find(s => s.id == supplierSelect.value);
-
-                if (selected) {
-                    supplierEmail.value = selected.email ?? '';
-                    supplierPhone.value = selected.phone_number ?? '';
-                    supplierLicense.value = selected.license_number ?? '';
-                } else {
-                    supplierEmail.value = '';
-                    supplierPhone.value = '';
-                    supplierLicense.value = '';
-                }
-            }
-
-            // Trigger when dropdown changes
-            supplierSelect.addEventListener('change', fillSupplierFields);
-
-            // ----------------------------
-            // AUTO-FILL ON EDIT PAGE LOAD
-            // ----------------------------
-            if (supplierSelect.value) {
-                fillSupplierFields();
-                // or: supplierSelect.dispatchEvent(new Event('change'));
-            }
-
-        });
-    </script>
-    {{-- End of supplier data autofetch js --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Stage 1: DOM Loaded, JS is supported.");
@@ -373,4 +299,6 @@
             });
         });
     </script>
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/edit_page/user_load.js') }}"></script> {{-- User Load JS --}}
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/edit_page/supplier_load.js') }}"></script> {{-- Supplier Load JS --}}
 @stop

@@ -1,6 +1,6 @@
    {{-- User --}}
    <div class="col-md-6 form-group">
-       <label><strong>User</strong> <span class="text-danger">*</span></label>
+       <label><strong>User Name</strong> <span class="text-danger">*</span></label>
        <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
            <option value="">Select User</option>
            @foreach ($users as $user)
