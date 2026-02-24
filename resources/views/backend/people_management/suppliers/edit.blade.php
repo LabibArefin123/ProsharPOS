@@ -32,71 +32,70 @@
             <form action="{{ route('suppliers.update', $supplier->id) }}" method="POST" data-confirm="edit">
                 @csrf
                 @method('PUT')
-                <div class="card-body">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                value="{{ old('name', $supplier->name) }}">
-                            @error('email')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Company Name</label>
-                            <input type="text" name="company_name"
-                                class="form-control @error('company_name') is-invalid @enderror"
-                                value="{{ old('company_name', $supplier->company_name) }}">
-                            @error('company_name')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                value="{{ old('email', $supplier->email) }}">
-                            @error('email')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Phone Number</label>
-                            <input type="text" name="phone_number"
-                                class="form-control  @error('phone_number') is-invalid @enderror"
-                                value="{{ old('phone_number', $supplier->phone_number) }}">
-                            @error('phone_number')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Company Number</label>
-                            <input type="text" name="company_number"
-                                class="form-control @error('company_number') is-invalid @enderror"
-                                value="{{ old('company_number', $supplier->company_number) }}">
-                            @error('company_number')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>License Number</label>
-                            <input type="text" name="license_number"
-                                class="form-control @error('license_number') is-invalid @enderror"
-                                value="{{ old('license_number', $supplier->license_number) }}">
-                            @error('license_number')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Location</label>
-                            <input type="text" name="location"
-                                class="form-control @error('location') is-invalid @enderror"
-                                value="{{ old('location', $supplier->location) }}">
-                            @error('location')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Name</label>
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                            value="{{ old('name', $supplier->name) }}">
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Company Name</label>
+                        <input type="text" name="company_name"
+                            class="form-control @error('company_name') is-invalid @enderror"
+                            value="{{ old('company_name', $supplier->company_name) }}">
+                        @error('company_name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                            value="{{ old('email', $supplier->email) }}">
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Phone Number</label>
+                        <input type="text" name="phone_number"
+                            class="form-control  @error('phone_number') is-invalid @enderror"
+                            value="{{ old('phone_number', $supplier->phone_number) }}">
+                        @error('phone_number')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Company Number</label>
+                        <input type="text" name="company_number"
+                            class="form-control @error('company_number') is-invalid @enderror"
+                            value="{{ old('company_number', $supplier->company_number) }}">
+                        @error('company_number')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>License Number</label>
+                        <input type="text" name="license_number"
+                            class="form-control @error('license_number') is-invalid @enderror"
+                            value="{{ old('license_number', $supplier->license_number) }}">
+                        @error('license_number')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Location</label>
+                        <input type="text" name="location" class="form-control @error('location') is-invalid @enderror"
+                            value="{{ old('location', $supplier->location) }}">
+                        @error('location')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                 </div>
+
                 <div class="text-end mt-3">
                     <button type="submit" class="btn btn-success">Update</button>
                 </div>

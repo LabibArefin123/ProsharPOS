@@ -17,9 +17,7 @@
 @stop
 
 @section('content')
-
     <div class="card p-4">
-
         {{-- Error Alert --}}
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -33,7 +31,6 @@
 
         <form action="{{ route('customers.store') }}" method="POST" data-confirm="create">
             @csrf
-
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="name">Customer Name <span class="text-danger">*</span></label>

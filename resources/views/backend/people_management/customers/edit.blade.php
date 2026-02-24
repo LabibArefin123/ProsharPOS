@@ -17,74 +17,71 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
+    <div class="card shadow-lg">
+        <div class="card-body">
 
-                {{-- Validation Errors --}}
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0 pl-3">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+            {{-- Validation Errors --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0 pl-3">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- Form --}}
+            <form action="{{ route('customers.update', $customer->id) }}" method="POST" data-confirm="edit">
+                @csrf
+                @method('PUT')
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" id="name" value="{{ old('name', $customer->name) }}"
+                            class="form-control @error('name') is-invalid @enderror" placeholder="Enter customer name">
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                @endif
-
-                {{-- Form --}}
-                <form action="{{ route('customers.update', $customer->id) }}" method="POST" data-confirm="edit">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="name">Name <span class="text-danger">*</span></label>
-                            <input type="text" name="name" id="name" value="{{ old('name', $customer->name) }}"
-                                class="form-control @error('name') is-invalid @enderror" placeholder="Enter customer name">
-                            @error('name')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="email">Email <span class="text-danger">*</span></label>
-                            <input type="text" name="email" id="email" value="{{ old('email', $customer->email) }}"
-                                class="form-control @error('email') is-invalid @enderror"
-                                placeholder="Enter customer email">
-                            @error('email')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="phone_number">Phone number <span class="text-danger">*</span></label>
-                            <input type="number" name="phone_number" id="phone_number"
-                                value="{{ old('phone_number', $customer->phone_number) }}"
-                                class="form-control @error('phone_number') is-invalid @enderror"
-                                placeholder="Enter customer name">
-                            @error('phone_number')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="location">Location <span class="text-danger">*</span></label>
-                            <input type="text" name="location" id="location"
-                                value="{{ old('location', $customer->location) }}"
-                                class="form-control @error('location') is-invalid @enderror"
-                                placeholder="Enter customer location">
-                            @error('location')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
+                    <div class="form-group col-md-6">
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                        <input type="text" name="email" id="email" value="{{ old('email', $customer->email) }}"
+                            class="form-control @error('email') is-invalid @enderror" placeholder="Enter customer email">
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Update</button>
+                    <div class="form-group col-md-6">
+                        <label for="phone_number">Phone number <span class="text-danger">*</span></label>
+                        <input type="number" name="phone_number" id="phone_number"
+                            value="{{ old('phone_number', $customer->phone_number) }}"
+                            class="form-control @error('phone_number') is-invalid @enderror"
+                            placeholder="Enter customer name">
+                        @error('phone_number')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                </form>
-            </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="location">Location <span class="text-danger">*</span></label>
+                        <input type="text" name="location" id="location"
+                            value="{{ old('location', $customer->location) }}"
+                            class="form-control @error('location') is-invalid @enderror"
+                            placeholder="Enter customer location">
+                        @error('location')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </form>
         </div>
     </div>
 @stop

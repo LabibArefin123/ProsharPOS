@@ -12,48 +12,46 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-sm">
-            <div class="card-body table-responsive">
-                <table class="table table-striped table-hover text-nowrap" id="dataTables">
-                    <thead class="thead-dark">
-                        <tr class="text-center">
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
-                            <th>Location</th>
-                            <th>Actions</th>
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+            <table class="table table-striped table-hover text-nowrap" id="dataTables">
+                <thead class="thead-dark">
+                    <tr class="text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($customers as $index => $customer)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $customer->name }}</td>
+                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer->phone_number }}</td>
+                            <td>{{ $customer->location }}</td>
+                            <td>
+                                <a href="{{ route('customers.edit', $customer->id) }}"
+                                    class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('customers.show', $customer->id) }}"
+                                    class="btn btn-secondary btn-sm">View</a>
+                                <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        onclick="triggerDeleteModal('{{ route('customers.destroy', $customer->id) }}')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($customers as $index => $customer)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $customer->name }}</td>
-                                <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->phone_number }}</td>
-                                <td>{{ $customer->location }}</td>
-                                <td>
-                                    <a href="{{ route('customers.edit', $customer->id) }}"
-                                        class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="{{ route('customers.show', $customer->id) }}"
-                                        class="btn btn-secondary btn-sm">View</a>
-                                    <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="triggerDeleteModal('{{ route('customers.destroy', $customer->id) }}')">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @stop

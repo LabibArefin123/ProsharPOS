@@ -77,15 +77,12 @@
                             @endforeach
                         </select>
                     </div>
-                 
 
                     <div class="col-md-6 form-group">
                         <label><strong>Reference No</strong></label>
                         <input type="text" name="reference_no" class="form-control" value="{{ old('reference_no') }}"
                             placeholder="Auto or Manual">
                     </div>
-
-
 
                     {{-- Reference Type --}}
                     <div class="col-md-6 form-group">
@@ -206,70 +203,8 @@
                         <label><strong>Note</strong></label>
                         <textarea name="note" class="form-control" rows="3">{{ old('note') }}</textarea>
                     </div>
-
-                    <!-- Attachment Modal -->
-                    <div class="modal fade" id="attachmentModal" tabindex="-1">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Upload Attachment</h5>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="row">
-
-                                        <!-- LEFT SIDE (Upload + Progress) -->
-                                        <div class="col-md-6 text-center">
-
-                                            <!-- Circle Progress -->
-                                            <div class="position-relative d-inline-block mt-3">
-                                                <svg width="150" height="150">
-                                                    <circle cx="75" cy="75" r="65" stroke="#eee"
-                                                        stroke-width="10" fill="none" />
-                                                    <circle id="progressCircle" cx="75" cy="75" r="65"
-                                                        stroke="#007bff" stroke-width="10" fill="none"
-                                                        stroke-dasharray="408" stroke-dashoffset="408"
-                                                        transform="rotate(-90 75 75)" />
-                                                </svg>
-                                                <div id="progressText"
-                                                    style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-                                 font-size:20px; font-weight:bold;">
-                                                    0%
-                                                </div>
-                                            </div>
-
-                                            <!-- File Info -->
-                                            <div class="mt-3">
-                                                <p id="fileInfo">[ No file selected ]</p>
-                                            </div>
-
-                                            <button class="btn btn-success mt-2" id="chooseFileBtn">
-                                                Choose File
-                                            </button>
-
-                                        </div>
-
-                                        <!-- RIGHT SIDE (Preview) -->
-                                        <div class="col-md-6">
-                                            <div
-                                                style="height:300px; overflow-y:auto; border:1px solid #ddd; padding:10px;">
-                                                <div id="previewArea" class="text-center text-muted">
-                                                    Preview will appear here
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-
+                @include('backend.transaction_management.petty_cash.partial_create.modal.file')
                 <div class="text-end mt-3">
                     <button type="submit" class="btn btn-success">Save</button>
                 </div>
@@ -280,215 +215,9 @@
         window.users = @json($users ?? []);
         window.suppliers = @json($suppliers ?? []);
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const userSelect = document.getElementById("user_id");
-            const bankSelect = document.getElementById("bank_balance_id");
-
-            function filterBankBalances(autoSelect = true) {
-
-                const selectedUserId = userSelect.value;
-                let firstVisibleOption = null;
-
-                Array.from(bankSelect.options).forEach(option => {
-
-                    if (option.value === "") {
-                        option.hidden = false;
-                        return;
-                    }
-
-                    if (option.dataset.user === selectedUserId) {
-                        option.hidden = false;
-
-                        if (!firstVisibleOption) {
-                            firstVisibleOption = option;
-                        }
-
-                    } else {
-                        option.hidden = true;
-                    }
-                });
-
-                const currentSelected = bankSelect.options[bankSelect.selectedIndex];
-
-                // Keep old value if exists
-                if (currentSelected && !currentSelected.hidden) {
-                    return;
-                }
-
-                // Auto select first valid bank
-                if (autoSelect && firstVisibleOption) {
-                    bankSelect.value = firstVisibleOption.value;
-                }
-
-                // If no user selected
-                if (!selectedUserId) {
-                    bankSelect.value = "";
-                }
-            }
-
-            // When user changes
-            userSelect.addEventListener("change", function() {
-                filterBankBalances(true);
-            });
-
-            // 🔥 VERY IMPORTANT → Handles validation old() case
-            if (userSelect.value) {
-                filterBankBalances(false);
-            }
-
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const input = document.getElementById("attachmentInput");
-            const chooseBtn = document.getElementById("chooseFileBtn");
-            const fileInfo = document.getElementById("fileInfo");
-            const previewArea = document.getElementById("previewArea");
-            const progressCircle = document.getElementById("progressCircle");
-            const progressText = document.getElementById("progressText");
-            const displayInput = document.getElementById("attachmentDisplay");
-
-            const maxSize = 5 * 1024 * 1024; // 5MB
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
-
-            chooseBtn.addEventListener("click", () => input.click());
-
-            input.addEventListener("change", function() {
-
-                const file = this.files[0];
-                if (!file) return;
-
-                const sizeMB = (file.size / 1024 / 1024).toFixed(2);
-                const isValidType = allowedTypes.includes(file.type);
-                const isValidSize = file.size <= maxSize;
-
-                // File info display
-                fileInfo.innerHTML = `
-            [ Size: ${sizeMB} MB ] <br>
-            [ Type: ${file.type} ] <br>
-            [ ${isValidType && isValidSize ? 
-                '<span class="text-success">Safe to upload</span>' :
-                '<span class="text-danger">Error: Invalid file</span>'} ]
-        `;
-
-                // Reset progress
-                let progress = 0;
-                let circumference = 408;
-                progressCircle.style.strokeDashoffset = circumference;
-
-                const interval = setInterval(() => {
-                    progress += 5;
-                    let offset = circumference - (progress / 100) * circumference;
-                    progressCircle.style.strokeDashoffset = offset;
-                    progressText.innerText = progress + "%";
-
-                    if (progress >= 100) clearInterval(interval);
-                }, 40);
-
-
-                input.addEventListener("change", function() {
-                    if (this.files.length > 0) {
-                        displayInput.value = this.files[0].name;
-                    } else {
-                        displayInput.value = "";
-                    }
-                });
-
-                // Preview
-                previewArea.innerHTML = "";
-
-                if (file.type.startsWith("image/")) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        previewArea.innerHTML = `<img src="${e.target.result}" 
-                    style="max-width:100%; height:auto;">`;
-                    };
-                    reader.readAsDataURL(file);
-
-                } else if (file.type === "application/pdf") {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        previewArea.innerHTML = `
-                    <embed src="${e.target.result}" 
-                    type="application/pdf" width="100%" height="280px"/>
-                `;
-                    };
-                    reader.readAsDataURL(file);
-
-                } else {
-                    previewArea.innerHTML = "<p class='text-danger'>No preview available</p>";
-                }
-
-            });
-
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("Stage 1: DOM Loaded, JS is supported.");
-
-            const amountBDT = document.querySelector('input[name="amount"]');
-            const amountUSD = document.querySelector('input[name="amount_in_dollar"]');
-            const exchangeInput = document.querySelector('input[name="exchange_rate"]');
-
-            if (!amountBDT || !amountUSD || !exchangeInput) {
-                console.error("Stage 1 Error: Required input fields not found in DOM.");
-                return;
-            }
-
-            let exchangeRate = parseFloat(exchangeInput.value) || 108.50; // fallback
-
-            // Safe function to calculate values
-            function calculateBDTtoUSD(value) {
-                return exchangeRate > 0 ? (parseFloat(value) / exchangeRate).toFixed(2) : '';
-            }
-
-            function calculateUSDtoBDT(value) {
-                return exchangeRate > 0 ? (parseFloat(value) * exchangeRate).toFixed(2) : '';
-            }
-
-            // BDT -> USD
-            amountBDT.addEventListener("input", function() {
-                console.log("Stage 3: BDT input changed:", this.value);
-                if (this.value) {
-                    amountUSD.value = calculateBDTtoUSD(this.value);
-                    amountUSD.disabled = true;
-                    amountBDT.disabled = false;
-                } else {
-                    amountUSD.value = '';
-                    amountUSD.disabled = false;
-                }
-            });
-
-            // USD -> BDT
-            amountUSD.addEventListener("input", function() {
-                console.log("Stage 3: USD input changed:", this.value);
-                if (this.value) {
-                    amountBDT.value = calculateUSDtoBDT(this.value);
-                    amountBDT.disabled = true;
-                    amountUSD.disabled = false;
-                } else {
-                    amountBDT.value = '';
-                    amountBDT.disabled = false;
-                }
-            });
-
-            // Exchange rate change
-            exchangeInput.addEventListener("input", function() {
-                exchangeRate = parseFloat(this.value) || 108.50;
-                console.log("Stage 4: Exchange rate updated:", exchangeRate);
-
-                if (amountBDT.value && !amountBDT.disabled) {
-                    amountUSD.value = calculateBDTtoUSD(amountBDT.value);
-                } else if (amountUSD.value && !amountUSD.disabled) {
-                    amountBDT.value = calculateUSDtoBDT(amountUSD.value);
-                }
-            });
-        });
-    </script>
     <script src="{{ asset('js/backend/transaction_management/petty_cash/create_page/user_load.js') }}"></script> {{-- User Load JS --}}
     <script src="{{ asset('js/backend/transaction_management/petty_cash/create_page/supplier_load.js') }}"></script> {{-- Supplier Load JS --}}
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/create_page/user_balance.js') }}"></script> {{-- User Balance Load JS --}}
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/create_page/exchange_rate.js') }}"></script> {{-- Exchange Rate Load JS --}}
+    <script src="{{ asset('js/backend/transaction_management/petty_cash/create_page/pdf_confirm.js') }}"></script> {{-- Confirm PDF Load JS --}}
 @stop
