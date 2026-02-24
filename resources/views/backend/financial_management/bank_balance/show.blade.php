@@ -13,40 +13,36 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                <div class="row">
-                    {{-- User --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>User</strong></label>
-                        <input type="text" class="form-control" value="{{ $bank_balance->user->name ?? 'N/A' }}"
-                            readonly>
-                    </div>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <div class="row">
+                {{-- User --}}
+                <div class="col-md-6 form-group">
+                    <label><strong>User</strong></label>
+                    <input type="text" class="form-control" value="{{ $bank_balance->user->name ?? 'N/A' }}" readonly>
+                </div>
 
-                    <div class="col-md-6 form-group">
-                        <label><strong>Username</strong></label>
-                        <input type="text" class="form-control" value="{{ $bank_balance->user->username ?? 'N/A' }}"
-                            readonly>
-                    </div>
+                <div class="col-md-6 form-group">
+                    <label><strong>Username</strong></label>
+                    <input type="text" class="form-control" value="{{ $bank_balance->user->username ?? 'N/A' }}"
+                        readonly>
+                </div>
 
-                    <div class="col-md-6 form-group">
-                        <label><strong>Email</strong></label>
-                        <input type="text" class="form-control" value="{{ $bank_balance->user->email ?? 'N/A' }}"
-                            readonly>
-                    </div>
+                <div class="col-md-6 form-group">
+                    <label><strong>Email</strong></label>
+                    <input type="text" class="form-control" value="{{ $bank_balance->user->email ?? 'N/A' }}" readonly>
+                </div>
 
-                    {{-- Balance --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>Balance (BDT)</strong></label>
-                        <input type="text" class="form-control"
-                            value="৳{{ number_format($bank_balance->deducted_balance, 2) }}" readonly>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label><strong>Balance (USD)</strong></label>
-                        <input type="text" class="form-control"
-                            value="${{ number_format($bank_balance->balance_in_dollars, 2) }}" readonly>
-                    </div>
+                {{-- Balance --}}
+                <div class="col-md-6 form-group">
+                    <label><strong>Balance (BDT)</strong></label>
+                    <input type="text" class="form-control"
+                        value="৳{{ number_format($bank_balance->deducted_balance, 2) }}" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label><strong>Balance (USD)</strong></label>
+                    <input type="text" class="form-control"
+                        value="${{ number_format($bank_balance->balance_in_dollars, 2) }}" readonly>
                 </div>
             </div>
         </div>

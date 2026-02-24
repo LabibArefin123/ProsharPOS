@@ -20,7 +20,6 @@
 @stop
 
 @section('content')
-
     <div class="card">
         <div class="card-body">
             @if ($errors->any())

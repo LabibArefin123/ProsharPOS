@@ -18,55 +18,52 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('bank_balances.store') }}" method="POST" data-confirm="create">
+                @csrf
+                <div class="row">
+
+
+                    <div class="col-md-6 form-group">
+                        <label for="user_id"><strong>User</strong> <span class="text-danger">*</span></label>
+                        <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                            <option value="">Select User</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }} ({{ $user->email }})
+                                </option>
                             @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form action="{{ route('bank_balances.store') }}" method="POST" data-confirm="create">
-                    @csrf
-                    <div class="row">
-                       
-
-                        <div class="col-md-6 form-group">
-                            <label for="user_id"><strong>User</strong> <span class="text-danger">*</span></label>
-                            <select name="user_id" id="user_id"
-                                class="form-control @error('user_id') is-invalid @enderror">
-                                <option value="">Select User</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} ({{ $user->email }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('user_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label for="balance"><strong>Balance (BDT)</strong> <span class="text-danger">*</span></label>
-                            <input type="number" name="balance" id="balance"
-                                class="form-control @error('balance') is-invalid @enderror" value="{{ old('balance') }}"
-                                placeholder="Enter balance">
-                            @error('balance')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                        </select>
+                        @error('user_id')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Save</button>
+                    <div class="col-md-6 form-group">
+                        <label for="balance"><strong>Balance (BDT)</strong> <span class="text-danger">*</span></label>
+                        <input type="number" name="balance" id="balance"
+                            class="form-control @error('balance') is-invalid @enderror" value="{{ old('balance') }}"
+                            placeholder="Enter balance">
+                        @error('balance')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 @stop

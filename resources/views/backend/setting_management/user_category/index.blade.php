@@ -17,7 +17,6 @@
 @stop
 
 @section('content')
-    <div class="container">
         <div class="card shadow-sm">
             <div class="card-body table-responsive">
                 <table class="table table-striped table-hover text-nowrap" id="dataTables">
@@ -53,12 +52,11 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center">No User Categorys found</td>
+                                <td colspan="5" class="text-center">No User Category found</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
 @stop

@@ -18,79 +18,77 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('bank_balances.update', $bank_balance->id) }}" method="POST" data-confirm="edit">
+                @csrf
+                @method('PUT')
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label><strong>User Name</strong></label>
+                        <select name="user_id" id="user_name_select"
+                            class="form-control @error('user_id') is-invalid @enderror">
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}"
+                                    {{ $bank_balance->user_id == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}
+                                </option>
                             @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form action="{{ route('bank_balances.update', $bank_balance->id) }}" method="POST" data-confirm="edit">
-                    @csrf
-                    @method('PUT')
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label><strong>User Name</strong></label>
-                            <select name="user_id" id="user_name_select"
-                                class="form-control @error('user_id') is-invalid @enderror">
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}"
-                                        {{ $bank_balance->user_id == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('user_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label><strong>Username</strong></label>
-                            <input type="text" id="username_field" value="{{ $bank_balance->user->username }}"
-                                class="form-control" readonly style="background:#e9ecef;">
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label><strong>Email</strong></label>
-                            <input type="text" id="email_field" value="{{ $bank_balance->user->email }}"
-                                class="form-control" readonly style="background:#e9ecef;">
-                        </div>
-
-                        {{-- Balance --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Balance (BDT)</strong></label>
-                            <input type="number" name="balance" class="form-control @error('balance') is-invalid @enderror"
-                                value="{{ old('balance', $bank_balance->balance) }}">
-                            <small>
-                                <p>[Current Balance: ৳ {{ $bank_balance->deducted_balance }}]</p>
-                            </small>
-                            @error('balance')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label><strong>Balance (USD)</strong></label>
-                            <input type="number" name="balance"
-                                class="form-control @error('balance_in_dollars') is-invalid @enderror"
-                                value="{{ old('balance_in_dollars', $bank_balance->balance_in_dollars) }}">
-                            @error('balance_in_dollars')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                        </select>
+                        @error('user_id')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Update</button>
+                    <div class="col-md-6 form-group">
+                        <label><strong>Username</strong></label>
+                        <input type="text" id="username_field" value="{{ $bank_balance->user->username }}"
+                            class="form-control" readonly style="background:#e9ecef;">
                     </div>
-                </form>
-            </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Email</strong></label>
+                        <input type="text" id="email_field" value="{{ $bank_balance->user->email }}" class="form-control"
+                            readonly style="background:#e9ecef;">
+                    </div>
+
+                    {{-- Balance --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Balance (BDT)</strong></label>
+                        <input type="number" name="balance" class="form-control @error('balance') is-invalid @enderror"
+                            value="{{ old('balance', $bank_balance->balance) }}">
+                        <small>
+                            <p>[Current Balance: ৳ {{ $bank_balance->deducted_balance }}]</p>
+                        </small>
+                        @error('balance')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Balance (USD)</strong></label>
+                        <input type="number" name="balance"
+                            class="form-control @error('balance_in_dollars') is-invalid @enderror"
+                            value="{{ old('balance_in_dollars', $bank_balance->balance_in_dollars) }}">
+                        @error('balance_in_dollars')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </form>
         </div>
     </div>
     {{--  Start of user credential js --}}

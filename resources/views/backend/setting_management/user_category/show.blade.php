@@ -13,26 +13,24 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label><strong>Category Name</strong></label>
-                        <input type="text" class="form-control" value="{{ $userCategory->category_name }}" readonly>
-                    </div>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label><strong>Category Name</strong></label>
+                    <input type="text" class="form-control" value="{{ $userCategory->category_name }}" readonly>
+                </div>
 
-                    <div class="col-md-6 form-group">
-                        <label><strong>Category Name (in Bangla)</strong></label>
-                        <input type="text" class="form-control" value="{{ $userCategory->category_name_in_bangla }}"
-                            readonly>
-                    </div>
+                <div class="col-md-6 form-group">
+                    <label><strong>Category Name (in Bangla)</strong></label>
+                    <input type="text" class="form-control" value="{{ $userCategory->category_name_in_bangla }}"
+                        readonly>
+                </div>
 
 
-                    <div class="col-md-12 form-group">
-                        <label><strong>Description</strong></label>
-                        <textarea class="form-control" rows="3" readonly>{{ $userCategory->description }}</textarea>
-                    </div>
+                <div class="col-md-12 form-group">
+                    <label><strong>Description</strong></label>
+                    <textarea class="form-control" rows="3" readonly>{{ $userCategory->description }}</textarea>
                 </div>
             </div>
         </div>

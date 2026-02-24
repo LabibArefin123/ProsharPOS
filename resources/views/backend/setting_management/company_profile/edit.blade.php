@@ -18,7 +18,6 @@
 
 
 @section('content')
-    <div class="container">
         <div class="card shadow-lg">
             <div class="card-body">
                 @if ($errors->any())
@@ -115,5 +114,4 @@
                 </form>
             </div>
         </div>
-    </div>
 @stop

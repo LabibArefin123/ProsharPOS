@@ -17,57 +17,54 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-sm">
-            <div class="card-body table-responsive">
-                <table class="table table-striped table-hover text-nowrap" id="dataTables">
-                    <thead class="thead-dark">
-                        <th>#</th>
-                        <th>Logo</th>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Shipping Inside</th>
-                        <th>Shipping Outside</th>
-                        <th>Currency</th>
-                        <th>Action</th>
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+            <table class="table table-striped table-hover text-nowrap" id="dataTables">
+                <thead class="thead-dark">
+                    <th>#</th>
+                    <th>Logo</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Shipping Inside</th>
+                    <th>Shipping Outside</th>
+                    <th>Currency</th>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($companies as $company)
+                        <tr class="text-center">
+                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                @if ($company->logo)
+                                    <img src="{{ asset('uploads/images/setting_management/company_profile/' . $company->logo) }}"
+                                        width="50">
+                                @endif
+                            </td>
+                            <td>{{ $company->name }}</td>
+                            <td>{{ $company->contact_number }}</td>
+                            <td>{{ $company->shipping_charge_inside }}</td>
+                            <td>{{ $company->shipping_charge_outside }}</td>
+                            <td>{{ $company->currency_symbol }}</td>
+                            <td>
+                                <a href="{{ route('companies.edit', $company->id) }}"
+                                    class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ route('companies.show', $company->id) }}"
+                                    class="btn btn-sm btn-warning">View</a>
+                                <form action="{{ route('companies.destroy', $company->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        onclick="triggerDeleteModal('{{ route('companies.destroy', $company->id) }}')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($companies as $company)
-                            <tr class="text-center">
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    @if ($company->logo)
-                                        <img src="{{ asset('uploads/images/setting_management/company_profile/' . $company->logo) }}"
-                                            width="50">
-                                    @endif
-                                </td>
-                                <td>{{ $company->name }}</td>
-                                <td>{{ $company->contact_number }}</td>
-                                <td>{{ $company->shipping_charge_inside }}</td>
-                                <td>{{ $company->shipping_charge_outside }}</td>
-                                <td>{{ $company->currency_symbol }}</td>
-                                <td>
-                                    <a href="{{ route('companies.edit', $company->id) }}"
-                                        class="btn btn-sm btn-primary">Edit</a>
-                                    <a href="{{ route('companies.show', $company->id) }}"
-                                        class="btn btn-sm btn-warning">View</a>
-                                    <form action="{{ route('companies.destroy', $company->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="triggerDeleteModal('{{ route('companies.destroy', $company->id) }}')">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @stop

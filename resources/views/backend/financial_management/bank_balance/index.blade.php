@@ -17,52 +17,50 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-sm">
-            <div class="card-body table-responsive">
-                <table class="table table-striped table-hover text-nowrap" id="dataTables">
-                    <thead class="thead-dark">
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+            <table class="table table-striped table-hover text-nowrap" id="dataTables">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SL</th>
+                        <th>User</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th class="text-center">Balance (BDT)</th>
+                        <th class="text-center">Balance (USD)</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($balances as $balance)
                         <tr>
-                            <th>SL</th>
-                            <th>User</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th class="text-center">Balance (BDT)</th>
-                            <th class="text-center">Balance (USD)</th>
-                            <th class="text-center">Action</th>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $balance->user->name ?? 'N/A' }}</td>
+                            <td>{{ $balance->user->username ?? 'N/A' }}</td>
+                            <td>{{ $balance->user->email ?? 'N/A' }}</td>
+                            <td class="text-center">৳{{ number_format($balance->balance, 2) }}</td>
+                            <td class="text-center">${{ number_format($balance->balance_in_dollars, 2) }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('bank_balances.show', $balance->id) }}"
+                                    class="btn btn-sm btn-info">View</a>
+                                <a href="{{ route('bank_balances.edit', $balance->id) }}"
+                                    class="btn btn-sm btn-primary">Edit</a>
+                                <form action="{{ route('bank_balances.destroy', $balance->id) }}" method="POST"
+                                    style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure to delete this balance?')">Delete</button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($balances as $balance)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $balance->user->name ?? 'N/A' }}</td>
-                                <td>{{ $balance->user->username ?? 'N/A' }}</td>
-                                <td>{{ $balance->user->email ?? 'N/A' }}</td>
-                                <td class="text-center">৳{{ number_format($balance->balance, 2) }}</td>
-                                <td class="text-center">${{ number_format($balance->balance_in_dollars, 2) }}</td>
-                                <td class="text-center">
-                                    <a href="{{ route('bank_balances.show', $balance->id) }}"
-                                        class="btn btn-sm btn-info">View</a>
-                                    <a href="{{ route('bank_balances.edit', $balance->id) }}"
-                                        class="btn btn-sm btn-primary">Edit</a>
-                                    <form action="{{ route('bank_balances.destroy', $balance->id) }}" method="POST"
-                                        style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure to delete this balance?')">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center">No Bank Balances found</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">No Bank Balances found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 @stop

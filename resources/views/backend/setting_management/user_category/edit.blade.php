@@ -18,50 +18,48 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form action="{{ route('user_categories.update', $userCategory->id) }}" method="POST" data-confirm="edit">
-                    @csrf
-                    @method('PUT')
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label><strong>Name</strong></label>
-                            <input type="text" name="category_name" class="form-control"
-                                value="{{ $userCategory->category_name }}">
-                        </div>
-
-                        {{-- Bangla Name --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Name (in Bangla)</strong></label>
-                            <input type="text" name="category_name_in_bangla" class="form-control"
-                                value="{{ $userCategory->category_name_in_bangla }}">
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <label for="description"><strong>Description</strong> <span class="text-danger">*</span></label>
-                            <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
-                                rows="3">{{ old('description', $userCategory->description) }}</textarea>
-                            @error('description')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('user_categories.update', $userCategory->id) }}" method="POST" data-confirm="edit">
+                @csrf
+                @method('PUT')
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label><strong>Name</strong></label>
+                        <input type="text" name="category_name" class="form-control"
+                            value="{{ $userCategory->category_name }}">
                     </div>
 
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Update</button>
+                    {{-- Bangla Name --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Name (in Bangla)</strong></label>
+                        <input type="text" name="category_name_in_bangla" class="form-control"
+                            value="{{ $userCategory->category_name_in_bangla }}">
                     </div>
-                </form>
-            </div>
+
+                    <div class="col-md-12 form-group">
+                        <label for="description"><strong>Description</strong> <span class="text-danger">*</span></label>
+                        <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
+                            rows="3">{{ old('description', $userCategory->description) }}</textarea>
+                        @error('description')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </form>
         </div>
     </div>
 @stop

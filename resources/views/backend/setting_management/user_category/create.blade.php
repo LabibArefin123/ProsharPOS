@@ -18,55 +18,53 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('user_categories.store') }}" method="POST" data-confirm="create">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="category_name"><strong>Name</strong> <span class="text-danger">*</span></label>
+                        <input type="text" name="category_name" id="category_name"
+                            class="form-control @error('category_name') is-invalid @enderror"
+                            value="{{ old('category_name') }}" placeholder="">
+                        @error('category_name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                @endif
-                <form action="{{ route('user_categories.store') }}" method="POST" data-confirm="create">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label for="category_name"><strong>Name</strong> <span class="text-danger">*</span></label>
-                            <input type="text" name="category_name" id="category_name"
-                                class="form-control @error('category_name') is-invalid @enderror"
-                                value="{{ old('category_name') }}" placeholder="Enter buiding name">
-                            @error('category_name')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
 
-                        <div class="col-md-6 form-group">
-                            <label for="category_name_in_bangla"><strong>Name in Bangla</label>
-                            <input type="text" name="category_name_in_bangla" id="category_name_in_bangla"
-                                class="form-control @error('category_name_in_bangla') is-invalid @enderror"
-                                value="{{ old('category_name_in_bangla') }}" placeholder="Enter building name in bangla">
-                            @error('category_name_in_bangla')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="col-md-6 form-group">
+                        <label for="category_name_in_bangla"><strong>Name in Bangla</label>
+                        <input type="text" name="category_name_in_bangla" id="category_name_in_bangla"
+                            class="form-control @error('category_name_in_bangla') is-invalid @enderror"
+                            value="{{ old('category_name_in_bangla') }}" placeholder="">
+                        @error('category_name_in_bangla')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
 
-                        <div class="col-md-12 form-group">
-                            <label for="description"><strong>Description</strong></label>
-                            <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
-                                rows="3" placeholder="Enter description">{{ old('description') }}</textarea>
-                            @error('description')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="col-md-12 form-group">
+                        <label for="description"><strong>Description</strong></label>
+                        <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
+                            rows="3" placeholder="Enter description">{{ old('description') }}</textarea>
+                        @error('description')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 @stop
