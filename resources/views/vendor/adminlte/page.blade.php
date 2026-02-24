@@ -207,7 +207,11 @@
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content text-center p-4">
-
+                    <!-- Close (X) Button -->
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                    
                     <!-- Animated Warning Icon -->
                     <div class="mb-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="animate-bounce" width="50" height="50"
@@ -225,7 +229,7 @@
 
                     <!-- Footer Buttons -->
                     <div class="modal-footer d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <form id="deleteForm" method="POST" action="#">
                             @csrf
                             @method('DELETE')
