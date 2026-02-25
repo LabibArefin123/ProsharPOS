@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backend\Product_Management;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Storage;
 use App\Models\Manufacturer;
@@ -104,103 +106,167 @@ class StorageController extends Controller
      */
     public function update(Request $request, Storage $storage)
     {
-        $validated = $request->validate([
-            'product_id'          => 'required|exists:products,id',
-            'supplier_id'         => 'required|exists:suppliers,id',
-            'manufacturer_id'     => 'required|exists:manufacturers,id',
+        try {
 
-            'rack_number'         => 'required|string|max:100',
-            'box_number'          => 'required|string|max:100',
-            'rack_no'             => 'required|string|max:100',
-            'box_no'              => 'required|string|max:100',
+            DB::beginTransaction();
 
-            'rack_location'       => 'nullable|string|max:150',
-            'box_location'        => 'nullable|string|max:150',
+            $validated = $request->validate([
+                'product_id'          => 'required|exists:products,id',
+                'supplier_id'         => 'required|exists:suppliers,id',
+                'manufacturer_id'     => 'required|exists:manufacturers,id',
 
-            'stock_quantity'      => 'required|integer|min:0',
-            'alert_quantity'      => 'required|integer|min:0',
+                'rack_number'         => 'required|string|max:100',
+                'box_number'          => 'required|string|max:100',
+                'rack_no'             => 'required|string|max:100',
+                'box_no'              => 'required|string|max:100',
 
-            /* Main Image */
-            'image_path'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+                'rack_location'       => 'nullable|string|max:150',
+                'box_location'        => 'nullable|string|max:150',
 
-            /* Damage Toggle */
-            'is_damaged'          => 'nullable|boolean',
+                'stock_quantity'      => 'required|integer|min:0',
+                'alert_quantity'      => 'required|integer|min:0',
 
-            /* Damage Fields */
-            'damage_qty'          => 'nullable|integer|min:0',
-            'damage_solution'     => 'nullable|string|max:255',
-            'damage_description'  => 'nullable|string',
-            'damage_image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-        ]);
+                /* Main Image */
+                'image_path'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 
-        /* Normalize checkbox (unchecked = false) */
-        $validated['is_damaged'] = $request->has('is_damaged');
+                /* Toggles */
+                'is_damaged'          => 'nullable|boolean',
+                'is_expired'          => 'nullable|boolean',
 
-        /* ==========================
-       Handle MAIN Image Update
-    ========================== */
-        if ($request->hasFile('image_path')) {
+                /* Damage Fields */
+                'damage_qty'          => 'nullable|integer|min:0',
+                'damage_solution'     => 'nullable|string|max:255',
+                'damage_description'  => 'nullable|string',
+                'damage_image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 
-            if ($storage->image_path && file_exists(public_path($storage->image_path))) {
-                unlink(public_path($storage->image_path));
-            }
+                /* Expired Fields */
+                'expired_qty'          => 'nullable|integer|min:0',
+                'expired_solution'     => 'nullable|string|max:255',
+                'expired_description'  => 'nullable|string',
+                'expired_image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            ]);
 
-            $file = $request->file('image_path');
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/images/storage');
+            /* Normalize Checkboxes */
+            $validated['is_damaged'] = $request->boolean('is_damaged');
+            $validated['is_expired'] = $request->boolean('is_expired');
 
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
+            /* ==========================
+           HANDLE MAIN IMAGE
+        ========================== */
+            if ($request->hasFile('image_path')) {
 
-            $file->move($destinationPath, $filename);
-            $validated['image_path'] = 'uploads/images/storage/' . $filename;
-        }
-
-        /* ==========================
-       Handle DAMAGE Logic
-    ========================== */
-        if ($validated['is_damaged']) {
-
-            // Upload damage image
-            if ($request->hasFile('damage_image')) {
-
-                if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
-                    unlink(public_path($storage->damage_image));
+                if ($storage->image_path && file_exists(public_path($storage->image_path))) {
+                    @unlink(public_path($storage->image_path));
                 }
 
-                $file = $request->file('damage_image');
-                $filename = 'damage_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $destinationPath = public_path('uploads/images/storage/damage');
+                $file = $request->file('image_path');
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $destinationPath = public_path('uploads/images/storage');
 
                 if (!file_exists($destinationPath)) {
                     mkdir($destinationPath, 0755, true);
                 }
 
                 $file->move($destinationPath, $filename);
-                $validated['damage_image'] = 'uploads/images/storage/damage/' . $filename;
-            }
-        } else {
-            /* Reset damage data if toggle = NO */
-            $validated['damage_qty'] = 0;
-            $validated['damage_solution'] = null;
-            $validated['damage_description'] = null;
-
-            if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
-                unlink(public_path($storage->damage_image));
+                $validated['image_path'] = 'uploads/images/storage/' . $filename;
             }
 
-            $validated['damage_image'] = null;
+            /* ==========================
+           DAMAGE LOGIC
+        ========================== */
+            if ($validated['is_damaged']) {
+
+                if ($request->hasFile('damage_image')) {
+
+                    if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
+                        @unlink(public_path($storage->damage_image));
+                    }
+
+                    $file = $request->file('damage_image');
+                    $filename = 'damage_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $destinationPath = public_path('uploads/images/storage/damage');
+
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0755, true);
+                    }
+
+                    $file->move($destinationPath, $filename);
+                    $validated['damage_image'] = 'uploads/images/storage/damage/' . $filename;
+                }
+            } else {
+
+                $validated['damage_qty'] = 0;
+                $validated['damage_solution'] = null;
+                $validated['damage_description'] = null;
+
+                if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
+                    @unlink(public_path($storage->damage_image));
+                }
+
+                $validated['damage_image'] = null;
+            }
+
+            /* ==========================
+           EXPIRED LOGIC
+        ========================== */
+            if ($validated['is_expired']) {
+
+                if ($request->hasFile('expired_image')) {
+
+                    if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
+                        @unlink(public_path($storage->expired_image));
+                    }
+
+                    $file = $request->file('expired_image');
+                    $filename = 'expired_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $destinationPath = public_path('uploads/images/storage/expired');
+
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0755, true);
+                    }
+
+                    $file->move($destinationPath, $filename);
+                    $validated['expired_image'] = 'uploads/images/storage/expired/' . $filename;
+                }
+            } else {
+
+                $validated['expired_qty'] = 0;
+                $validated['expired_solution'] = null;
+                $validated['expired_description'] = null;
+
+                if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
+                    @unlink(public_path($storage->expired_image));
+                }
+
+                $validated['expired_image'] = null;
+            }
+
+            /* ==========================
+           UPDATE STORAGE
+        ========================== */
+            $storage->update($validated);
+
+            DB::commit();
+
+            return redirect()
+                ->route('storages.index')
+                ->with('success', 'Storage updated successfully');
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            Log::error('Storage Update Failed', [
+                'storage_id' => $storage->id,
+                'error_message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Something went wrong. Please check logs.');
         }
-
-        /* ==========================
-       Update Storage
-    ========================== */
-        $storage->update($validated);
-
-        return redirect()
-            ->route('storages.index')
-            ->with('success', 'Storage updated successfully');
     }
 
     /**

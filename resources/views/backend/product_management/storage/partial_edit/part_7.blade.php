@@ -27,15 +27,21 @@
 </div>
 <div id="expirySection" style="display:none">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <label class="form-label">Expired Quantity</label>
             <input type="number" name="expired_qty" class="form-control"
                 value="{{ old('expired_qty', $storage->expired_qty) }}">
         </div>
-
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Error Solution</label>
+                <input type="text" name="expired_solution" class="form-control"
+                    value="{{ old('expired_solution', $storage->expired_solution) }}">
+            </div>
+        </div>
         <div class="col-md-12">
             <label class="form-label">Expiry Description</label>
-            <textarea name="expiry_description" class="form-control" rows="2">{{ old('expiry_description', $storage->expiry_description) }}</textarea>
+            <textarea name="expired_description" class="form-control" rows="2">{{ old('expired_description', $storage->expired_description) }}</textarea>
         </div>
     </div>
 
@@ -48,9 +54,9 @@
             <i class="fas fa-upload"></i> Upload Expiry Image
         </button>
 
-        @if ($storage->expiry_image)
+        @if ($storage->expired_image)
             <div class="mt-2">
-                <img src="{{ asset($storage->expiry_image) }}" width="120" class="img-thumbnail">
+                <img src="{{ asset($storage->expired_image) }}" width="120" class="img-thumbnail">
             </div>
         @endif
     </div>

@@ -43,6 +43,7 @@ return new class extends Migration
             $table->text('expiry_description')->nullable();
             $table->string('expiry_image')->nullable();
             $table->unsignedInteger('expired_qty')->default(0);
+            $table->string('error_solution')->nullable();
             $table->timestamp('last_stocked_at')->nullable();
             $table->string('damage_note');
             $table->string('expiry_note');

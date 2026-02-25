@@ -74,10 +74,8 @@
     </div>
 </div>
 <div id="damageSection" style="display:none">
-
     <div class="row">
-
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>Damaged Quantity</label>
                 <input type="number" name="damage_qty" class="form-control"
@@ -85,7 +83,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>Damage Solution</label>
                 <input type="text" name="damage_solution" class="form-control"
@@ -99,9 +97,7 @@
                 <textarea name="damage_description" class="form-control" rows="2">{{ old('damage_description', $storage->damage_description) }}</textarea>
             </div>
         </div>
-
     </div>
-
     {{-- Damage Image Upload --}}
     <div class="form-group">
         <label>Damage Image</label>
