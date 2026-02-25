@@ -10,7 +10,7 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
+
 
     protected $redirectTo = '/home';
 
@@ -38,17 +38,48 @@ class LoginController extends Controller
 
         // Maintenance check
         $maintenance = User::where('is_maintenance', 1)->first();
+
         if ($maintenance && (!$user || !$user->hasRole('admin'))) {
+
+            activity()
+                ->withProperties([
+                    'login' => $loginInput,
+                    'ip'    => $request->ip(),
+                    'browser' => $request->userAgent(),
+                ])
+                ->log('Login Blocked (Maintenance Mode)');
+
             session()->flash('login_error', $maintenance->maintenance_message);
             return false;
         }
 
-        return Auth::attempt(
+        $success = Auth::attempt(
             [$field => $loginInput, 'password' => $password],
             $request->filled('remember')
         );
-    }
 
+        if ($success) {
+
+            activity()
+                ->causedBy(Auth::user())
+                ->withProperties([
+                    'ip'      => $request->ip(),
+                    'browser' => $request->userAgent(),
+                ])
+                ->log('User Logged In');
+        } else {
+
+            activity()
+                ->withProperties([
+                    'login' => $loginInput,
+                    'ip'    => $request->ip(),
+                    'browser' => $request->userAgent(),
+                ])
+                ->log('Failed Login Attempt');
+        }
+
+        return $success;
+    }
     /**
      * ✅ THIS is where login success MUST be handled
      */
