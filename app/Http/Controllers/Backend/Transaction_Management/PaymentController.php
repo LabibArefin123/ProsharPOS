@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Spatie\Activitylog\Models\Activity;
 
 class PaymentController extends Controller
 {
@@ -27,37 +28,54 @@ class PaymentController extends Controller
     {
         $request->validate([
             'payment_name' => 'required|string',
-            'invoice_id' => 'required|exists:invoices,id',
-            'paid_amount' => 'required|numeric|min:0',
-            'due_amount' => 'nullable|numeric|min:0',
-            'paid_by' => 'required|exists:users,id',
+            'invoice_id'   => 'required|exists:invoices,id',
+            'paid_amount'  => 'required|numeric|min:0',
+            'due_amount'   => 'nullable|numeric|min:0',
+            'paid_by'      => 'required|exists:users,id',
             'payment_type' => 'required|string',
         ]);
 
-        Payment::create([
-            'payment_id' => rand(100000, 999999),
+        $invoice = Invoice::findOrFail($request->invoice_id);
+
+        // Add to previous paid amount (IMPORTANT)
+        $newPaidAmount = $invoice->paid_amount + $request->paid_amount;
+
+        // Create payment
+        $payment = Payment::create([
+            'payment_id'   => rand(100000, 999999),
             'payment_name' => $request->payment_name,
-            'invoice_id' => $request->invoice_id,
-            'paid_amount' => $request->paid_amount,
-            'due_amount' => $request->due_amount ?? 0,
-            'paid_by' => $request->paid_by,
+            'invoice_id'   => $request->invoice_id,
+            'paid_amount'  => $request->paid_amount,
+            'due_amount'   => $request->due_amount ?? 0,
+            'paid_by'      => $request->paid_by,
             'payment_type' => $request->payment_type,
         ]);
 
-        // Update invoice if linked
-        if ($request->invoice_id) {
-            $invoice = Invoice::find($request->invoice_id);
-            $invoice->paid_amount = $request->paid_amount;
-            $invoice->paid_by = $request->paid_by;
-            if ($request->paid_amount >= $invoice->total) {
-                $invoice->status = 1; // mark paid
-            } else {
-                $invoice->status = 0; // partial paid
-            }
-            $invoice->save();
+        // Update invoice
+        $invoice->paid_amount = $newPaidAmount;
+        $invoice->paid_by     = $request->paid_by;
+
+        if ($newPaidAmount >= $invoice->total) {
+            $invoice->status = 1; // Fully Paid
+        } else {
+            $invoice->status = 0; // Partial
         }
 
-        return redirect()->route('payments.index')->with('success', 'Payment recorded successfully');
+        $invoice->save();
+
+        // 🔥 Activity Log
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($payment)
+            ->withProperties([
+                'invoice_id'  => $invoice->invoice_id,
+                'paid_amount' => $request->paid_amount,
+                'payment_type' => $request->payment_type,
+            ])
+            ->log('Payment Created');
+
+        return redirect()->route('payments.index')
+            ->with('success', 'Payment recorded successfully');
     }
 
     public function show(Payment $payment)

@@ -63,7 +63,7 @@ class BankDepositController extends Controller
     // Store new deposit
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $request->validate([
             'bank_balance_id'   => 'required|exists:bank_balances,id',
             'deposit_date'      => 'required|date',
