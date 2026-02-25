@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Product_Management;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Models\Storage;
 use App\Models\Manufacturer;
@@ -147,13 +148,24 @@ class StorageController extends Controller
 
             /* Damage */
             'damage_image'       => 'required_if:is_damaged,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'damage_qty'         => 'required_if:is_damaged,1|nullable|integer|min:1',
+            'damage_qty' => [
+                'nullable',
+                'integer',
+                Rule::requiredIf($request->is_damaged == 1),
+                Rule::when($request->is_damaged == 1, ['min:1']),
+            ],
+
             'damage_solution'    => 'required_if:is_damaged,1|nullable|string|max:255',
             'damage_description' => 'required_if:is_damaged,1|nullable|string',
 
             /* Expired */
             'expired_image'       => 'required_if:is_expired,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'expired_qty'         => 'required_if:is_expired,1|nullable|integer|min:1',
+            'expired_qty' => [
+                'nullable',
+                'integer',
+                Rule::requiredIf($request->is_expired == 1),
+                Rule::when($request->is_expired == 1, ['min:1']),
+            ],
             'expired_solution'    => 'required_if:is_expired,1|nullable|string|max:255',
             'expired_description' => 'required_if:is_expired,1|nullable|string',
         ]);
@@ -184,9 +196,17 @@ class StorageController extends Controller
     ========================== */
         if ($validated['is_damaged'] == 1) {
 
-            // Reset expired
-            $validated['is_expired'] = 0;
-            $validated['expired_qty'] = 0;
+            /* ==========================
+            FORCE QTY TO 0 IF NOT ACTIVE
+            ========================== */
+
+            if ($validated['is_damaged'] == 0) {
+                $validated['damage_qty'] = 0;
+            }
+
+            if ($validated['is_expired'] == 0) {
+                $validated['expired_qty'] = 0;
+            }
             $validated['expired_solution'] = null;
             $validated['expired_description'] = null;
 

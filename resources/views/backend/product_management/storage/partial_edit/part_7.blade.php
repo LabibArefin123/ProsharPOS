@@ -25,27 +25,50 @@
         </div>
     </div>
 </div>
-<div id="expiredSection" style="{{ old('is_expired', $storage->is_expired) == 1 ? '' : 'display:none;' }}">
+<div id="expirySection" style="{{ old('is_expired', $storage->is_expired) ? '' : 'display:none;' }}">
     <div class="row">
         <div class="col-md-6">
-            <label class="form-label">Expired Quantity</label>
-            <input type="number" name="expired_qty" class="form-control"
-                value="{{ old('expired_qty', $storage->expired_qty) }}">
-        </div>
-        <div class="col-md-6">
             <div class="form-group">
-                <label>Error Solution</label>
-                <input type="text" name="expired_solution" class="form-control"
-                    value="{{ old('expired_solution', $storage->expired_solution) }}">
+                <label>Expired Quantity</label>
+                <input type="number" name="expired_qty" class="form-control @error('expired_qty') is-invalid @enderror"
+                    value="{{ old('expired_qty', $storage->expired_qty) }}">
+                @error('expired_qty')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
+
+         <div class="col-md-6">
+            <div class="form-group">
+                <label>Expiry Solution</label>
+                <input type="text" name="expired_solution"
+                    class="form-control @error('expired_solution') is-invalid @enderror"
+                    value="{{ old('expired_solution', $storage->expired_solution) }}">
+                @error('expired_solution')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+
         <div class="col-md-12">
-            <label class="form-label">Expiry Description</label>
-            <textarea name="expired_description" class="form-control" rows="2">{{ old('expired_description', $storage->expired_description) }}</textarea>
+            <div class="form-group">
+                <label>Expiry Description</label>
+                <textarea name="expired_description" rows="2"
+                    class="form-control @error('expired_description') is-invalid @enderror">{{ old('expired_description', $storage->expired_description) }}</textarea>
+                @error('expired_description')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
     </div>
 
-    <div class="card shadow-sm mt-3">
+    <div class="card shadow-sm mt-3 {{ $errors->has('expired_image') ? 'border border-danger' : '' }}">
         <div class="card-body">
 
             <!-- Top Row -->
@@ -53,16 +76,24 @@
 
                 <!-- LEFT SIDE (Label) -->
                 <label class="form-label fw-bold mb-0">
-                    Expiry Image
+                    Expired Image
                 </label>
 
                 <!-- RIGHT SIDE (Upload Button) -->
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#expiryImageUploadModal">
+                <button type="button"
+                    class="btn btn-warning btn-sm {{ $errors->has('expired_image') ? 'border border-danger' : '' }}"
+                    data-bs-toggle="modal" data-bs-target="#expiryImageUploadModal">
                     <i class="fas fa-upload"></i> Upload Image
                 </button>
 
             </div>
+
+            {{-- Validation Error --}}
+            @error('expired_image')
+                <div class="text-danger small mt-2">
+                    {{ $message }}
+                </div>
+            @enderror
 
             <!-- Image Preview -->
             @if ($storage->expired_image)
