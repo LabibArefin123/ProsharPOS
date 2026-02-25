@@ -99,18 +99,35 @@
         </div>
     </div>
     {{-- Damage Image Upload --}}
-    <div class="form-group">
-        <label>Damage Image</label>
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
 
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#damageImageUploadModal">
-            <i class="fas fa-upload"></i> Upload Damage Image
-        </button>
+            <!-- Top Row -->
+            <div class="d-flex justify-content-between align-items-center">
 
-        @if ($storage->damage_image)
-            <div class="mt-2">
-                <img src="{{ asset($storage->damage_image) }}" width="120" class="img-thumbnail">
+                <!-- LEFT SIDE (Label) -->
+                <label class="form-label fw-bold mb-0">
+                    Damage Image
+                </label>
+
+                <!-- RIGHT SIDE (Upload Button) -->
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#damageImageUploadModal">
+                    <i class="fas fa-upload"></i> Upload Image
+                </button>
+
             </div>
-        @endif
+
+            <!-- Image Preview -->
+            @if ($storage->damage_image)
+                <div class="mt-3 text-center">
+                    <img src="{{ asset($storage->damage_image) }}" class="img-thumbnail shadow-sm"
+                        style="max-height:120px; cursor:pointer;" data-bs-toggle="modal"
+                        data-bs-target="#expiryImageZoomModal">
+                </div>
+            @endif
+
+        </div>
     </div>
 </div>
 <div class="modal fade" id="damageImageUploadModal" tabindex="-1">

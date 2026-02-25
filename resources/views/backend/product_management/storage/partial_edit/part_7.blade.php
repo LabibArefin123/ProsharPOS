@@ -45,20 +45,35 @@
         </div>
     </div>
 
-    <div class="mt-3">
-        <label class="form-label">Expiry Image</label><br>
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
 
-        <!-- BOOTSTRAP 5 MODAL BUTTON -->
-        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-            data-bs-target="#expiryImageUploadModal">
-            <i class="fas fa-upload"></i> Upload Expiry Image
-        </button>
+            <!-- Top Row -->
+            <div class="d-flex justify-content-between align-items-center">
 
-        @if ($storage->expired_image)
-            <div class="mt-2">
-                <img src="{{ asset($storage->expired_image) }}" width="120" class="img-thumbnail">
+                <!-- LEFT SIDE (Label) -->
+                <label class="form-label fw-bold mb-0">
+                    Expiry Image
+                </label>
+
+                <!-- RIGHT SIDE (Upload Button) -->
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#expiryImageUploadModal">
+                    <i class="fas fa-upload"></i> Upload Image
+                </button>
+
             </div>
-        @endif
+
+            <!-- Image Preview -->
+            @if ($storage->expired_image)
+                <div class="mt-3 text-center">
+                    <img src="{{ asset($storage->expired_image) }}" class="img-thumbnail shadow-sm"
+                        style="max-height:120px; cursor:pointer;" data-bs-toggle="modal"
+                        data-bs-target="#expiryImageZoomModal">
+                </div>
+            @endif
+
+        </div>
     </div>
 </div>
 <div class="modal fade" id="expiryImageUploadModal" tabindex="-1">
