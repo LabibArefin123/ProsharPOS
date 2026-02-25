@@ -45,21 +45,31 @@
     }
 </style>
 <div class="row mt-3">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Is Damaged?</label><br>
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center p-2 border rounded">
 
-            <label class="switch">
-                <input type="checkbox" id="is_damaged" name="is_damaged"
-                    {{ old('is_damaged', $storage->is_damaged) ? 'checked' : '' }}>
-                <span class="slider round"></span>
+            <!-- LEFT SIDE -->
+            <label class="mb-0 fw-bold">
+                Is Damaged?
             </label>
 
-            <span id="damageLabel"
-                class="ml-2 badge 
-                {{ $storage->is_damaged ? 'badge-danger' : 'badge-success' }}">
-                {{ $storage->is_damaged ? 'YES' : 'NO' }}
-            </span>
+            <!-- RIGHT SIDE -->
+            <div class="d-flex align-items-center">
+
+                <label class="switch mb-0">
+                    <input type="checkbox" id="is_damaged" name="is_damaged"
+                        {{ old('is_damaged', $storage->is_damaged) ? 'checked' : '' }}>
+                    <span class="slider round"></span>
+                </label>
+
+                <span id="damageLabel"
+                    class="ms-2 badge 
+                    {{ $storage->is_damaged ? 'badge-danger' : 'badge-success' }}">
+                    {{ $storage->is_damaged ? 'YES' : 'NO' }}
+                </span>
+
+            </div>
+
         </div>
     </div>
 </div>
@@ -106,30 +116,10 @@
             </div>
         @endif
     </div>
-    <div class="row mt-3">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>Is Expired?</label><br>
-
-                <label class="switch">
-                    <input type="checkbox" id="is_expired" name="is_expired"
-                        {{ old('is_expired', $storage->is_expired) ? 'checked' : '' }}>
-                    <span class="slider round"></span>
-                </label>
-
-                <span id="expiryLabel"
-                    class="ml-2 badge
-                {{ $storage->is_expired ? 'badge-warning' : 'badge-success' }}">
-                    {{ $storage->is_expired ? 'YES' : 'NO' }}
-                </span>
-            </div>
-        </div>
-    </div>
 </div>
 <div class="modal fade" id="damageImageUploadModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-
             <div class="modal-header bg-danger">
                 <h5 class="modal-title">Upload Damage Image</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>

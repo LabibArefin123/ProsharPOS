@@ -40,22 +40,59 @@
                 @include('backend.product_management.storage.partial_edit.part_3')
                 @include('backend.product_management.storage.partial_edit.part_4')
 
-                {{-- Image Upload --}}
-                <div class="form-group">
-                    <label>Upload Image</label>
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#imageUploadModal">
-                        <i class="fas fa-upload"></i> Choose Image
-                    </button>
+                <div class="card shadow-sm mt-3">
+                    <div class="card-body">
+                        <div class="row align-items-center">
 
-                    @if ($storage->image_path)
-                        <div class="mt-2">
-                            <img src="{{ asset($storage->image_path) }}" width="120" class="img-thumbnail">
+                            <!-- LEFT SIDE -->
+                            <div class="col-md-4 border-right text-center">
+                                <label class="font-weight-bold d-block mb-3">
+                                    Upload Image
+                                </label>
+
+                                <button type="button" class="btn btn-info btn-sm px-4" data-toggle="modal"
+                                    data-target="#imageUploadModal">
+                                    <i class="fas fa-upload"></i> Choose Image
+                                </button>
+
+                                @error('image_path')
+                                    <div class="text-danger small mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <!-- RIGHT SIDE -->
+                            <div class="col-md-8">
+
+                                <div class="row">
+
+                                    <!-- IMAGE PREVIEW -->
+                                    <div class="col-md-4 text-center">
+                                        <div style="min-height:120px;">
+                                            <img id="mainImagePreview"
+                                                src="{{ $storage->image_path ? asset($storage->image_path) : '' }}"
+                                                class="img-fluid img-thumbnail {{ $storage->image_path ? '' : 'd-none' }}"
+                                                style="cursor:pointer; max-height:120px;">
+                                        </div>
+                                    </div>
+
+                                    <!-- IMAGE INFO -->
+                                    <div class="col-md-8">
+                                        <small>
+                                            <strong>Size:</strong> <span id="mainImageSize">-</span><br>
+                                            <strong>Format:</strong> <span id="mainImageFormat">-</span><br>
+                                            <strong>Dimension:</strong> <span id="mainImageDimension">-</span><br>
+                                            <strong>Type:</strong> <span id="mainImageShape">-</span>
+                                        </small>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
-                    @endif
-
-                    @error('image_path')
-                        <span class="text-danger small">{{ $message }}</span>
-                    @enderror
+                    </div>
                 </div>
 
                 @include('backend.product_management.storage.partial_edit.part_5')
@@ -67,7 +104,13 @@
             </form>
         </div>
     </div>
-
+    <div class="modal fade" id="imageZoomModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-transparent border-0 text-center">
+                <img id="zoomedImage" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
     {{-- Modal --}}
     <div class="modal fade" id="imageUploadModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -111,7 +154,8 @@
                             <input type="file" name="image_file" id="imageInput" class="form-control-file mb-3"
                                 accept="image/*">
                             <div id="previewContainer" style="min-height:150px;">
-                                <img id="imagePreview" src="#" alt="Preview" class="img-fluid img-thumbnail d-none">
+                                <img id="imagePreview" src="#" alt="Preview"
+                                    class="img-fluid img-thumbnail d-none">
                             </div>
                         </div>
 
@@ -131,85 +175,100 @@
     <script src="{{ asset('js/backend/storage/edit_page/product_load.js') }}"></script>
     <script src="{{ asset('js/backend/storage/edit_page/supplier_load.js') }}"></script>
     <script src="{{ asset('js/backend/storage/edit_page/manufacture_load.js') }}"></script>
-
     <script>
-        document.getElementById('imageInput').addEventListener('change', async function(e) {
+        document.addEventListener('DOMContentLoaded', function() {
 
-            const file = e.target.files[0];
-            const status = document.getElementById('uploadStatus');
-            const sizeEl = document.getElementById('imageSize');
-            const formatEl = document.getElementById('imageFormat');
-            const dimensionEl = document.getElementById('imageDimension');
-            const progressText = document.getElementById('progressText');
-            const progressCircle = document.getElementById('progressCircleBar');
-            const preview = document.getElementById('imagePreview');
+            const input = document.getElementById('imageInput'); // inside modal
+            const preview = document.getElementById('mainImagePreview');
+            const sizeEl = document.getElementById('mainImageSize');
+            const formatEl = document.getElementById('mainImageFormat');
+            const dimEl = document.getElementById('mainImageDimension');
+            const shapeEl = document.getElementById('mainImageShape');
 
-            if (!file) return;
+            /* =====================================
+               FUNCTION: Detect Image Info
+            ===================================== */
+            function detectImageInfo(imgSrc, file = null) {
 
-            const maxSize = 5 * 1024 * 1024;
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                const img = new Image();
+                img.onload = function() {
 
-            // Reset preview
-            preview.classList.add('d-none');
-            preview.src = '#';
+                    // Dimension
+                    const width = img.width;
+                    const height = img.height;
+                    dimEl.textContent = width + ' x ' + height;
 
-            const setProgress = (stage) => {
-                const stages = 4;
-                const percent = Math.round((stage / stages) * 100);
-                const dashOffset = 314 - (314 * percent / 100);
-                progressCircle.style.strokeDashoffset = dashOffset;
-                progressText.innerText = percent + '%';
+                    // Shape Detection
+                    if (width === height) {
+                        shapeEl.innerHTML = '<span class="badge badge-success">Square (50 x 50)</span>';
+                    } else if (width > height) {
+                        shapeEl.innerHTML = '<span class="badge badge-info">Landscape (150 x 50)</span>';
+                    } else {
+                        shapeEl.innerHTML = '<span class="badge badge-warning">Portrait (50 x 150)</span>';
+                    }
+                };
+
+                img.src = imgSrc;
+
+                // File info (only if new upload)
+                if (file) {
+
+                    // Size Format
+                    let size = file.size / 1024;
+                    if (size > 1024) {
+                        sizeEl.textContent = (size / 1024).toFixed(2) + ' MB';
+                    } else {
+                        sizeEl.textContent = size.toFixed(1) + ' KB';
+                    }
+
+                    // Format
+                    let format = file.type.split('/')[1]?.toUpperCase() ?? 'Unknown';
+                    formatEl.textContent = format;
+                }
             }
 
-            // Stage 1: Uploading
-            status.innerHTML = 'Uploading image...';
-            setProgress(1);
-            await new Promise(r => setTimeout(r, 400));
+            /* =====================================
+               LOAD EXISTING IMAGE INFO (ON PAGE LOAD)
+            ===================================== */
+            if (preview && preview.src && !preview.classList.contains('d-none')) {
 
-            // Stage 2: Size check
-            const sizeMB = (file.size / 1024 / 1024).toFixed(2);
-            sizeEl.innerText = sizeMB + " MB";
-            if (file.size > maxSize) {
-                status.innerHTML = '<span class="text-danger">Failed: File too large</span>';
-                setProgress(0);
-                return;
+                // Try to detect format from URL
+                const urlParts = preview.src.split('.');
+                const extension = urlParts[urlParts.length - 1].toUpperCase();
+
+                formatEl.textContent = extension;
+                sizeEl.textContent = 'Saved Image';
+
+                detectImageInfo(preview.src);
             }
-            status.innerHTML = 'Validating size...';
-            setProgress(2);
-            await new Promise(r => setTimeout(r, 400));
 
-            // Stage 3: Format & dimension check
-            formatEl.innerText = file.type;
-            if (!allowedTypes.includes(file.type)) {
-                status.innerHTML = '<span class="text-danger">Failed: Invalid format</span>';
-                setProgress(0);
-                return;
+            /* =====================================
+               NEW IMAGE SELECT
+            ===================================== */
+            if (input) {
+                input.addEventListener('change', function(e) {
+
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const imageURL = URL.createObjectURL(file);
+
+                    preview.src = imageURL;
+                    preview.classList.remove('d-none');
+
+                    detectImageInfo(imageURL, file);
+                });
             }
-            status.innerHTML = 'Validating format & dimension...';
 
-            const img = new Image();
-            img.onload = function() {
-                dimensionEl.innerText = img.width + ' x ' + img.height;
-                status.innerHTML = '<span class="text-success">Image is safe to upload ✔</span>';
-                setProgress(4);
-                preview.src = img.src;
-                preview.classList.remove('d-none');
-            };
-            img.src = URL.createObjectURL(file);
-        });
+            /* =====================================
+               IMAGE ZOOM
+            ===================================== */
+            preview?.addEventListener('click', function() {
+                const zoom = document.getElementById('zoomedImage');
+                zoom.src = preview.src;
+                $('#imageZoomModal').modal('show');
+            });
 
-        // Use image on modal confirm
-        document.getElementById('useImageBtn').addEventListener('click', function() {
-            const preview = document.getElementById('imagePreview');
-            if (!preview.src || preview.src === '#') return;
-
-            // Copy preview image to form
-            const form = document.querySelector('form');
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'image_path';
-            input.value = preview.src; // optional: you may handle file upload differently
-            form.appendChild(input);
         });
     </script>
 @endsection
