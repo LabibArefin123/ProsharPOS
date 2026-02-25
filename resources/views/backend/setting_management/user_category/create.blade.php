@@ -52,7 +52,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-12 form-group">
+                    <div class="col-12 mb-3">
                         <label for="description"><strong>Description</strong></label>
                         <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
                             rows="3" placeholder="Enter description">{{ old('description') }}</textarea>

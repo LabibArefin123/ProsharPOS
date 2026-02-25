@@ -8,7 +8,7 @@
     @yield('css')
     <link rel="icon" type="image/png" href="{{ asset('uploads/images/logor.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
@@ -211,7 +211,7 @@
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
                         aria-label="Close">
                     </button>
-                    
+
                     <!-- Animated Warning Icon -->
                     <div class="mb-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="animate-bounce" width="50" height="50"
@@ -1025,7 +1025,7 @@
         });
     </script>
     <!-- end of manual search -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
 
 @section('plugins.Datatables', true)
 @stop
