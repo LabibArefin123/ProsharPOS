@@ -17,146 +17,137 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-body">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            {{-- GLOBAL ERROR ALERT --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-                {{-- GLOBAL ERROR ALERT --}}
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+            <form action="{{ route('payments.store') }}" method="POST" data-confirm="create">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label><strong>Payment Name</strong></label> <span class="text-danger">*</span>
+                        <input type="text" name="payment_name"
+                            class="form-control @error('payment_name') is-invalid @enderror"
+                            value="{{ old('payment_name') }}" placeholder="Invoice/Challan/Petty Cash">
+
+                        @error('payment_name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                @endif
 
-                <form action="{{ route('payments.store') }}" method="POST" data-confirm="create">
-                    @csrf
-                    <div class="row">
-
-                        {{-- Payment Name --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Payment Name</strong></label> <span class="text-danger">*</span>
-                            <input type="text" name="payment_name"
-                                class="form-control @error('payment_name') is-invalid @enderror"
-                                value="{{ old('payment_name') }}" placeholder="Invoice/Challan/Petty Cash">
-
-                            @error('payment_name')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        {{-- Invoice --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Invoice</strong></label> <span class="text-danger">*</span>
-                            <select name="invoice_id" id="invoice-select"
-                                class="form-control @error('invoice_id') is-invalid @enderror">
-                                <option value="">-- Select Invoice (Optional) --</option>
-                                @foreach ($invoices as $invoice)
-                                    <option value="{{ $invoice->id }}" data-total="{{ $invoice->total }}"
-                                        {{ old('invoice_id') == $invoice->id ? 'selected' : '' }}>
-                                        #{{ $invoice->invoice_id }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-                            @error('invoice_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        {{-- Paid By --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Paid By</strong></label> <span class="text-danger">*</span>
-                            <select name="paid_by" class="form-control @error('paid_by') is-invalid @enderror">
-                                <option value="">-- Select User --</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}"
-                                        {{ old('paid_by') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-                            @error('paid_by')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        {{-- Payment Type --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Payment Type</strong></label> <span class="text-danger">*</span>
-                            <select name="payment_type" id="payment-type-select"
-                                class="form-control @error('payment_type') is-invalid @enderror">
-                                <option value="">--- Select Payment Type ---</option>
-                                <option value="cash" {{ old('payment_type') == 'cash' ? 'selected' : '' }}>Cash</option>
-                                <option value="bank" {{ old('payment_type') == 'bank' ? 'selected' : '' }}>Bank</option>
-                                <option value="mobile" {{ old('payment_type') == 'mobile' ? 'selected' : '' }}>Mobile
+                    {{-- Invoice --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Invoice</strong></label> <span class="text-danger">*</span>
+                        <select name="invoice_id" id="invoice-select"
+                            class="form-control @error('invoice_id') is-invalid @enderror">
+                            <option value="">-- Select Invoice (Optional) --</option>
+                            @foreach ($invoices as $invoice)
+                                <option value="{{ $invoice->id }}" data-total="{{ $invoice->total }}"
+                                    {{ old('invoice_id') == $invoice->id ? 'selected' : '' }}>
+                                    #{{ $invoice->invoice_id }}
                                 </option>
-                            </select>
+                            @endforeach
+                        </select>
 
-                            @error('payment_type')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        {{-- Paid Amount --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Paid Amount</strong></label> <span class="text-danger">*</span>
-                            <input type="number" step="0.01" name="paid_amount" id="paid-amount"
-                                class="form-control @error('paid_amount') is-invalid @enderror"
-                                value="{{ old('paid_amount', 0) }}">
-
-                            @error('paid_amount')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label><strong>Dollar Amount</strong></label>
-                            <input type="number" step="0.01" name="dollar_amount" id="paid-amount"
-                                class="form-control @error('dollar_amount') is-invalid @enderror"
-                                value="{{ old('dollar_amount', 0) }}">
-
-                            @error('dollar_amount')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        {{-- Due Amount --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Due Amount</strong></label>
-                            <input type="number" step="0.01" name="due_amount" id="due-amount"
-                                class="form-control @error('due_amount') is-invalid @enderror"
-                                value="{{ old('due_amount', 0) }}" readonly>
-
-                            @error('due_amount')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        {{-- Due Amount --}}
-                        <div class="col-md-6 form-group">
-                            <label><strong>Due Amount (in Dollar)</strong></label>
-                            <input type="number" step="0.01" name="due_amount_in_dollar" id="due-amount"
-                                class="form-control @error('due_amount_in_dollar') is-invalid @enderror"
-                                value="{{ old('due_amount_in_dollar', 0) }}" readonly>
-
-                            @error('due_amount_in_dollar')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
+                        @error('invoice_id')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                    {{-- Paid By --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Paid By</strong></label> <span class="text-danger">*</span>
+                        <select name="paid_by" class="form-control @error('paid_by') is-invalid @enderror">
+                            <option value="">-- Select User --</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ old('paid_by') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @error('paid_by')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
-                </form>
+                    {{-- Payment Type --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Payment Type</strong></label> <span class="text-danger">*</span>
+                        <select name="payment_type" id="payment-type-select"
+                            class="form-control @error('payment_type') is-invalid @enderror">
+                            <option value="">--- Select Payment Type ---</option>
+                            <option value="cash" {{ old('payment_type') == 'cash' ? 'selected' : '' }}>Cash</option>
+                            <option value="bank" {{ old('payment_type') == 'bank' ? 'selected' : '' }}>Bank</option>
+                            <option value="mobile" {{ old('payment_type') == 'mobile' ? 'selected' : '' }}>Mobile
+                            </option>
+                        </select>
 
-            </div>
+                        @error('payment_type')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Paid Amount --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Paid Amount</strong></label> <span class="text-danger">*</span>
+                        <input type="number" step="0.01" name="paid_amount" id="paid-amount"
+                            class="form-control @error('paid_amount') is-invalid @enderror"
+                            value="{{ old('paid_amount', 0) }}">
+
+                        @error('paid_amount')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Dollar Amount</strong></label>
+                        <input type="number" step="0.01" name="dollar_amount" id="paid-amount"
+                            class="form-control @error('dollar_amount') is-invalid @enderror"
+                            value="{{ old('dollar_amount', 0) }}">
+
+                        @error('dollar_amount')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Due Amount --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Due Amount</strong></label>
+                        <input type="number" step="0.01" name="due_amount" id="due-amount"
+                            class="form-control @error('due_amount') is-invalid @enderror"
+                            value="{{ old('due_amount', 0) }}" readonly>
+
+                        @error('due_amount')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    {{-- Due Amount --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Due Amount (in Dollar)</strong></label>
+                        <input type="number" step="0.01" name="due_amount_in_dollar" id="due-amount"
+                            class="form-control @error('due_amount_in_dollar') is-invalid @enderror"
+                            value="{{ old('due_amount_in_dollar', 0) }}" readonly>
+
+                        @error('due_amount_in_dollar')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                </div>
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 @stop

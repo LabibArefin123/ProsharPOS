@@ -65,6 +65,21 @@ class PaymentController extends Controller
         return view('backend.transaction_management.payment.show', compact('payment'));
     }
 
+    public function history()
+    {
+        $payments = Payment::with([
+            'invoice.customer',
+            'paidBy'
+        ])
+            ->whereHas('invoice', function ($query) {
+                $query->where('status', 1); // Only fully paid invoices
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('backend.transaction_management.payment.history', compact('payments'));
+    }
+
     public function edit(Payment $payment)
     {
         $invoices = Invoice::where('status', 0)->orWhere('id', $payment->invoice_id)->get();

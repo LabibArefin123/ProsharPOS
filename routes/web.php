@@ -37,6 +37,7 @@ use App\Http\Controllers\Backend\People_Management\ManufacturerController;
 //Transaction Management Part
 use App\Http\Controllers\Backend\Transaction_Management\ChallanController;
 use App\Http\Controllers\Backend\Transaction_Management\PaymentController;
+use App\Http\Controllers\Backend\Transaction_Management\PaymentHistoryController;
 use App\Http\Controllers\Backend\Transaction_Management\InvoiceController;
 use App\Http\Controllers\Backend\Transaction_Management\PettyCashController;
 use App\Http\Controllers\Backend\Transaction_Management\SalesReturnController;
@@ -105,7 +106,10 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/invoice-return', [InvoiceController::class, 'returnIndex'])->name('invoice-return.index');
     Route::get('/invoice-return/{id}', [InvoiceController::class, 'returnCreate'])->name('invoice-return.create');
     Route::post('/invoice-return/store/{id}', [InvoiceController::class, 'returnStore'])->name('invoice-return.store');
+    Route::post('/undo/{id}', [InvoiceController::class, 'returnUndo'])->name('invoice-return.undo');
     Route::resource('payments', PaymentController::class);
+    Route::get('/payment/history', [PaymentController::class, 'history'])->name('payments.history');
+
     Route::resource('petty_cashes', PettyCashController::class);
     Route::resource('sales_returns', SalesReturnController::class);
 

@@ -12,17 +12,9 @@
 @endsection
 
 @section('content')
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
-    @endif
-
     <div class="card shadow-sm">
         <div class="card-body table-responsive">
-            <table class="table table-bordered table-striped table-hover">
+            <table class="table table-hover table-striped align-middle" id="dataTables">
                 <thead class="bg-light">
                     <tr>
                         <th>#</th>
@@ -62,9 +54,13 @@
                                         <i class="fas fa-undo"></i> Return
                                     </a>
                                 @else
-                                    <button class="btn btn-sm btn-secondary" disabled>
-                                        Already Returned
-                                    </button>
+                                    <form action="{{ route('invoice-return.undo', $invoice->id) }}" method="POST"
+                                        class="d-inline">
+                                        @csrf
+                                        <button class="btn btn-sm btn-success" type="submit" title="Undo Return">
+                                            <i class="fas fa-undo-alt"></i> Undo Return
+                                        </button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>

@@ -235,4 +235,17 @@ class InvoiceController extends Controller
             ->route('invoice-return.index')
             ->with('success', 'Invoice returned successfully.');
     }
+
+    public function returnUndo($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+
+        // Reset status back to previous (for example 'pending' or '0')
+        $invoice->status = '0';
+        $invoice->save();
+
+        return redirect()
+            ->route('invoice-return.index')
+            ->with('success', 'Invoice return has been undone successfully.');
+    }
 }
