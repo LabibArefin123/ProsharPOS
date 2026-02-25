@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<div id="expirySection" style="display:none">
+<div id="expiredSection" style="{{ old('is_expired', $storage->is_expired) == 1 ? '' : 'display:none;' }}">
     <div class="row">
         <div class="col-md-6">
             <label class="form-label">Expired Quantity</label>

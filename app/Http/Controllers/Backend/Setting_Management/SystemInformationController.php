@@ -39,7 +39,7 @@ class SystemInformationController extends Controller
             // file name format: 1_hourminsec
             $filename = '1_' . Carbon::now()->format('His') . '.' . $file->getClientOriginalExtension();
 
-            $file->move(public_path('upload/system_information'), $filename);
+            $file->move(public_path('upload/images/system_information'), $filename);
 
             $data['photo'] = $filename;
         }
@@ -75,14 +75,14 @@ class SystemInformationController extends Controller
         if ($request->hasFile('photo')) {
 
             // delete old
-            if ($systemInformation->photo && file_exists(public_path('upload/system_information/' . $systemInformation->photo))) {
-                unlink(public_path('upload/system_information/' . $systemInformation->photo));
+            if ($systemInformation->photo && file_exists(public_path('uploads/images/system_information/' . $systemInformation->photo))) {
+                unlink(public_path('uploads/images/system_information/' . $systemInformation->photo));
             }
 
             $file = $request->file('photo');
             $filename = '1_' . Carbon::now()->format('His') . '.' . $file->getClientOriginalExtension();
 
-            $file->move(public_path('upload/system_information'), $filename);
+            $file->move(public_path('upload/images/system_information'), $filename);
 
             $data['photo'] = $filename;
         }

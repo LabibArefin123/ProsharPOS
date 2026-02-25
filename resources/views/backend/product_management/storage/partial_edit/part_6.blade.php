@@ -73,7 +73,7 @@
         </div>
     </div>
 </div>
-<div id="damageSection" style="display:none">
+<div id="damageSection" style="{{ old('is_damaged', $storage->is_damaged) ? '' : 'display:none;' }}">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -116,7 +116,7 @@
         </div>
     </div>
     {{-- Damage Image Upload --}}
-    <div class="card shadow-sm mt-3">
+    <div class="card shadow-sm mt-3 {{ $errors->has('damage_image') ? 'border border-danger' : '' }}">
         <div class="card-body">
 
             <!-- Top Row -->
@@ -128,12 +128,20 @@
                 </label>
 
                 <!-- RIGHT SIDE (Upload Button) -->
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#damageImageUploadModal">
+                <button type="button"
+                    class="btn btn-warning btn-sm {{ $errors->has('damage_image') ? 'border border-danger' : '' }}"
+                    data-bs-toggle="modal" data-bs-target="#damageImageUploadModal">
                     <i class="fas fa-upload"></i> Upload Image
                 </button>
 
             </div>
+
+            {{-- Validation Error --}}
+            @error('damage_image')
+                <div class="text-danger small mt-2">
+                    {{ $message }}
+                </div>
+            @enderror
 
             <!-- Image Preview -->
             @if ($storage->damage_image)
