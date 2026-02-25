@@ -110,6 +110,21 @@ class StorageController extends Controller
 
             DB::beginTransaction();
 
+            /* Normalize Checkboxes FIRST */
+            $request->merge([
+                'is_damaged' => $request->has('is_damaged') ? 1 : 0,
+                'is_expired' => $request->has('is_expired') ? 1 : 0,
+            ]);
+
+            /* Prevent BOTH selected */
+            if ($request->is_damaged == 1 && $request->is_expired == 1) {
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        'status_error' => 'Item cannot be both Damaged and Expired at the same time.'
+                    ]);
+            }
+
             $validated = $request->validate([
                 'product_id'          => 'required|exists:products,id',
                 'supplier_id'         => 'required|exists:suppliers,id',
@@ -126,29 +141,25 @@ class StorageController extends Controller
                 'stock_quantity'      => 'required|integer|min:0',
                 'alert_quantity'      => 'required|integer|min:0',
 
-                /* Main Image */
+                /* Images */
                 'image_path'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+                'damage_image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+                'expired_image'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 
                 /* Toggles */
-                'is_damaged'          => 'nullable|boolean',
-                'is_expired'          => 'nullable|boolean',
+                'is_damaged'          => 'required|in:0,1',
+                'is_expired'          => 'required|in:0,1',
 
                 /* Damage Fields */
                 'damage_qty'          => 'nullable|integer|min:0',
                 'damage_solution'     => 'nullable|string|max:255',
                 'damage_description'  => 'nullable|string',
-                'damage_image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 
                 /* Expired Fields */
-                'expired_qty'          => 'nullable|integer|min:0',
-                'expired_solution'     => 'nullable|string|max:255',
-                'expired_description'  => 'nullable|string',
-                'expired_image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+                'expired_qty'         => 'nullable|integer|min:0',
+                'expired_solution'    => 'nullable|string|max:255',
+                'expired_description' => 'nullable|string',
             ]);
-
-            /* Normalize Checkboxes */
-            $validated['is_damaged'] = $request->boolean('is_damaged');
-            $validated['is_expired'] = $request->boolean('is_expired');
 
             /* ==========================
            HANDLE MAIN IMAGE
@@ -174,8 +185,21 @@ class StorageController extends Controller
             /* ==========================
            DAMAGE LOGIC
         ========================== */
-            if ($validated['is_damaged']) {
+            if ($validated['is_damaged'] == 1) {
 
+                // Reset expired automatically
+                $validated['is_expired'] = 0;
+                $validated['expired_qty'] = 0;
+                $validated['expired_solution'] = null;
+                $validated['expired_description'] = null;
+
+                if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
+                    @unlink(public_path($storage->expired_image));
+                }
+
+                $validated['expired_image'] = null;
+
+                // Handle damage image
                 if ($request->hasFile('damage_image')) {
 
                     if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
@@ -193,8 +217,15 @@ class StorageController extends Controller
                     $file->move($destinationPath, $filename);
                     $validated['damage_image'] = 'uploads/images/storage/damage/' . $filename;
                 }
-            } else {
+            }
 
+            /* ==========================
+           EXPIRED LOGIC
+        ========================== */
+            if ($validated['is_expired'] == 1) {
+
+                // Reset damage automatically
+                $validated['is_damaged'] = 0;
                 $validated['damage_qty'] = 0;
                 $validated['damage_solution'] = null;
                 $validated['damage_description'] = null;
@@ -204,13 +235,8 @@ class StorageController extends Controller
                 }
 
                 $validated['damage_image'] = null;
-            }
 
-            /* ==========================
-           EXPIRED LOGIC
-        ========================== */
-            if ($validated['is_expired']) {
-
+                // Handle expired image
                 if ($request->hasFile('expired_image')) {
 
                     if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
@@ -228,22 +254,8 @@ class StorageController extends Controller
                     $file->move($destinationPath, $filename);
                     $validated['expired_image'] = 'uploads/images/storage/expired/' . $filename;
                 }
-            } else {
-
-                $validated['expired_qty'] = 0;
-                $validated['expired_solution'] = null;
-                $validated['expired_description'] = null;
-
-                if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
-                    @unlink(public_path($storage->expired_image));
-                }
-
-                $validated['expired_image'] = null;
             }
 
-            /* ==========================
-           UPDATE STORAGE
-        ========================== */
             $storage->update($validated);
 
             DB::commit();
@@ -262,13 +274,9 @@ class StorageController extends Controller
                 'file' => $e->getFile(),
             ]);
 
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Something went wrong. Please check logs.');
+            return back()->withInput()->with('error', 'Something went wrong. Please check logs.');
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */

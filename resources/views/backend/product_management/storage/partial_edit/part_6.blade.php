@@ -78,23 +78,40 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Damaged Quantity</label>
-                <input type="number" name="damage_qty" class="form-control"
+                <input type="number" name="damage_qty" class="form-control @error('damage_qty') is-invalid @enderror"
                     value="{{ old('damage_qty', $storage->damage_qty) }}">
+                @error('damage_qty')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group">
                 <label>Damage Solution</label>
-                <input type="text" name="damage_solution" class="form-control"
+                <input type="text" name="damage_solution"
+                    class="form-control @error('damage_solution') is-invalid @enderror"
                     value="{{ old('damage_solution', $storage->damage_solution) }}">
+                @error('damage_solution')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
 
         <div class="col-md-12">
             <div class="form-group">
                 <label>Damage Description</label>
-                <textarea name="damage_description" class="form-control" rows="2">{{ old('damage_description', $storage->damage_description) }}</textarea>
+                <textarea name="damage_description" rows="2"
+                    class="form-control @error('damage_description') is-invalid @enderror">{{ old('damage_description', $storage->damage_description) }}</textarea>
+                @error('damage_description')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'ProsharPOS - Expanding Horizons') }}</title>
 
     <!-- Fonts -->
-    <link rel="icon" type="image/png" href="{{ asset('uploads/images/icon.JPG') }}">
+    <link rel="icon" type="image/png" href="{{ asset('uploads/images/logor.png') }}">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
