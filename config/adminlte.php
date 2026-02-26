@@ -495,6 +495,13 @@ return [
                     'can'    => 'bank_withdraws.index',
                     'active' => ['bank_withdraws*'],
                 ],
+                [
+                    'text' => 'Card Payments',
+                    'route' => 'bank_cards.index',
+                    'icon' => 'fas fa-credit-card',
+                    'can' => 'bank_cards.index',
+                    'active' => ['bank_cards*'],
+                ],
             ],
         ],
 

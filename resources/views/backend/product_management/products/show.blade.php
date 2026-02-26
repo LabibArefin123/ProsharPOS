@@ -118,16 +118,6 @@
                         </p>
                     </div>
                 </div>
-
-                <div class="mb-3">
-                    <strong>Image:</strong><br>
-
-                    <div class="mt-2">
-                        <img src="{{ asset($product->image ?: 'images/default.jpg') }}" alt="Product Image" width="120"
-                            class="img-thumbnail">
-                    </div>
-
-                </div>
                 <div class="mb-3">
                     <strong>Description:</strong>
                     <p class="form-control">{{ $product->description ?? 'N/A' }}</p>
