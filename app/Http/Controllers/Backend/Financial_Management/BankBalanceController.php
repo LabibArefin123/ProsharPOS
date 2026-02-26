@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backend\Financial_Management;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\BankBalance;
+use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -34,11 +34,16 @@ class BankBalanceController extends Controller
                 ? $balance->user->payments->sum('paid_amount')
                 : 0;
 
-            // Compute remaining/available balance (System)
+            // Total purchases (money OUT)
+            $totalPurchases = Purchase::where('supplier_id', $balance->user_id ?? 0)
+                ->sum('total_amount');
+
+            // Compute system balance (after all transactions)
             $balance->system_balance = $balance->balance
                 + $totalDeposits
                 - $totalWithdraws
-                - $totalPayments;
+                - $totalPayments
+                - $totalPurchases;
         });
 
         return view(
@@ -68,32 +73,37 @@ class BankBalanceController extends Controller
 
     public function show(BankBalance $bank_balance)
     {
-        // Load relationships
+        // Load all relationships
         $bank_balance->load([
             'user.payments',
             'deposits',
             'withdraws',
         ]);
 
-        // Keep original DB balance
+        // Original DB balance
         $bank_balance->original_balance = $bank_balance->balance;
 
-        // Total deposits (money IN)
+        // Total deposits
         $totalDeposits = $bank_balance->deposits->sum('amount');
 
-        // Total withdrawals (money OUT)
+        // Total withdrawals
         $totalWithdraws = $bank_balance->withdraws->sum('amount');
 
-        // Total payments (money OUT)
+        // Total payments
         $totalPayments = $bank_balance->user
             ? $bank_balance->user->payments->sum('paid_amount')
             : 0;
+
+        // Total purchases
+        $totalPurchases = Purchase::where('supplier_id', $bank_balance->user_id ?? 0)
+            ->sum('total_amount');
 
         // System balance
         $bank_balance->system_balance = $bank_balance->balance
             + $totalDeposits
             - $totalWithdraws
-            - $totalPayments;
+            - $totalPayments
+            - $totalPurchases;
 
         return view(
             'backend.financial_management.bank_balance.show',
@@ -103,34 +113,39 @@ class BankBalanceController extends Controller
 
     public function edit(BankBalance $bank_balance)
     {
-        // Load relationships
+        // Load all relationships
         $bank_balance->load([
             'user.payments',
             'deposits',
             'withdraws',
         ]);
 
-        // Keep original DB balance
+        // Original DB balance
         $bank_balance->original_balance = $bank_balance->balance;
 
-        // Total deposits (money IN)
+        // Total deposits
         $totalDeposits = $bank_balance->deposits->sum('amount');
 
-        // Total withdrawals (money OUT)
+        // Total withdrawals
         $totalWithdraws = $bank_balance->withdraws->sum('amount');
 
-        // Total payments (money OUT)
+        // Total payments
         $totalPayments = $bank_balance->user
             ? $bank_balance->user->payments->sum('paid_amount')
             : 0;
+
+        // Total purchases
+        $totalPurchases = Purchase::where('supplier_id', $bank_balance->user_id ?? 0)
+            ->sum('total_amount');
 
         // System balance
         $bank_balance->system_balance = $bank_balance->balance
             + $totalDeposits
             - $totalWithdraws
-            - $totalPayments;
+            - $totalPayments
+            - $totalPurchases;
 
-        // All users for select dropdown
+        // Users dropdown
         $users = User::orderBy('name', 'asc')->get();
 
         return view(
@@ -138,7 +153,7 @@ class BankBalanceController extends Controller
             compact('bank_balance', 'users')
         );
     }
-
+    
     public function update(Request $request, BankBalance $bank_balance)
     {
         $request->validate([

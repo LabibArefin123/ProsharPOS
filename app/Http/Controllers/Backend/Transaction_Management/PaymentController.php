@@ -8,6 +8,7 @@ use App\Models\BankDeposit;
 use App\Models\BankWithdraw;
 use App\Models\SalesReturn;
 use App\Models\Payment;
+use App\Models\Purchase;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -89,35 +90,42 @@ class PaymentController extends Controller
 
     public function history()
     {
-        // Load all deposits
-        $deposits = BankDeposit::with(['bankBalance.user', 'user'])->get()->map(function ($d) {
-            return (object)[
-                'type' => 'deposit',
-                'date' => $d->deposit_date,
-                'amount' => $d->amount,
-                'currency' => 'BDT',
-                'description' => $d->reference_no,
-                'user' => $d->user,
-                'bankBalance' => $d->bankBalance,
-            ];
-        });
+        // Load deposits
+        $deposits = BankDeposit::with(['bankBalance.user', 'user'])
+            ->orderBy('deposit_date', 'desc')
+            ->get()
+            ->map(function ($d) {
+                return (object)[
+                    'type' => 'deposit',
+                    'date' => $d->deposit_date,
+                    'amount' => $d->amount,
+                    'currency' => 'BDT',
+                    'description' => $d->reference_no,
+                    'user' => $d->user,
+                    'bankBalance' => $d->bankBalance,
+                ];
+            });
 
-        // Load all withdrawals
-        $withdraws = BankWithdraw::with(['bankBalance.user', 'user'])->get()->map(function ($w) {
-            return (object)[
-                'type' => 'withdraw',
-                'date' => $w->withdraw_date,
-                'amount' => $w->amount,
-                'currency' => 'BDT',
-                'description' => $w->reference_no,
-                'user' => $w->user,
-                'bankBalance' => $w->bankBalance,
-            ];
-        });
+        // Load withdrawals
+        $withdraws = BankWithdraw::with(['bankBalance.user', 'user'])
+            ->orderBy('withdraw_date', 'desc')
+            ->get()
+            ->map(function ($w) {
+                return (object)[
+                    'type' => 'withdraw',
+                    'date' => $w->withdraw_date,
+                    'amount' => $w->amount,
+                    'currency' => 'BDT',
+                    'description' => $w->reference_no,
+                    'user' => $w->user,
+                    'bankBalance' => $w->bankBalance,
+                ];
+            });
 
-        // Load all fully paid payments
+        // Load fully paid payments (excluding purchase payments)
         $payments = Payment::with(['invoice.customer', 'paidBy'])
             ->whereHas('invoice', fn($q) => $q->where('status', 1))
+            ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($p) {
                 return (object)[
@@ -131,9 +139,24 @@ class PaymentController extends Controller
                 ];
             });
 
-        // Merge all transactions and sort by date DESC (newest first)
-        $transactions = $deposits->merge($withdraws)->merge($payments)
-            ->sortByDesc('date'); // <- this line ensures newest on top
+        // Load purchases (count only once per purchase)
+        $purchases = Purchase::with('supplier')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($pu) {
+                return (object)[
+                    'type' => 'purchase',
+                    'date' => $pu->created_at,
+                    'amount' => $pu->total_amount,
+                    'currency' => 'BDT',
+                    'description' => $pu->purchase_id ?? 'Purchase',
+                    'user' => $pu->supplier,
+                ];
+            });
+
+        // Merge all transactions
+        $transactions = $deposits->merge($withdraws)->merge($payments)->merge($purchases)
+            ->sortByDesc('date'); // latest first
 
         // Start running balance from latest bank balance
         $latestBank = BankBalance::latest('id')->first();
@@ -144,6 +167,7 @@ class PaymentController extends Controller
             compact('transactions', 'runningBalance')
         );
     }
+
     public function flowDiagram()
     {
         // Fetch last 5 sales returns with invoices and customer info
