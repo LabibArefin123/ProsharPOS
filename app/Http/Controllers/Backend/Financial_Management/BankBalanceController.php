@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend\Financial_Management;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\BankBalance;
@@ -11,18 +12,23 @@ class BankBalanceController extends Controller
 {
     public function index()
     {
-        $balances = BankBalance::with('user')->get();
+        $balances = BankBalance::with(['user.payments'])->get();
 
-        // Deduct total payments for each user
-        $balances->transform(function ($balance) {
-            $totalPayments = $balance->user->payments()->sum('paid_amount');
-            $balance->balance = $balance->balance - $totalPayments;
-            return $balance;
+        $balances->each(function ($balance) {
+
+            $totalPayments = $balance->user
+                ? $balance->user->payments->sum('paid_amount')
+                : 0;
+
+            // Do NOT overwrite original balance
+            $balance->remaining_balance = $balance->balance - $totalPayments;
         });
 
-        return view('backend.financial_management.bank_balance.index', compact('balances'));
+        return view(
+            'backend.financial_management.bank_balance.index',
+            compact('balances')
+        );
     }
-
 
     public function create()
     {
@@ -45,33 +51,41 @@ class BankBalanceController extends Controller
 
     public function show(BankBalance $bank_balance)
     {
-        // Load user + payments
-        $bank_balance->load('user');
+        // Load user and their payments
+        $bank_balance->load('user.payments');
 
-        // Calculate deducted balance
+        // Compute remaining/deducted balance
         $totalPayments = $bank_balance->user
-            ? $bank_balance->user->payments()->sum('paid_amount')
+            ? $bank_balance->user->payments->sum('paid_amount')
             : 0;
 
         $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
 
-        return view('backend.financial_management.bank_balance.show', compact('bank_balance'));
+        return view(
+            'backend.financial_management.bank_balance.show',
+            compact('bank_balance')
+        );
     }
-
 
     public function edit(BankBalance $bank_balance)
     {
+        // Load user and their payments
+        $bank_balance->load('user.payments');
 
-        $bank_balance->load('user');
-
+        // Compute deducted balance
         $totalPayments = $bank_balance->user
-            ? $bank_balance->user->payments()->sum('paid_amount')
+            ? $bank_balance->user->payments->sum('paid_amount')
             : 0;
 
         $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
-        $users = User::all();
 
-        return view('backend.financial_management.bank_balance.edit', compact('bank_balance', 'users'));
+        // All users for select dropdown
+        $users = User::orderBy('name', 'asc')->get();
+
+        return view(
+            'backend.financial_management.bank_balance.edit',
+            compact('bank_balance', 'users')
+        );
     }
 
     public function update(Request $request, BankBalance $bank_balance)

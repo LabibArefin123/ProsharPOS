@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Transaction_Management;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankBalance;
 use App\Models\SalesReturn;
 use App\Models\Payment;
 use App\Models\Invoice;
@@ -86,19 +87,24 @@ class PaymentController extends Controller
 
     public function history()
     {
-        // Fetch fully paid payments with related invoice, customer, and any sales returns
         $payments = Payment::with([
             'invoice.customer',
             'paidBy',
-            'invoice.salesReturns.items.product' // eager load sales returns for this invoice
+            'invoice.salesReturns.items.product',
         ])
             ->whereHas('invoice', function ($query) {
-                $query->where('status', 1); // Only fully paid invoices
+                $query->where('status', 1); // fully paid
             })
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('backend.transaction_management.payment.history', compact('payments'));
+        // Independent bank balance (latest)
+        $bankBalance = BankBalance::latest('id')->first();
+
+        return view(
+            'backend.transaction_management.payment.history',
+            compact('payments', 'bankBalance')
+        );
     }
 
     public function flowDiagram()

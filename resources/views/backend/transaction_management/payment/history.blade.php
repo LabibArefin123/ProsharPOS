@@ -59,35 +59,81 @@
     <div class="card shadow-sm">
         <div class="card-body">
 
+            @php
+                // Start from latest balance
+                $runningBalance = $bankBalance?->balance ?? 0;
+            @endphp
+
             @forelse($payments as $payment)
+                @php
+                    $paidAmount = $payment->paid_amount;
+                    $oldBalance = $runningBalance - $paidAmount;
+                @endphp
+
                 <div class="border rounded p-3 mb-3 shadow-sm">
 
                     {{-- Payment Info --}}
                     <div class="row align-items-center">
                         <div class="col-md-2">
                             <strong>#{{ $payment->payment_id }}</strong><br>
-                            <small class="text-muted">{{ $payment->created_at->format('d M Y, h:i A') }}</small>
+                            <small class="text-muted">
+                                {{ $payment->created_at->format('d M Y, h:i A') }}
+                            </small>
                         </div>
-                        <div class="col-md-3">
-                            <strong>Invoice:</strong><br>{{ $payment->invoice->invoice_id ?? '-' }}
-                        </div>
+
                         <div class="col-md-2">
-                            <strong>Customer:</strong><br>{{ $payment->invoice->customer->name ?? '-' }}
+                            <strong>Invoice</strong><br>
+                            {{ $payment->invoice->invoice_id ?? '-' }}
                         </div>
+
+                        <div class="col-md-2">
+                            <strong>Customer</strong><br>
+                            {{ $payment->invoice->customer->name ?? '-' }}
+                        </div>
+
                         <div class="col-md-2 text-success">
-                            <strong>Paid:</strong><br>৳{{ number_format($payment->paid_amount, 2) }}
+                            <strong>Paid</strong><br>
+                            ৳{{ number_format($paidAmount, 2) }}
                         </div>
+
                         <div class="col-md-2">
-                            <strong>Paid By:</strong><br>{{ $payment->paidBy?->name ?? '-' }}
+                            <strong>Paid By</strong><br>
+                            {{ $payment->paidBy?->name ?? '-' }}
                         </div>
-                        <div class="col-md-1 text-end">
+
+                        <div class="col-md-2 text-end">
                             <span class="badge bg-success">PAID</span>
                         </div>
                     </div>
 
-                    {{-- Sales Return Flow Diagram --}}
-                   @include('backend.transaction_management.payment.flow.flow')
+                    {{-- Balance Flow --}}
+                    <div class="row balance-row mt-3">
+                        <div class="col-md-4">
+                            <strong>Old Balance</strong><br>
+                            ৳{{ number_format($oldBalance, 2) }}
+                        </div>
+
+                        <div class="col-md-4 text-success">
+                            <strong>Transaction</strong><br>
+                            + ৳{{ number_format($paidAmount, 2) }}
+                        </div>
+
+                        <div class="col-md-4 text-primary fw-bold">
+                            <strong>New Balance</strong><br>
+                            ৳{{ number_format($runningBalance, 2) }}
+                        </div>
+                    </div>
+
+                    {{-- Sales Return Flow --}}
+                    @include('backend.transaction_management.payment.flow.flow')
+
                 </div>
+
+                @php
+                    // Update running balance for next iteration
+                    $runningBalance = $oldBalance;
+                @endphp
+
             @empty
                 <div class="text-center text-muted">
                     No fully paid transactions found.
