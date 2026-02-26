@@ -15,7 +15,6 @@
 @stop
 
 @section('content')
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> Something went wrong:
@@ -27,7 +26,7 @@
         </div>
     @endif
 
-    <form action="{{ route('sales_returns.update', $salesReturn->id) }}" method="POST">
+    <form action="{{ route('sales_returns.update', $salesReturn->id) }}" method="POST" id="returnForm">
         @csrf
         @method('PUT')
 
@@ -35,95 +34,248 @@
             <div class="card-body">
                 <div class="row">
 
+                    {{-- Invoice --}}
                     <div class="col-md-4 mb-3">
                         <label>Invoice</label>
-                        <input type="text" class="form-control" value="{{ $salesReturn->invoice?->invoice_id }}"
-                            disabled>
-                    </div>
+                        @php
+                            $invoiceData = $invoices->mapWithKeys(function ($invoice) {
+                                return [
+                                    $invoice->id => [
+                                        'customer_id' => $invoice->customer_id,
+                                        'branch_id' => $invoice->branch_id,
+                                        'items' => $invoice->invoiceItems
+                                            ->map(function ($item) {
+                                                return [
+                                                    'product_id' => $item->product_id,
+                                                    'product_name' => optional($item->product)->name,
+                                                    'quantity' => $item->quantity,
+                                                    'price' => $item->price,
+                                                ];
+                                            })
+                                            ->values(),
+                                    ],
+                                ];
+                            });
 
-                    <div class="col-md-4 mb-3">
-                        <label>Customer</label>
-                        <input type="text" class="form-control" value="{{ $salesReturn->customer?->name }}" disabled>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Branch</label>
-                        <input type="text" class="form-control" value="{{ $salesReturn->branch?->name }}" disabled>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Return Date</label>
-                        <input type="date" name="return_date" class="form-control"
-                            value="{{ $salesReturn->return_date }}">
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Refund Method</label>
-                        <select name="refund_method" class="form-control">
-                            <option value="cash" {{ $salesReturn->refund_method == 'cash' ? 'selected' : '' }}>Cash</option>
-                            <option value="card" {{ $salesReturn->refund_method == 'card' ? 'selected' : '' }}>Card</option>
-                            <option value="bkash" {{ $salesReturn->refund_method == 'bkash' ? 'selected' : '' }}>bKash</option>
-                            <option value="nagad" {{ $salesReturn->refund_method == 'nagad' ? 'selected' : '' }}>Nagad</option>
-                            <option value="adjust_due" {{ $salesReturn->refund_method == 'adjust_due' ? 'selected' : '' }}>Adjust
-                                Due</option>
+                            // Prepare sales return items for JS safely
+                            $salesReturnItems = $salesReturn->items->map(function ($item) {
+                                return [
+                                    'product_id' => $item->product_id,
+                                    'product_name' => optional($item->product)->name ?? 'N/A',
+                                    'quantity' => $item->quantity,
+                                    'price' => $item->price,
+                                ];
+                            });
+                        @endphp
+                        <select name="invoice_id" id="invoiceSelect" class="form-control" required>
+                            <option value="">Select Invoice</option>
+                            @foreach ($invoices as $invoice)
+                                <option value="{{ $invoice->id }}"
+                                    {{ $salesReturn->invoice_id == $invoice->id ? 'selected' : '' }}>
+                                    {{ $invoice->invoice_id }} - {{ $invoice->customer?->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
+                    {{-- Customer --}}
+                    <div class="col-md-4 mb-3">
+                        <label>Customer</label>
+                        <select name="customer_id" id="customerSelect" class="form-control" required>
+                            <option value="">Select Customer</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}"
+                                    {{ $salesReturn->customer_id == $customer->id ? 'selected' : '' }}>
+                                    {{ $customer->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Branch --}}
+                    <div class="col-md-4 mb-3">
+                        <label>Branch</label>
+                        <select name="branch_id" id="branchSelect" class="form-control" required>
+                            <option value="">Select Branch</option>
+                            @foreach ($branches as $branch)
+                                <option value="{{ $branch->id }}"
+                                    {{ $salesReturn->branch_id == $branch->id ? 'selected' : '' }}>
+                                    {{ $branch->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Return Date --}}
+                    <div class="col-md-4 mb-3">
+                        <label>Return Date</label>
+                        <input type="date" name="return_date" class="form-control"
+                            value="{{ old('return_date', date('Y-m-d', strtotime($salesReturn->return_date))) }}" required>
+                    </div>
+
+                    {{-- Refund Method --}}
+                    <div class="col-md-4 mb-3">
+                        <label>Refund Method</label>
+                        <select name="refund_method" class="form-control">
+                            @php
+                                $methods = ['cash', 'card', 'bkash', 'nagad', 'adjust_due'];
+                            @endphp
+                            @foreach ($methods as $method)
+                                <option value="{{ $method }}"
+                                    {{ $salesReturn->refund_method == $method ? 'selected' : '' }}>
+                                    {{ ucfirst($method) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Note --}}
                     <div class="col-md-12 mb-3">
                         <label>Note</label>
-                        <textarea name="note" class="form-control" rows="2">{{ $salesReturn->note }}</textarea>
+                        <textarea name="note" class="form-control" rows="2">{{ old('note', $salesReturn->note) }}</textarea>
                     </div>
 
                 </div>
             </div>
         </div>
 
-        {{-- Items --}}
+        {{-- Product Cart --}}
         <div class="card shadow mb-4">
             <div class="card-header bg-danger text-white">
-                <strong>Returned Products</strong>
+                <strong>Return Products</strong>
             </div>
-
-            <div class="card-body table-responsive">
-                <table class="table table-bordered">
+            <div class="card-body">
+                <table class="table table-bordered" id="returnTable">
                     <thead>
                         <tr>
-                            <th>Product</th>
-                            <th>Qty</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
                             <th>Price</th>
                             <th>Subtotal</th>
+                            <th width="80">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($salesReturn->items as $item)
-                            <tr>
-                                <td>{{ $item->product?->name }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ number_format($item->price, 2) }}</td>
-                                <td class="text-danger font-weight-bold">
-                                    {{ number_format($item->subtotal, 2) }}
-                                </td>
-                            </tr>
-                        @endforeach
+                        {{-- JS appends rows --}}
                     </tbody>
                 </table>
 
                 <div class="text-right mt-3">
-                    <h5>Total Return:
-                        <span class="text-danger">
-                            {{ number_format($salesReturn->total_return_amount, 2) }}
-                        </span>
+                    <h5>Total Return Amount:
+                        <span class="text-danger" id="totalAmount">0.00</span>
                     </h5>
                 </div>
             </div>
         </div>
+
+        <input type="hidden" name="items" id="itemsInput">
 
         <div class="text-right">
             <button type="submit" class="btn btn-danger">
                 <i class="fas fa-save"></i> Update Return
             </button>
         </div>
-
     </form>
 
+    <script>
+        let items = [];
+        const invoiceData = @json($invoiceData);
+        const salesReturnItems = @json($salesReturnItems);
+        const invoiceSelect = document.getElementById('invoiceSelect');
+        const customerSelect = document.getElementById('customerSelect');
+        const branchSelect = document.getElementById('branchSelect');
+        const tableBody = document.querySelector('#returnTable tbody');
+
+        // 🔹 Load existing items
+        window.addEventListener('DOMContentLoaded', () => {
+            if (salesReturnItems.length > 0) {
+                items = salesReturnItems.map((item, index) => {
+                    let row = `
+                <tr>
+                    <td>${item.product_name}</td>
+                    <td><input type="number" class="form-control quantity" value="${item.quantity}" min="1" data-index="${index}"></td>
+                    <td><input type="number" class="form-control price" value="${item.price}" step="0.01" data-index="${index}"></td>
+                    <td class="subtotal">${(item.quantity * item.price).toFixed(2)}</td>
+                    <td><button type="button" class="btn btn-sm btn-danger removeRow" data-index="${index}">X</button></td>
+                </tr>
+                `;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                    return item;
+                });
+                updateHiddenInput();
+            }
+        });
+
+        // 🔹 Update hidden JSON + total
+        function updateHiddenInput() {
+            document.getElementById('itemsInput').value = JSON.stringify(items);
+            let total = items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+            document.getElementById('totalAmount').innerText = total.toFixed(2);
+        }
+
+        // 🔹 Invoice change reload
+        invoiceSelect.addEventListener('change', function() {
+            let invoiceId = this.value;
+            items = [];
+            tableBody.innerHTML = '';
+
+            if (!invoiceId || !invoiceData[invoiceId]) {
+                customerSelect.value = '';
+                branchSelect.value = '';
+                updateHiddenInput();
+                return;
+            }
+
+            let data = invoiceData[invoiceId];
+            customerSelect.value = data.customer_id ?? '';
+            branchSelect.value = data.branch_id ?? '';
+
+            data.items.forEach((item, index) => {
+                let row = `
+            <tr>
+                <td>${item.product_name}</td>
+                <td><input type="number" class="form-control quantity" value="${item.quantity}" min="1" data-index="${index}"></td>
+                <td><input type="number" class="form-control price" value="${item.price}" step="0.01" data-index="${index}"></td>
+                <td class="subtotal">${(item.quantity * item.price).toFixed(2)}</td>
+                <td><button type="button" class="btn btn-sm btn-danger removeRow" data-index="${index}">X</button></td>
+            </tr>
+            `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+                items.push(item);
+            });
+
+            updateHiddenInput();
+        });
+
+        // 🔹 Quantity / Price change
+        document.addEventListener('input', function(e) {
+            if (!e.target.classList.contains('quantity') && !e.target.classList.contains('price')) return;
+            let index = e.target.getAttribute('data-index');
+            let row = e.target.closest('tr');
+            let qty = parseFloat(row.querySelector('.quantity').value) || 0;
+            let price = parseFloat(row.querySelector('.price').value) || 0;
+            row.querySelector('.subtotal').innerText = (qty * price).toFixed(2);
+            items[index].quantity = qty;
+            items[index].price = price;
+            updateHiddenInput();
+        });
+
+        // 🔹 Remove row
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('removeRow')) return;
+            let index = e.target.getAttribute('data-index');
+            items.splice(index, 1);
+            e.target.closest('tr').remove();
+            reIndexRows();
+            updateHiddenInput();
+        });
+
+        function reIndexRows() {
+            document.querySelectorAll('#returnTable tbody tr').forEach((row, i) => {
+                row.querySelector('.quantity').setAttribute('data-index', i);
+                row.querySelector('.price').setAttribute('data-index', i);
+                row.querySelector('.removeRow').setAttribute('data-index', i);
+            });
+        }
+    </script>
 @stop

@@ -78,6 +78,10 @@
                             </td>
 
                             <td>
+                                <a href="{{ route('sales_returns.edit', $return->id) }}"
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                                 <a href="{{ route('sales_returns.show', $return->id) }}"
                                    class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i>

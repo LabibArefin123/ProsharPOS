@@ -15,7 +15,6 @@
 @stop
 
 @section('content')
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> Something went wrong:
@@ -32,12 +31,30 @@
 
         <div class="card shadow mb-4">
             <div class="card-body">
-
                 <div class="row">
-
                     <div class="col-md-4 mb-3">
                         <label>Invoice</label>
-                        <select name="invoice_id" class="form-control" required>
+                        @php
+                            $invoiceData = $invoices->mapWithKeys(function ($invoice) {
+                                return [
+                                    $invoice->id => [
+                                        'customer_id' => $invoice->customer_id,
+                                        'branch_id' => $invoice->branch_id,
+                                        'items' => $invoice->invoiceItems
+                                            ->map(function ($item) {
+                                                return [
+                                                    'product_id' => $item->product_id,
+                                                    'product_name' => optional($item->product)->name,
+                                                    'quantity' => $item->quantity,
+                                                    'price' => $item->price,
+                                                ];
+                                            })
+                                            ->values(),
+                                    ],
+                                ];
+                            });
+                        @endphp
+                        <select name="invoice_id" id="invoiceSelect" class="form-control" required>
                             <option value="">Select Invoice</option>
                             @foreach ($invoices as $invoice)
                                 <option value="{{ $invoice->id }}">
@@ -49,7 +66,7 @@
 
                     <div class="col-md-4 mb-3">
                         <label>Customer</label>
-                        <select name="customer_id" class="form-control" required>
+                        <select name="customer_id" id="customerSelect" class="form-control" required>
                             <option value="">Select Customer</option>
                             @foreach ($customers as $customer)
                                 <option value="{{ $customer->id }}">
@@ -61,7 +78,7 @@
 
                     <div class="col-md-4 mb-3">
                         <label>Branch</label>
-                        <select name="branch_id" class="form-control" required>
+                        <select name="branch_id" id="branchSelect" class="form-control" required>
                             <option value="">Select Branch</option>
                             @foreach ($branches as $branch)
                                 <option value="{{ $branch->id }}">
@@ -106,7 +123,7 @@
                 <table class="table table-bordered" id="returnTable">
                     <thead>
                         <tr>
-                            <th>Product ID</th>
+                            <th>Item Name</th>
                             <th>Quantity</th>
                             <th>Price</th>
                             <th>Subtotal</th>
@@ -135,14 +152,137 @@
         </div>
 
     </form>
-
     <script>
         let items = [];
+        const invoiceData = @json($invoiceData);
+        const invoiceSelect = document.getElementById('invoiceSelect');
+        const customerSelect = document.getElementById('customerSelect');
+        const branchSelect = document.getElementById('branchSelect');
+        const tableBody = document.querySelector('#returnTable tbody');
 
+        invoiceSelect.addEventListener('change', function() {
+
+            let invoiceId = this.value;
+
+            items = [];
+            tableBody.innerHTML = '';
+
+            if (!invoiceId || !invoiceData[invoiceId]) {
+                customerSelect.value = '';
+                branchSelect.value = '';
+                updateHiddenInput();
+                return;
+            }
+
+            let data = invoiceData[invoiceId];
+
+            // Auto set customer & branch
+            customerSelect.value = data.customer_id ?? '';
+            branchSelect.value = data.branch_id ?? '';
+
+            data.items.forEach((item, index) => {
+
+                let subtotal = item.quantity * item.price;
+
+                let row = `
+            <tr>
+                <td>
+                    ${item.product_name}
+                </td>
+                <td>
+                    <input type="number" 
+                        class="form-control quantity"
+                        value="${item.quantity}"
+                        min="1"
+                        data-index="${index}">
+                </td>
+                <td>
+                    <input type="number" 
+                        class="form-control price"
+                        value="${item.price}"
+                        step="0.01"
+                        data-index="${index}">
+                </td>
+                <td class="subtotal">
+                    ${subtotal.toFixed(2)}
+                </td>
+                <td>
+                    <button type="button" 
+                        class="btn btn-sm btn-danger removeRow"
+                        data-index="${index}">
+                        X
+                    </button>
+                </td>
+            </tr>
+        `;
+
+                tableBody.insertAdjacentHTML('beforeend', row);
+
+                items.push({
+                    product_id: item.product_id,
+                    product_name: item.product_name,
+                    quantity: item.quantity,
+                    price: item.price
+                });
+            });
+
+            updateHiddenInput();
+        });
+
+
+        // 🔥 Update quantity or price
+        document.addEventListener('input', function(e) {
+
+            if (!e.target.classList.contains('quantity') &&
+                !e.target.classList.contains('price')) return;
+
+            let index = e.target.getAttribute('data-index');
+            let row = e.target.closest('tr');
+
+            let qty = parseFloat(row.querySelector('.quantity').value) || 0;
+            let price = parseFloat(row.querySelector('.price').value) || 0;
+
+            row.querySelector('.subtotal').innerText = (qty * price).toFixed(2);
+
+            items[index].quantity = qty;
+            items[index].price = price;
+
+            updateHiddenInput();
+        });
+
+
+        // 🔥 Remove row (with reindex fix)
+        document.addEventListener('click', function(e) {
+
+            if (!e.target.classList.contains('removeRow')) return;
+
+            let index = e.target.getAttribute('data-index');
+
+            items.splice(index, 1);
+            e.target.closest('tr').remove();
+
+            reIndexRows();
+            updateHiddenInput();
+        });
+
+
+        // 🔥 Re-index rows after delete (IMPORTANT FIX)
+        function reIndexRows() {
+            document.querySelectorAll('#returnTable tbody tr').forEach((row, i) => {
+                row.querySelector('.quantity').setAttribute('data-index', i);
+                row.querySelector('.price').setAttribute('data-index', i);
+                row.querySelector('.removeRow').setAttribute('data-index', i);
+            });
+        }
+
+
+        // 🔥 Update hidden JSON + total
         function updateHiddenInput() {
+
             document.getElementById('itemsInput').value = JSON.stringify(items);
 
             let total = 0;
+
             items.forEach(item => {
                 total += item.quantity * item.price;
             });
@@ -150,5 +290,4 @@
             document.getElementById('totalAmount').innerText = total.toFixed(2);
         }
     </script>
-
 @stop
