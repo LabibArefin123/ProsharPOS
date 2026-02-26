@@ -49,31 +49,28 @@ class SalesReturnController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'invoice_id'   => 'required|exists:invoices,id',
-            'customer_id'  => 'required|exists:customers,id',
-            'branch_id'    => 'required|exists:branches,id',
-            'return_date'  => 'required|date',
-            'items'        => 'required|json',
+            'invoice_id'    => 'required|exists:invoices,id',
+            'customer_id'   => 'required|exists:customers,id',
+            'branch_id'     => 'required|exists:branches,id',
+            'return_date'   => 'required|date',
+            'items'         => 'required|json',
             'refund_method' => 'nullable|string',
-            'note'         => 'nullable|string',
+            'note'          => 'nullable|string',
         ]);
 
         DB::beginTransaction();
 
         try {
-
             $invoice = Invoice::with('invoiceItems')
                 ->where('id', $request->invoice_id)
-                ->where('status', 1) // ✅ must be PAID
+                ->where('status', 1) // must be PAID
                 ->firstOrFail();
 
-            // Extra validation (customer match)
             if ($invoice->customer_id != $request->customer_id) {
                 throw new \Exception('Invoice customer mismatch.');
             }
 
             $items = json_decode($request->items, true);
-
             if (empty($items)) {
                 throw new \Exception('No products received.');
             }
@@ -81,6 +78,7 @@ class SalesReturnController extends Controller
             $returnNo = 'SR-' . now()->format('ymdHis') . rand(10, 99);
             $subTotal = 0;
 
+            // Create SalesReturn
             $salesReturn = SalesReturn::create([
                 'return_no'     => $returnNo,
                 'invoice_id'    => $invoice->id,
@@ -93,13 +91,10 @@ class SalesReturnController extends Controller
             ]);
 
             foreach ($items as $item) {
-
-                // Validate structure
                 if (!isset($item['product_id'], $item['quantity'], $item['price'])) {
                     throw new \Exception('Invalid item data.');
                 }
 
-                // Validate quantity against invoice
                 $invoiceItem = $invoice->invoiceItems
                     ->where('product_id', $item['product_id'])
                     ->first();
@@ -130,6 +125,7 @@ class SalesReturnController extends Controller
                 }
             }
 
+            // Update sales return totals
             $salesReturn->update([
                 'sub_total'           => $subTotal,
                 'total_return_amount' => $subTotal,
@@ -138,15 +134,12 @@ class SalesReturnController extends Controller
 
             // Adjust invoice if needed
             if ($request->refund_method === 'adjust_due') {
-
                 $invoice->paid_amount -= $subTotal;
-                $invoice->total -= $subTotal;
+                $invoice->total       -= $subTotal;
                 $invoice->save();
             }
 
             if ($request->refund_method === 'cash') {
-
-                // 1️⃣ Create negative payment record (refund)
                 Payment::create([
                     'payment_id'   => 'RET-' . time(),
                     'invoice_id'   => $invoice->id,
@@ -157,37 +150,59 @@ class SalesReturnController extends Controller
                     'payment_type' => 'return',
                 ]);
 
-                // 2️⃣ Add money back to BankDeposit (Cash Account)
                 $bank = BankBalance::where('branch_id', $invoice->branch_id)
-                    ->where('type', 'cash') // or your condition
+                    ->where('type', 'cash')
                     ->first();
 
                 if (!$bank) {
                     throw new \Exception('Cash bank account not found.');
                 }
 
-                // Create deposit entry
                 BankDeposit::create([
-                    'bank_balance_id' => $bank->id,
-                    'amount'          => $subTotal, // POSITIVE (money added back)
+                    'bank_balance_id'  => $bank->id,
+                    'amount'           => $subTotal,
                     'amount_in_dollar' => 0,
-                    'note'            => 'Sales Return Refund - ' . $returnNo,
-                    'user_id'         => Auth::id(),
+                    'note'             => 'Sales Return Refund - ' . $returnNo,
+                    'user_id'          => Auth::id(),
+                    'deposit_method'   => 'cash',
                 ]);
 
-                // 3️⃣ Update bank balance
                 $bank->increment('balance', $subTotal);
             }
 
             DB::commit();
 
+            // 🔥 Activity Log for creation
+            activity()
+                ->causedBy(Auth::user())
+                ->performedOn($salesReturn)
+                ->withProperties([
+                    'new' => [
+                        'sales_return' => $salesReturn->only([
+                            'return_no',
+                            'invoice_id',
+                            'customer_id',
+                            'branch_id',
+                            'return_date',
+                            'sub_total',
+                            'total_return_amount',
+                            'refund_amount',
+                            'refund_method',
+                            'note'
+                        ]),
+                        'items'   => $salesReturn->items->map(function ($item) {
+                            return $item->only(['product_id', 'quantity', 'price', 'subtotal']);
+                        }),
+                        'invoice' => $invoice->only(['paid_amount', 'total', 'status'])
+                    ]
+                ])
+                ->log('Sales Return Created');
+
             return redirect()
                 ->route('sales_returns.index')
                 ->with('success', 'Sales Return created successfully!');
         } catch (\Exception $e) {
-
             DB::rollback();
-
             return back()
                 ->withInput()
                 ->with('error', $e->getMessage());
@@ -231,16 +246,20 @@ class SalesReturnController extends Controller
 
         try {
             $salesReturn = SalesReturn::with(['items', 'invoice'])->findOrFail($id);
-            $invoice = $salesReturn->invoice;
+            $invoice     = $salesReturn->invoice;
+
+            // Capture old data for activity log
+            $oldData = [
+                'sales_return' => $salesReturn->only(['return_date', 'sub_total', 'total_return_amount', 'refund_amount', 'refund_method', 'note']),
+                'items'        => $salesReturn->items->map(function ($item) {
+                    return $item->only(['product_id', 'quantity', 'price', 'subtotal']);
+                }),
+                'invoice'      => $invoice ? $invoice->only(['paid_amount', 'total', 'status']) : null
+            ];
+
             $oldSubTotal = $salesReturn->sub_total;
 
-            /*
-        ============================================
-        STEP 1: REVERSE OLD EFFECTS
-        ============================================
-        */
-
-            // 🔁 Reverse Stock
+            // 🔁 REVERSE OLD EFFECTS
             foreach ($salesReturn->items as $oldItem) {
                 $product = Product::find($oldItem->product_id);
                 if ($product && Schema::hasColumn('products', 'stock')) {
@@ -248,42 +267,27 @@ class SalesReturnController extends Controller
                 }
             }
 
-            // 🔁 Reverse Invoice Adjust
-            if ($salesReturn->refund_method === 'adjust_due') {
+            if ($salesReturn->refund_method === 'adjust_due' && $invoice) {
                 $invoice->paid_amount += $oldSubTotal;
-                $invoice->total += $oldSubTotal;
+                $invoice->total       += $oldSubTotal;
                 $invoice->save();
             }
 
-            // 🔁 Reverse Cash Refund
-            if ($salesReturn->refund_method === 'cash') {
-
-                // Delete old payment
+            if ($salesReturn->refund_method === 'cash' && $invoice) {
                 Payment::where('invoice_id', $invoice->id)
                     ->where('payment_type', 'return')
                     ->where('paid_amount', -$oldSubTotal)
                     ->delete();
 
-                // Reverse Bank Balance (simplified)
-                $bank = BankBalance::first(); // Take first bank record
-                if ($bank) {
-                    $bank->decrement('balance', $oldSubTotal);
-                }
+                $bank = BankBalance::first();
+                if ($bank) $bank->decrement('balance', $oldSubTotal);
 
-                // Delete deposit entry
-                BankDeposit::where('note', 'LIKE', '%Sales Return Refund - ' . $salesReturn->return_no . '%')
-                    ->delete();
+                BankDeposit::where('note', 'LIKE', '%Sales Return Refund - ' . $salesReturn->return_no . '%')->delete();
             }
 
-            // Delete old items
             SalesReturnItem::where('sales_return_id', $salesReturn->id)->delete();
 
-            /*
-        ============================================
-        STEP 2: APPLY NEW DATA
-        ============================================
-        */
-
+            // APPLY NEW DATA
             $items = json_decode($request->items, true);
             $subTotal = 0;
 
@@ -299,14 +303,12 @@ class SalesReturnController extends Controller
                     'subtotal'        => $subtotal,
                 ]);
 
-                // Increase stock again
                 $product = Product::find($item['product_id']);
                 if ($product && Schema::hasColumn('products', 'stock')) {
                     $product->increment('stock', $item['quantity']);
                 }
             }
 
-            // Update main return
             $salesReturn->update([
                 'return_date'         => $request->return_date,
                 'refund_method'       => $request->refund_method,
@@ -316,20 +318,13 @@ class SalesReturnController extends Controller
                 'refund_amount'       => $subTotal,
             ]);
 
-            /*
-        ============================================
-        STEP 3: APPLY NEW REFUND METHOD
-        ============================================
-        */
-
-            if ($request->refund_method === 'adjust_due') {
+            if ($request->refund_method === 'adjust_due' && $invoice) {
                 $invoice->paid_amount -= $subTotal;
-                $invoice->total -= $subTotal;
+                $invoice->total       -= $subTotal;
                 $invoice->save();
             }
 
-            if ($request->refund_method === 'cash') {
-
+            if ($request->refund_method === 'cash' && $invoice) {
                 Payment::create([
                     'payment_id'   => 'RET-' . time(),
                     'invoice_id'   => $invoice->id,
@@ -340,22 +335,17 @@ class SalesReturnController extends Controller
                     'payment_type' => 'return',
                 ]);
 
-                // Adjust first bank account only
-                $bank = BankBalance::first();
-                if (!$bank) {
-                    // create a default bank if none exists
-                    $bank = BankBalance::create([
-                        'user_id' => Auth::id(),
-                        'balance' => 0,
-                        'balance_in_dollars' => 0,
-                        'currency' => 'BDT',
-                    ]);
-                }
+                $bank = BankBalance::first() ?? BankBalance::create([
+                    'user_id' => Auth::id(),
+                    'balance' => 0,
+                    'balance_in_dollars' => 0,
+                    'currency' => 'BDT',
+                ]);
 
                 BankDeposit::create([
                     'bank_balance_id'  => $bank->id,
                     'user_id'          => Auth::id(),
-                    'deposit_date'     => now(), 
+                    'deposit_date'     => now(),
                     'amount'           => $subTotal,
                     'amount_in_dollar' => 0,
                     'deposit_method'   => 'cash',
@@ -367,6 +357,22 @@ class SalesReturnController extends Controller
             }
 
             DB::commit();
+
+            // 🔥 Activity Log
+            activity()
+                ->causedBy(Auth::user())
+                ->performedOn($salesReturn)
+                ->withProperties([
+                    'old' => $oldData,
+                    'new' => [
+                        'sales_return' => $salesReturn->only(['return_date', 'sub_total', 'total_return_amount', 'refund_amount', 'refund_method', 'note']),
+                        'items'        => $salesReturn->items->map(function ($item) {
+                            return $item->only(['product_id', 'quantity', 'price', 'subtotal']);
+                        }),
+                        'invoice'      => $invoice ? $invoice->only(['paid_amount', 'total', 'status']) : null
+                    ]
+                ])
+                ->log('Sales Return Updated');
 
             return redirect()
                 ->route('sales_returns.index')

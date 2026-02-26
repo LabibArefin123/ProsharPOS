@@ -123,19 +123,23 @@ class PaymentController extends Controller
     {
         $request->validate([
             'payment_name' => 'required|string',
-            'invoice_id' => 'nullable|exists:invoices,id',
-            'paid_amount' => 'required|numeric|min:0',
-            'due_amount' => 'nullable|numeric|min:0',
-            'paid_by' => 'required|exists:users,id',
+            'invoice_id'   => 'nullable|exists:invoices,id',
+            'paid_amount'  => 'required|numeric|min:0',
+            'due_amount'   => 'nullable|numeric|min:0',
+            'paid_by'      => 'required|exists:users,id',
             'payment_type' => 'required|string',
         ]);
 
+        // Keep old values for logging
+        $oldPaymentData = $payment->only(['payment_name', 'invoice_id', 'paid_amount', 'due_amount', 'paid_by', 'payment_type']);
+
+        // Update payment
         $payment->update([
             'payment_name' => $request->payment_name,
-            'invoice_id' => $request->invoice_id,
-            'paid_amount' => $request->paid_amount,
-            'due_amount' => $request->due_amount ?? 0,
-            'paid_by' => $request->paid_by,
+            'invoice_id'   => $request->invoice_id,
+            'paid_amount'  => $request->paid_amount,
+            'due_amount'   => $request->due_amount ?? 0,
+            'paid_by'      => $request->paid_by,
             'payment_type' => $request->payment_type,
         ]);
 
@@ -143,14 +147,20 @@ class PaymentController extends Controller
         if ($request->invoice_id) {
             $invoice = Invoice::find($request->invoice_id);
             $invoice->paid_amount = $request->paid_amount;
-            $invoice->paid_by = $request->paid_by;
-            if ($request->paid_amount >= $invoice->total) {
-                $invoice->status = 1; // mark paid
-            } else {
-                $invoice->status = 0; // partial paid
-            }
+            $invoice->paid_by     = $request->paid_by;
+            $invoice->status      = $request->paid_amount >= $invoice->total ? 1 : 0;
             $invoice->save();
         }
+
+        // 🔥 Activity Log for update
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($payment)
+            ->withProperties([
+                'old' => $oldPaymentData,
+                'new' => $payment->only(['payment_name', 'invoice_id', 'paid_amount', 'due_amount', 'paid_by', 'payment_type']),
+            ])
+            ->log('Payment Updated');
 
         return redirect()->route('payments.index')->with('success', 'Payment updated successfully');
     }
