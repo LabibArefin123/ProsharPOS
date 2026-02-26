@@ -12,16 +12,33 @@ class BankBalanceController extends Controller
 {
     public function index()
     {
-        $balances = BankBalance::with(['user.payments'])->get();
+        $balances = BankBalance::with([
+            'user.payments',   // payments made by user
+            'deposits',        // deposits into this bank balance
+            'withdraws',       // withdrawals from this bank balance
+        ])->get();
 
         $balances->each(function ($balance) {
 
+            // Keep the original DB balance
+            $balance->original_balance = $balance->balance;
+
+            // Total deposits (money IN)
+            $totalDeposits = $balance->deposits->sum('amount');
+
+            // Total withdrawals (money OUT)
+            $totalWithdraws = $balance->withdraws->sum('amount');
+
+            // Total payments (money OUT)
             $totalPayments = $balance->user
                 ? $balance->user->payments->sum('paid_amount')
                 : 0;
 
-            // Do NOT overwrite original balance
-            $balance->remaining_balance = $balance->balance - $totalPayments;
+            // Compute remaining/available balance (System)
+            $balance->system_balance = $balance->balance
+                + $totalDeposits
+                - $totalWithdraws
+                - $totalPayments;
         });
 
         return view(
@@ -51,15 +68,32 @@ class BankBalanceController extends Controller
 
     public function show(BankBalance $bank_balance)
     {
-        // Load user and their payments
-        $bank_balance->load('user.payments');
+        // Load relationships
+        $bank_balance->load([
+            'user.payments',
+            'deposits',
+            'withdraws',
+        ]);
 
-        // Compute remaining/deducted balance
+        // Keep original DB balance
+        $bank_balance->original_balance = $bank_balance->balance;
+
+        // Total deposits (money IN)
+        $totalDeposits = $bank_balance->deposits->sum('amount');
+
+        // Total withdrawals (money OUT)
+        $totalWithdraws = $bank_balance->withdraws->sum('amount');
+
+        // Total payments (money OUT)
         $totalPayments = $bank_balance->user
             ? $bank_balance->user->payments->sum('paid_amount')
             : 0;
 
-        $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
+        // System balance
+        $bank_balance->system_balance = $bank_balance->balance
+            + $totalDeposits
+            - $totalWithdraws
+            - $totalPayments;
 
         return view(
             'backend.financial_management.bank_balance.show',
@@ -69,15 +103,32 @@ class BankBalanceController extends Controller
 
     public function edit(BankBalance $bank_balance)
     {
-        // Load user and their payments
-        $bank_balance->load('user.payments');
+        // Load relationships
+        $bank_balance->load([
+            'user.payments',
+            'deposits',
+            'withdraws',
+        ]);
 
-        // Compute deducted balance
+        // Keep original DB balance
+        $bank_balance->original_balance = $bank_balance->balance;
+
+        // Total deposits (money IN)
+        $totalDeposits = $bank_balance->deposits->sum('amount');
+
+        // Total withdrawals (money OUT)
+        $totalWithdraws = $bank_balance->withdraws->sum('amount');
+
+        // Total payments (money OUT)
         $totalPayments = $bank_balance->user
             ? $bank_balance->user->payments->sum('paid_amount')
             : 0;
 
-        $bank_balance->deducted_balance = $bank_balance->balance - $totalPayments;
+        // System balance
+        $bank_balance->system_balance = $bank_balance->balance
+            + $totalDeposits
+            - $totalWithdraws
+            - $totalPayments;
 
         // All users for select dropdown
         $users = User::orderBy('name', 'asc')->get();

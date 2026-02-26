@@ -21,4 +21,14 @@ class BankBalance extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function deposits()
+    {
+        return $this->hasMany(BankDeposit::class);
+    }
+
+    public function withdraws()
+    {
+        return $this->hasMany(BankWithdraw::class);
+    }
 }
