@@ -56,4 +56,9 @@ class Invoice extends Model
     {
         return $this->belongsTo(User::class, 'paid_by');
     }
+
+    public function salesReturns()
+    {
+        return $this->hasMany(SalesReturn::class);
+    }
 }

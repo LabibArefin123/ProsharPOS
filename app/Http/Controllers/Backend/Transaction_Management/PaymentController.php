@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Transaction_Management;
 
 use App\Http\Controllers\Controller;
+use App\Models\SalesReturn;
 use App\Models\Payment;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -85,9 +86,11 @@ class PaymentController extends Controller
 
     public function history()
     {
+        // Fetch fully paid payments with related invoice, customer, and any sales returns
         $payments = Payment::with([
             'invoice.customer',
-            'paidBy'
+            'paidBy',
+            'invoice.salesReturns.items.product' // eager load sales returns for this invoice
         ])
             ->whereHas('invoice', function ($query) {
                 $query->where('status', 1); // Only fully paid invoices
@@ -96,6 +99,17 @@ class PaymentController extends Controller
             ->get();
 
         return view('backend.transaction_management.payment.history', compact('payments'));
+    }
+
+    public function flowDiagram()
+    {
+        // Fetch last 5 sales returns with invoices and customer info
+        $salesReturns = SalesReturn::with(['invoice.customer', 'items.product'])
+            ->orderBy('return_date', 'desc')
+            ->take(5)
+            ->get();
+
+        return view('backend.transaction_management.payment.flow_diagram', compact('salesReturns'));
     }
 
     public function edit(Payment $payment)

@@ -230,7 +230,6 @@ class SalesReturnController extends Controller
         DB::beginTransaction();
 
         try {
-
             $salesReturn = SalesReturn::with(['items', 'invoice'])->findOrFail($id);
             $invoice = $salesReturn->invoice;
             $oldSubTotal = $salesReturn->sub_total;
@@ -259,18 +258,14 @@ class SalesReturnController extends Controller
             // 🔁 Reverse Cash Refund
             if ($salesReturn->refund_method === 'cash') {
 
-                // Delete payment
+                // Delete old payment
                 Payment::where('invoice_id', $invoice->id)
                     ->where('payment_type', 'return')
                     ->where('paid_amount', -$oldSubTotal)
                     ->delete();
 
-                // Reverse Bank Balance
-                // FIX: use 'account_type' or proper column in bank_balances
-                $bank = BankBalance::where('branch', $invoice->branch_id) // or correct column
-                    ->where('type', 'cash')
-                    ->first();
-
+                // Reverse Bank Balance (simplified)
+                $bank = BankBalance::first(); // Take first bank record
                 if ($bank) {
                     $bank->decrement('balance', $oldSubTotal);
                 }
@@ -345,21 +340,27 @@ class SalesReturnController extends Controller
                     'payment_type' => 'return',
                 ]);
 
-                // FIX: use the correct column for branch/account in BankBalance
-                $bank = BankBalance::where('branch', $invoice->branch_id) // or correct column
-                    ->where('type', 'cash')
-                    ->first();
-
+                // Adjust first bank account only
+                $bank = BankBalance::first();
                 if (!$bank) {
-                    throw new \Exception('Cash bank account not found.');
+                    // create a default bank if none exists
+                    $bank = BankBalance::create([
+                        'user_id' => Auth::id(),
+                        'balance' => 0,
+                        'balance_in_dollars' => 0,
+                        'currency' => 'BDT',
+                    ]);
                 }
 
                 BankDeposit::create([
                     'bank_balance_id'  => $bank->id,
+                    'user_id'          => Auth::id(),
+                    'deposit_date'     => now(), 
                     'amount'           => $subTotal,
                     'amount_in_dollar' => 0,
+                    'deposit_method'   => 'cash',
                     'note'             => 'Sales Return Refund - ' . $salesReturn->return_no,
-                    'user_id'          => Auth::id(),
+                    'reference_no'     => 'RET-' . time(),
                 ]);
 
                 $bank->increment('balance', $subTotal);
@@ -377,6 +378,7 @@ class SalesReturnController extends Controller
                 ->with('error', $e->getMessage());
         }
     }
+
     public function destroy($id)
     {
         DB::beginTransaction();

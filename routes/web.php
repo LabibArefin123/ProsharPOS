@@ -110,6 +110,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::post('/undo/{id}', [InvoiceController::class, 'returnUndo'])->name('invoice-return.undo');
     Route::resource('payments', PaymentController::class);
     Route::get('/payment/history', [PaymentController::class, 'history'])->name('payments.history');
+    Route::get('/payment/flow-diagram', [PaymentController::class, 'flowDiagram'])->name('payments.flow-diagram');
     
     Route::resource('petty_cashes', PettyCashController::class);
     Route::resource('sales_returns', SalesReturnController::class);
