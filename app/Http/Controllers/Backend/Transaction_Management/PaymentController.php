@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend\Transaction_Management;
 
 use App\Http\Controllers\Controller;
 use App\Models\BankBalance;
+use App\Models\BankDeposit;
+use App\Models\BankWithdraw;
 use App\Models\SalesReturn;
 use App\Models\Payment;
 use App\Models\Invoice;
@@ -87,26 +89,61 @@ class PaymentController extends Controller
 
     public function history()
     {
-        $payments = Payment::with([
-            'invoice.customer',
-            'paidBy',
-            'invoice.salesReturns.items.product',
-        ])
-            ->whereHas('invoice', function ($query) {
-                $query->where('status', 1); // fully paid
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Load all deposits
+        $deposits = BankDeposit::with(['bankBalance.user', 'user'])->get()->map(function ($d) {
+            return (object)[
+                'type' => 'deposit',
+                'date' => $d->deposit_date,
+                'amount' => $d->amount,
+                'currency' => 'BDT',
+                'description' => $d->reference_no,
+                'user' => $d->user,
+                'bankBalance' => $d->bankBalance,
+            ];
+        });
 
-        // Independent bank balance (latest)
-        $bankBalance = BankBalance::latest('id')->first();
+        // Load all withdrawals
+        $withdraws = BankWithdraw::with(['bankBalance.user', 'user'])->get()->map(function ($w) {
+            return (object)[
+                'type' => 'withdraw',
+                'date' => $w->withdraw_date,
+                'amount' => $w->amount,
+                'currency' => 'BDT',
+                'description' => $w->reference_no,
+                'user' => $w->user,
+                'bankBalance' => $w->bankBalance,
+            ];
+        });
+
+        // Load all fully paid payments
+        $payments = Payment::with(['invoice.customer', 'paidBy'])
+            ->whereHas('invoice', fn($q) => $q->where('status', 1))
+            ->get()
+            ->map(function ($p) {
+                return (object)[
+                    'type' => 'payment',
+                    'date' => $p->created_at,
+                    'amount' => $p->paid_amount,
+                    'currency' => 'BDT',
+                    'description' => $p->invoice->invoice_id ?? 'Payment',
+                    'user' => $p->paidBy,
+                    'payment' => $p,
+                ];
+            });
+
+        // Merge all transactions and sort by date DESC (newest first)
+        $transactions = $deposits->merge($withdraws)->merge($payments)
+            ->sortByDesc('date'); // <- this line ensures newest on top
+
+        // Start running balance from latest bank balance
+        $latestBank = BankBalance::latest('id')->first();
+        $runningBalance = $latestBank?->balance ?? 0;
 
         return view(
             'backend.transaction_management.payment.history',
-            compact('payments', 'bankBalance')
+            compact('transactions', 'runningBalance')
         );
     }
-
     public function flowDiagram()
     {
         // Fetch last 5 sales returns with invoices and customer info

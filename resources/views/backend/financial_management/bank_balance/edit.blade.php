@@ -61,7 +61,16 @@
                             readonly style="background:#e9ecef;">
                     </div>
 
-                    {{-- Balance --}}
+                    <div class="col-md-6 form-group">
+                        <label><strong>Balance (USD)</strong></label>
+                        <input type="number" name="balance"
+                            class="form-control @error('balance_in_dollars') is-invalid @enderror"
+                            value="{{ old('balance_in_dollars', $bank_balance->balance_in_dollars) }}">
+                        @error('balance_in_dollars')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
                     <div class="col-md-6 form-group">
                         <label><strong>Balance (BDT)</strong></label>
                         <input type="number" name="balance" class="form-control @error('balance') is-invalid @enderror"
@@ -73,18 +82,7 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-
-                    <div class="col-md-6 form-group">
-                        <label><strong>Balance (USD)</strong></label>
-                        <input type="number" name="balance"
-                            class="form-control @error('balance_in_dollars') is-invalid @enderror"
-                            value="{{ old('balance_in_dollars', $bank_balance->balance_in_dollars) }}">
-                        @error('balance_in_dollars')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
                 </div>
-
                 <div class="text-end mt-3">
                     <button type="submit" class="btn btn-success">Update</button>
                 </div>

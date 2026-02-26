@@ -60,83 +60,80 @@
         <div class="card-body">
 
             @php
-                // Start from latest balance
-                $runningBalance = $bankBalance?->balance ?? 0;
+                $runningBalance = $runningBalance ?? 0;
             @endphp
 
-            @forelse($payments as $payment)
+            @forelse($transactions as $tx)
                 @php
-                    $paidAmount = $payment->paid_amount;
-                    $oldBalance = $runningBalance - $paidAmount;
+                    // Transaction logic
+                    $amount = $tx->amount;
+                    $oldBalance = $runningBalance;
+
+                    if ($tx->type === 'deposit') {
+                        $runningBalance += $amount;
+                        $sign = '+';
+                        $color = 'text-success';
+                        $label = 'Deposit';
+                    } elseif ($tx->type === 'withdraw') {
+                        $runningBalance -= $amount;
+                        $sign = '-';
+                        $color = 'text-danger';
+                        $label = 'Withdraw';
+                    } else {
+                        // payment
+                        $runningBalance -= $amount;
+                        $sign = '-';
+                        $color = 'text-danger';
+                        $label = 'Payment';
+                    }
                 @endphp
 
                 <div class="border rounded p-3 mb-3 shadow-sm">
 
-                    {{-- Payment Info --}}
+                    {{-- Transaction Info --}}
                     <div class="row align-items-center">
                         <div class="col-md-2">
-                            <strong>#{{ $payment->payment_id }}</strong><br>
-                            <small class="text-muted">
-                                {{ $payment->created_at->format('d M Y, h:i A') }}
-                            </small>
+                            <strong>{{ $tx->type === 'payment' ? '#' . $tx->payment->payment_id : $tx->description }}</strong><br>
+                            <small class="text-muted">{{ \Carbon\Carbon::parse($tx->date)->format('d M Y') }}</small>
                         </div>
-
                         <div class="col-md-2">
-                            <strong>Invoice</strong><br>
-                            {{ $payment->invoice->invoice_id ?? '-' }}
+                            <strong>User</strong><br>{{ $tx->user->name ?? 'N/A' }}
                         </div>
-
                         <div class="col-md-2">
-                            <strong>Customer</strong><br>
-                            {{ $payment->invoice->customer->name ?? '-' }}
-                        </div>
-
-                        <div class="col-md-2 text-success">
-                            <strong>Paid</strong><br>
-                            ৳{{ number_format($paidAmount, 2) }}
-                        </div>
-
-                        <div class="col-md-2">
-                            <strong>Paid By</strong><br>
-                            {{ $payment->paidBy?->name ?? '-' }}
-                        </div>
-
-                        <div class="col-md-2 text-end">
-                            <span class="badge bg-success">PAID</span>
+                            <strong>Transaction</strong><br>
+                            <span class="{{ $color }}">{{ $label }}: ৳{{ number_format($amount, 2) }}</span>
                         </div>
                     </div>
 
-                    {{-- Balance Flow --}}
-                    <div class="row balance-row mt-3">
+                    {{-- Collapsible Balance Row --}}
+                    <div class="row balance-row mt-3" >
                         <div class="col-md-4">
-                            <strong>Old Balance</strong><br>
-                            ৳{{ number_format($oldBalance, 2) }}
+                            <strong>Old Balance</strong><br>৳{{ number_format($oldBalance, 2) }}
                         </div>
-
                         <div class="col-md-4 text-success">
                             <strong>Transaction</strong><br>
-                            + ৳{{ number_format($paidAmount, 2) }}
+                            {{ $sign }} ৳{{ number_format($amount, 2) }}
                         </div>
-
                         <div class="col-md-4 text-primary fw-bold">
-                            <strong>New Balance</strong><br>
-                            ৳{{ number_format($runningBalance, 2) }}
+                            <strong>New Balance</strong><br>৳{{ number_format($runningBalance, 2) }}
                         </div>
                     </div>
 
                     {{-- Sales Return Flow --}}
-                    @include('backend.transaction_management.payment.flow.flow')
+                    @if (
+                        $tx->type === 'payment' &&
+                            $tx->payment->payment_type === 'return' &&
+                            $tx->payment->invoice->salesReturns->isNotEmpty())
+                        @include('backend.transaction_management.payment.flow.flow', [
+                            'payment' => $tx->payment,
+                        ])
+                    @endif
 
                 </div>
 
-                @php
-                    // Update running balance for next iteration
-                    $runningBalance = $oldBalance;
-                @endphp
-
             @empty
                 <div class="text-center text-muted">
-                    No fully paid transactions found.
+                    No transactions found.
                 </div>
             @endforelse
 
@@ -147,7 +144,22 @@
 @section('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Collapsible diagram content
+
+            // Toggle balance row
+            document.querySelectorAll('.toggle-balance').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const row = btn.closest('.border').querySelector('.balance-row');
+                    if (row.style.display === 'none' || row.style.display === '') {
+                        row.style.display = 'flex';
+                        btn.innerHTML = 'Balance Flow &laquo;';
+                    } else {
+                        row.style.display = 'none';
+                        btn.innerHTML = 'Balance Flow &raquo;';
+                    }
+                });
+            });
+
+            // Collapsible sales return diagram content
             document.querySelectorAll('.flow-diagram .diagram-header').forEach(header => {
                 header.addEventListener('click', () => {
                     const content = header.nextElementSibling;
@@ -155,11 +167,12 @@
                 });
             });
 
-            // Initialize Bootstrap tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            // Bootstrap tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
+                return new bootstrap.Tooltip(tooltipTriggerEl);
             });
+
         });
     </script>
 @stop
