@@ -39,7 +39,7 @@ use App\Http\Controllers\Backend\People_Management\ManufacturerController;
 //Transaction Management Part
 use App\Http\Controllers\Backend\Transaction_Management\ChallanController;
 use App\Http\Controllers\Backend\Transaction_Management\PaymentController;
-use App\Http\Controllers\Backend\Transaction_Management\PaymentHistoryController;
+use App\Http\Controllers\Backend\Transaction_Management\PurchaseController;
 use App\Http\Controllers\Backend\Transaction_Management\InvoiceController;
 use App\Http\Controllers\Backend\Transaction_Management\PettyCashController;
 use App\Http\Controllers\Backend\Transaction_Management\SalesReturnController;
@@ -103,6 +103,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('manufacturers', ManufacturerController::class);
     
     //transaction management menu
+    Route::resource('purchases', PurchaseController::class);
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
     Route::get('/invoice-return', [InvoiceController::class, 'returnIndex'])->name('invoice-return.index');

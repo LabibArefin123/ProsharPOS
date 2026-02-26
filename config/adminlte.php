@@ -447,6 +447,13 @@ return [
                     'active' => ['invoices*'],
                 ],
                 [
+                    'text' => 'Purchase List',
+                    'route' => 'purchases.index',
+                    'can' => 'purchases.index',
+                    'active' => ['purchases*'],
+
+                ],
+                [
                     'text' => 'Challan List',
                     'route' => 'challans.index',
                     'can' => 'challans.index',
@@ -498,7 +505,6 @@ return [
                 [
                     'text' => 'Card Payments',
                     'route' => 'bank_cards.index',
-                    'icon' => 'fas fa-credit-card',
                     'can' => 'bank_cards.index',
                     'active' => ['bank_cards*'],
                 ],
