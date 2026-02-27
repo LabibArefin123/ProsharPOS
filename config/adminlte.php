@@ -454,6 +454,13 @@ return [
 
                 ],
                 [
+                    'text' => 'Purchase Return',
+                    'route' => 'purchase_returns.index',
+                    'can' => 'purchase_returns.index',
+                    'active' => ['purchase_returns*'],
+
+                ],
+                [
                     'text' => 'Challan List',
                     'route' => 'challans.index',
                     'can' => 'challans.index',

@@ -9,6 +9,7 @@ use App\Models\BankWithdraw;
 use App\Models\SalesReturn;
 use App\Models\Payment;
 use App\Models\Purchase;
+use App\Models\PurchaseReturn;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -93,68 +94,95 @@ class PaymentController extends Controller
         // Deposits
         $deposits = BankDeposit::with(['bankBalance.user', 'user'])
             ->get()
-            ->map(fn($d) => (object)[
-                'type' => 'deposit',
-                'date' => $d->deposit_date,
-                'created_at' => $d->created_at,
-                'amount' => abs($d->amount),
-                'currency' => 'BDT',
-                'description' => $d->reference_no,
-                'user' => $d->user,
-                'bankBalance' => $d->bankBalance,
-            ]);
+            ->map(function ($d) {
+                return (object)[
+                    'type'        => 'deposit',
+                    'date'        => $d->deposit_date,
+                    'created_at'  => $d->created_at,
+                    'amount'      => (float) $d->amount,
+                    'currency'    => 'BDT',
+                    'description' => $d->reference_no,
+                    'user'        => $d->user,
+                    'source'      => $d,
+                ];
+            });
 
         // Withdraws
         $withdraws = BankWithdraw::with(['bankBalance.user', 'user'])
             ->get()
-            ->map(fn($w) => (object)[
-                'type' => 'withdraw',
-                'date' => $w->withdraw_date,
-                'created_at' => $w->created_at,
-                'amount' => abs($w->amount),
-                'currency' => 'BDT',
-                'description' => $w->reference_no,
-                'user' => $w->user,
-                'bankBalance' => $w->bankBalance,
-            ]);
+            ->map(function ($w) {
+                return (object)[
+                    'type'        => 'withdraw',
+                    'date'        => $w->withdraw_date,
+                    'created_at'  => $w->created_at,
+                    'amount'      => (float) $w->amount,
+                    'currency'    => 'BDT',
+                    'description' => $w->reference_no,
+                    'user'        => $w->user,
+                    'source'      => $w,
+                ];
+            });
 
         // Payments
         $payments = Payment::with(['invoice.customer', 'paidBy'])
             ->whereHas('invoice', fn($q) => $q->where('status', 1))
             ->get()
-            ->map(fn($p) => (object)[
-                'type' => 'payment',
-                'date' => $p->created_at,
-                'created_at' => $p->created_at,
-                'amount' => abs($p->paid_amount),
-                'currency' => 'BDT',
-                'description' => $p->invoice->invoice_id ?? 'Payment',
-                'user' => $p->paidBy,
-                'payment' => $p,
-            ]);
+            ->map(function ($p) {
+                return (object)[
+                    'type'        => 'payment',
+                    'date'        => $p->created_at,
+                    'created_at'  => $p->created_at,
+                    'amount'      => (float) $p->paid_amount,
+                    'currency'    => 'BDT',
+                    'description' => $p->invoice->invoice_id ?? 'Payment',
+                    'user'        => $p->paidBy,
+                    'source'      => $p,
+                ];
+            });
 
         // Purchases
         $purchases = Purchase::with('supplier')
             ->get()
-            ->map(fn($pu) => (object)[
-                'type' => 'purchase',
-                'date' => $pu->created_at,
-                'created_at' => $pu->created_at,
-                'amount' => abs($pu->total_amount),
-                'currency' => 'BDT',
-                'description' => $pu->purchase_id ?? 'Purchase',
-                'user' => $pu->supplier,
-            ]);
+            ->map(function ($pu) {
+                return (object)[
+                    'type'        => 'purchase',
+                    'date'        => $pu->created_at,
+                    'created_at'  => $pu->created_at,
+                    'amount'      => (float) $pu->total_amount,
+                    'currency'    => 'BDT',
+                    'description' => $pu->purchase_id ?? 'Purchase',
+                    'user'        => $pu->supplier,
+                    'source'      => $pu,
+                ];
+            });
 
-        // Merge & sort latest first
-        $transactions = $deposits
+        // 🔥 If you want Purchase Return also:
+        $returns = PurchaseReturn::with('supplier')
+            ->get()
+            ->map(function ($r) {
+                return (object)[
+                    'type'        => 'purchase_return',
+                    'date'        => $r->return_date,
+                    'created_at'  => $r->created_at,
+                    'amount'      => (float) $r->total_amount,
+                    'currency'    => 'BDT',
+                    'description' => $r->reference_no ?? 'Purchase Return',
+                    'user'        => $r->supplier,
+                    'source'      => $r,
+                ];
+            });
+
+        // Merge all
+        $transactions = collect()
+            ->merge($deposits)
             ->merge($withdraws)
             ->merge($payments)
             ->merge($purchases)
+            ->merge($returns) // optional but recommended
             ->sortByDesc('created_at')
             ->values();
 
-        // 🔥 IMPORTANT: Start from CURRENT bank balance
+        // Start from latest bank balance
         $latestBank = BankBalance::latest()->first();
         $runningBalance = $latestBank?->balance ?? 0;
 
@@ -163,7 +191,6 @@ class PaymentController extends Controller
             compact('transactions', 'runningBalance')
         );
     }
-
     public function flowDiagram()
     {
         // Fetch last 5 sales returns with invoices and customer info

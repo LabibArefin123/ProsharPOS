@@ -18,4 +18,9 @@ class Supplier extends Model
         'license_number',
         'location',
     ];
+
+    public function purchaseReturns()
+    {
+        return $this->hasMany(PurchaseReturn::class);
+    }
 }

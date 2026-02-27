@@ -115,31 +115,38 @@
 
                     switch ($tx->type) {
                         case 'deposit':
-                            $runningBalance -= $amount; // backward
+                            $runningBalance -= $amount; // reverse calculation
                             $sign = '+';
                             $color = 'text-success';
                             $label = 'Deposit';
                             break;
 
                         case 'withdraw':
-                            $runningBalance += $amount; // backward
+                            $runningBalance += $amount;
                             $sign = '-';
                             $color = 'text-danger';
                             $label = 'Withdraw';
                             break;
 
                         case 'payment':
-                            $runningBalance += $amount; // backward
+                            $runningBalance += $amount;
                             $sign = '-';
                             $color = 'text-danger';
                             $label = 'Payment';
                             break;
 
                         case 'purchase':
-                            $runningBalance += $amount; // backward
+                            $runningBalance += $amount;
                             $sign = '-';
                             $color = 'text-warning';
                             $label = 'Purchase';
+                            break;
+
+                        case 'purchase_return':
+                            $runningBalance -= $amount; // money comes back
+                            $sign = '+';
+                            $color = 'text-primary';
+                            $label = 'Purchase Return';
                             break;
 
                         default:
@@ -148,7 +155,7 @@
                             $label = ucfirst($tx->type);
                     }
                 @endphp
-
+                
                 <div class="transaction-card">
 
                     {{-- Header Info --}}

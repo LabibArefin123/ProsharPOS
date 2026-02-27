@@ -4,16 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Purchase extends Model
+class PurchaseReturn extends Model
 {
     protected $fillable = [
+        'purchase_id',
         'supplier_id',
-        'purchase_date',
+        'return_date',
         'reference_no',
-        'total_amount',
         'note',
-        'status',
+        'total_amount',
+        'created_by',
     ];
+
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class);
+    }
 
     public function supplier()
     {
@@ -22,11 +28,7 @@ class Purchase extends Model
 
     public function items()
     {
-        return $this->hasMany(PurchaseItem::class);
+        return $this->hasMany(PurchaseReturnItem::class);
     }
 
-    public function returns()
-    {
-        return $this->hasMany(PurchaseReturn::class);
-    }
 }
