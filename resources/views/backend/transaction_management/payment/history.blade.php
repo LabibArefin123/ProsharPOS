@@ -110,37 +110,33 @@
 
             @forelse($transactions as $tx)
                 @php
-                    $amount = $tx->amount;
+                    $amount = abs($tx->amount);
                     $oldBalance = $runningBalance;
 
                     switch ($tx->type) {
-                        // Deposit increases balance
-                        // So going backward we subtract
                         case 'deposit':
-                            $runningBalance -= $amount;
+                            $runningBalance -= $amount; // backward
                             $sign = '+';
                             $color = 'text-success';
                             $label = 'Deposit';
                             break;
 
-                        // Withdraw decreases balance
-                        // So going backward we add
                         case 'withdraw':
-                            $runningBalance += $amount;
+                            $runningBalance += $amount; // backward
                             $sign = '-';
                             $color = 'text-danger';
                             $label = 'Withdraw';
                             break;
 
                         case 'payment':
-                            $runningBalance += $amount;
+                            $runningBalance += $amount; // backward
                             $sign = '-';
                             $color = 'text-danger';
                             $label = 'Payment';
                             break;
 
                         case 'purchase':
-                            $runningBalance += $amount;
+                            $runningBalance += $amount; // backward
                             $sign = '-';
                             $color = 'text-warning';
                             $label = 'Purchase';
@@ -180,7 +176,7 @@
                     <div class="row balance-row">
                         <div class="col-md-4">
                             <strong>Old Balance</strong><br>
-                            ৳{{ number_format($oldBalance, 2) }}
+                            ৳{{ number_format($runningBalance, 2) }}
                         </div>
                         <div class="col-md-4">
                             <strong>Transaction</strong><br>
@@ -188,7 +184,7 @@
                         </div>
                         <div class="col-md-4 text-primary fw-bold">
                             <strong>New Balance</strong><br>
-                            ৳{{ number_format($runningBalance, 2) }}
+                            ৳{{ number_format($oldBalance, 2) }}
                         </div>
                     </div>
 
