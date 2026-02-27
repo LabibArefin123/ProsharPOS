@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BankBalance;
 use App\Models\BankDeposit;
 use App\Models\User;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -56,14 +57,53 @@ class BankDepositController extends Controller
     public function create()
     {
         $users = User::all();
-        $balances = BankBalance::with('user')->get();
-        return view('backend.financial_management.bank_deposit.create', compact('users', 'balances'));
+
+        $balances = BankBalance::with([
+            'user.payments',
+            'deposits',
+            'withdraws',
+        ])->get();
+
+        $balancesData = $balances->map(function ($balance) {
+
+            $originalBalance = $balance->balance;
+
+            $totalDeposits = $balance->deposits->sum('amount');
+            $totalWithdraws = $balance->withdraws->sum('amount');
+
+            $totalPayments = $balance->user
+                ? $balance->user->payments->sum('paid_amount')
+                : 0;
+
+            $totalPurchases = Purchase::where(
+                'supplier_id',
+                $balance->user_id ?? 0
+            )->sum('total_amount');
+
+            $systemBalance =
+                $originalBalance
+                + $totalDeposits
+                - $totalWithdraws
+                - $totalPayments
+                - $totalPurchases;
+
+            return [
+                'id' => $balance->id,
+                'user_id' => $balance->user_id,
+                'original_balance' => $originalBalance,
+                'system_balance' => $systemBalance,
+            ];
+        });
+
+        return view(
+            'backend.financial_management.bank_deposit.create',
+            compact('users', 'balances', 'balancesData')
+        );
     }
 
     // Store new deposit
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'bank_balance_id'   => 'required|exists:bank_balances,id',
             'deposit_date'      => 'required|date',
@@ -99,6 +139,19 @@ class BankDepositController extends Controller
             if (Schema::hasColumn('bank_balances', 'balance_in_dollars')) {
                 $bankBalance->increment('balance_in_dollars', $amountUSD);
             }
+
+            // 🔥 Activity Log
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($deposit)
+                ->withProperties([
+                    'bank_balance_id'  => $bankId,
+                    'amount_bdt'       => $amountBDT,
+                    'amount_usd'       => $amountUSD,
+                    'deposit_method'   => $request->deposit_method,
+                    'reference_no'     => $request->reference_no,
+                ])
+                ->log('Bank Deposit Created');
         });
 
         return redirect()
@@ -125,15 +178,53 @@ class BankDepositController extends Controller
         );
     }
 
-
     // Show edit form
     public function edit(BankDeposit $bankDeposit)
     {
         $users = User::all();
-        $balances = BankBalance::with('user')->get();
-        return view('backend.financial_management.bank_deposit.edit', compact('bankDeposit', 'users', 'balances'));
-    }
 
+        $balances = BankBalance::with([
+            'user.payments',
+            'deposits',
+            'withdraws',
+        ])->get();
+
+        $balancesData = $balances->map(function ($balance) {
+
+            $originalBalance = $balance->balance;
+
+            $totalDeposits = $balance->deposits->sum('amount');
+            $totalWithdraws = $balance->withdraws->sum('amount');
+
+            $totalPayments = $balance->user
+                ? $balance->user->payments->sum('paid_amount')
+                : 0;
+
+            $totalPurchases = Purchase::where(
+                'supplier_id',
+                $balance->user_id ?? 0
+            )->sum('total_amount');
+
+            $systemBalance =
+                $originalBalance
+                + $totalDeposits
+                - $totalWithdraws
+                - $totalPayments
+                - $totalPurchases;
+
+            return [
+                'id' => $balance->id,
+                'user_id' => $balance->user_id,
+                'original_balance' => $originalBalance,
+                'system_balance' => $systemBalance,
+            ];
+        });
+
+        return view(
+            'backend.financial_management.bank_deposit.edit',
+            compact('bankDeposit', 'users', 'balances', 'balancesData')
+        );
+    }
 
     public function update(Request $request, BankDeposit $bankDeposit)
     {
@@ -205,6 +296,22 @@ class BankDepositController extends Controller
                     $bank->increment('balance_in_dollars', $newAmountInDollar - $oldAmountInDollar);
                 }
             }
+
+            // 🔥 Activity Log
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($bankDeposit)
+                ->withProperties([
+                    'old_bank_balance_id' => $oldBankBalanceId,
+                    'new_bank_balance_id' => $newBankBalanceId,
+                    'old_amount_bdt'      => $oldAmount,
+                    'new_amount_bdt'      => $newAmount,
+                    'old_amount_usd'      => $oldAmountInDollar,
+                    'new_amount_usd'      => $newAmountInDollar,
+                    'deposit_method'      => $request->deposit_method,
+                    'reference_no'        => $request->reference_no,
+                ])
+                ->log('Bank Deposit Updated');
         });
 
         return redirect()
