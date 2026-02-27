@@ -441,6 +441,12 @@ return [
                     'active' => ['payments*'],
                 ],
                 [
+                    'text' => 'Supplier Payments',
+                    'route' => 'supplier_payments.index',
+                    'can' => 'supplier_payments.index',
+                    'active' => ['supplier_payments*'],
+                ],
+                [
                     'text' => 'Invoice List',
                     'route' => 'invoices.index',
                     'can' => 'invoices.index',

@@ -32,7 +32,7 @@
                                 <a href="{{ route('purchase_returns.show', $return->id) }}"
                                     class="btn btn-sm btn-info">View</a>
                                 <a href="{{ route('purchase_returns.edit', $return->id) }}"
-                                    class="btn btn-sm btn-info">Edit</a>
+                                    class="btn btn-sm btn-warning">Edit</a>
                             </td>
                         </tr>
                     @endforeach

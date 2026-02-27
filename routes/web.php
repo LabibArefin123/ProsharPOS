@@ -44,6 +44,7 @@ use App\Http\Controllers\Backend\Transaction_Management\PurchaseReturnController
 use App\Http\Controllers\Backend\Transaction_Management\InvoiceController;
 use App\Http\Controllers\Backend\Transaction_Management\PettyCashController;
 use App\Http\Controllers\Backend\Transaction_Management\SalesReturnController;
+use App\Http\Controllers\Backend\Transaction_Management\SupplierPaymentController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -117,6 +118,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('payments', PaymentController::class);
     Route::get('/payment/history', [PaymentController::class, 'history'])->name('payments.history');
     Route::get('/payment/flow-diagram', [PaymentController::class, 'flowDiagram'])->name('payments.flow-diagram');
+    Route::resource('supplier_payments', SupplierPaymentController::class);
     
     Route::resource('petty_cashes', PettyCashController::class);
     Route::resource('sales_returns', SalesReturnController::class);
