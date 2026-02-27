@@ -50,6 +50,12 @@
                         <option value="App\Models\Invoice" {{ request('model') == 'App\Models\Invoice' ? 'selected' : '' }}>
                             Invoice
                         </option>
+                        <option value="App\Models\BankDeposit" {{ request('model') == 'App\Models\BankDeposit' ? 'selected' : '' }}>
+                            Bank Deposit
+                        </option>
+                        <option value="App\Models\BankWithdraw" {{ request('model') == 'App\Models\BankWithdraw' ? 'selected' : '' }}>
+                            Bank Withdraw
+                        </option>
                     </select>
                 </div>
 
@@ -90,12 +96,12 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>#</th>
-                        <th>User</th>
-                        <th>Action</th>
-                        <th>Model</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Action</th>
+                        <th class="text-center">Model</th>
                         <th>Details</th>
-                        <th>Date</th>
-                        <th>Time</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Time</th>
                     </tr>
                 </thead>
 
@@ -104,9 +110,9 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
 
-                            <td>{{ $activity->causer?->name ?? 'System' }}</td>
+                            <td class="text-center">{{ $activity->causer?->name ?? 'System' }}</td>
 
-                            <td>
+                            <td class="text-center">
                                 @if ($activity->description == 'created')
                                     <span class="badge bg-success">Created</span>
                                 @elseif($activity->description == 'updated')
@@ -120,7 +126,7 @@
                                 @endif
                             </td>
 
-                            <td>{{ class_basename($activity->subject_type) }}</td>
+                            <td class="text-center">{{ class_basename($activity->subject_type) }}</td>
 
                             <td style="max-width:250px;">
                                 <div style="max-height:80px; overflow:auto; font-size:12px;">
@@ -128,8 +134,8 @@
                                 </div>
                             </td>
 
-                            <td>{{ $activity->created_at->format('d M Y') }}</td>
-                            <td>{{ $activity->created_at->format('h:i A') }}</td>
+                            <td class="text-center">{{ $activity->created_at->format('d M Y') }}</td>
+                            <td class="text-center">{{ $activity->created_at->format('h:i A') }}</td>
                         </tr>
                     @empty
                         <tr>
