@@ -90,77 +90,69 @@ class PaymentController extends Controller
 
     public function history()
     {
-        // Load deposits
+        // Load all transactions
         $deposits = BankDeposit::with(['bankBalance.user', 'user'])
-            ->orderBy('deposit_date', 'desc')
+            ->orderBy('deposit_date', 'asc') // oldest first
             ->get()
-            ->map(function ($d) {
-                return (object)[
-                    'type' => 'deposit',
-                    'date' => $d->deposit_date,
-                    'amount' => $d->amount,
-                    'currency' => 'BDT',
-                    'description' => $d->reference_no,
-                    'user' => $d->user,
-                    'bankBalance' => $d->bankBalance,
-                ];
-            });
+            ->map(fn($d) => (object)[
+                'type' => 'deposit',
+                'date' => $d->deposit_date,
+                'amount' => $d->amount,
+                'currency' => 'BDT',
+                'description' => $d->reference_no,
+                'user' => $d->user,
+                'bankBalance' => $d->bankBalance,
+            ]);
 
-        // Load withdrawals
         $withdraws = BankWithdraw::with(['bankBalance.user', 'user'])
-            ->orderBy('withdraw_date', 'desc')
+            ->orderBy('withdraw_date', 'asc')
             ->get()
-            ->map(function ($w) {
-                return (object)[
-                    'type' => 'withdraw',
-                    'date' => $w->withdraw_date,
-                    'amount' => $w->amount,
-                    'currency' => 'BDT',
-                    'description' => $w->reference_no,
-                    'user' => $w->user,
-                    'bankBalance' => $w->bankBalance,
-                ];
-            });
+            ->map(fn($w) => (object)[
+                'type' => 'withdraw',
+                'date' => $w->withdraw_date,
+                'amount' => $w->amount,
+                'currency' => 'BDT',
+                'description' => $w->reference_no,
+                'user' => $w->user,
+                'bankBalance' => $w->bankBalance,
+            ]);
 
-        // Load fully paid payments (excluding purchase payments)
         $payments = Payment::with(['invoice.customer', 'paidBy'])
             ->whereHas('invoice', fn($q) => $q->where('status', 1))
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get()
-            ->map(function ($p) {
-                return (object)[
-                    'type' => 'payment',
-                    'date' => $p->created_at,
-                    'amount' => $p->paid_amount,
-                    'currency' => 'BDT',
-                    'description' => $p->invoice->invoice_id ?? 'Payment',
-                    'user' => $p->paidBy,
-                    'payment' => $p,
-                ];
-            });
+            ->map(fn($p) => (object)[
+                'type' => 'payment',
+                'date' => $p->created_at,
+                'amount' => $p->paid_amount,
+                'currency' => 'BDT',
+                'description' => $p->invoice->invoice_id ?? 'Payment',
+                'user' => $p->paidBy,
+                'payment' => $p,
+            ]);
 
-        // Load purchases (count only once per purchase)
         $purchases = Purchase::with('supplier')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get()
-            ->map(function ($pu) {
-                return (object)[
-                    'type' => 'purchase',
-                    'date' => $pu->created_at,
-                    'amount' => $pu->total_amount,
-                    'currency' => 'BDT',
-                    'description' => $pu->purchase_id ?? 'Purchase',
-                    'user' => $pu->supplier,
-                ];
-            });
+            ->map(fn($pu) => (object)[
+                'type' => 'purchase',
+                'date' => $pu->created_at,
+                'amount' => $pu->total_amount,
+                'currency' => 'BDT',
+                'description' => $pu->purchase_id ?? 'Purchase',
+                'user' => $pu->supplier,
+            ]);
 
-        // Merge all transactions
-        $transactions = $deposits->merge($withdraws)->merge($payments)->merge($purchases)
-            ->sortByDesc('date'); // latest first
+        // Merge and sort chronologically
+        $transactions = $deposits
+            ->merge($withdraws)
+            ->merge($payments)
+            ->merge($purchases)
+            ->sortBy('date'); // oldest first
 
-        // Start running balance from latest bank balance
-        $latestBank = BankBalance::latest('id')->first();
-        $runningBalance = $latestBank?->balance ?? 0;
+        // Start running balance from earliest bank original balance
+        $earliestBank = BankBalance::orderBy('id', 'asc')->first();
+        $runningBalance = $earliestBank?->balance ?? 0;
 
         return view(
             'backend.transaction_management.payment.history',

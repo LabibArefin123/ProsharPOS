@@ -50,10 +50,12 @@
                         <option value="App\Models\Invoice" {{ request('model') == 'App\Models\Invoice' ? 'selected' : '' }}>
                             Invoice
                         </option>
-                        <option value="App\Models\BankDeposit" {{ request('model') == 'App\Models\BankDeposit' ? 'selected' : '' }}>
+                        <option value="App\Models\BankDeposit"
+                            {{ request('model') == 'App\Models\BankDeposit' ? 'selected' : '' }}>
                             Bank Deposit
                         </option>
-                        <option value="App\Models\BankWithdraw" {{ request('model') == 'App\Models\BankWithdraw' ? 'selected' : '' }}>
+                        <option value="App\Models\BankWithdraw"
+                            {{ request('model') == 'App\Models\BankWithdraw' ? 'selected' : '' }}>
                             Bank Withdraw
                         </option>
                     </select>
@@ -91,9 +93,9 @@
     {{-- 📋 TABLE --}}
     <div class="card shadow-sm">
         <div class="card-body table-responsive">
-
-            <table class="table table-bordered table-striped table-hover">
+            <table class="table table-striped table-hover text-nowrap" id="dataTables">
                 <thead class="thead-dark">
+                    <tr class="text-center">
                     <tr>
                         <th>#</th>
                         <th class="text-center">User</th>
@@ -147,11 +149,6 @@
                 </tbody>
 
             </table>
-
-            <div class="mt-3">
-                {{ $activities->links() }}
-            </div>
-
         </div>
     </div>
 

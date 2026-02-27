@@ -35,7 +35,7 @@ class ActivityLogController extends Controller
             $query->where('description', 'like', '%' . $request->search . '%');
         }
 
-        $activities = $query->paginate(20)->withQueryString();
+        $activities = $query->latest()->paginate(5)->withQueryString();
 
         $users = User::all();
 

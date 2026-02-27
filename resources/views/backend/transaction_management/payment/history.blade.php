@@ -153,7 +153,9 @@
                             <strong>
                                 {{ $tx->type === 'payment' ? '#' . ($tx->payment->payment_id ?? 'N/A') : $tx->description }}
                             </strong><br>
-                            <small class="text-muted">{{ \Carbon\Carbon::parse($tx->date)->format('d M Y') }}</small>
+                            <small class="text-muted">
+                                {{ \Carbon\Carbon::parse($tx->date)->format('d M Y, h:i:s A') }}
+                            </small>
                         </div>
                         <div class="col-md-2">
                             <strong>User</strong><br>
@@ -204,6 +206,16 @@
 @stop
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            $('#transactionsTable').DataTable({
+                "pageLength": 5, // show 5 per page
+                "order": [
+                    [1, "desc"]
+                ] // sort by Date & Time descending
+            });
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
