@@ -114,30 +114,38 @@
                     $oldBalance = $runningBalance;
 
                     switch ($tx->type) {
+                        // Deposit increases balance
+                        // So going backward we subtract
                         case 'deposit':
-                            $runningBalance += $amount;
+                            $runningBalance -= $amount;
                             $sign = '+';
                             $color = 'text-success';
                             $label = 'Deposit';
                             break;
+
+                        // Withdraw decreases balance
+                        // So going backward we add
                         case 'withdraw':
-                            $runningBalance -= $amount;
+                            $runningBalance += $amount;
                             $sign = '-';
                             $color = 'text-danger';
                             $label = 'Withdraw';
                             break;
+
                         case 'payment':
-                            $runningBalance -= $amount;
+                            $runningBalance += $amount;
                             $sign = '-';
                             $color = 'text-danger';
                             $label = 'Payment';
                             break;
+
                         case 'purchase':
-                            $runningBalance -= $amount;
+                            $runningBalance += $amount;
                             $sign = '-';
                             $color = 'text-warning';
                             $label = 'Purchase';
                             break;
+
                         default:
                             $sign = '';
                             $color = 'text-dark';
@@ -154,7 +162,8 @@
                                 {{ $tx->type === 'payment' ? '#' . ($tx->payment->payment_id ?? 'N/A') : $tx->description }}
                             </strong><br>
                             <small class="text-muted">
-                                {{ \Carbon\Carbon::parse($tx->date)->format('d M Y, h:i:s A') }}
+                                {{ \Carbon\Carbon::parse($tx->date)->format('d M Y') }}
+                                ({{ \Carbon\Carbon::parse($tx->created_at)->format('h:i:s A') }})
                             </small>
                         </div>
                         <div class="col-md-2">
