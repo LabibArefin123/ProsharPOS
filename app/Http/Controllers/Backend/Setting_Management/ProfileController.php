@@ -7,6 +7,9 @@ use App\Models\BankBalance;
 use App\Models\BankDeposit;
 use App\Models\BankWithdraw;
 use App\Models\Payment;
+use App\Models\Purchase;
+use App\Models\PurchaseReturn;
+use App\Models\SupplierPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -32,7 +35,7 @@ class ProfileController extends Controller
             ];
         }
 
-        // Get last 5 transactions for this user
+        // Deposits
         $deposits = BankDeposit::where('user_id', $user->id)->get()->map(function ($d) {
             return (object)[
                 'type' => 'deposit',
@@ -43,6 +46,7 @@ class ProfileController extends Controller
             ];
         });
 
+        // Withdrawals
         $withdraws = BankWithdraw::where('user_id', $user->id)->get()->map(function ($w) {
             return (object)[
                 'type' => 'withdraw',
@@ -53,6 +57,7 @@ class ProfileController extends Controller
             ];
         });
 
+        // Customer Payments
         $payments = Payment::where('paid_by', $user->id)->get()->map(function ($p) {
             return (object)[
                 'type' => 'payment',
@@ -63,11 +68,47 @@ class ProfileController extends Controller
             ];
         });
 
-        // Merge & sort by date descending
+        // Purchases (user as supplier)
+        $purchases = Purchase::where('supplier_id', $user->id)->get()->map(function ($pu) {
+            return (object)[
+                'type' => 'purchase',
+                'date' => $pu->created_at,
+                'created_at' => $pu->created_at,
+                'amount' => (float)$pu->total_amount,
+                'description' => $pu->reference_no ?? 'Purchase',
+            ];
+        });
+
+        // Purchase Returns
+        $returns = PurchaseReturn::where('supplier_id', $user->id)->get()->map(function ($r) {
+            return (object)[
+                'type' => 'purchase_return',
+                'date' => $r->return_date,
+                'created_at' => $r->created_at,
+                'amount' => (float)$r->total_amount,
+                'description' => $r->reference_no ?? 'Purchase Return',
+            ];
+        });
+
+        // Supplier Payments
+        $supplierPayments = SupplierPayment::where('supplier_id', $user->id)->get()->map(function ($sp) {
+            return (object)[
+                'type' => 'supplier_payment',
+                'date' => $sp->payment_date,
+                'created_at' => $sp->created_at,
+                'amount' => (float)$sp->amount,
+                'description' => $sp->purchase->reference_no ?? 'Supplier Payment',
+            ];
+        });
+
+        // Merge all transactions and sort descending
         $transactions = collect()
             ->merge($deposits)
             ->merge($withdraws)
             ->merge($payments)
+            ->merge($purchases)
+            ->merge($returns)
+            ->merge($supplierPayments)
             ->sortByDesc('created_at')
             ->take(5); // last 5 transactions
 
