@@ -42,6 +42,63 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Transaction History --}}
+                <h5 class="mt-4 mb-2">Last 5 Transactions</h5>
+
+                @if ($transactions->isEmpty())
+                    <div class="text-center text-muted">No recent transactions</div>
+                @else
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Description</th>
+                                    <th>Date & Time</th>
+                                    <th>Type</th>
+                                    <th>Amount (BDT)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($transactions as $tx)
+                                    @php
+                                        switch ($tx->type) {
+                                            case 'deposit':
+                                                $sign = '+';
+                                                $color = 'text-success';
+                                                $label = 'Deposit';
+                                                break;
+                                            case 'withdraw':
+                                                $sign = '-';
+                                                $color = 'text-danger';
+                                                $label = 'Withdraw';
+                                                break;
+                                            case 'payment':
+                                                $sign = '-';
+                                                $color = 'text-danger';
+                                                $label = 'Customer Payment';
+                                                break;
+                                            default:
+                                                $sign = '';
+                                                $color = 'text-dark';
+                                                $label = ucfirst($tx->type);
+                                        }
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $tx->description }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($tx->date)->format('d M Y h:i A') }}</td>
+                                        <td class="{{ $color }}">{{ $label }}</td>
+                                        <td class="{{ $color }}">{{ $sign }}
+                                            ৳{{ number_format($tx->amount, 2) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

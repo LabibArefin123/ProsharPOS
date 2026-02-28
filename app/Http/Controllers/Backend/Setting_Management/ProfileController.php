@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Backend\Setting_Management;
 
 use App\Http\Controllers\Controller;
 use App\Models\BankBalance;
+use App\Models\BankDeposit;
+use App\Models\BankWithdraw;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -29,7 +32,46 @@ class ProfileController extends Controller
             ];
         }
 
-        return view('backend.setting_management.profile_page.show', compact('user', 'bankBalance'));
+        // Get last 5 transactions for this user
+        $deposits = BankDeposit::where('user_id', $user->id)->get()->map(function ($d) {
+            return (object)[
+                'type' => 'deposit',
+                'date' => $d->deposit_date,
+                'created_at' => $d->created_at,
+                'amount' => (float)$d->amount,
+                'description' => $d->reference_no,
+            ];
+        });
+
+        $withdraws = BankWithdraw::where('user_id', $user->id)->get()->map(function ($w) {
+            return (object)[
+                'type' => 'withdraw',
+                'date' => $w->withdraw_date,
+                'created_at' => $w->created_at,
+                'amount' => (float)$w->amount,
+                'description' => $w->reference_no,
+            ];
+        });
+
+        $payments = Payment::where('paid_by', $user->id)->get()->map(function ($p) {
+            return (object)[
+                'type' => 'payment',
+                'date' => $p->created_at,
+                'created_at' => $p->created_at,
+                'amount' => (float)$p->paid_amount,
+                'description' => $p->invoice->invoice_id ?? 'Payment',
+            ];
+        });
+
+        // Merge & sort by date descending
+        $transactions = collect()
+            ->merge($deposits)
+            ->merge($withdraws)
+            ->merge($payments)
+            ->sortByDesc('created_at')
+            ->take(5); // last 5 transactions
+
+        return view('backend.setting_management.profile_page.show', compact('user', 'bankBalance', 'transactions'));
     }
     /**
      * Display the user's profile form.
