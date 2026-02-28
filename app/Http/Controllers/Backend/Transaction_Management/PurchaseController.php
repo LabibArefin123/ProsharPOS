@@ -17,7 +17,7 @@ class PurchaseController extends Controller
     =============================== */
     public function index()
     {
-        $purchases = Purchase::with('supplier')
+        $purchases = Purchase::with(['supplier', 'returns'])
             ->join('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
             ->orderBy('suppliers.name', 'asc')
             ->select('purchases.*')

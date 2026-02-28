@@ -34,14 +34,22 @@
                             <td>{{ $purchase->reference_no }}</td>
                             <td>৳{{ number_format($purchase->total_amount, 2) }}</td>
                             <td>
-                                <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-sm btn-info">View</a>
-
-                                <a href="{{ route('purchases.edit', $purchase->id) }}"
-                                    class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{{ route('purchase_returns.createP', $purchase->id) }}"
-                                    class="btn btn-sm btn-warning">
-                                    Return
+                                <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-sm btn-info">
+                                    View
                                 </a>
+
+                                <a href="{{ route('purchases.edit', $purchase->id) }}" class="btn btn-sm btn-primary">
+                                    Edit
+                                </a>
+
+                                {{-- ✅ Show Return button ONLY if no returns exist --}}
+                                @if ($purchase->returns->isEmpty())
+                                    <a href="{{ route('purchase_returns.createP', $purchase->id) }}"
+                                        class="btn btn-sm btn-warning">
+                                        Return
+                                    </a>
+                                @endif
+
                                 <form action="{{ route('purchases.destroy', $purchase->id) }}" method="POST"
                                     class="d-inline" onsubmit="return confirm('Are you sure?');">
                                     @csrf
