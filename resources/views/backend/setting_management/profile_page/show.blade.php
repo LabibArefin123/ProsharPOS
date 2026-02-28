@@ -111,7 +111,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $tx->description }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($tx->date)->format('d M Y h:i A') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($tx->date)->format('d F Y') }} ({{ \Carbon\Carbon::parse($tx->created_at)->format('h:i A') }})</td>
                                         <td><span class="badge {{ $color }}">{{ $label }}</span></td>
                                         <td class="text-end {{ $color }}">{{ $sign }}
                                             ৳{{ number_format($tx->amount, 2) }}</td>
