@@ -4,198 +4,81 @@
 
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
-        <h3 class="mb-0">Transaction History (Fully Paid)</h3>
+        <h3 class="mb-0">Transaction History</h3>
     </div>
 @stop
 @section('css')
-    <style>
-        /* Transaction card styling */
-        .transaction-card {
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 12px;
-            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease;
-        }
-
-        .transaction-card:hover {
-            transform: scale(1.02);
-            box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.1);
-        }
-
-        .balance-row {
-            margin-top: 10px;
-        }
-
-        /* Sales Return / Flow Diagram */
-        .flow-diagram {
-            margin-top: 12px;
-            border-top: 1px dashed #dee2e6;
-            padding-top: 10px;
-        }
-
-        .flow-diagram .diagram-header {
-            cursor: pointer;
-            font-weight: 600;
-            color: #dc3545;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .flow-diagram .diagram-header:hover {
-            text-decoration: underline;
-        }
-
-        .flow-diagram .diagram-content {
-            display: none;
-            margin-top: 8px;
-            padding-left: 15px;
-            border-left: 2px solid #dc3545;
-        }
-
-        .diagram-container {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .diagram-box {
-            background-color: #f8f9fa;
-            border: 2px solid #dc3545;
-            border-radius: 8px;
-            padding: 6px 10px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: transform 0.15s ease;
-        }
-
-        .diagram-box:hover {
-            transform: scale(1.03);
-            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
-        }
-
-        .arrow {
-            text-align: center;
-            font-size: 16px;
-            color: #dc3545;
-            margin: 2px 0;
-        }
-
-        /* Responsive for mobile */
-        @media (max-width: 576px) {
-            .diagram-container {
-                max-height: 200px;
-            }
-
-            .diagram-box {
-                font-size: 14px;
-                padding: 5px 8px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/backend/transaction_management/payment/custom_history.css') }}">
 @stop
 
 @section('content')
     <div class="card shadow-sm">
         <div class="card-body">
 
-            @php
-                $runningBalance = $runningBalance ?? 0;
-            @endphp
-
             @forelse($transactions as $tx)
-                @php
-                    $amount = abs($tx->amount);
-                    $oldBalance = $runningBalance;
+                <div class="transaction-card p-3 mb-3 border rounded shadow-sm">
 
-                    switch ($tx->type) {
-                        case 'deposit':
-                            $runningBalance -= $amount; // reverse calculation
-                            $sign = '+';
-                            $color = 'text-success';
-                            $label = 'Deposit';
-                            break;
-
-                        case 'withdraw':
-                            $runningBalance += $amount;
-                            $sign = '-';
-                            $color = 'text-danger';
-                            $label = 'Withdraw';
-                            break;
-
-                        case 'payment':
-                            $runningBalance += $amount;
-                            $sign = '-';
-                            $color = 'text-danger';
-                            $label = 'Payment';
-                            break;
-
-                        case 'purchase':
-                            $runningBalance += $amount;
-                            $sign = '-';
-                            $color = 'text-warning';
-                            $label = 'Purchase';
-                            break;
-
-                        case 'purchase_return':
-                            $runningBalance -= $amount; // money comes back
-                            $sign = '+';
-                            $color = 'text-primary';
-                            $label = 'Purchase Return';
-                            break;
-
-                        default:
-                            $sign = '';
-                            $color = 'text-dark';
-                            $label = ucfirst($tx->type);
-                    }
-                @endphp
-                
-                <div class="transaction-card">
-
-                    {{-- Header Info --}}
-                    <div class="row align-items-center">
-                        <div class="col-md-2">
-                            <strong>
-                                {{ $tx->type === 'payment' ? '#' . ($tx->payment->payment_id ?? 'N/A') : $tx->description }}
-                            </strong><br>
+                    {{-- Header --}}
+                    <div class="d-flex justify-content-between mb-2">
+                        <div>
+                            <strong>{{ $tx->description }}</strong><br>
                             <small class="text-muted">
                                 {{ \Carbon\Carbon::parse($tx->date)->format('d M Y') }}
                                 ({{ \Carbon\Carbon::parse($tx->created_at)->format('h:i:s A') }})
                             </small>
                         </div>
-                        <div class="col-md-2">
-                            <strong>User</strong><br>
-                            {{ $tx->user->name ?? 'N/A' }}
-                        </div>
-                        <div class="col-md-2">
-                            <strong>Transaction</strong><br>
-                            <span class="{{ $color }}">{{ $label }}: ৳{{ number_format($amount, 2) }}</span>
+                        <div>
+                            <strong>User:</strong> {{ $tx->user->name ?? 'N/A' }}
                         </div>
                     </div>
 
-                    {{-- Balance Flow --}}
-                    <div class="row balance-row">
-                        <div class="col-md-4">
-                            <strong>Old Balance</strong><br>
-                            ৳{{ number_format($runningBalance, 2) }}
-                        </div>
-                        <div class="col-md-4">
-                            <strong>Transaction</strong><br>
-                            {{ $sign }} ৳{{ number_format($amount, 2) }}
-                        </div>
-                        <div class="col-md-4 text-primary fw-bold">
-                            <strong>New Balance</strong><br>
-                            ৳{{ number_format($oldBalance, 2) }}
-                        </div>
+                    {{-- Transaction Amount --}}
+                    <div class="mb-2">
+                        @php
+                            switch ($tx->type) {
+                                case 'deposit':
+                                    $sign = '+';
+                                    $color = 'text-success';
+                                    $label = 'Deposit';
+                                    break;
+                                case 'withdraw':
+                                    $sign = '-';
+                                    $color = 'text-danger';
+                                    $label = 'Withdraw';
+                                    break;
+                                case 'payment':
+                                    $sign = '-';
+                                    $color = 'text-danger';
+                                    $label = 'Customer Payment';
+                                    break;
+                                case 'supplier_payment':
+                                    $sign = '-';
+                                    $color = 'text-warning';
+                                    $label = 'Supplier Payment';
+                                    break;
+                                case 'purchase':
+                                    $sign = '-';
+                                    $color = 'text-warning';
+                                    $label = 'Purchase';
+                                    break;
+                                case 'purchase_return':
+                                    $sign = '+';
+                                    $color = 'text-primary';
+                                    $label = 'Purchase Return';
+                                    break;
+                                default:
+                                    $sign = '';
+                                    $color = 'text-dark';
+                                    $label = ucfirst($tx->type);
+                            }
+                        @endphp
+                        <span class="{{ $color }}">
+                            <strong>{{ $label }}:</strong> {{ $sign }}
+                            ৳{{ number_format(abs($tx->amount), 2) }}
+                        </span>
                     </div>
 
-                    {{-- Optional Sales Return Flow --}}
+                    {{-- Return Flow (for payments with returns) --}}
                     @if (
                         $tx->type === 'payment' &&
                             isset($tx->payment) &&
@@ -206,28 +89,35 @@
                         ])
                     @endif
 
+                    {{-- Balance Flow --}}
+                    <div class="d-flex justify-content-between fw-bold mt-2 p-2 bg-light rounded">
+                        <div>Old Balance: ৳{{ number_format($tx->new_balance, 2) }}</div>
+                        <div>Transaction: {{ $sign }} ৳{{ number_format(abs($tx->amount), 2) }}</div>
+                        <div class="text-primary">New Balance: ৳{{ number_format($tx->old_balance, 2) }}</div>
+                    </div>
+
                 </div>
             @empty
-                <div class="text-center text-muted">
-                    No transactions found.
-                </div>
+                <div class="text-center text-muted">No transactions found.</div>
             @endforelse
+
+            {{-- Pagination --}}
+            <div class="d-flex justify-content-center mt-3">
+                @if ($totalPages > 1)
+                    @for ($i = 1; $i <= $totalPages; $i++)
+                        <a href="?page={{ $i }}"
+                            class="btn btn-sm {{ $currentPage == $i ? 'btn-primary' : 'btn-outline-primary' }} mx-1">
+                            {{ $i }}
+                        </a>
+                    @endfor
+                @endif
+            </div>
 
         </div>
     </div>
 @stop
 
 @section('js')
-    <script>
-        $(document).ready(function() {
-            $('#transactionsTable').DataTable({
-                "pageLength": 5, // show 5 per page
-                "order": [
-                    [1, "desc"]
-                ] // sort by Date & Time descending
-            });
-        });
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 

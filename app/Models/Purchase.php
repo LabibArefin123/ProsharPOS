@@ -29,4 +29,9 @@ class Purchase extends Model
     {
         return $this->hasMany(PurchaseReturn::class);
     }
+
+    public function payments()
+    {
+        return $this->hasMany(SupplierPayment::class, 'purchase_id');
+    }
 }

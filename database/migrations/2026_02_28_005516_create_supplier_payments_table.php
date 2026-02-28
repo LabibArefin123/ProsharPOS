@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('payment_no')->unique();
             $table->foreignId('supplier_id')->nullable()->index();
+            $table->foreignId('purchase_id')->nullable()->index();
             $table->decimal('amount', 15, 2);
             $table->date('payment_date')->nullable();
             $table->string('payment_method')->nullable(); // cash, bank, cheque

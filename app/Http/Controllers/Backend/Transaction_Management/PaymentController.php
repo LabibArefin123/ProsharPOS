@@ -8,6 +8,7 @@ use App\Models\BankDeposit;
 use App\Models\BankWithdraw;
 use App\Models\SalesReturn;
 use App\Models\Payment;
+use App\Models\SupplierPayment;
 use App\Models\Purchase;
 use App\Models\PurchaseReturn;
 use App\Models\Invoice;
@@ -123,9 +124,8 @@ class PaymentController extends Controller
                 ];
             });
 
-        // Payments
+        // Customer Payments
         $payments = Payment::with(['invoice.customer', 'paidBy'])
-            ->whereHas('invoice', fn($q) => $q->where('status', 1))
             ->get()
             ->map(function ($p) {
                 return (object)[
@@ -140,6 +140,22 @@ class PaymentController extends Controller
                 ];
             });
 
+        // Supplier Payments
+        $supplierPayments = SupplierPayment::with(['supplier', 'purchase'])
+            ->get()
+            ->map(function ($sp) {
+                return (object)[
+                    'type'        => 'supplier_payment',
+                    'date'        => $sp->payment_date,
+                    'created_at'  => $sp->created_at,
+                    'amount'      => (float) $sp->amount,
+                    'currency'    => 'BDT',
+                    'description' => $sp->purchase->reference_no ?? 'Supplier Payment',
+                    'user'        => $sp->supplier,
+                    'source'      => $sp,
+                ];
+            });
+
         // Purchases
         $purchases = Purchase::with('supplier')
             ->get()
@@ -150,13 +166,13 @@ class PaymentController extends Controller
                     'created_at'  => $pu->created_at,
                     'amount'      => (float) $pu->total_amount,
                     'currency'    => 'BDT',
-                    'description' => $pu->purchase_id ?? 'Purchase',
+                    'description' => $pu->reference_no ?? 'Purchase',
                     'user'        => $pu->supplier,
                     'source'      => $pu,
                 ];
             });
 
-        // 🔥 If you want Purchase Return also:
+        // Purchase Returns
         $returns = PurchaseReturn::with('supplier')
             ->get()
             ->map(function ($r) {
@@ -172,13 +188,14 @@ class PaymentController extends Controller
                 ];
             });
 
-        // Merge all
+        // Merge everything
         $transactions = collect()
             ->merge($deposits)
             ->merge($withdraws)
             ->merge($payments)
+            ->merge($supplierPayments) 
             ->merge($purchases)
-            ->merge($returns) // optional but recommended
+            ->merge($returns)
             ->sortByDesc('created_at')
             ->values();
 
@@ -186,11 +203,41 @@ class PaymentController extends Controller
         $latestBank = BankBalance::latest()->first();
         $runningBalance = $latestBank?->balance ?? 0;
 
-        return view(
-            'backend.transaction_management.payment.history',
-            compact('transactions', 'runningBalance')
-        );
+        // Add running balance to each transaction (for box display)
+        $transactions = $transactions->map(function ($t) use (&$runningBalance) {
+
+            $amount = abs($t->amount);
+
+            // Determine running balance
+            if (in_array($t->type, ['withdraw', 'purchase', 'supplier_payment', 'payment'])) {
+                $newBalance = $runningBalance - $amount;
+            } else { // deposit, purchase_return
+                $newBalance = $runningBalance + $amount;
+            }
+
+            $t->old_balance = $runningBalance;
+            $t->new_balance = $newBalance;
+
+            // Update running balance for next iteration
+            $runningBalance = $newBalance;
+
+            return $t;
+        });
+
+        // Paginate manually for boxes (5 per page)
+        $page = request()->get('page', 1);
+        $perPage = 5;
+        $transactionsPaginated = $transactions->slice(($page - 1) * $perPage, $perPage)
+            ->values();
+        $totalPages = ceil($transactions->count() / $perPage);
+
+        return view('backend.transaction_management.payment.history', [
+            'transactions' => $transactionsPaginated,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+        ]);
     }
+
     public function flowDiagram()
     {
         // Fetch last 5 sales returns with invoices and customer info
