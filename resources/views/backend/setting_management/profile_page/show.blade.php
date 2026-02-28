@@ -33,6 +33,13 @@
                             <strong>Role:</strong>
                             {{ $user->getRoleNames()->first() ?? 'No Role Assigned' }}
                         </div>
+                        <div class="col-md-6 mb-2">
+                            <strong>Current Bank Balance (BDT):</strong> ৳{{ number_format($bankBalance->balance, 2) }}
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <strong>Current Bank Balance (USD):</strong>
+                            ${{ number_format($bankBalance->balance_in_dollars, 2) }}
+                        </div>
                     </div>
                 </div>
             </div>

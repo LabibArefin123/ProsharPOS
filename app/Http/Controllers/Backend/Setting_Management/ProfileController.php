@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Backend\Setting_Management;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\BankBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -20,7 +19,17 @@ class ProfileController extends Controller
     public function user_profile_show()
     {
         $user = Auth::user();
-        return view('backend.setting_management.profile_page.show', compact('user'));
+
+        // Get bank balance for current user, if not exists show 0
+        $bankBalance = BankBalance::where('user_id', $user->id)->first();
+        if (!$bankBalance) {
+            $bankBalance = (object)[
+                'balance' => 0,
+                'balance_in_dollars' => 0,
+            ];
+        }
+
+        return view('backend.setting_management.profile_page.show', compact('user', 'bankBalance'));
     }
     /**
      * Display the user's profile form.
