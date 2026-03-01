@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\WelcomePageController;
 
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ActivityLogController;
@@ -132,6 +133,10 @@ Route::middleware(['auth', 'permission'])->group(function () {
     //ajax menu
     Route::get('/get-division-by-branch', [AjaxController::class, 'getDivisionByBranch'])->name('ajax.get_division_by_branch');
     Route::get('/get-department-by-division', [AjaxController::class, 'getDepartmentByDivision'])->name('ajax.get_department_by_division');
+    
+    
+    //Report Menu
+    Route::get('/daily-challan-report', [ReportController::class, 'challanDaily'])->name('report.challan.daily');
     
     //setting menu
     Route::resource('companies', CompanyController::class);

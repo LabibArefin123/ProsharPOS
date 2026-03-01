@@ -515,20 +515,24 @@ return [
                     'can'    => 'bank_withdraws.index',
                     'active' => ['bank_withdraws*'],
                 ],
+            ],
+        ],
+        [
+            'text'    => 'Report Management',
+            'icon'    => 'fas fa-piggy-bank',
+            'submenu' => [
                 [
-                    'text' => 'Card Payments',
-                    'route' => 'bank_cards.index',
-                    'can' => 'bank_cards.index',
-                    'active' => ['bank_cards*'],
+                    'text' => 'Challan Daily Report',
+                    'route' => 'report.challan.daily',
+                    'can' => 'report.challan.daily',
                 ],
+                
             ],
         ],
 
         [
             'text'    => 'People Management',
             'icon'    => 'fas fa-people-group',
-            // 'route'    => 'setting_menu',
-            // 'can'   => 'view-setting_menu',
             'submenu' => [
                 [
                     'text' => 'Customer List',
