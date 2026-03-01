@@ -137,6 +137,8 @@ Route::middleware(['auth', 'permission'])->group(function () {
     //Report Menu
     Route::get('reports/challan/daily/', [ReportController::class, 'challanDaily'])->name('report.challan.daily');
     Route::get('reports/challan/daily/pdf', [ReportController::class, 'challanDailyPdf'])->name('report.challan.daily.pdf');
+    Route::get('reports/challan/monthly', [ReportController::class, 'challanMonthly'])->name('report.challan.monthly');
+    Route::get('reports/challan/monthly/pdf', [ReportController::class, 'challanMonthlyPdf'])->name('report.challan.monthly.pdf');
     //setting menu
     Route::resource('companies', CompanyController::class);
     Route::resource('system_informations', SystemInformationController::class);

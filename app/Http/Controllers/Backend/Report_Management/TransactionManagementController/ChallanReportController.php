@@ -73,4 +73,61 @@ class ChallanReportController extends Controller
 
         return $pdf->stream('challan-daily-report.pdf');
     }
+
+    public function challanMonthly(Request $request)
+    {
+        $query = Challan::with(['supplier', 'branch', 'citems']);
+
+        if ($request->filled('month')) {
+            $query->whereMonth('challan_date', $request->month);
+        }
+
+        if ($request->filled('year')) {
+            $query->whereYear('challan_date', $request->year);
+        }
+
+        if ($request->filled('supplier_id')) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+
+        $challans = $query
+            ->orderBy('challan_date', 'desc')
+            ->get();
+
+        $suppliers = Supplier::orderBy('name')->get();
+        $years = range(2026, 2018);
+
+        return view(
+            'backend.report_management.transaction_management.challan.monthly',
+            compact('challans', 'suppliers', 'years')
+        );
+    }
+
+    public function challanMonthlyPdf(Request $request)
+    {
+        $query = Challan::with(['supplier', 'branch', 'citems']);
+
+        if ($request->filled('month')) {
+            $query->whereMonth('challan_date', $request->month);
+        }
+
+        if ($request->filled('year')) {
+            $query->whereYear('challan_date', $request->year);
+        }
+
+        if ($request->filled('supplier_id')) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+
+        $challans = $query
+            ->orderBy('challan_date', 'desc')
+            ->get();
+
+        $pdf = Pdf::loadView(
+            'backend.report_management.transaction_management.challan.monthly_pdf',
+            compact('challans')
+        )->setPaper('a4', 'landscape');
+
+        return $pdf->stream('challan-monthly-report.pdf');
+    }
 }

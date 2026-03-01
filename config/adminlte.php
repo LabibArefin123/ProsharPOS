@@ -526,6 +526,11 @@ return [
                     'route' => 'report.challan.daily',
                     'can' => 'report.challan.daily',
                 ],
+                [
+                    'text' => 'Challan Monthly Report',
+                    'route' => 'report.challan.monthly',
+                    'can' => 'report.challan.monthly',
+                ],
                 
             ],
         ],
