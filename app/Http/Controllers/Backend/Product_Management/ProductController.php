@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Product_Management;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Storage;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Unit;
@@ -22,10 +23,14 @@ class ProductController extends Controller
 
     public function stock()
     {
-        $products = Product::with(['category', 'brand'])->get();
+        $products = Product::with([
+            'category',
+            'brand',
+            'storage'
+        ])->get();
+
         return view('backend.product_management.products.stock', compact('products'));
     }
-
     public function create()
     {
         $categories = Category::orderBy('name', 'asc')->get();
@@ -99,7 +104,7 @@ class ProductController extends Controller
             'status'             => 'required|boolean',
             'warranty_id'        => 'required|exists:warranties,id',
         ]);
-      
+
         $product->update($validated);
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully');

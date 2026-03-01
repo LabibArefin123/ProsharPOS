@@ -49,4 +49,9 @@ class Product extends Model
     {
         return $this->belongsTo(Warranty::class);
     }
+
+    public function storage()
+    {
+        return $this->hasOne(Storage::class);
+    }
 }

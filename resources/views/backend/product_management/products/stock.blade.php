@@ -16,17 +16,16 @@
 @stop
 
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <table class="table table-striped table-hover mb-0 text-sm">
-                <thead class="thead-light">
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+            <table class="table table-striped table-hover text-nowrap" id="dataTables">
+                <thead class="thead-dark">
                     <tr>
                         <th>#</th>
                         <th>Name</th>
                         <th>Purchase Price</th>
                         <th>Sell Price</th>
                         <th>Profit</th>
-                        <th>Branch Name</th>
                         <th>Stock Quantity</th>
                         <th>Alert Quantity</th>
                         <th>Actions</th>
@@ -37,17 +36,18 @@
                     @forelse ($products as $product)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-
                             <td>{{ $product->name }}</td>
                             <td>{{ number_format($product->purchase_price, 2) }}</td>
                             <td>{{ number_format($product->sell_price, 2) }}</td>
                             <td>{{ number_format($product->sell_price - $product->purchase_price, 2) }}</td>
-                            <td>{{ $product->branch->name ?? 'N/A' }}</td>
-                            <td>{{ $product->stock_quantity }}</td>
-                            <td>{{ $product->alert_quantity }}</td>
+                            <td>{{ $product->storage->stock_quantity ?? 0 }}</td>
+
+                            <td>{{ $product->storage->alert_quantity ?? 0 }}</td>
                             <td class="text-center">
                                 <a href="{{ route('products.edit', $product->id) }}"
                                     class="btn btn-xs btn-info mr-1">Edit</a>
+                                <a href="{{ route('products.show', $product->id) }}"
+                                    class="btn btn-xs btn-warning mr-1">Show</a>
                                 <form action="{{ route('products.destroy', $product->id) }}" method="POST"
                                     class="d-inline"
                                     onsubmit="return confirm('Are you sure you want to delete this product?');">
@@ -56,7 +56,6 @@
                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
                                 </form>
                             </td>
-
                         </tr>
                     @empty
                         <tr>
