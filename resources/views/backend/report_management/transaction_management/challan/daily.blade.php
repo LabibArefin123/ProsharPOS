@@ -38,12 +38,16 @@
                         </select>
                     </div>
 
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">
+                    <div class="col-md-3 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
                             <i class="fas fa-filter"></i> Filter
                         </button>
-                    </div>
 
+                        <a href="{{ route('report.challan.daily.pdf', request()->query()) }}" class="btn btn-danger"
+                            target="_blank">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>

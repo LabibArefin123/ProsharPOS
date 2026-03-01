@@ -76,21 +76,21 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/system_dashboard', [DashboardController::class, 'system_index'])->name('dashboard.system');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    
+
     //top menu
     Route::get('/user_profile', [ProfileController::class, 'user_profile_show'])->name('user_profile_show');
     Route::get('/user_profile_edit', [ProfileController::class, 'user_profile_edit'])->name('user_profile_edit');
     Route::put('/user_profile_edit', [ProfileController::class, 'user_profile_update'])->name('user_profile_update');
     Route::get('/notifications/search', [SearchController::class, 'search'])->name('notifications.search');
-    
+
     //organization menu
     Route::resource('organizations', OrganizationController::class);
-    
+
     //department menu
     Route::resource('branches', BranchController::class);
     Route::resource('divisions', DivisionController::class);
     Route::resource('departments', DepartmentController::class);
-    
+
     //product management menu
     Route::resource('units', UnitController::class);
     Route::resource('categories', CategoryController::class);
@@ -99,17 +99,17 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
     Route::resource('products', ProductController::class);
     Route::resource('storages', StorageController::class);
-    
+
     //people management menu
     Route::resource('customers', CustomerController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('manufacturers', ManufacturerController::class);
-    
+
     //transaction management menu
     Route::resource('purchases', PurchaseController::class);
     Route::resource('purchase_returns', PurchaseReturnController::class);
     Route::get('purchase/{purchase}/return', [PurchaseReturnController::class, 'create'])->name('purchase_returns.createP');
-    Route::post( 'purchase/{purchase}/return',[PurchaseReturnController::class, 'store'])->name('purchase_returns.storeP');
+    Route::post('purchase/{purchase}/return', [PurchaseReturnController::class, 'store'])->name('purchase_returns.storeP');
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
     Route::get('/invoice-return', [InvoiceController::class, 'returnIndex'])->name('invoice-return.index');
@@ -120,24 +120,23 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/payment/history', [PaymentController::class, 'history'])->name('payments.history');
     Route::get('/payment/flow-diagram', [PaymentController::class, 'flowDiagram'])->name('payments.flow-diagram');
     Route::resource('supplier_payments', SupplierPaymentController::class);
-    
+
     Route::resource('petty_cashes', PettyCashController::class);
     Route::resource('sales_returns', SalesReturnController::class);
-    
+
     //financial management menu
     Route::resource('bank_balances', BankBalanceController::class);
     Route::resource('bank_deposits', BankDepositController::class);
     Route::resource('bank_withdraws', BankWithdrawController::class);
     Route::resource('bank_cards', BankCardController::class);
-    
+
     //ajax menu
     Route::get('/get-division-by-branch', [AjaxController::class, 'getDivisionByBranch'])->name('ajax.get_division_by_branch');
     Route::get('/get-department-by-division', [AjaxController::class, 'getDepartmentByDivision'])->name('ajax.get_department_by_division');
-    
-    
+
     //Report Menu
-    Route::get('/daily-challan-report', [ReportController::class, 'challanDaily'])->name('report.challan.daily');
-    
+    Route::get('reports/challan/daily/', [ReportController::class, 'challanDaily'])->name('report.challan.daily');
+    Route::get('reports/challan/daily/pdf', [ReportController::class, 'challanDailyPdf'])->name('report.challan.daily.pdf');
     //setting menu
     Route::resource('companies', CompanyController::class);
     Route::resource('system_informations', SystemInformationController::class);
@@ -167,7 +166,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::post('/settings/datetime/update', [SettingController::class, 'updateDateTime'])->name('settings.datetime.update');
     Route::get('/settings/theme', [SettingController::class, 'theme'])->name('settings.theme');
     Route::post('/settings/theme/update', [SettingController::class, 'updateTheme'])->name('settings.theme.update');
-    
+
     Route::get('/activity_logs', [ActivityLogController::class, 'index'])->name('activity_log.index');
 });
 
