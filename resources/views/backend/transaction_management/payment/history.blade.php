@@ -91,9 +91,9 @@
 
                     {{-- Balance Flow --}}
                     <div class="d-flex justify-content-between fw-bold mt-2 p-2 bg-light rounded">
-                        <div>Old Balance: ৳{{ number_format($tx->new_balance, 2) }}</div>
+                        <div>Old Balance: ৳{{ number_format($tx->old_balance, 2) }}</div>
                         <div>Transaction: {{ $sign }} ৳{{ number_format(abs($tx->amount), 2) }}</div>
-                        <div class="text-primary">New Balance: ৳{{ number_format($tx->old_balance, 2) }}</div>
+                        <div class="text-primary">New Balance: ৳{{ number_format($tx->new_balance, 2) }}</div>
                     </div>
 
                 </div>

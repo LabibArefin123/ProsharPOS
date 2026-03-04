@@ -52,9 +52,12 @@
 </head>
 
 <body>
-
-    <h3>Invoice Monthly Report</h3>
-
+    <h3>
+        Invoice Monthly Report
+    </h3>
+    {{-- <h3>
+        Invoice Monthly Report - {{ \Carbon\Carbon::create()->month($month)->format('F') }} {{ $year }}
+    </h3> --}}
     <table>
         <thead>
             <tr>
@@ -106,7 +109,6 @@
             </tfoot>
         @endif
     </table>
-
 </body>
 
 </html>
