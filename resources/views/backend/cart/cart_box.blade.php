@@ -7,7 +7,6 @@
     </div>
 
     <div class="card-body">
-
         @forelse($cartInvoices as $invoice)
             @foreach ($invoice->invoiceItems as $item)
                 <div class="d-flex align-items-center border-bottom py-2">

@@ -51,4 +51,9 @@ class Storage extends Model
     {
         return $this->belongsTo(Manufacturer::class);
     }
+
+    public function inspections()
+    {
+        return $this->hasMany(ProductInspection::class);
+    }
 }

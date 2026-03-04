@@ -25,6 +25,7 @@ use App\Http\Controllers\Backend\Product_Management\UnitController;
 use App\Http\Controllers\Backend\Product_Management\WarrantyController;
 use App\Http\Controllers\Backend\Product_Management\ProductController;
 use App\Http\Controllers\Backend\Product_Management\StorageController;
+use App\Http\Controllers\Backend\Product_Management\ProductInspectionController;
 
 //Financial Management Part
 use App\Http\Controllers\Backend\Financial_Management\BankBalanceController;
@@ -99,6 +100,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
     Route::resource('products', ProductController::class);
     Route::resource('storages', StorageController::class);
+    Route::resource('product_inspections', ProductInspectionController::class);
 
     //people management menu
     Route::resource('customers', CustomerController::class);

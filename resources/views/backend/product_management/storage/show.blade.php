@@ -20,7 +20,7 @@
             <div class="row ">
                 <div class="col-md-4">
                     <strong>Product Name:</strong>
-                    <p class="form-control" style="white-space: normal; word-wrap: break-word;">
+                    <p class="form-control">
                         {{ $storage->product->name }}
                     </p>
                 </div>

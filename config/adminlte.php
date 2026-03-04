@@ -421,6 +421,12 @@ return [
                     'can' => 'storages.index',
                     'active' => ['storages*'],
                 ],
+                [
+                    'text' => 'Product Inspection List',
+                    'route' => 'product_inspections.index',
+                    'can' => 'product_inspections.index',
+                    'active' => ['product_inspections*'],
+                ],
             ],
         ],
         [
