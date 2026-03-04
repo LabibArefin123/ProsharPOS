@@ -66,7 +66,7 @@ use App\Http\Controllers\Backend\Setting_Management\SettingController;
 // Landing page
 Route::get('/', [WelcomePageController::class, 'index'])->name('welcome');
 Route::get('/help', [WelcomePageController::class, 'help'])->name('help');
-
+Route::post('/system-problem/store', [WelcomePageController::class, 'system_problem_store'])->name('system_problem.store');
 Route::get('/home', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('home');
