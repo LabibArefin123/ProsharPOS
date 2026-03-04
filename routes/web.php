@@ -128,7 +128,6 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('bank_balances', BankBalanceController::class);
     Route::resource('bank_deposits', BankDepositController::class);
     Route::resource('bank_withdraws', BankWithdrawController::class);
-    Route::resource('bank_cards', BankCardController::class);
 
     //ajax menu
     Route::get('/get-division-by-branch', [AjaxController::class, 'getDivisionByBranch'])->name('ajax.get_division_by_branch');

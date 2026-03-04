@@ -34,8 +34,7 @@ class Storage extends Model
         'expired_image',
         'expired_qty',
         'expired_solution',
-        'last_stocked_at',
-        'last_sold_at',
+
     ];
 
     public function product()
