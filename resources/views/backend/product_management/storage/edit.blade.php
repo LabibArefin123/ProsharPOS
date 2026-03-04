@@ -42,6 +42,7 @@
                 @include('backend.product_management.storage.partial_edit.part_5')
                 @include('backend.product_management.storage.partial_edit.part_6')
                 @include('backend.product_management.storage.partial_edit.part_7')
+                @include('backend.product_management.storage.partial_edit.part_8')
 
                 <div class="text-end mt-3">
                     <button type="submit" class="btn btn-success">Update</button>

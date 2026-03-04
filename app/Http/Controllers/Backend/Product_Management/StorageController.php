@@ -47,18 +47,20 @@ class StorageController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'product_id'         => 'required|exists:products,id',
-            'supplier_id'        => 'required|exists:suppliers,id',
-            'manufacturer_id'    => 'required|exists:manufacturers,id',
-            'rack_number'        => 'required|string|max:100',
-            'box_number'         => 'required|string|max:100',
-            'rack_no'            => 'required|string|max:100',
-            'box_no'             => 'required|string|max:100',
-            'rack_location'      => 'required|string|max:100',
-            'box_location'       => 'required|string|max:100',
-            'stock_quantity'     => 'required|integer',
-            'alert_quantity'     => 'required|integer',
-            'image_path'         => 'nullable|image|max:5120',
+            'product_id'                => 'required|exists:products,id',
+            'supplier_id'               => 'required|exists:suppliers,id',
+            'manufacturer_id'           => 'required|exists:manufacturers,id',
+            'rack_number'               => 'required|string|max:100',
+            'box_number'                => 'required|string|max:100',
+            'rack_no'                   => 'required|string|max:100',
+            'box_no'                    => 'required|string|max:100',
+            'rack_location'             => 'required|string|max:100',
+            'box_location'              => 'required|string|max:100',
+            'stock_quantity'            => 'required|integer',
+            'alert_quantity'            => 'required|integer',
+            'minimum_stock_level'       => 'required|integer|min:0',
+            'maximum_stock_level'       => 'required|integer|gt:minimum_stock_level',
+            'image_path'                => 'nullable|image|max:5120',
         ]);
 
         // Handle uploaded image from modal
@@ -139,7 +141,8 @@ class StorageController extends Controller
 
             'stock_quantity'  => 'required|integer|min:0',
             'alert_quantity'  => 'required|integer|min:0',
-
+            'minimum_stock_level'       => 'required|integer|min:0',
+            'maximum_stock_level'       => 'required|integer|gt:minimum_stock_level',
             'image_path'   => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 
             /* Toggles */

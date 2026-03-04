@@ -1,23 +1,71 @@
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 52px;
+        height: 28px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        background-color: #ccc;
+        border-radius: 34px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        border-radius: 50%;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #dc3545;
+    }
+
+    input:checked+.slider:before {
+        transform: translateX(24px);
+    }
+</style>
 <div class="row mt-3">
     <div class="col-md-12">
         <div class="d-flex justify-content-between align-items-center p-2 border rounded">
 
+            <!-- LEFT SIDE -->
             <label class="mb-0 fw-bold">
-                Is Expired?
+                Is Damaged?
             </label>
 
+            <!-- RIGHT SIDE -->
             <div class="d-flex align-items-center">
 
                 <label class="switch mb-0">
-                    <input type="checkbox" id="is_expired" name="is_expired"
-                        {{ old('is_expired', $storage->is_expired) ? 'checked' : '' }}>
+                    <input type="checkbox" id="is_damaged" name="is_damaged"
+                        {{ old('is_damaged', $storage->is_damaged) ? 'checked' : '' }}>
                     <span class="slider round"></span>
                 </label>
 
-                <span id="expiryLabel"
+                <span id="damageLabel"
                     class="ms-2 badge 
-                    {{ $storage->is_expired ? 'badge-warning' : 'badge-success' }}">
-                    {{ $storage->is_expired ? 'YES' : 'NO' }}
+                    {{ $storage->is_damaged ? 'badge-danger' : 'badge-success' }}">
+                    {{ $storage->is_damaged ? 'YES' : 'NO' }}
                 </span>
 
             </div>
@@ -25,14 +73,14 @@
         </div>
     </div>
 </div>
-<div id="expirySection" style="{{ old('is_expired', $storage->is_expired) ? '' : 'display:none;' }}">
+<div id="damageSection" style="{{ old('is_damaged', $storage->is_damaged) ? '' : 'display:none;' }}">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>Expired Quantity</label>
-                <input type="number" name="expired_qty" class="form-control @error('expired_qty') is-invalid @enderror"
-                    value="{{ old('expired_qty', $storage->expired_qty) }}">
-                @error('expired_qty')
+                <label>Damaged Quantity</label>
+                <input type="number" name="damage_qty" class="form-control @error('damage_qty') is-invalid @enderror"
+                    value="{{ old('damage_qty', $storage->damage_qty) }}">
+                @error('damage_qty')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -40,13 +88,13 @@
             </div>
         </div>
 
-         <div class="col-md-6">
+        <div class="col-md-6">
             <div class="form-group">
-                <label>Expiry Solution</label>
-                <input type="text" name="expired_solution"
-                    class="form-control @error('expired_solution') is-invalid @enderror"
-                    value="{{ old('expired_solution', $storage->expired_solution) }}">
-                @error('expired_solution')
+                <label>Damage Solution</label>
+                <input type="text" name="damage_solution"
+                    class="form-control @error('damage_solution') is-invalid @enderror"
+                    value="{{ old('damage_solution', $storage->damage_solution) }}">
+                @error('damage_solution')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -56,10 +104,10 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <label>Expiry Description</label>
-                <textarea name="expired_description" rows="2"
-                    class="form-control @error('expired_description') is-invalid @enderror">{{ old('expired_description', $storage->expired_description) }}</textarea>
-                @error('expired_description')
+                <label>Damage Description</label>
+                <textarea name="damage_description" rows="2"
+                    class="form-control @error('damage_description') is-invalid @enderror">{{ old('damage_description', $storage->damage_description) }}</textarea>
+                @error('damage_description')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -67,8 +115,8 @@
             </div>
         </div>
     </div>
-
-    <div class="card shadow-sm mt-3 {{ $errors->has('expired_image') ? 'border border-danger' : '' }}">
+    {{-- Damage Image Upload --}}
+    <div class="card shadow-sm mt-3 {{ $errors->has('damage_image') ? 'border border-danger' : '' }}">
         <div class="card-body">
 
             <!-- Top Row -->
@@ -76,29 +124,29 @@
 
                 <!-- LEFT SIDE (Label) -->
                 <label class="form-label fw-bold mb-0">
-                    Expired Image
+                    Damage Image
                 </label>
 
                 <!-- RIGHT SIDE (Upload Button) -->
                 <button type="button"
-                    class="btn btn-warning btn-sm {{ $errors->has('expired_image') ? 'border border-danger' : '' }}"
-                    data-bs-toggle="modal" data-bs-target="#expiryImageUploadModal">
+                    class="btn btn-warning btn-sm {{ $errors->has('damage_image') ? 'border border-danger' : '' }}"
+                    data-bs-toggle="modal" data-bs-target="#damageImageUploadModal">
                     <i class="fas fa-upload"></i> Upload Image
                 </button>
 
             </div>
 
             {{-- Validation Error --}}
-            @error('expired_image')
+            @error('damage_image')
                 <div class="text-danger small mt-2">
                     {{ $message }}
                 </div>
             @enderror
 
             <!-- Image Preview -->
-            @if ($storage->expired_image)
+            @if ($storage->damage_image)
                 <div class="mt-3 text-center">
-                    <img src="{{ asset($storage->expired_image) }}" class="img-thumbnail shadow-sm"
+                    <img src="{{ asset($storage->damage_image) }}" class="img-thumbnail shadow-sm"
                         style="max-height:120px; cursor:pointer;" data-bs-toggle="modal"
                         data-bs-target="#expiryImageZoomModal">
                 </div>
@@ -107,44 +155,55 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="expiryImageUploadModal" tabindex="-1">
+<div class="modal fade" id="damageImageUploadModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title">Upload Expiry Image</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title">Upload Damage Image</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <div class="modal-body">
                 <div class="row">
 
-                    <div class="col-md-5 border-end text-center">
+                    <!-- LEFT: Progress & Info -->
+                    <div class="col-md-5 border-right text-center">
+
                         <svg width="120" height="120">
                             <circle cx="60" cy="60" r="50" stroke="#eee" stroke-width="10"
-                                fill="none" />
-                            <circle id="expiryProgressCircleBar" cx="60" cy="60" r="50" stroke="#ffc107"
+                                fill="none"></circle>
+                            <circle id="damageProgressCircleBar" cx="60" cy="60" r="50" stroke="#dc3545"
                                 stroke-width="10" fill="none" stroke-dasharray="314" stroke-dashoffset="314"
-                                transform="rotate(-90 60 60)" />
-                            <text x="60" y="65" text-anchor="middle" id="expiryProgressText">0%</text>
+                                transform="rotate(-90 60 60)"></circle>
+                            <text x="60" y="65" text-anchor="middle" font-size="14" id="damageProgressText">0%</text>
                         </svg>
 
                         <div class="mt-3">
-                            <strong>Status:</strong>
-                            <div id="expiryUploadStatus" class="text-muted">Waiting for image...</div>
+                            <p><strong>Status:</strong></p>
+                            <div id="damageUploadStatus" class="text-muted">
+                                Waiting for image...
+                            </div>
+
                             <hr>
+
+                            <p><strong>Image Info:</strong></p>
                             <small>
-                                Size: <span id="expiryImageSize">-</span><br>
-                                Format: <span id="expiryImageFormat">-</span><br>
-                                Dimension: <span id="expiryImageDimension">-</span>
+                                Size: <span id="damageImageSize">-</span><br>
+                                Format: <span id="damageImageFormat">-</span><br>
+                                Dimension: <span id="damageImageDimension">-</span>
                             </small>
                         </div>
+
                     </div>
 
+                    <!-- RIGHT: Input & Preview -->
                     <div class="col-md-7 text-center">
-                        <input type="file" id="expiryImageInput" name="expiry_image" class="form-control mb-3"
+                        <input type="file" name="damage_image" id="damageImageInput" class="form-control-file mb-3"
                             accept="image/*">
-                        <img id="expiryImagePreview" class="img-fluid img-thumbnail d-none">
+
+                        <div style="min-height:150px;">
+                            <img id="damageImagePreview" class="img-fluid img-thumbnail d-none">
+                        </div>
                     </div>
 
                 </div>
@@ -157,92 +216,102 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         /* ==========================
-       EXPIRY TOGGLE
-    ========================== */
-        const toggle = document.getElementById('is_expired');
-        const section = document.getElementById('expirySection');
-        const label = document.getElementById('expiryLabel');
+           DAMAGE TOGGLE
+        ========================== */
+        const toggle = document.getElementById('is_damaged');
+        const section = document.getElementById('damageSection');
+        const label = document.getElementById('damageLabel');
 
-        if (!toggle || !label) return; // only require these two
-
-        function toggleExpirySection() {
-
+        function toggleDamageSection() {
             if (toggle.checked) {
-
-                // Show section if exists
-                if (section) section.style.display = 'block';
-
+                section.style.display = 'block';
                 label.textContent = 'YES';
                 label.classList.remove('badge-success');
-                label.classList.add('badge-warning');
-
+                label.classList.add('badge-danger');
             } else {
-
-                if (section) section.style.display = 'none';
-
+                section.style.display = 'none';
                 label.textContent = 'NO';
-                label.classList.remove('badge-warning');
+                label.classList.remove('badge-danger');
                 label.classList.add('badge-success');
             }
         }
 
-        toggle.addEventListener('change', toggleExpirySection);
-
-        // Run once for edit mode
-        toggleExpirySection();
-
+        toggle.addEventListener('change', toggleDamageSection);
+        toggleDamageSection();
 
         /* ==========================
-           IMAGE PREVIEW
+           DAMAGE IMAGE PROGRESS
         ========================== */
-        const input = document.getElementById('expiryImageInput');
+        document.getElementById('damageImageInput')?.addEventListener('change', async function(e) {
 
-        if (input) {
-            input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
 
-                const file = e.target.files[0];
-                if (!file) return;
+            const status = document.getElementById('damageUploadStatus');
+            const sizeEl = document.getElementById('damageImageSize');
+            const formatEl = document.getElementById('damageImageFormat');
+            const dimensionEl = document.getElementById('damageImageDimension');
+            const progressText = document.getElementById('damageProgressText');
+            const progressCircle = document.getElementById('damageProgressCircleBar');
+            const preview = document.getElementById('damageImagePreview');
 
-                const preview = document.getElementById('expiryImagePreview');
-                const status = document.getElementById('expiryUploadStatus');
-                const sizeEl = document.getElementById('expiryImageSize');
-                const typeEl = document.getElementById('expiryImageFormat');
-                const dimEl = document.getElementById('expiryImageDimension');
-                const textEl = document.getElementById('expiryProgressText');
-                const circle = document.getElementById('expiryProgressCircleBar');
+            const maxSize = 5 * 1024 * 1024;
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
-                const allowed = ['image/jpeg', 'image/png', 'image/webp'];
-                const maxSize = 5 * 1024 * 1024;
+            preview.classList.add('d-none');
+            preview.src = '#';
 
-                if (!allowed.includes(file.type)) {
-                    status.innerHTML = '<span class="text-danger">Invalid format</span>';
-                    return;
-                }
+            const setProgress = (stage) => {
+                const stages = 4;
+                const percent = Math.round((stage / stages) * 100);
+                const dashOffset = 314 - (314 * percent / 100);
+                progressCircle.style.strokeDashoffset = dashOffset;
+                progressText.innerText = percent + '%';
+            };
 
-                if (file.size > maxSize) {
-                    status.innerHTML = '<span class="text-danger">File too large</span>';
-                    return;
-                }
+            /* Stage 1 */
+            status.innerHTML = 'Uploading image...';
+            setProgress(1);
+            await new Promise(r => setTimeout(r, 400));
 
-                sizeEl.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
-                typeEl.textContent = file.type;
+            /* Stage 2: Size */
+            const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+            sizeEl.innerText = sizeMB + ' MB';
 
-                const img = new Image();
-                img.onload = function() {
-                    dimEl.textContent = img.width + ' x ' + img.height;
-                    preview.src = img.src;
-                    preview.classList.remove('d-none');
-                    status.innerHTML = '<span class="text-success">Ready ✔</span>';
+            if (file.size > maxSize) {
+                status.innerHTML = '<span class="text-danger">Failed: File too large</span>';
+                setProgress(0);
+                return;
+            }
 
-                    if (circle && textEl) {
-                        circle.style.strokeDashoffset = 0;
-                        textEl.textContent = '100%';
-                    }
-                };
+            status.innerHTML = 'Validating size...';
+            setProgress(2);
+            await new Promise(r => setTimeout(r, 400));
 
-                img.src = URL.createObjectURL(file);
-            });
-        }
+            /* Stage 3: Format & Dimension */
+            formatEl.innerText = file.type;
+            if (!allowedTypes.includes(file.type)) {
+                status.innerHTML = '<span class="text-danger">Failed: Invalid format</span>';
+                setProgress(0);
+                return;
+            }
+
+            status.innerHTML = 'Validating format & dimension...';
+
+            const img = new Image();
+            img.onload = function() {
+                dimensionEl.innerText = img.width + ' x ' + img.height;
+
+                status.innerHTML =
+                    '<span class="text-success">Image is safe to upload ✔</span>';
+                setProgress(4);
+
+                preview.src = img.src;
+                preview.classList.remove('d-none');
+            };
+
+            img.src = URL.createObjectURL(file);
+        });
 
     });
 </script>

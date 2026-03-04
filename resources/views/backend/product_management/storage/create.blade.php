@@ -34,6 +34,7 @@
                 @include('backend.product_management.storage.partial_create.part_2')
                 @include('backend.product_management.storage.partial_create.part_3')
                 @include('backend.product_management.storage.partial_create.part_4')
+                @include('backend.product_management.storage.partial_create.part_5')
                 <!-- Button to trigger modal -->
                 <div class="form-group">
                     <label>Upload Image</label>

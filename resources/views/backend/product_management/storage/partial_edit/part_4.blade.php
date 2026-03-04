@@ -1,5 +1,4 @@
   <div class="row">
-
       <div class="col-md-4">
           <div class="form-group">
               <label>Manufacturer</label> <span class="text-danger">*</span>
