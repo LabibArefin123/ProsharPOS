@@ -135,11 +135,22 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/get-division-by-branch', [AjaxController::class, 'getDivisionByBranch'])->name('ajax.get_division_by_branch');
     Route::get('/get-department-by-division', [AjaxController::class, 'getDepartmentByDivision'])->name('ajax.get_department_by_division');
 
-    //Report Menu
+    //Report Menu Challan
     Route::get('reports/challan/daily/', [ReportController::class, 'challanDaily'])->name('report.challan.daily');
     Route::get('reports/challan/daily/pdf', [ReportController::class, 'challanDailyPdf'])->name('report.challan.daily.pdf');
     Route::get('reports/challan/monthly', [ReportController::class, 'challanMonthly'])->name('report.challan.monthly');
     Route::get('reports/challan/monthly/pdf', [ReportController::class, 'challanMonthlyPdf'])->name('report.challan.monthly.pdf');
+    //Report Menu Purchase
+    Route::get('reports/purchase/daily/', [ReportController::class, 'purchaseDaily'])->name('report.purchase.daily');
+    Route::get('reports/purchase/daily/pdf', [ReportController::class, 'purchaseDailyPdf'])->name('report.purchase.daily.pdf');
+    Route::get('reports/purchase/monthly', [ReportController::class, 'purchaseMonthly'])->name('report.purchase.monthly');
+    Route::get('reports/purchase/monthly/pdf', [ReportController::class, 'purchaseMonthlyPdf'])->name('report.purchase.monthly.pdf');
+    //Report Menu Invoice
+    Route::get('reports/invoice/daily/', [ReportController::class, 'invoiceDaily'])->name('report.invoice.daily');
+    Route::get('reports/invoice/daily/pdf', [ReportController::class, 'invoiceDailyPdf'])->name('report.invoice.daily.pdf');
+    Route::get('reports/invoice/monthly', [ReportController::class, 'invoiceMonthly'])->name('report.invoice.monthly');
+    Route::get('reports/invoice/monthly/pdf', [ReportController::class, 'invoiceMonthlyPdf'])->name('report.invoice.monthly.pdf');
+   
     //setting menu
     Route::resource('companies', CompanyController::class);
     Route::resource('system_informations', SystemInformationController::class);
