@@ -54,4 +54,4 @@ class Product extends Model
     {
         return $this->hasOne(Storage::class);
     }
-}
+}   

@@ -38,6 +38,8 @@ use App\Http\Controllers\Backend\People_Management\CustomerController;
 use App\Http\Controllers\Backend\People_Management\SupplierController;
 use App\Http\Controllers\Backend\People_Management\ManufacturerController;
 
+use App\Http\Controllers\Backend\POS\POSController;
+
 //Transaction Management Part
 use App\Http\Controllers\Backend\Transaction_Management\ChallanController;
 use App\Http\Controllers\Backend\Transaction_Management\PaymentController;
@@ -108,6 +110,8 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('suppliers', SupplierController::class);
     Route::resource('manufacturers', ManufacturerController::class);
 
+    Route::get('/pos', [POSController::class, 'index'])->name('pos.index');
+
     //transaction management menu
     Route::resource('purchases', PurchaseController::class);
     Route::resource('purchase_returns', PurchaseReturnController::class);
@@ -152,7 +156,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('reports/invoice/daily/pdf', [ReportController::class, 'invoiceDailyPdf'])->name('report.invoice.daily.pdf');
     Route::get('reports/invoice/monthly', [ReportController::class, 'invoiceMonthly'])->name('report.invoice.monthly');
     Route::get('reports/invoice/monthly/pdf', [ReportController::class, 'invoiceMonthlyPdf'])->name('report.invoice.monthly.pdf');
-   
+
     //setting menu
     Route::resource('companies', CompanyController::class);
     Route::resource('system_informations', SystemInformationController::class);
