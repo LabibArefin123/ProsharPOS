@@ -310,18 +310,18 @@ class SettingController extends Controller
     public function maintenanceUpdate(Request $request)
     {
         $request->validate([
-            'is_maintenance' => 'required|boolean',
             'maintenance_message' => 'nullable|string|max:255',
         ]);
 
-        $user = User::first(); // same record for maintenance
-        $user->is_maintenance = $request->is_maintenance;
+        $user = User::first(); // single global maintenance record
+
+        $user->is_maintenance = $request->has('is_maintenance'); // TRUE / FALSE
         $user->maintenance_message = $request->maintenance_message;
+
         $user->save();
 
         return back()->with('success', 'Maintenance mode updated successfully.');
     }
-
     public function language()
     {
         return view('backend.setting_management.setting.language_setting.language');

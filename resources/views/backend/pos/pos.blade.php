@@ -21,10 +21,13 @@
                     <div class="col-md-3 mb-3">
 
                         <div class="card product-card text-center p-2">
-
-                            <img src="{{ asset('uploads/images/product/' . $product->image) }}" class="img-fluid mb-2"
-                                style="height:80px;object-fit:contain">
-
+                            @if ($product->storage->image_path)
+                                <img src="{{ asset($product->storage->image_path) }}" class="img-fluid mb-2"
+                                    style="height:80px;object-fit:contain">
+                            @else
+                                <img src="{{ asset('images/default.jpg') }}" class="img-fluid mb-2"
+                                    style="height:80px;object-fit:contain">
+                            @endif
                             <strong>{{ $product->name }}</strong>
 
                             <div>৳ {{ $product->sell_price }}</div>

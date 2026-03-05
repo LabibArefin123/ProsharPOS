@@ -104,6 +104,7 @@
         @include('vendor.adminlte.modal.edit_modal')
         <!-- start of delete animation model -->
         @include('vendor.adminlte.modal.delete_modal')
+        @include('sweetalert::alert')
 
         {{-- Preloader Animation (fullscreen mode) --}}
         @if ($preloaderHelper->isPreloaderEnabled())

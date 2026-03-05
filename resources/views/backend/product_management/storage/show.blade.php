@@ -16,7 +16,6 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {{-- Start of Storage Part --}}
             <div class="row ">
                 @include('backend.product_management.storage.partial_show.part_1')
                 @include('backend.product_management.storage.partial_show.part_2')
@@ -26,7 +25,5 @@
 
             </div>
         </div>
-        {{-- End of Storage Part --}}
-
     </div>
 @endsection

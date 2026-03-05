@@ -43,14 +43,15 @@ class LoginController extends Controller
 
             activity()
                 ->withProperties([
-                    'login' => $loginInput,
-                    'ip'    => $request->ip(),
+                    'login'   => $loginInput,
+                    'ip'      => $request->ip(),
                     'browser' => $request->userAgent(),
                 ])
                 ->log('Login Blocked (Maintenance Mode)');
 
-            session()->flash('login_error', $maintenance->maintenance_message);
-            return false;
+            return redirect()
+                ->back()
+                ->with('error', $maintenance->maintenance_message);
         }
 
         $success = Auth::attempt(
@@ -71,8 +72,8 @@ class LoginController extends Controller
 
             activity()
                 ->withProperties([
-                    'login' => $loginInput,
-                    'ip'    => $request->ip(),
+                    'login'   => $loginInput,
+                    'ip'      => $request->ip(),
                     'browser' => $request->userAgent(),
                 ])
                 ->log('Failed Login Attempt');
@@ -87,14 +88,11 @@ class LoginController extends Controller
     {
         $request->session()->regenerate();
 
-        session()->flash(
-            'login_success',
-            'Welcome back, ' . Auth::user()->name . '!'
-        );
-
         $this->clearLoginAttempts($request);
 
-        return redirect()->intended($this->redirectPath());
+        return redirect()
+            ->intended($this->redirectPath())
+            ->with('success', 'Welcome back, ' . Auth::user()->name . '!');
     }
 
     /**
