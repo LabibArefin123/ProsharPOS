@@ -13,6 +13,7 @@ class Purchase extends Model
         'total_amount',
         'note',
         'status',
+        'stock_synced',
     ];
 
     public function supplier()

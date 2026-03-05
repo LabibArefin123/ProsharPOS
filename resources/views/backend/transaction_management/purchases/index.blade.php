@@ -22,6 +22,7 @@
                         <th>Date</th>
                         <th>Reference</th>
                         <th>Total Amount</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -33,6 +34,19 @@
                             <td>{{ $purchase->purchase_date }}</td>
                             <td>{{ $purchase->reference_no }}</td>
                             <td>৳{{ number_format($purchase->total_amount, 2) }}</td>
+                            <td>
+
+                                @if ($purchase->stock_synced)
+                                    <span class="badge badge-success">
+                                        Synced
+                                    </span>
+                                @else
+                                    <span class="badge badge-danger">
+                                        Not Synced
+                                    </span>
+                                @endif
+
+                            </td>
                             <td>
                                 <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-sm btn-info">
                                     View
@@ -46,6 +60,18 @@
                                         class="btn btn-sm btn-warning">
                                         Return
                                     </a>
+                                @endif
+                                @if (!$purchase->stock_synced)
+                                    <form action="{{ route('purchases.syncStock', $purchase->id) }}" method="POST"
+                                        class="d-inline">
+
+                                        @csrf
+
+                                        <button class="btn btn-sm btn-success">
+                                            Sync Stock
+                                        </button>
+
+                                    </form>
                                 @endif
                                 <form action="{{ route('purchases.destroy', $purchase->id) }}" method="POST"
                                     class="d-inline" onsubmit="return confirm('Are you sure?');">

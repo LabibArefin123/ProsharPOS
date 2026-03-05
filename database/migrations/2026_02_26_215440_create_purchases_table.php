@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('total_amount', 15, 2)->default(0);
             $table->text('note')->nullable();
             $table->string('status')->nullable();
+            $table->string('stock_synced')->nullable();
             $table->timestamps();
         });
     }

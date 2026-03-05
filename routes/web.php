@@ -113,6 +113,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('purchase_returns', PurchaseReturnController::class);
     Route::get('purchase/{purchase}/return', [PurchaseReturnController::class, 'create'])->name('purchase_returns.createP');
     Route::post('purchase/{purchase}/return', [PurchaseReturnController::class, 'store'])->name('purchase_returns.storeP');
+    Route::post('/purchases/{purchase}/sync-stock', [PurchaseController::class, 'syncStock'])->name('purchases.syncStock');
     Route::resource('challans', ChallanController::class);
     Route::resource('invoices', InvoiceController::class);
     Route::get('/invoice-return', [InvoiceController::class, 'returnIndex'])->name('invoice-return.index');

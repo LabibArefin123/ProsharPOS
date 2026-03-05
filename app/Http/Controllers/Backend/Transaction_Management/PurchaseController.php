@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PurchaseItem;
 use App\Models\Purchase;
+use App\Models\Storage;
 use App\Models\Supplier;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,10 @@ class PurchaseController extends Controller
             ->select('purchases.*')
             ->get();
 
-        return view('backend.transaction_management.purchases.index', compact('purchases'));
+        return view(
+            'backend.transaction_management.purchases.index',
+            compact('purchases')
+        );
     }
 
     /* ===============================
@@ -195,5 +199,41 @@ class PurchaseController extends Controller
         return redirect()
             ->route('purchases.index')
             ->with('success', 'Purchase deleted successfully.');
+    }
+
+    public function syncStock(Purchase $purchase)
+    {
+        if ($purchase->stock_synced) {
+            return back()->with('error', 'Stock already synced.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            foreach ($purchase->items as $item) {
+
+                $storage = Storage::where('product_id', $item->product_id)->first();
+
+                if ($storage) {
+
+                    $storage->stock_quantity -= $item->quantity;
+
+                    $storage->save();
+                }
+            }
+
+            $purchase->stock_synced = 1;
+            $purchase->save();
+
+            DB::commit();
+
+            return back()->with('success', 'Stock synced successfully.');
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return back()->with('error', 'Stock sync failed.');
+        }
     }
 }
