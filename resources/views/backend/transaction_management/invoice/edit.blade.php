@@ -58,4 +58,5 @@
         {{-- Include Cart Section --}}
         @include('backend.transaction_management.invoice.edit.partial.cart')
     </form>
+   
 @stop
