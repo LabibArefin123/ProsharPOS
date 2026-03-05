@@ -36,6 +36,12 @@ return [
             'can' => 'storages.index',
             'active' => ['storages*'],
         ],
+        [
+            'text' => 'Stock Movement',
+            'route' => 'stock_movements.index',
+            'can' => 'stock_movements.index',
+            'active' => ['stock_movements*'],
+        ],
 
         // Product
         [

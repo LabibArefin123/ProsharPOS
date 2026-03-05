@@ -53,6 +53,11 @@ class Storage extends Model
         return $this->belongsTo(Manufacturer::class);
     }
 
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
     public function inspections()
     {
         return $this->hasMany(ProductInspection::class);

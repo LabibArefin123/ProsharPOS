@@ -181,12 +181,14 @@
     <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
     <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
     <script src="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.min.js"></script>
- 
+
     <!-- start of data table format table -->
     <script>
         $(document).ready(function() {
             $('#dataTables').DataTable();
         });
+    </script>
+    <script>
         window.userRole = "{{ Auth::user()->getRoleNames()->first() ?? '' }}";
         window.sweetAlertData = {
             success: @json(session('success')),

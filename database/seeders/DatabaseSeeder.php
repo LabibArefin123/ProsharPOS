@@ -25,8 +25,9 @@ class DatabaseSeeder extends Seeder
             // SupplierSeeder::class,
             // PettyCashSeeder::class,
             // StorageSeeder::class,
+            StockMovementSeeder::class,
             // ManufacturerSeeder::class,
-            ProductInspectionSeeder::class,
+            // ProductInspectionSeeder::class,
             // ViewPermissionSeeder::class,
         ]);
     }
