@@ -1,0 +1,38 @@
+/* Experience Section */
+.experience-section {
+    background: #ffffff;
+}
+
+/* Card Style */
+.experience-box {
+    background: #f8f9fa;
+    padding: 35px 25px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Icon */
+.experience-box i {
+    color: #0d6efd;
+}
+
+/* Hover Effect */
+.experience-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+}
+
+/* Title */
+.experience-box h5 {
+    margin-bottom: 10px;
+}
+
+/* Text */
+.experience-box p {
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 1.6;
+}

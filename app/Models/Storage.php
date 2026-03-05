@@ -22,7 +22,6 @@ class Storage extends Model
         'maximum_stock_level',
         'reorder_quantity',
         'image_path',
-        'barcode_path',
         'is_active',
         'is_damaged',
         'damage_description',
@@ -34,6 +33,8 @@ class Storage extends Model
         'expired_image',
         'expired_qty',
         'expired_solution',
+        'barcode',
+        'barcode_path',
 
     ];
 

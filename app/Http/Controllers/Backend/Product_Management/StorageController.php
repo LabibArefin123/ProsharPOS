@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Milon\Barcode\DNS1D;
 use App\Models\Storage;
 use App\Models\Manufacturer;
 use App\Models\Supplier;
@@ -44,6 +45,9 @@ class StorageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -63,21 +67,53 @@ class StorageController extends Controller
             'image_path'                => 'nullable|image|max:5120',
         ]);
 
-        // Handle uploaded image from modal
+        // Handle uploaded image
         if ($request->hasFile('image_path')) {
             $file = $request->file('image_path');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('uploads/images/stock');
+
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0777, true);
             }
+
             $file->move($destinationPath, $filename);
             $validated['image_path'] = 'uploads/images/stock/' . $filename;
         }
 
+        /*
+    |--------------------------------------------------------------------------
+    | Generate Barcode
+    |--------------------------------------------------------------------------
+    */
+
+        $barcode = 'STK' . time(); // unique barcode number
+
+        $barcodeGenerator = new DNS1D();
+
+        $barcodeImage = $barcodeGenerator->getBarcodePNG($barcode, 'C128');
+
+        $barcodeFolder = public_path('uploads/barcodes');
+
+        if (!file_exists($barcodeFolder)) {
+            mkdir($barcodeFolder, 0777, true);
+        }
+
+        $barcodeFileName = $barcode . '.png';
+
+        file_put_contents(
+            $barcodeFolder . '/' . $barcodeFileName,
+            base64_decode($barcodeImage)
+        );
+
+        $validated['barcode'] = $barcode;
+        $validated['barcode_path'] = 'uploads/barcodes/' . $barcodeFileName;
+
         Storage::create($validated);
 
-        return redirect()->route('storages.index')->with('success', 'Storage created successfully');
+        return redirect()
+            ->route('storages.index')
+            ->with('success', 'Storage created successfully with barcode');
     }
     /**
      * Display the specified resource.
@@ -141,28 +177,25 @@ class StorageController extends Controller
 
             'stock_quantity'  => 'required|integer|min:0',
             'alert_quantity'  => 'required|integer|min:0',
-            'minimum_stock_level'       => 'required|integer|min:0',
-            'maximum_stock_level'       => 'required|integer|gt:minimum_stock_level',
+            'minimum_stock_level' => 'required|integer|min:0',
+            'maximum_stock_level' => 'required|integer|gt:minimum_stock_level',
+
             'image_path'   => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 
-            /* Toggles */
             'is_damaged' => 'required|in:0,1',
             'is_expired' => 'required|in:0,1',
 
-            /* Damage */
-            'damage_image'       => 'required_if:is_damaged,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'damage_image' => 'required_if:is_damaged,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'damage_qty' => [
                 'nullable',
                 'integer',
                 Rule::requiredIf($request->is_damaged == 1),
                 Rule::when($request->is_damaged == 1, ['min:1']),
             ],
-
             'damage_solution'    => 'required_if:is_damaged,1|nullable|string|max:255',
             'damage_description' => 'required_if:is_damaged,1|nullable|string',
 
-            /* Expired */
-            'expired_image'       => 'required_if:is_expired,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'expired_image' => 'required_if:is_expired,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'expired_qty' => [
                 'nullable',
                 'integer',
@@ -194,22 +227,44 @@ class StorageController extends Controller
             $validated['image_path'] = 'uploads/images/storage/' . $filename;
         }
 
-        /* ==========================
-       DAMAGE LOGIC
-    ========================== */
+        /*
+    |--------------------------------------------------------------------------
+    | BARCODE GENERATION (ONLY IF MISSING)
+    |--------------------------------------------------------------------------
+    */
+
+        if (!$storage->barcode) {
+
+            $barcode = 'STK' . time();
+
+            $barcodeGenerator = new DNS1D();
+            $barcodeImage = $barcodeGenerator->getBarcodePNG($barcode, 'C128');
+
+            $barcodeFolder = public_path('uploads/barcodes');
+
+            if (!file_exists($barcodeFolder)) {
+                mkdir($barcodeFolder, 0777, true);
+            }
+
+            $barcodeFile = $barcode . '.png';
+
+            file_put_contents(
+                $barcodeFolder . '/' . $barcodeFile,
+                base64_decode($barcodeImage)
+            );
+
+            $validated['barcode'] = $barcode;
+            $validated['barcode_path'] = 'uploads/barcodes/' . $barcodeFile;
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | EXISTING DAMAGE / EXPIRED LOGIC (UNCHANGED)
+    |--------------------------------------------------------------------------
+    */
+
         if ($validated['is_damaged'] == 1) {
 
-            /* ==========================
-            FORCE QTY TO 0 IF NOT ACTIVE
-            ========================== */
-
-            if ($validated['is_damaged'] == 0) {
-                $validated['damage_qty'] = 0;
-            }
-
-            if ($validated['is_expired'] == 0) {
-                $validated['expired_qty'] = 0;
-            }
             $validated['expired_solution'] = null;
             $validated['expired_description'] = null;
 
@@ -238,7 +293,6 @@ class StorageController extends Controller
             }
         } else {
 
-            // Reset damage if not selected
             $validated['damage_qty'] = 0;
             $validated['damage_solution'] = null;
             $validated['damage_description'] = null;
@@ -250,12 +304,8 @@ class StorageController extends Controller
             $validated['damage_image'] = null;
         }
 
-        /* ==========================
-       EXPIRED LOGIC
-    ========================== */
         if ($validated['is_expired'] == 1) {
 
-            // Reset damage
             $validated['is_damaged'] = 0;
             $validated['damage_qty'] = 0;
             $validated['damage_solution'] = null;
@@ -316,5 +366,43 @@ class StorageController extends Controller
         $storage->delete();
 
         return redirect()->route('storages.index')->with('success', 'Storage deleted successfully');
+    }
+
+    public function generateBarcode($id)
+    {
+        $storage = Storage::findOrFail($id);
+
+        if ($storage->barcode_path) {
+            return response()->json([
+                'success' => true,
+                'barcode' => $storage->barcode,
+                'barcode_path' => $storage->barcode_path
+            ]);
+        }
+
+        $barcode = 'STK' . time();
+
+        $barcodeGenerator = new DNS1D();
+        $barcodeImage = $barcodeGenerator->getBarcodePNG($barcode, 'C128');
+
+        $folder = public_path('uploads/barcodes');
+
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        $file = $barcode . '.png';
+
+        file_put_contents($folder . '/' . $file, base64_decode($barcodeImage));
+
+        $storage->barcode = $barcode;
+        $storage->barcode_path = 'uploads/barcodes/' . $file;
+        $storage->save();
+
+        return response()->json([
+            'success' => true,
+            'barcode' => $barcode,
+            'barcode_path' => $storage->barcode_path
+        ]);
     }
 }

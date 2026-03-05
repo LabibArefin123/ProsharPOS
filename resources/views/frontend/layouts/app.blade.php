@@ -14,9 +14,8 @@
     <link rel="icon" type="image/png" href="{{ asset('uploads/images/logor.png') }}">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="{{ asset('css/frontend/custom.css') }}">
+    
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <!-- AOS CSS -->
@@ -24,6 +23,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/frontend/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_improvement.css') }}">
 </head>
 
 <body>

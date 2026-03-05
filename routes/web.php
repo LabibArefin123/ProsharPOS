@@ -100,6 +100,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
     Route::resource('products', ProductController::class);
     Route::resource('storages', StorageController::class);
+    Route::post('/storages/{id}/generate-barcode', [StorageController::class, 'generateBarcode'])->name('storages.generateBarcode');
     Route::resource('product_inspections', ProductInspectionController::class);
 
     //people management menu
