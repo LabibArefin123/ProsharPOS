@@ -338,47 +338,8 @@ return [
             'can' => 'dashboard.system',
             'icon' => 'fas fa-home',
         ],
-        [
-            'text'    => 'Organization Menu',
-            'icon'    => 'fas fa-cogs',
-            // 'route'    => 'organization_menu',
-            'submenu' => [
-
-                [
-                    'text' => 'Organization List',
-                    'route' => 'organizations.index',
-                    'can' => 'organizations.index',
-                    'active' => ['organizations*'],
-                ],
-            ],
-        ],
-
-        [
-            'text'    => 'Department Menu',
-            'icon'    => 'fas fa-book',
-            // 'route'    => 'organization_menu',
-            'submenu' => [
-
-                [
-                    'text' => 'Branch List',
-                    'route' => 'branches.index',
-                    'can' => 'branches.index',
-                    'active' => ['branches*'],
-                ],
-                [
-                    'text' => 'Division List',
-                    'route' => 'divisions.index',
-                    'can' => 'divisions.index',
-                    'active' => ['divisions*'],
-                ],
-                [
-                    'text' => 'Department List',
-                    'route' => 'departments.index',
-                    'can' => 'departments.index',
-                    'active' => ['departments*'],
-                ],
-            ],
-        ],
+        require config_path('menu/organization_menu.php'),        
+        require config_path('menu/department_menu.php'),        
         require config_path('menu/product_menu.php'),        
         require config_path('menu/transaction_menu.php'),        
         require config_path('menu/financial_menu.php'),        
