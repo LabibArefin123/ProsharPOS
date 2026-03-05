@@ -16,10 +16,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            @include('backend.product_management.storage.partial_show.part_1')
-
             {{-- Start of Storage Part --}}
             <div class="row ">
+                @include('backend.product_management.storage.partial_show.part_1')
                 @include('backend.product_management.storage.partial_show.part_2')
                 @include('backend.product_management.storage.partial_show.part_3')
                 <div class="width=100"></div>
