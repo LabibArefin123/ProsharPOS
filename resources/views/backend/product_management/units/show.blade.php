@@ -17,7 +17,6 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-
                 {{-- Unit Name --}}
                 <div class="form-group col-md-6">
                     <label for="name">Unit Name</label>
