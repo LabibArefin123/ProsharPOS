@@ -29,7 +29,6 @@
                         <th>Username</th>
                         <th>Email</th>
                         <th class="text-center">[DB] Original Balance (BDT)</th>
-                        <th class="text-center">Balance (BDT) In System</th>
                         <th class="text-center">Balance (USD)</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -42,7 +41,6 @@
                             <td>{{ $balance->user->username ?? 'N/A' }}</td>
                             <td>{{ $balance->user->email ?? 'N/A' }}</td>
                             <td class="text-center">৳{{ number_format($balance->original_balance, 2) }}</td>
-                            <td class="text-center">৳{{ number_format($balance->system_balance, 2) }}</td>
                             <td class="text-center">${{ number_format($balance->balance_in_dollars, 2) }}</td>
                             <td class="text-center">
                                 <a href="{{ route('bank_balances.show', $balance->id) }}"
@@ -67,7 +65,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">No Bank Balances found</td>
+                            <td colspan="7" class="text-center">No Bank Balances found</td>
                         </tr>
                     @endforelse
                 </tbody>

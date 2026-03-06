@@ -11,10 +11,6 @@
 
             <div class="text-end mr-3">
                 <div>
-                    <strong>System Balance:</strong>
-                    <span id="system_balance_text" class="text-primary">0.00</span>
-                </div>
-                <div>
                     <strong>Original Balance:</strong>
                     <span id="original_balance_text" class="text-success">0.00</span>
                 </div>
@@ -134,24 +130,18 @@
 
         const userSelect = document.getElementById('user_id');
         const bankSelect = document.getElementById('bank_balance_id');
-
-        const systemText = document.getElementById('system_balance_text');
         const originalText = document.getElementById('original_balance_text');
+
+        // Current selected bank (edit page)
+        const currentBankId = "{{ old('bank_balance_id', $bankWithdraw->bank_balance_id) }}";
 
         function updateBalanceDisplay(bankId) {
 
             const selectedBalance = balances.find(b => b.id == bankId);
 
             if (selectedBalance) {
-
-                systemText.innerText =
-                    parseFloat(selectedBalance.system_balance).toFixed(2);
-
-                originalText.innerText =
-                    parseFloat(selectedBalance.original_balance).toFixed(2);
-
+                originalText.innerText = parseFloat(selectedBalance.original_balance).toFixed(2);
             } else {
-                systemText.innerText = "0.00";
                 originalText.innerText = "0.00";
             }
         }
@@ -160,19 +150,13 @@
 
             const selectedUserId = this.value;
 
-            const userBanks = balances.filter(
-                b => b.user_id == selectedUserId
-            );
+            const userBanks = balances.filter(b => b.user_id == selectedUserId);
 
-            bankSelect.innerHTML =
-                '<option value="">Select Bank Balance</option>';
+            bankSelect.innerHTML = '<option value="">Select Bank Balance</option>';
 
             if (userBanks.length === 0) {
 
-                bankSelect.innerHTML =
-                    '<option value="">No bank found for this user</option>';
-
-                systemText.innerText = "0.00";
+                bankSelect.innerHTML = '<option value="">No bank found for this user</option>';
                 originalText.innerText = "0.00";
                 return;
             }
@@ -181,18 +165,12 @@
 
                 const option = document.createElement('option');
                 option.value = bank.id;
-
-                option.text =
-                    'BDT ' +
-                    parseFloat(bank.original_balance).toFixed(2);
+                option.text = 'BDT ' + parseFloat(bank.original_balance).toFixed(2);
 
                 bankSelect.appendChild(option);
             });
 
-            // 🔥 Re-select correct bank
-            const currentBankId =
-                "{{ old('bank_balance_id', $bankWithdraw->bank_balance_id) }}";
-
+            // Re-select the previously saved bank
             if (currentBankId) {
                 bankSelect.value = currentBankId;
                 updateBalanceDisplay(currentBankId);
@@ -204,11 +182,18 @@
             updateBalanceDisplay(this.value);
         });
 
-        // Trigger on page load
+        // Run on page load
         window.addEventListener('load', function() {
+
             if (userSelect.value) {
                 userSelect.dispatchEvent(new Event('change'));
             }
+
+            // Show balance immediately
+            if (currentBankId) {
+                updateBalanceDisplay(currentBankId);
+            }
+
         });
     </script>
 @endsection

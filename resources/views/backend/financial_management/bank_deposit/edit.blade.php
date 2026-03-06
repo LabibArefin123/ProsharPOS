@@ -6,14 +6,8 @@
     <div class="d-flex justify-content-between align-items-center flex-wrap">
 
         <h3 class="mb-0">Edit Bank Deposit</h3>
-
         <div class="d-flex align-items-center gap-3">
-
             <div class="text-end mr-3">
-                <div>
-                    <strong>System Balance:</strong>
-                    <span id="system_balance_text" class="text-primary">0.00</span>
-                </div>
                 <div>
                     <strong>Original Balance:</strong>
                     <span id="original_balance_text" class="text-success">0.00</span>
@@ -174,21 +168,15 @@
 
         const userSelect = document.getElementById('user_id');
         const bankSelect = document.getElementById('bank_balance_id');
-
-        const systemText = document.getElementById('system_balance_text');
         const originalText = document.getElementById('original_balance_text');
 
         function updateBalanceDisplay(bankId) {
             const selectedBalance = balances.find(b => b.id == bankId);
 
             if (selectedBalance) {
-                systemText.innerText =
-                    parseFloat(selectedBalance.system_balance).toFixed(2);
-
                 originalText.innerText =
                     parseFloat(selectedBalance.original_balance).toFixed(2);
             } else {
-                systemText.innerText = "0.00";
                 originalText.innerText = "0.00";
             }
         }
@@ -196,7 +184,6 @@
         userSelect.addEventListener('change', function() {
 
             const selectedUserId = this.value;
-
             const userBanks = balances.filter(b => b.user_id == selectedUserId);
 
             bankSelect.innerHTML = '<option value="">Select Bank Balance</option>';
@@ -206,7 +193,6 @@
                 bankSelect.innerHTML =
                     '<option value="">No bank found for this user</option>';
 
-                systemText.innerText = "0.00";
                 originalText.innerText = "0.00";
                 return;
             }
@@ -217,13 +203,12 @@
                 option.value = bank.id;
 
                 option.text =
-                    'BDT ' +
-                    parseFloat(bank.original_balance).toFixed(2);
+                    'BDT ' + parseFloat(bank.original_balance).toFixed(2);
 
                 bankSelect.appendChild(option);
             });
 
-            // Re-select correct bank after filtering
+            // Re-select correct bank after filtering (for edit page)
             const currentBankId =
                 "{{ old('bank_balance_id', $bankDeposit->bank_balance_id) }}";
 
@@ -237,7 +222,7 @@
             updateBalanceDisplay(this.value);
         });
 
-        // 🔥 Trigger on page load (VERY IMPORTANT FOR EDIT)
+        // Trigger on page load (important for edit page)
         window.addEventListener('load', function() {
             if (userSelect.value) {
                 userSelect.dispatchEvent(new Event('change'));

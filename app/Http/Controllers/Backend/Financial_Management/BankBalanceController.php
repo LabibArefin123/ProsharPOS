@@ -32,41 +32,9 @@ class BankBalanceController extends Controller
 
         $balances->each(function ($balance) {
 
-            // Original DB balance
+            // Original DB balance (never change this)
             $balance->original_balance = $balance->balance;
 
-            // Total deposits (money IN)
-            $totalDeposits = $balance->deposits->sum('amount');
-
-            // Total withdrawals (money OUT)
-            $totalWithdraws = $balance->withdraws->sum('amount');
-
-            // Total customer payments (money OUT)
-            $totalPayments = $balance->user
-                ? $balance->user->payments->sum('paid_amount')
-                : 0;
-
-            // Total purchases (money OUT)
-            $totalPurchases = Purchase::where('supplier_id', $balance->user_id ?? 0)
-                ->sum('total_amount');
-
-            // Total purchase returns (money IN)
-            $totalPurchaseReturns = PurchaseReturn::where('supplier_id', $balance->user_id ?? 0)
-                ->sum('total_amount');
-
-            // Total supplier payments (money OUT)
-            $totalSupplierPayments = SupplierPayment::where('supplier_id', $balance->user_id ?? 0)
-                ->sum('amount');
-
-            // Compute final system balance
-            $balance->system_balance =
-                $balance->balance
-                + $totalDeposits
-                + $totalPurchaseReturns
-                - $totalWithdraws
-                - $totalPayments
-                - $totalPurchases
-                - $totalSupplierPayments;
         });
 
         return view(
@@ -80,6 +48,7 @@ class BankBalanceController extends Controller
         $users = User::all();
         return view('backend.financial_management.bank_balance.create', compact('users'));
     }
+
     public function store(Request $request)
     {
         $request->validate([

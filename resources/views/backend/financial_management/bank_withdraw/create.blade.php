@@ -11,10 +11,6 @@
 
             <div class="text-end mr-3">
                 <div>
-                    <strong>System Balance:</strong>
-                    <span id="system_balance_text" class="text-primary">0.00</span>
-                </div>
-                <div>
                     <strong>Original Balance:</strong>
                     <span id="original_balance_text" class="text-success">0.00</span>
                 </div>
@@ -147,7 +143,6 @@
         const userSelect = document.getElementById('user_id');
         const bankSelect = document.getElementById('bank_balance_id');
 
-        const systemText = document.getElementById('system_balance_text');
         const originalText = document.getElementById('original_balance_text');
 
         function updateBalanceDisplay(bankId) {
@@ -156,14 +151,10 @@
 
             if (selectedBalance) {
 
-                systemText.innerText =
-                    parseFloat(selectedBalance.system_balance).toFixed(2);
-
                 originalText.innerText =
                     parseFloat(selectedBalance.original_balance).toFixed(2);
 
             } else {
-                systemText.innerText = "0.00";
                 originalText.innerText = "0.00";
             }
         }
@@ -184,7 +175,6 @@
                 bankSelect.innerHTML =
                     '<option value="">No bank found for this user</option>';
 
-                systemText.innerText = "0.00";
                 originalText.innerText = "0.00";
                 return;
             }
