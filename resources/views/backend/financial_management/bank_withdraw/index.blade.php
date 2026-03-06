@@ -58,7 +58,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">No withdraws found</td>
+                            <td colspan="9" class="text-center">No withdraws found</td>
                         </tr>
                     @endforelse
                 </tbody>

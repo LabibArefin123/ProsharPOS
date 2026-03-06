@@ -14,6 +14,7 @@ class Purchase extends Model
         'note',
         'status',
         'stock_synced',
+        'created_by',
     ];
 
     public function supplier()
@@ -34,5 +35,10 @@ class Purchase extends Model
     public function payments()
     {
         return $this->hasMany(SupplierPayment::class, 'purchase_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

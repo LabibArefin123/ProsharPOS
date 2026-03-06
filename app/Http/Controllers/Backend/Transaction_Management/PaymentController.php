@@ -92,149 +92,171 @@ class PaymentController extends Controller
 
     public function history()
     {
+        $user = auth()->user();
+
+        $isAdmin = $user->hasRole('admin') || $user->hasRole('accountant');
+
         // Deposits
-        $deposits = BankDeposit::with(['bankBalance.user', 'user'])
-            ->get()
-            ->map(function ($d) {
-                return (object)[
-                    'type'        => 'deposit',
-                    'date'        => $d->deposit_date,
-                    'created_at'  => $d->created_at,
-                    'amount'      => (float) $d->amount,
-                    'currency'    => 'BDT',
-                    'description' => $d->reference_no,
-                    'user'        => $d->user,
-                    'source'      => $d,
-                ];
-            });
+        $depositsQuery = BankDeposit::with(['bankBalance.user', 'user']);
+        if (!$isAdmin) {
+            $depositsQuery->where('user_id', $user->id);
+        }
+
+        $deposits = $depositsQuery->get()->map(function ($d) {
+            return (object)[
+                'type'        => 'deposit',
+                'date'        => $d->deposit_date,
+                'created_at'  => $d->created_at,
+                'amount'      => (float) $d->amount,
+                'currency'    => 'BDT',
+                'description' => $d->reference_no,
+                'user'        => $d->user,
+                'source'      => $d,
+            ];
+        });
 
         // Withdraws
-        $withdraws = BankWithdraw::with(['bankBalance.user', 'user'])
-            ->get()
-            ->map(function ($w) {
-                return (object)[
-                    'type'        => 'withdraw',
-                    'date'        => $w->withdraw_date,
-                    'created_at'  => $w->created_at,
-                    'amount'      => (float) $w->amount,
-                    'currency'    => 'BDT',
-                    'description' => $w->reference_no,
-                    'user'        => $w->user,
-                    'source'      => $w,
-                ];
-            });
+        $withdrawQuery = BankWithdraw::with(['bankBalance.user', 'user']);
+        if (!$isAdmin) {
+            $withdrawQuery->where('user_id', $user->id);
+        }
+
+        $withdraws = $withdrawQuery->get()->map(function ($w) {
+            return (object)[
+                'type'        => 'withdraw',
+                'date'        => $w->withdraw_date,
+                'created_at'  => $w->created_at,
+                'amount'      => (float) $w->amount,
+                'currency'    => 'BDT',
+                'description' => $w->reference_no,
+                'user'        => $w->user,
+                'source'      => $w,
+            ];
+        });
 
         // Customer Payments
-        $payments = Payment::with(['invoice.customer', 'paidBy'])
-            ->get()
-            ->map(function ($p) {
-                return (object)[
-                    'type'        => 'payment',
-                    'date'        => $p->created_at,
-                    'created_at'  => $p->created_at,
-                    'amount'      => (float) $p->paid_amount,
-                    'currency'    => 'BDT',
-                    'description' => $p->invoice->invoice_id ?? 'Payment',
-                    'user'        => $p->paidBy,
-                    'source'      => $p,
-                ];
-            });
+        $paymentQuery = Payment::with(['invoice.customer', 'paidBy']);
+        if (!$isAdmin) {
+            $paymentQuery->where('paid_by', $user->id);
+        }
+
+        $payments = $paymentQuery->get()->map(function ($p) {
+            return (object)[
+                'type'        => 'payment',
+                'date'        => $p->created_at,
+                'created_at'  => $p->created_at,
+                'amount'      => (float) $p->paid_amount,
+                'currency'    => 'BDT',
+                'description' => $p->invoice->invoice_id ?? 'Payment',
+                'user'        => $p->paidBy,
+                'source'      => $p,
+            ];
+        });
 
         // Supplier Payments
-        $supplierPayments = SupplierPayment::with(['supplier', 'purchase'])
-            ->get()
-            ->map(function ($sp) {
-                return (object)[
-                    'type'        => 'supplier_payment',
-                    'date'        => $sp->payment_date,
-                    'created_at'  => $sp->created_at,
-                    'amount'      => (float) $sp->amount,
-                    'currency'    => 'BDT',
-                    'description' => $sp->purchase->reference_no ?? 'Supplier Payment',
-                    'user'        => $sp->supplier,
-                    'source'      => $sp,
-                ];
-            });
+        $supplierPaymentQuery = SupplierPayment::with(['supplier', 'purchase']);
+        if (!$isAdmin) {
+            $supplierPaymentQuery->where('created_by', $user->id);
+        }
+
+        $supplierPayments = $supplierPaymentQuery->get()->map(function ($sp) {
+            return (object)[
+                'type'        => 'supplier_payment',
+                'date'        => $sp->payment_date,
+                'created_at'  => $sp->created_at,
+                'amount'      => (float) $sp->amount,
+                'currency'    => 'BDT',
+                'description' => $sp->purchase->reference_no ?? 'Supplier Payment',
+                'user'        => $sp->supplier,
+                'source'      => $sp,
+            ];
+        });
 
         // Purchases
-        $purchases = Purchase::with('supplier')
-            ->get()
-            ->map(function ($pu) {
-                return (object)[
-                    'type'        => 'purchase',
-                    'date'        => $pu->created_at,
-                    'created_at'  => $pu->created_at,
-                    'amount'      => (float) $pu->total_amount,
-                    'currency'    => 'BDT',
-                    'description' => $pu->reference_no ?? 'Purchase',
-                    'user'        => $pu->supplier,
-                    'source'      => $pu,
-                ];
-            });
+        $purchaseQuery = Purchase::with('supplier');
+        if (!$isAdmin) {
+            $purchaseQuery->where('created_by', $user->id);
+        }
+
+        $purchases = $purchaseQuery->get()->map(function ($pu) {
+            return (object)[
+                'type'        => 'purchase',
+                'date'        => $pu->created_at,
+                'created_at'  => $pu->created_at,
+                'amount'      => (float) $pu->total_amount,
+                'currency'    => 'BDT',
+                'description' => $pu->reference_no ?? 'Purchase',
+                'user'        => $pu->supplier,
+                'source'      => $pu,
+            ];
+        });
 
         // Purchase Returns
-        $returns = PurchaseReturn::with('supplier')
-            ->get()
-            ->map(function ($r) {
-                return (object)[
-                    'type'        => 'purchase_return',
-                    'date'        => $r->return_date,
-                    'created_at'  => $r->created_at,
-                    'amount'      => (float) $r->total_amount,
-                    'currency'    => 'BDT',
-                    'description' => $r->reference_no ?? 'Purchase Return',
-                    'user'        => $r->supplier,
-                    'source'      => $r,
-                ];
-            });
+        $returnQuery = PurchaseReturn::with('supplier');
+        if (!$isAdmin) {
+            $returnQuery->where('created_by', $user->id);
+        }
 
-        // Merge everything
+        $returns = $returnQuery->get()->map(function ($r) {
+            return (object)[
+                'type'        => 'purchase_return',
+                'date'        => $r->return_date,
+                'created_at'  => $r->created_at,
+                'amount'      => (float) $r->total_amount,
+                'currency'    => 'BDT',
+                'description' => $r->reference_no ?? 'Purchase Return',
+                'user'        => $r->supplier,
+                'source'      => $r,
+            ];
+        });
+
+        // Merge transactions
         $transactions = collect()
             ->merge($deposits)
             ->merge($withdraws)
             ->merge($payments)
-            ->merge($supplierPayments) 
+            ->merge($supplierPayments)
             ->merge($purchases)
             ->merge($returns)
             ->sortByDesc('created_at')
             ->values();
 
-        // Start from latest bank balance
+        // Latest bank balance
         $latestBank = BankBalance::latest()->first();
         $runningBalance = $latestBank?->balance ?? 0;
 
-        // Add running balance to each transaction (for box display)
         $transactions = $transactions->map(function ($t) use (&$runningBalance) {
 
             $amount = abs($t->amount);
 
-            // Determine running balance
             if (in_array($t->type, ['withdraw', 'purchase', 'supplier_payment', 'payment'])) {
                 $newBalance = $runningBalance - $amount;
-            } else { // deposit, purchase_return
+            } else {
                 $newBalance = $runningBalance + $amount;
             }
 
             $t->old_balance = $runningBalance;
             $t->new_balance = $newBalance;
 
-            // Update running balance for next iteration
             $runningBalance = $newBalance;
 
             return $t;
         });
 
-        // Paginate manually for boxes (5 per page)
+        // Pagination
         $page = request()->get('page', 1);
         $perPage = 5;
-        $transactionsPaginated = $transactions->slice(($page - 1) * $perPage, $perPage)
+
+        $transactionsPaginated = $transactions
+            ->slice(($page - 1) * $perPage, $perPage)
             ->values();
+
         $totalPages = ceil($transactions->count() / $perPage);
 
         return view('backend.transaction_management.payment.history', [
             'transactions' => $transactionsPaginated,
-            'currentPage' => $page,
-            'totalPages' => $totalPages,
+            'currentPage'  => $page,
+            'totalPages'   => $totalPages,
         ]);
     }
 

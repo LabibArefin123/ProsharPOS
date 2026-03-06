@@ -18,6 +18,7 @@ class SupplierPayment extends Model
         'payment_date',
         'payment_method',
         'note',
+        'created_by',
     ];
 
     protected $casts = [
@@ -33,6 +34,11 @@ class SupplierPayment extends Model
     public function purchase()
     {
         return $this->belongsTo(Purchase::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     // 🔥 Activity Log

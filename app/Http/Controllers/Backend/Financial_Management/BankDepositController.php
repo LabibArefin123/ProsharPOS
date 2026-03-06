@@ -17,24 +17,35 @@ class BankDepositController extends Controller
     // Show list of deposits
     public function index()
     {
+        $user = auth()->user();
+
         // STEP 1: Sync USD balances from deposits (safe recalculation)
         if (Schema::hasColumn('bank_balances', 'balance_in_dollars')) {
-
             BankBalance::query()->each(function ($bank) {
                 $bank->update([
-                    'balance_in_dollars' => BankDeposit::where(
-                        'bank_balance_id',
-                        $bank->id
-                    )->sum('amount_in_dollar')
+                    'balance_in_dollars' => BankDeposit::where('bank_balance_id', $bank->id)
+                        ->sum('amount_in_dollar')
                 ]);
             });
         }
 
         // STEP 2: Load deposits
-        $deposits = BankDeposit::with(['bankBalance.user', 'user'])
-            ->orderBy('id', 'desc')
-            ->get();
+        $depositQuery = BankDeposit::with(['bankBalance.user', 'user'])->orderByDesc('id');
 
+        // Only admin sees all deposits
+        if (!$user->hasRole('admin')) {
+            // Get users of the same role as current user
+            $roleUsersIds = $user->getRoleNames()->flatMap(function ($roleName) {
+                return \Spatie\Permission\Models\Role::where('name', $roleName)
+                    ->first()
+                    ->users()
+                    ->pluck('id');
+            })->unique()->toArray();
+
+            $depositQuery->whereIn('user_id', $roleUsersIds);
+        }
+
+        $deposits = $depositQuery->get();
 
         return view(
             'backend.financial_management.bank_deposit.index',

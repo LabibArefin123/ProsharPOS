@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Financial_Management;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use App\Models\BankBalance;
 use App\Models\Purchase;
 use App\Models\PurchaseReturn;
@@ -14,11 +15,20 @@ class BankBalanceController extends Controller
 {
     public function index()
     {
-        $balances = BankBalance::with([
-            'user.payments',    // payments made by user
-            'deposits',         // deposits into this bank balance
-            'withdraws',        // withdrawals from this bank balance
-        ])->get();
+        $user = auth()->user();
+
+        $balancesQuery = BankBalance::with([
+            'user.payments',
+            'deposits',
+            'withdraws',
+        ]);
+
+        // If NOT admin → only show own bank balance
+        if (!$user->hasRole('admin')) {
+            $balancesQuery->where('user_id', $user->id);
+        }
+
+        $balances = $balancesQuery->get();
 
         $balances->each(function ($balance) {
 
@@ -36,11 +46,11 @@ class BankBalanceController extends Controller
                 ? $balance->user->payments->sum('paid_amount')
                 : 0;
 
-            // Total purchases where this user is supplier (money OUT)
+            // Total purchases (money OUT)
             $totalPurchases = Purchase::where('supplier_id', $balance->user_id ?? 0)
                 ->sum('total_amount');
 
-            // Total purchase returns where this user is supplier (money IN)
+            // Total purchase returns (money IN)
             $totalPurchaseReturns = PurchaseReturn::where('supplier_id', $balance->user_id ?? 0)
                 ->sum('total_amount');
 
@@ -49,8 +59,8 @@ class BankBalanceController extends Controller
                 ->sum('amount');
 
             // Compute final system balance
-            // Logic: Original + Deposits + Purchase Returns - Withdrawals - Payments - Purchases - Supplier Payments
-            $balance->system_balance = $balance->balance
+            $balance->system_balance =
+                $balance->balance
                 + $totalDeposits
                 + $totalPurchaseReturns
                 - $totalWithdraws
@@ -70,18 +80,38 @@ class BankBalanceController extends Controller
         $users = User::all();
         return view('backend.financial_management.bank_balance.create', compact('users'));
     }
-
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'balance' => 'required|numeric|min:0',
-            'balance_in_dollars' => 'nullable|numeric|min:0',
+            'user_id'             => 'required|exists:users,id',
+            'balance'             => 'required|numeric|min:0',
+            'balance_in_dollars'  => 'nullable|numeric|min:0',
         ]);
 
-        BankBalance::create($request->all());
+        DB::transaction(function () use ($request) {
 
-        return redirect()->route('bank_balances.index')->with('success', 'Balance added successfully.');
+            // Create bank balance
+            $bankBalance = BankBalance::create([
+                'user_id'            => $request->user_id,
+                'balance'            => $request->balance,
+                'balance_in_dollars' => $request->balance_in_dollars ?? 0,
+            ]);
+
+            // 🔥 Activity Log
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($bankBalance)
+                ->withProperties([
+                    'user_id'            => $request->user_id,
+                    'balance_bdt'        => $request->balance,
+                    'balance_usd'        => $request->balance_in_dollars ?? 0,
+                ])
+                ->log('Bank Balance Created');
+        });
+
+        return redirect()
+            ->route('bank_balances.index')
+            ->with('success', 'Balance added successfully.');
     }
 
     public function show(BankBalance $bank_balance)
@@ -133,7 +163,7 @@ class BankBalanceController extends Controller
             compact('bank_balance')
         );
     }
-    
+
     public function edit(BankBalance $bank_balance)
     {
         // Load all relationships
@@ -187,17 +217,49 @@ class BankBalanceController extends Controller
         );
     }
 
+
     public function update(Request $request, BankBalance $bank_balance)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'balance' => 'required|numeric|min:0',
-            'balance_in_dollars' => 'nullable|numeric|min:0',
+            'user_id'             => 'required|exists:users,id',
+            'balance'             => 'required|numeric|min:0',
+            'balance_in_dollars'  => 'nullable|numeric|min:0',
         ]);
 
-        $bank_balance->update($request->all());
+        DB::transaction(function () use ($request, $bank_balance) {
 
-        return redirect()->route('bank_balances.index')->with('success', 'Balance updated successfully.');
+            // Store old values for activity log
+            $oldData = [
+                'user_id'            => $bank_balance->user_id,
+                'balance_bdt'        => $bank_balance->balance,
+                'balance_usd'        => $bank_balance->balance_in_dollars,
+            ];
+
+            // Update bank balance
+            $bank_balance->update([
+                'user_id'            => $request->user_id,
+                'balance'            => $request->balance,
+                'balance_in_dollars' => $request->balance_in_dollars ?? 0,
+            ]);
+
+            // 🔥 Activity Log
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($bank_balance)
+                ->withProperties([
+                    'old' => $oldData,
+                    'new' => [
+                        'user_id'            => $request->user_id,
+                        'balance_bdt'        => $request->balance,
+                        'balance_usd'        => $request->balance_in_dollars ?? 0,
+                    ]
+                ])
+                ->log('Bank Balance Updated');
+        });
+
+        return redirect()
+            ->route('bank_balances.index')
+            ->with('success', 'Balance updated successfully.');
     }
 
     public function destroy(BankBalance $bank_balance)

@@ -69,7 +69,7 @@
 
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">No deposits found</td>
+                            <td colspan="11" class="text-center">No deposits found</td>
                         </tr>
                     @endforelse
                 </tbody>

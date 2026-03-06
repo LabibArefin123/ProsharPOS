@@ -5,14 +5,16 @@
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="mb-0">Bank Balance List</h3>
-        <a href="{{ route('bank_balances.create') }}" class="btn btn-sm btn-success d-flex align-items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bi bi-plus" viewBox="0 0 24 24">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Add New
-        </a>
+        @role('admin')
+            <a href="{{ route('bank_balances.create') }}" class="btn btn-sm btn-success d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bi bi-plus" viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add New
+            </a>
+        @endrole
     </div>
 @stop
 
@@ -45,20 +47,27 @@
                             <td class="text-center">
                                 <a href="{{ route('bank_balances.show', $balance->id) }}"
                                     class="btn btn-sm btn-info">View</a>
-                                <a href="{{ route('bank_balances.edit', $balance->id) }}"
-                                    class="btn btn-sm btn-primary">Edit</a>
-                                <form action="{{ route('bank_balances.destroy', $balance->id) }}" method="POST"
-                                    style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure to delete this balance?')">Delete</button>
-                                </form>
+                                @role('admin')
+                                    <a href="{{ route('bank_balances.edit', $balance->id) }}" class="btn btn-sm btn-primary">
+                                        Edit
+                                    </a>
+
+                                    <form action="{{ route('bank_balances.destroy', $balance->id) }}" method="POST"
+                                        style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Are you sure to delete this balance?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                @endrole
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">No Bank Balances found</td>
+                            <td colspan="8" class="text-center">No Bank Balances found</td>
                         </tr>
                     @endforelse
                 </tbody>

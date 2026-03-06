@@ -16,7 +16,25 @@ class BankWithdrawController extends Controller
     // Show list of withdrawals
     public function index()
     {
-        $withdraws = BankWithdraw::with('bankBalance.user', 'user')->latest()->get();
+        $user = auth()->user();
+
+        $withdrawQuery = BankWithdraw::with('bankBalance.user', 'user')->latest();
+
+        // Only admin sees all
+        if (!$user->hasRole('admin')) {
+            // Get IDs of all users with the same role as current user
+            $roleUsersIds = $user->getRoleNames()->flatMap(function ($roleName) {
+                return \Spatie\Permission\Models\Role::where('name', $roleName)
+                    ->first()
+                    ->users()
+                    ->pluck('id');
+            })->unique()->toArray();
+
+            $withdrawQuery->whereIn('user_id', $roleUsersIds);
+        }
+
+        $withdraws = $withdrawQuery->get();
+
         return view('backend.financial_management.bank_withdraw.index', compact('withdraws'));
     }
 

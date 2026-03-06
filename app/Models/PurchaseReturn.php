@@ -31,4 +31,9 @@ class PurchaseReturn extends Model
         return $this->hasMany(PurchaseReturnItem::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
 }
