@@ -56,7 +56,6 @@ return [
             'text' => 'Product Stock',
             'route' => 'products.stock',
             'can' => 'products.stock',
-            'active' => ['products/stock*'],
         ],
 
         // Quality / Service

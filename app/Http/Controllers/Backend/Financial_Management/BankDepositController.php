@@ -32,20 +32,9 @@ class BankDepositController extends Controller
 
         // STEP 2: Load deposits
         $deposits = BankDeposit::with(['bankBalance.user', 'user'])
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->get();
 
-        // STEP 3: Calculate adjusted balance (same logic as bank_balance index)
-        $deposits->transform(function ($deposit) {
-
-            $bank = $deposit->bankBalance;
-            $totalPayments = $bank->user->payments()->sum('paid_amount');
-
-            // Virtual value (NOT saved in DB)
-            $deposit->adjusted_balance = $bank->balance - $totalPayments;
-
-            return $deposit;
-        });
 
         return view(
             'backend.financial_management.bank_deposit.index',
