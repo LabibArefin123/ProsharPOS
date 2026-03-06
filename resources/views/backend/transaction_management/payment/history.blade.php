@@ -14,7 +14,6 @@
 @section('content')
     <div class="card shadow-sm">
         <div class="card-body">
-
             @forelse($transactions as $tx)
                 <div class="transaction-card p-3 mb-3 border rounded shadow-sm">
 
@@ -28,72 +27,85 @@
                             </small>
                         </div>
                         <div>
-                            <strong>User:</strong> {{ $tx->user->name ?? 'N/A' }}
+                            @if ($tx->user)
+                                <strong>User:</strong> {{ $tx->user->name }}
+                            @elseif(in_array($tx->type, ['supplier_payment', 'purchase', 'purchase_return']))
+                                <strong>Supplier:</strong> {{ $tx->source->supplier->name ?? 'N/A' }}
+                            @else
+                                <strong>Source:</strong> System
+                            @endif
                         </div>
                     </div>
 
-                    {{-- Transaction Amount --}}
+                    {{-- Amount --}}
+                    @php
+                        switch ($tx->type) {
+                            case 'deposit':
+                                $sign = '+';
+                                $color = 'text-success';
+                                $label = 'Deposit';
+                                break;
+                            case 'withdraw':
+                                $sign = '-';
+                                $color = 'text-danger';
+                                $label = 'Withdraw';
+                                break;
+                            case 'payment':
+                                $sign = '-';
+                                $color = 'text-danger';
+                                $label = 'Customer Payment';
+                                break;
+                            case 'supplier_payment':
+                                $sign = '-';
+                                $color = 'text-warning';
+                                $label = 'Supplier Payment';
+                                break;
+                            case 'purchase':
+                                $sign = '-';
+                                $color = 'text-warning';
+                                $label = 'Purchase';
+                                break;
+                            case 'purchase_return':
+                                $sign = '+';
+                                $color = 'text-primary';
+                                $label = 'Purchase Return';
+                                break;
+                            default:
+                                $sign = '';
+                                $color = 'text-dark';
+                                $label = ucfirst($tx->type);
+                                break;
+                        }
+                    @endphp
                     <div class="mb-2">
-                        @php
-                            switch ($tx->type) {
-                                case 'deposit':
-                                    $sign = '+';
-                                    $color = 'text-success';
-                                    $label = 'Deposit';
-                                    break;
-                                case 'withdraw':
-                                    $sign = '-';
-                                    $color = 'text-danger';
-                                    $label = 'Withdraw';
-                                    break;
-                                case 'payment':
-                                    $sign = '-';
-                                    $color = 'text-danger';
-                                    $label = 'Customer Payment';
-                                    break;
-                                case 'supplier_payment':
-                                    $sign = '-';
-                                    $color = 'text-warning';
-                                    $label = 'Supplier Payment';
-                                    break;
-                                case 'purchase':
-                                    $sign = '-';
-                                    $color = 'text-warning';
-                                    $label = 'Purchase';
-                                    break;
-                                case 'purchase_return':
-                                    $sign = '+';
-                                    $color = 'text-primary';
-                                    $label = 'Purchase Return';
-                                    break;
-                                default:
-                                    $sign = '';
-                                    $color = 'text-dark';
-                                    $label = ucfirst($tx->type);
-                            }
-                        @endphp
                         <span class="{{ $color }}">
                             <strong>{{ $label }}:</strong> {{ $sign }}
                             ৳{{ number_format(abs($tx->amount), 2) }}
                         </span>
                     </div>
 
-                    {{-- Return Flow (for payments with returns) --}}
-                    @if (
-                        $tx->type === 'payment' &&
-                            isset($tx->payment) &&
-                            $tx->payment->payment_type === 'return' &&
-                            $tx->payment->invoice->salesReturns->isNotEmpty())
-                        @include('backend.transaction_management.payment.flow.flow', [
-                            'payment' => $tx->payment,
-                        ])
-                    @endif
-
-                    {{-- Balance Flow --}}
+                    {{-- Balance --}}
                     <div class="d-flex justify-content-between fw-bold mt-2 p-2 bg-light rounded">
-                        <div>Old Balance: ৳{{ number_format($tx->old_balance, 2) }}</div>
-                        <div>Transaction: {{ $sign }} ৳{{ number_format(abs($tx->amount), 2) }}</div>
-                        <div class="text-primary">New Balance: ৳{{ number_format($tx->new_balance, 2) }}</div>
+                        <div>
+                            Old Balance:
+                            @if (isset($tx->old_balance))
+                                ৳{{ number_format($tx->old_balance, 2) }}
+                            @else
+                                N/A
+                            @endif
+                        </div>
+                        <div>
+                            Transaction: {{ $sign }}
+                            ৳{{ number_format(abs($tx->amount), 2) }}
+                        </div>
+                        <div class="text-primary">
+                            New Balance:
+                            @if (isset($tx->new_balance))
+                                ৳{{ number_format($tx->new_balance, 2) }}
+                            @else
+                                N/A
+                            @endif
+                        </div>
                     </div>
 
                 </div>
@@ -112,7 +124,6 @@
                     @endfor
                 @endif
             </div>
-
         </div>
     </div>
 @stop
