@@ -24,8 +24,8 @@ use App\Http\Controllers\Backend\Product_Management\BrandController;
 use App\Http\Controllers\Backend\Product_Management\UnitController;
 use App\Http\Controllers\Backend\Product_Management\WarrantyController;
 use App\Http\Controllers\Backend\Product_Management\ProductController;
-use App\Http\Controllers\Backend\Product_Management\StorageController; 
-use App\Http\Controllers\Backend\Product_Management\StockMovementController; 
+use App\Http\Controllers\Backend\Product_Management\StorageController;
+use App\Http\Controllers\Backend\Product_Management\StockMovementController;
 use App\Http\Controllers\Backend\Product_Management\ProductInspectionController;
 
 //Financial Management Part
@@ -102,9 +102,11 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('warranties', WarrantyController::class);
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
     Route::resource('products', ProductController::class);
+    Route::post('/products/bulk-delete',[ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
+    Route::post('/products/bulk-export', [ProductController::class, 'bulkExport'])->name('products.bulkExport');
     Route::resource('storages', StorageController::class);
     Route::post('/storages/{id}/generate-barcode', [StorageController::class, 'generateBarcode'])->name('storages.generateBarcode');
-Route::resource('stock_movements', StockMovementController::class);
+    Route::resource('stock_movements', StockMovementController::class);
     Route::resource('product_inspections', ProductInspectionController::class);
 
     //people management menu

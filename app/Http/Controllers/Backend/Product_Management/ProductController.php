@@ -10,13 +10,31 @@ use App\Models\Brand;
 use App\Models\Unit;
 use App\Models\Warranty;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['category', 'brand', 'unit', 'warranty'])
-            ->orderBy('id', 'asc')->get();
+        $query = Product::with(['category', 'brand', 'unit', 'warranty']);
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+        if ($request->filled('sku')) {
+            $query->where('sku', 'like', '%' . $request->sku . '%');
+        }
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->brand_id);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $products = $query->orderBy('id', 'asc')->get();
 
         return view('backend.product_management.products.index', compact('products'));
     }
@@ -120,5 +138,68 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->ids;
+
+        if (!$ids) {
+            return response()->json([
+                'success' => false
+            ]);
+        }
+
+        Product::whereIn('id', $ids)->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function bulkExport(Request $request)
+    {
+        $products = Product::whereIn('id', $request->ids)->get();
+
+        $filename = "products_export_" . date('Ymd_His') . ".csv";
+
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+        ];
+
+        $callback = function () use ($products) {
+
+            $file = fopen('php://output', 'w');
+
+            fputcsv($file, [
+                'ID',
+                'Name',
+                'Part Number',
+                'SKU',
+                'Category',
+                'Brand',
+                'Origin',
+                'Status'
+            ]);
+
+            foreach ($products as $p) {
+
+                fputcsv($file, [
+                    $p->id,
+                    $p->name,
+                    $p->part_number,
+                    $p->sku,
+                    $p->category->name ?? '',
+                    $p->brand->name ?? '',
+                    $p->origin,
+                    $p->status ? 'Active' : 'Inactive'
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return new StreamedResponse($callback, 200, $headers);
     }
 }
