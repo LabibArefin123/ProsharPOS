@@ -41,42 +41,29 @@ class BankWithdrawController extends Controller
     // Show create form
     public function create()
     {
-        $users = User::all();
+        $user = auth()->user();
 
-        $balances = BankBalance::with([
-            'user.payments',
-            'deposits',
-            'withdraws',
-        ])->get();
+        if ($user->hasRole('admin')) {
+
+            $users = User::all();
+
+            $balances = BankBalance::with(['user'])
+                ->get();
+        } else {
+
+            $users = collect([$user]); // only himself
+
+            $balances = BankBalance::with(['user'])
+                ->where('user_id', $user->id)
+                ->get();
+        }
 
         $balancesData = $balances->map(function ($balance) {
-
-            $originalBalance = $balance->balance;
-
-            $totalDeposits = $balance->deposits->sum('amount');
-            $totalWithdraws = $balance->withdraws->sum('amount');
-
-            $totalPayments = $balance->user
-                ? $balance->user->payments->sum('paid_amount')
-                : 0;
-
-            $totalPurchases = Purchase::where(
-                'supplier_id',
-                $balance->user_id ?? 0
-            )->sum('total_amount');
-
-            $systemBalance =
-                $originalBalance
-                + $totalDeposits
-                - $totalWithdraws
-                - $totalPayments
-                - $totalPurchases;
 
             return [
                 'id' => $balance->id,
                 'user_id' => $balance->user_id,
-                'original_balance' => $originalBalance,
-                'system_balance' => $systemBalance,
+                'original_balance' => $balance->balance,
             ];
         });
 
@@ -86,29 +73,41 @@ class BankWithdrawController extends Controller
         );
     }
 
-    // Store new withdraw
     public function store(Request $request)
     {
         $request->validate([
-            'bank_balance_id' => 'required|exists:bank_balances,id',
+            'bank_balance_id' => 'nullable|exists:bank_balances,id',
             'withdraw_date'   => 'required|date',
             'amount'          => 'required|numeric|min:1',
             'withdraw_method' => 'required|string',
         ]);
 
-        $bankBalance = BankBalance::findOrFail($request->bank_balance_id);
+        $user = auth()->user();
+
+        // Admin selects bank manually
+        if ($user->hasRole('admin')) {
+
+            $bankBalance = BankBalance::findOrFail($request->bank_balance_id);
+        } else {
+
+            // Non-admin automatically uses their own bank
+            $bankBalance = BankBalance::where('user_id', $user->id)->first();
+
+            if (!$bankBalance) {
+                return back()->withErrors('No bank balance found for this user.');
+            }
+        }
 
         // Prevent negative balance
         if ($request->amount > $bankBalance->balance) {
-            return redirect()->back()
-                ->withErrors('Withdrawal amount exceeds current balance.');
+            return back()->withErrors('Withdrawal amount exceeds current balance.');
         }
 
-        DB::transaction(function () use ($request, $bankBalance) {
+        DB::transaction(function () use ($request, $bankBalance, $user) {
 
             $withdraw = BankWithdraw::create([
-                'bank_balance_id' => $request->bank_balance_id,
-                'user_id'         => auth()->id(),
+                'bank_balance_id' => $bankBalance->id,
+                'user_id'         => $user->id,
                 'withdraw_date'   => $request->withdraw_date,
                 'amount'          => $request->amount,
                 'withdraw_method' => $request->withdraw_method,
@@ -119,12 +118,11 @@ class BankWithdrawController extends Controller
             // Reduce bank balance
             $bankBalance->decrement('balance', $withdraw->amount);
 
-            // 🔥 Activity Log
             activity()
-                ->causedBy(auth()->user())
+                ->causedBy($user)
                 ->performedOn($withdraw)
                 ->withProperties([
-                    'bank_balance_id' => $request->bank_balance_id,
+                    'bank_balance_id' => $bankBalance->id,
                     'amount'          => $request->amount,
                     'withdraw_method' => $request->withdraw_method,
                     'reference_no'    => $request->reference_no,
@@ -154,33 +152,11 @@ class BankWithdrawController extends Controller
         ])->get();
 
         $balancesData = $balances->map(function ($balance) {
-
             $originalBalance = $balance->balance;
-
-            $totalDeposits = $balance->deposits->sum('amount');
-            $totalWithdraws = $balance->withdraws->sum('amount');
-
-            $totalPayments = $balance->user
-                ? $balance->user->payments->sum('paid_amount')
-                : 0;
-
-            $totalPurchases = Purchase::where(
-                'supplier_id',
-                $balance->user_id ?? 0
-            )->sum('total_amount');
-
-            $systemBalance =
-                $originalBalance
-                + $totalDeposits
-                - $totalWithdraws
-                - $totalPayments
-                - $totalPurchases;
-
             return [
                 'id' => $balance->id,
                 'user_id' => $balance->user_id,
                 'original_balance' => $originalBalance,
-                'system_balance' => $systemBalance,
             ];
         });
 

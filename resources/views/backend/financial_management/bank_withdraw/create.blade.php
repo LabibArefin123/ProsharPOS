@@ -48,34 +48,35 @@
                 @csrf
 
                 <div class="row">
+                    @role('admin')
+                        {{-- User --}}
+                        <div class="col-md-6 form-group">
+                            <label><strong>User</strong> <span class="text-danger">*</span></label>
+                            <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                                <option value="">Select User</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }} ({{ $user->email }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
 
-                    {{-- User --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>User</strong> <span class="text-danger">*</span></label>
-                        <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
-                            <option value="">Select User</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }} ({{ $user->email }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('user_id')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    {{-- Bank Balance --}}
-                    <div class="col-md-6 form-group">
-                        <label><strong>Bank Balance</strong> <span class="text-danger">*</span></label>
-                        <select name="bank_balance_id" id="bank_balance_id"
-                            class="form-control @error('bank_balance_id') is-invalid @enderror">
-                            <option value="">Select Bank Balance</option>
-                        </select>
-                        @error('bank_balance_id')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                        {{-- Bank Balance --}}
+                        <div class="col-md-6 form-group">
+                            <label><strong>Bank Balance</strong> <span class="text-danger">*</span></label>
+                            <select name="bank_balance_id" id="bank_balance_id"
+                                class="form-control @error('bank_balance_id') is-invalid @enderror">
+                                <option value="">Select Bank Balance</option>
+                            </select>
+                            @error('bank_balance_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    @endrole
 
                     {{-- Amount --}}
                     <div class="col-md-6 form-group">
@@ -142,7 +143,6 @@
 
         const userSelect = document.getElementById('user_id');
         const bankSelect = document.getElementById('bank_balance_id');
-
         const originalText = document.getElementById('original_balance_text');
 
         function updateBalanceDisplay(bankId) {
@@ -150,64 +150,79 @@
             const selectedBalance = balances.find(b => b.id == bankId);
 
             if (selectedBalance) {
-
                 originalText.innerText =
                     parseFloat(selectedBalance.original_balance).toFixed(2);
-
             } else {
                 originalText.innerText = "0.00";
             }
         }
 
-        userSelect.addEventListener('change', function() {
+        // ADMIN LOGIC
+        if (userSelect && bankSelect) {
 
-            const selectedUserId = this.value;
+            userSelect.addEventListener('change', function() {
 
-            const userBanks = balances.filter(
-                b => b.user_id == selectedUserId
-            );
+                const selectedUserId = this.value;
 
-            bankSelect.innerHTML =
-                '<option value="">Select Bank Balance</option>';
-
-            if (userBanks.length === 0) {
+                const userBanks = balances.filter(
+                    b => b.user_id == selectedUserId
+                );
 
                 bankSelect.innerHTML =
-                    '<option value="">No bank found for this user</option>';
+                    '<option value="">Select Bank Balance</option>';
 
-                originalText.innerText = "0.00";
-                return;
-            }
+                if (userBanks.length === 0) {
 
-            userBanks.forEach(bank => {
+                    bankSelect.innerHTML =
+                        '<option value="">No bank found for this user</option>';
 
-                const option = document.createElement('option');
-                option.value = bank.id;
+                    originalText.innerText = "0.00";
+                    return;
+                }
 
-                option.text =
-                    'BDT ' +
-                    parseFloat(bank.original_balance).toFixed(2);
+                userBanks.forEach(bank => {
 
-                bankSelect.appendChild(option);
+                    const option = document.createElement('option');
+
+                    option.value = bank.id;
+                    option.text =
+                        'BDT ' +
+                        parseFloat(bank.original_balance).toFixed(2);
+
+                    bankSelect.appendChild(option);
+                });
+
+                // Auto select if only one bank
+                if (userBanks.length === 1) {
+
+                    bankSelect.value = userBanks[0].id;
+
+                    updateBalanceDisplay(userBanks[0].id);
+                }
             });
 
-            // Auto select if one
-            if (userBanks.length === 1) {
-                bankSelect.value = userBanks[0].id;
-                updateBalanceDisplay(userBanks[0].id);
-            }
+            bankSelect.addEventListener('change', function() {
+                updateBalanceDisplay(this.value);
+            });
 
-        });
+            window.addEventListener('load', function() {
+                if (userSelect.value) {
+                    userSelect.dispatchEvent(new Event('change'));
+                }
+            });
+        }
 
-        bankSelect.addEventListener('change', function() {
-            updateBalanceDisplay(this.value);
-        });
+        // NON ADMIN LOGIC
+        else {
 
-        // Trigger old value (validation case)
-        window.addEventListener('load', function() {
-            if (userSelect.value) {
-                userSelect.dispatchEvent(new Event('change'));
-            }
-        });
+            window.addEventListener('load', function() {
+
+                if (balances.length > 0) {
+
+                    updateBalanceDisplay(balances[0].id);
+
+                }
+            });
+        }
     </script>
 @endsection
