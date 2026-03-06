@@ -44,12 +44,6 @@
                     <input type="text" class="form-control"
                         value="৳{{ number_format($bank_balance->original_balance, 2) }}" readonly>
                 </div>
-
-                <div class="col-md-6 form-group">
-                    <label><strong>Balance (BDT) In this System</strong></label>
-                    <input type="text" class="form-control"
-                        value="৳{{ number_format($bank_balance->system_balance, 2) }}" readonly>
-                </div>
             </div>
         </div>
     </div>

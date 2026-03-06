@@ -95,38 +95,6 @@ class BankBalanceController extends Controller
         // Original DB balance
         $bank_balance->original_balance = $bank_balance->balance;
 
-        // Total deposits (money IN)
-        $totalDeposits = $bank_balance->deposits->sum('amount');
-
-        // Total withdrawals (money OUT)
-        $totalWithdraws = $bank_balance->withdraws->sum('amount');
-
-        // Total customer payments (money OUT)
-        $totalPayments = $bank_balance->user
-            ? $bank_balance->user->payments->sum('paid_amount')
-            : 0;
-
-        // Total purchases (money OUT)
-        $totalPurchases = Purchase::where('supplier_id', $bank_balance->user_id ?? 0)
-            ->sum('total_amount');
-
-        // Total purchase returns (money IN)
-        $totalPurchaseReturns = PurchaseReturn::where('supplier_id', $bank_balance->user_id ?? 0)
-            ->sum('total_amount');
-
-        // Total supplier payments (money OUT)
-        $totalSupplierPayments = SupplierPayment::where('supplier_id', $bank_balance->user_id ?? 0)
-            ->sum('amount');
-
-        // Compute final system balance
-        $bank_balance->system_balance = $bank_balance->balance
-            + $totalDeposits
-            + $totalPurchaseReturns
-            - $totalWithdraws
-            - $totalPayments
-            - $totalPurchases
-            - $totalSupplierPayments;
-
         return view(
             'backend.financial_management.bank_balance.show',
             compact('bank_balance')
@@ -144,38 +112,6 @@ class BankBalanceController extends Controller
 
         // Original DB balance
         $bank_balance->original_balance = $bank_balance->balance;
-
-        // Total deposits (money IN)
-        $totalDeposits = $bank_balance->deposits->sum('amount');
-
-        // Total withdrawals (money OUT)
-        $totalWithdraws = $bank_balance->withdraws->sum('amount');
-
-        // Total customer payments (money OUT)
-        $totalPayments = $bank_balance->user
-            ? $bank_balance->user->payments->sum('paid_amount')
-            : 0;
-
-        // Total purchases (money OUT)
-        $totalPurchases = Purchase::where('supplier_id', $bank_balance->user_id ?? 0)
-            ->sum('total_amount');
-
-        // Total purchase returns (money IN)
-        $totalPurchaseReturns = PurchaseReturn::where('supplier_id', $bank_balance->user_id ?? 0)
-            ->sum('total_amount');
-
-        // Total supplier payments (money OUT)
-        $totalSupplierPayments = SupplierPayment::where('supplier_id', $bank_balance->user_id ?? 0)
-            ->sum('amount');
-
-        // Compute final system balance
-        $bank_balance->system_balance = $bank_balance->balance
-            + $totalDeposits
-            + $totalPurchaseReturns
-            - $totalWithdraws
-            - $totalPayments
-            - $totalPurchases
-            - $totalSupplierPayments;
 
         // Users dropdown for edit form
         $users = User::orderBy('name', 'asc')->get();

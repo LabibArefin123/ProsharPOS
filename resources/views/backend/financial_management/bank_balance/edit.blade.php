@@ -75,9 +75,6 @@
                         <label><strong>Balance (BDT)</strong></label>
                         <input type="number" name="balance" class="form-control @error('balance') is-invalid @enderror"
                             value="{{ old('balance', $bank_balance->balance) }}">
-                        <small>
-                            <p>[Current Balance in this software: ৳ {{ $bank_balance->system_balance }}]</p>
-                        </small>
                         @error('balance')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
