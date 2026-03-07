@@ -68,30 +68,10 @@ class BankDepositController extends Controller
 
             $originalBalance = $balance->balance;
 
-            $totalDeposits = $balance->deposits->sum('amount');
-            $totalWithdraws = $balance->withdraws->sum('amount');
-
-            $totalPayments = $balance->user
-                ? $balance->user->payments->sum('paid_amount')
-                : 0;
-
-            $totalPurchases = Purchase::where(
-                'supplier_id',
-                $balance->user_id ?? 0
-            )->sum('total_amount');
-
-            $systemBalance =
-                $originalBalance
-                + $totalDeposits
-                - $totalWithdraws
-                - $totalPayments
-                - $totalPurchases;
-
             return [
                 'id' => $balance->id,
                 'user_id' => $balance->user_id,
                 'original_balance' => $originalBalance,
-                'system_balance' => $systemBalance,
             ];
         });
 

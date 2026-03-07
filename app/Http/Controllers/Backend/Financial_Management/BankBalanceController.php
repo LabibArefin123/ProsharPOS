@@ -31,10 +31,7 @@ class BankBalanceController extends Controller
         $balances = $balancesQuery->get();
 
         $balances->each(function ($balance) {
-
-            // Original DB balance (never change this)
             $balance->original_balance = $balance->balance;
-
         });
 
         return view(
@@ -92,9 +89,7 @@ class BankBalanceController extends Controller
             'withdraws',
         ]);
 
-        // Original DB balance
-        $bank_balance->original_balance = $bank_balance->balance;
-
+        $bank_balance->balance;
         return view(
             'backend.financial_management.bank_balance.show',
             compact('bank_balance')

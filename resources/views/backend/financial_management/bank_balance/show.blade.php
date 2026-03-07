@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="col-md-6 form-group">
-                    <label><strong>Balance (USD)</strong></label>
+                    <label><strong>Balance (USD) from [DB]</strong></label>
                     <input type="text" class="form-control"
                         value="${{ number_format($bank_balance->balance_in_dollars, 2) }}" readonly>
                 </div>
@@ -42,7 +42,7 @@
                 <div class="col-md-6 form-group">
                     <label><strong>Balance (BDT) from [DB] </strong></label>
                     <input type="text" class="form-control"
-                        value="৳{{ number_format($bank_balance->original_balance, 2) }}" readonly>
+                        value="৳{{ number_format($bank_balance->balance, 2) }}" readonly>
                 </div>
             </div>
         </div>
