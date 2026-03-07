@@ -64,9 +64,9 @@
             document.getElementById('maintenance_charge').value = (purchase * 0.03).toFixed(2);
         });
     </script>
-    <script src="{{ asset('js/backend/storage/create_page/image_load.js') }}"></script> {{--  Product load  JS --}}
-    <script src="{{ asset('js/backend/storage/create_page/product_load.js') }}"></script> {{--  Product load  JS --}}
-    <script src="{{ asset('js/backend/storage/create_page/supplier_load.js') }}"></script> {{--  Supplier load  JS --}}
-    <script src="{{ asset('js/backend/storage/create_page/manufacture_load.js') }}"></script> {{--  Manufacture load  JS --}}
+    <script src="{{ asset('js/backend/product_management/storage/create_page/image_load.js') }}"></script> {{--  Product load  JS --}}
+    <script src="{{ asset('js/backend/product_management/storage/create_page/product_load.js') }}"></script> {{--  Product load  JS --}}
+    <script src="{{ asset('js/backend/product_management/storage/create_page/supplier_load.js') }}"></script> {{--  Supplier load  JS --}}
+    <script src="{{ asset('js/backend/product_management/storage/create_page/manufacture_load.js') }}"></script> {{--  Manufacture load  JS --}}
 
 @endsection

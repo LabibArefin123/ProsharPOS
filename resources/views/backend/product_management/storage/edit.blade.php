@@ -53,9 +53,9 @@
     @include('backend.product_management.storage.modal.edit_page.storage_image_upload')
     @include('backend.product_management.storage.modal.edit_page.zoom_image')
     {{-- Scripts --}}
-    <script src="{{ asset('js/backend/storage/edit_page/barcode_load.js') }}"></script>
-    <script src="{{ asset('js/backend/storage/edit_page/product_load.js') }}"></script>
-    <script src="{{ asset('js/backend/storage/edit_page/supplier_load.js') }}"></script>
-    <script src="{{ asset('js/backend/storage/edit_page/manufacture_load.js') }}"></script>
-    <script src="{{ asset('js/backend/storage/edit_page/upload_image_s.js') }}"></script>
+    <script src="{{ asset('js/backend/product_management/storage/edit_page/barcode_load.js') }}"></script>
+    <script src="{{ asset('js/backend/product_management/storage/edit_page/product_load.js') }}"></script>
+    <script src="{{ asset('js/backend/product_management/storage/edit_page/supplier_load.js') }}"></script>
+    <script src="{{ asset('js/backend/product_management/storage/edit_page/manufacture_load.js') }}"></script>
+    <script src="{{ asset('js/backend/product_management/storage/edit_page/upload_image_s.js') }}"></script>
 @endsection

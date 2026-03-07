@@ -22,7 +22,6 @@
                 @include('backend.product_management.storage.partial_show.part_3')
                 <div class="width=100"></div>
                 @include('backend.product_management.storage.partial_show.part_4')
-
             </div>
         </div>
     </div>

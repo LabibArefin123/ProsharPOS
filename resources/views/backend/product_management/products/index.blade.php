@@ -170,5 +170,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/backend/product/index_page/select_delete.js') }}"></script>
+    <script src="{{ asset('js/backend/product_management/product/index_page/select_delete.js') }}"></script>
 @endsection
