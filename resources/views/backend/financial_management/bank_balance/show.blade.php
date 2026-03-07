@@ -13,23 +13,23 @@
 @stop
 
 @section('content')
-    <div class="card shadow-lg">
+    <div class="card ">
         <div class="card-body">
             <div class="row">
                 {{-- User --}}
                 <div class="col-md-6 form-group">
-                    <label><strong>User</strong></label>
+                    <label><strong>User's Name</strong></label>
                     <input type="text" class="form-control" value="{{ $bank_balance->user->name ?? 'N/A' }}" readonly>
                 </div>
 
                 <div class="col-md-6 form-group">
-                    <label><strong>Username</strong></label>
+                    <label><strong>User's Username</strong></label>
                     <input type="text" class="form-control" value="{{ $bank_balance->user->username ?? 'N/A' }}"
                         readonly>
                 </div>
 
                 <div class="col-md-6 form-group">
-                    <label><strong>Email</strong></label>
+                    <label><strong>User's Email</strong></label>
                     <input type="text" class="form-control" value="{{ $bank_balance->user->email ?? 'N/A' }}" readonly>
                 </div>
 

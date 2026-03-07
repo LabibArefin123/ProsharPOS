@@ -34,7 +34,7 @@
                 @method('PUT')
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <label><strong>User Name</strong></label>
+                        <label><strong>User's Name</strong></label>
                         <select name="user_id" id="user_name_select"
                             class="form-control @error('user_id') is-invalid @enderror">
                             @foreach ($users as $user)
@@ -50,13 +50,13 @@
                     </div>
 
                     <div class="col-md-6 form-group">
-                        <label><strong>Username</strong></label>
+                        <label><strong>User's Username</strong></label>
                         <input type="text" id="username_field" value="{{ $bank_balance->user->username }}"
                             class="form-control" readonly style="background:#e9ecef;">
                     </div>
 
                     <div class="col-md-6 form-group">
-                        <label><strong>Email</strong></label>
+                        <label><strong>User's Email</strong></label>
                         <input type="text" id="email_field" value="{{ $bank_balance->user->email }}" class="form-control"
                             readonly style="background:#e9ecef;">
                     </div>
