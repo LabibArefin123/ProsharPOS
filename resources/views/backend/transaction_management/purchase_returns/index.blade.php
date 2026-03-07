@@ -7,9 +7,9 @@
 @stop
 
 @section('content')
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-body table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-striped table-hover text-nowrap" id="dataTables">
                 <thead>
                     <tr>
                         <th>SL</th>

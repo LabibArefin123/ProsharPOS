@@ -54,7 +54,6 @@
                         @endrole
                         <th>#</th>
                         <th>User</th>
-                        <th>Balance Before</th>
                         <th>Withdraw Amount</th>
                         <th>Method</th>
                         <th>Date</th>
@@ -73,7 +72,6 @@
                             @endrole
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $with->user->name }}</td>
-                            <td>৳{{ number_format($with->bankBalance->balance, 2) }}</td>
                             <td class="text-danger">৳{{ number_format($with->amount, 2) }}</td>
                             <td>{{ ucfirst(str_replace('_', ' ', $with->withdraw_method)) }}</td>
                             <td>{{ \Carbon\Carbon::parse($with->withdraw_date)->format('d M Y') }}</td>

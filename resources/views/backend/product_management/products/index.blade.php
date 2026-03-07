@@ -96,15 +96,17 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Products Table -->
             <div class="table-responsive">
                 <table class="table table-striped table-hover text-nowrap" id="dataTables">
                     <thead class="thead-dark">
                         <tr>
-                            <th width="40">
-                                <input type="checkbox" id="selectAll">
-                            </th>
+                            @role('admin')
+                                <th width="40">
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                            @endrole
                             <th>#</th>
                             <th>Image</th>
                             <th>Part Number</th>
@@ -121,9 +123,11 @@
                     <tbody>
                         @forelse ($products as $product)
                             <tr>
-                                <td>
-                                    <input type="checkbox" class="productCheckbox" value="{{ $product->id }}">
-                                </td>
+                                @role('admin')
+                                    <td>
+                                        <input type="checkbox" class="productCheckbox" value="{{ $product->id }}">
+                                    </td>
+                                @endrole
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <img src="{{ asset($product->image ?? 'images/default.jpg') }}"
