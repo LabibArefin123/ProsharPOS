@@ -23,6 +23,9 @@
             <table class="table table-striped table-hover text-nowrap" id="dataTables">
                 <thead class="thead-dark">
                     <tr>
+                        <th width="40">
+                            <input type="checkbox" id="selectAll">
+                        </th>
                         <th>SL</th>
                         <th>User</th>
                         <th>Email</th>
@@ -39,6 +42,9 @@
                 <tbody>
                     @forelse($deposits as $deposit)
                         <tr>
+                            <td>
+                                <input type="checkbox" class="depositCheckbox" value="{{ $deposit->id }}">
+                            </td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $deposit->user->name }}</td>
                             <td>{{ $deposit->user->email }}</td>

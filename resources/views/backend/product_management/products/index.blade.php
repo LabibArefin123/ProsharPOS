@@ -70,17 +70,18 @@
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
             </form>
-            <div id="bulkActionBar" class="card shadow-sm border-danger d-none mb-3">
-                <div class="card-body d-flex justify-content-between align-items-center">
 
+            <div id="bulkActionBar" class="card shadow-sm border-danger d-none mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <!-- Left side -->
                     <div>
                         <strong>
                             <span id="selectedCount">0</span> products selected
                         </strong>
                     </div>
 
-                    <div class="d-flex gap-2">
-
+                    <!-- Right side buttons -->
+                    <div class="d-flex gap-2 ms-auto">
                         <button id="bulkDeleteBtn" class="btn btn-danger btn-sm">
                             <i class="fas fa-trash"></i> Delete
                         </button>
@@ -92,11 +93,10 @@
                         <button id="bulkCancelBtn" class="btn btn-secondary btn-sm">
                             <i class="fas fa-times"></i> Cancel
                         </button>
-
                     </div>
-
                 </div>
             </div>
+            
             <!-- Products Table -->
             <div class="table-responsive">
                 <table class="table table-striped table-hover text-nowrap" id="dataTables">
