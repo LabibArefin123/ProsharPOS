@@ -19,8 +19,8 @@
 
 @section('content')
     {{-- Config for JS --}}
-    <div id="bulkConfig" data-delete="{{ route('bank_deposits.bulkDelete') }}" data-export="{{ route('products.bulkExport') }}"
-        data-token="{{ csrf_token() }}" class="d-none">
+    <div id="bulkConfig" data-delete="{{ route('bank_deposits.bulkDelete') }}"
+        data-export="{{ route('products.bulkExport') }}" data-token="{{ csrf_token() }}" class="d-none">
     </div>
 
     <div class="card shadow-sm">
@@ -54,9 +54,11 @@
             <table class="table table-striped table-hover text-nowrap" id="dataTables">
                 <thead class="thead-dark">
                     <tr>
-                        <th width="40">
-                            <input type="checkbox" id="selectAll">
-                        </th>
+                        @role('admin')
+                            <th width="40">
+                                <input type="checkbox" id="selectAll">
+                            </th>
+                        @endrole
                         <th>SL</th>
                         <th>User</th>
                         <th>Email</th>
@@ -73,9 +75,11 @@
                 <tbody>
                     @forelse($deposits as $deposit)
                         <tr>
-                            <td>
-                                <input type="checkbox" class="depositCheckbox" value="{{ $deposit->id }}">
-                            </td>
+                            @role('admin')
+                                <td>
+                                    <input type="checkbox" class="depositCheckbox" value="{{ $deposit->id }}">
+                                </td>
+                            @endrole
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $deposit->user->name }}</td>
                             <td>{{ $deposit->user->email }}</td>
@@ -102,10 +106,8 @@
                                         </button>
                                     </form>
                                 @endrole
-
                             </td>
                         </tr>
-
                     @empty
                         <tr>
                             <td colspan="11" class="text-center">No deposits found</td>

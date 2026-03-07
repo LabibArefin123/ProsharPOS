@@ -140,6 +140,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('bank_balances', BankBalanceController::class);
     Route::post('/bank_deposits/bulk-delete',[BankDepositController::class, 'bulkDelete'])->name('bank_deposits.bulkDelete');
     Route::resource('bank_deposits', BankDepositController::class);
+    Route::post('/bank_withdraws/bulk-delete',[BankWithdrawController::class, 'bulkDelete'])->name('bank_withdraws.bulkDelete');
     Route::resource('bank_withdraws', BankWithdrawController::class);
     
     //ajax menu

@@ -12,11 +12,46 @@
 @stop
 
 @section('content')
+    {{-- Config for JS --}}
+    <div id="bulkConfig" data-delete="{{ route('bank_withdraws.bulkDelete') }}"
+        data-export="{{ route('products.bulkExport') }}" data-token="{{ csrf_token() }}" class="d-none">
+    </div>
+
     <div class="card shadow-sm">
         <div class="card-body table-responsive">
+            <div id="bulkActionBar" class="card shadow-sm border-danger d-none mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <!-- Left side -->
+                    <div>
+                        <strong>
+                            <span id="selectedCount">0</span> bank withdraws selected
+                        </strong>
+                    </div>
+
+                    <!-- Right side buttons -->
+                    <div class="d-flex gap-2 ms-auto">
+                        <button id="bulkDeleteBtn" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+
+                        <button id="bulkExportBtn" class="btn btn-success btn-sm">
+                            <i class="fas fa-file-excel"></i> Export
+                        </button>
+
+                        <button id="bulkCancelBtn" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
             <table class="table table-striped table-hover text-nowrap" id="dataTables">
                 <thead class="table-dark">
                     <tr class="text-center">
+                        @role('admin')
+                            <th width="40">
+                                <input type="checkbox" id="selectAll">
+                            </th>
+                        @endrole
                         <th>#</th>
                         <th>User</th>
                         <th>Balance Before</th>
@@ -31,6 +66,11 @@
                 <tbody>
                     @forelse ($withdraws as $with)
                         <tr class="text-center">
+                            @role('admin')
+                                <td>
+                                    <input type="checkbox" class="depositCheckbox" value="{{ $with->id }}">
+                                </td>
+                            @endrole
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $with->user->name }}</td>
                             <td>৳{{ number_format($with->bankBalance->balance, 2) }}</td>
@@ -66,4 +106,5 @@
             </table>
         </div>
     </div>
+    <script src="{{ asset('js/backend/financial_management/bank_withdraw/index_page/select_delete.js') }}"></script>
 @stop

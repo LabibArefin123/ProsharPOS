@@ -258,4 +258,22 @@ class BankWithdrawController extends Controller
         $bankWithdraw->delete();
         return redirect()->route('bank_withdraws.index')->with('success', 'Withdrawal deleted successfully.');
     }
+
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->ids;
+
+        if (!$ids) {
+            return response()->json([
+                'success' => false
+            ]);
+        }
+
+        BankWithdraw::whereIn('id', $ids)->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
 }
