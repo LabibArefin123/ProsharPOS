@@ -62,6 +62,12 @@
                     </div>
 
                     <div class="col-md-6 form-group">
+                        <label><strong>User's Phone</strong></label>
+                        <input type="text" id="phone_field" value="{{ $bank_balance->user->phone }}" class="form-control"
+                            readonly style="background:#e9ecef;">
+                    </div>
+
+                    <div class="col-md-6 form-group">
                         <label><strong>Balance (USD)</strong></label>
                         <input type="number" name="balance"
                             class="form-control @error('balance_in_dollars') is-invalid @enderror"
@@ -92,6 +98,7 @@
 
         const usernameField = document.getElementById('username_field');
         const emailField = document.getElementById('email_field');
+        const phoneField = document.getElementById('phone_field');
 
         // Convert user data to JS object
         const users = @json($users);
@@ -102,6 +109,7 @@
             if (selectedUser) {
                 usernameField.value = selectedUser.username;
                 emailField.value = selectedUser.email;
+                phoneField.value = selectedUser.phone;
             }
         });
     </script>

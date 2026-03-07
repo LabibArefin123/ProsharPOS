@@ -28,6 +28,7 @@
                         <th>User</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Phone</th>
                         <th class="text-center">[DB] Original Balance (BDT)</th>
                         <th class="text-center">Balance (USD)</th>
                         <th class="text-center">Action</th>
@@ -40,6 +41,7 @@
                             <td>{{ $balance->user->name ?? 'N/A' }}</td>
                             <td>{{ $balance->user->username ?? 'N/A' }}</td>
                             <td>{{ $balance->user->email ?? 'N/A' }}</td>
+                            <td>{{ $balance->user->phone ?? 'N/A' }}</td>
                             <td class="text-center">৳{{ number_format($balance->original_balance, 2) }}</td>
                             <td class="text-center">${{ number_format($balance->balance_in_dollars, 2) }}</td>
                             <td class="text-center">

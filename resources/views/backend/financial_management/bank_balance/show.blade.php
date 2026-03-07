@@ -34,6 +34,11 @@
                 </div>
 
                 <div class="col-md-6 form-group">
+                    <label><strong>User's Phone</strong></label>
+                    <input type="text" class="form-control" value="{{ $bank_balance->user->phone ?? 'N/A' }}" readonly>
+                </div>
+
+                <div class="col-md-6 form-group">
                     <label><strong>Balance (USD) from [DB]</strong></label>
                     <input type="text" class="form-control"
                         value="${{ number_format($bank_balance->balance_in_dollars, 2) }}" readonly>
