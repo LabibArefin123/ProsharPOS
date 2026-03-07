@@ -108,14 +108,14 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::post('/storages/{id}/generate-barcode', [StorageController::class, 'generateBarcode'])->name('storages.generateBarcode');
     Route::resource('stock_movements', StockMovementController::class);
     Route::resource('product_inspections', ProductInspectionController::class);
-
+    
     //people management menu
     Route::resource('customers', CustomerController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('manufacturers', ManufacturerController::class);
-
+    
     Route::get('/pos', [POSController::class, 'index'])->name('pos.index');
-
+    
     //transaction management menu
     Route::resource('purchases', PurchaseController::class);
     Route::resource('purchase_returns', PurchaseReturnController::class);
@@ -132,15 +132,16 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/payment/history', [PaymentController::class, 'history'])->name('payments.history');
     Route::get('/payment/flow-diagram', [PaymentController::class, 'flowDiagram'])->name('payments.flow-diagram');
     Route::resource('supplier_payments', SupplierPaymentController::class);
-
+    
     Route::resource('petty_cashes', PettyCashController::class);
     Route::resource('sales_returns', SalesReturnController::class);
-
+    
     //financial management menu
     Route::resource('bank_balances', BankBalanceController::class);
+    Route::post('/bank_deposits/bulk-delete',[BankDepositController::class, 'bulkDelete'])->name('bank_deposits.bulkDelete');
     Route::resource('bank_deposits', BankDepositController::class);
     Route::resource('bank_withdraws', BankWithdrawController::class);
-
+    
     //ajax menu
     Route::get('/get-division-by-branch', [AjaxController::class, 'getDivisionByBranch'])->name('ajax.get_division_by_branch');
     Route::get('/get-department-by-division', [AjaxController::class, 'getDepartmentByDivision'])->name('ajax.get_department_by_division');

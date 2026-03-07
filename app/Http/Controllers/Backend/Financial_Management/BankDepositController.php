@@ -328,4 +328,21 @@ class BankDepositController extends Controller
         $bankDeposit->delete();
         return redirect()->route('bank_deposits.index')->with('success', 'Deposit deleted successfully.');
     }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->ids;
+
+        if (!$ids) {
+            return response()->json([
+                'success' => false
+            ]);
+        }
+
+        BankDeposit::whereIn('id', $ids)->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
 }

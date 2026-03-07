@@ -18,8 +18,39 @@
 @stop
 
 @section('content')
+    {{-- Config for JS --}}
+    <div id="bulkConfig" data-delete="{{ route('bank_deposits.bulkDelete') }}" data-export="{{ route('products.bulkExport') }}"
+        data-token="{{ csrf_token() }}" class="d-none">
+    </div>
+
     <div class="card shadow-sm">
         <div class="card-body table-responsive">
+
+            <div id="bulkActionBar" class="card shadow-sm border-danger d-none mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <!-- Left side -->
+                    <div>
+                        <strong>
+                            <span id="selectedCount">0</span> bank deposits selected
+                        </strong>
+                    </div>
+
+                    <!-- Right side buttons -->
+                    <div class="d-flex gap-2 ms-auto">
+                        <button id="bulkDeleteBtn" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+
+                        <button id="bulkExportBtn" class="btn btn-success btn-sm">
+                            <i class="fas fa-file-excel"></i> Export
+                        </button>
+
+                        <button id="bulkCancelBtn" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
             <table class="table table-striped table-hover text-nowrap" id="dataTables">
                 <thead class="thead-dark">
                     <tr>
@@ -86,4 +117,5 @@
 
         </div>
     </div>
+    <script src="{{ asset('js/backend/financial_management/bank_deposit/index_page/select_delete.js') }}"></script>
 @stop

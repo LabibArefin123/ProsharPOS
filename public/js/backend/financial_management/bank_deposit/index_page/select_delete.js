@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll(".productCheckbox");
+    const checkboxes = document.querySelectorAll(".depositCheckbox");
     const selectAll = document.getElementById("selectAll");
 
     const actionBar = document.getElementById("bulkActionBar");
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let lastChecked = null;
 
     function getSelectedIds() {
-        return [...document.querySelectorAll(".productCheckbox:checked")].map(
+        return [...document.querySelectorAll(".depositCheckbox:checked")].map(
             (cb) => cb.value,
         );
     }
