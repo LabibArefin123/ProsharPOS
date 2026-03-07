@@ -166,15 +166,9 @@ class BankDepositController extends Controller
 
         $bank = $bankDeposit->bankBalance;
 
-        // Same logic used everywhere
-        $totalPayments = $bank->user->payments()->sum('paid_amount');
-
-        // Virtual / calculated balance
-        $adjustedBalance = $bank->balance - $totalPayments;
-
         return view(
             'backend.financial_management.bank_deposit.show',
-            compact('bankDeposit', 'adjustedBalance')
+            compact('bankDeposit')
         );
     }
 
@@ -193,30 +187,10 @@ class BankDepositController extends Controller
 
             $originalBalance = $balance->balance;
 
-            $totalDeposits = $balance->deposits->sum('amount');
-            $totalWithdraws = $balance->withdraws->sum('amount');
-
-            $totalPayments = $balance->user
-                ? $balance->user->payments->sum('paid_amount')
-                : 0;
-
-            $totalPurchases = Purchase::where(
-                'supplier_id',
-                $balance->user_id ?? 0
-            )->sum('total_amount');
-
-            $systemBalance =
-                $originalBalance
-                + $totalDeposits
-                - $totalWithdraws
-                - $totalPayments
-                - $totalPurchases;
-
             return [
                 'id' => $balance->id,
                 'user_id' => $balance->user_id,
                 'original_balance' => $originalBalance,
-                'system_balance' => $systemBalance,
             ];
         });
 

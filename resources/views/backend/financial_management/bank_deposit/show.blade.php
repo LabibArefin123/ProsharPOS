@@ -33,7 +33,7 @@
                 {{-- Bank Balance --}}
                 <div class="col-md-6 form-group">
                     <label><strong>Bank Balance</strong></label>
-                    <input class="form-control" value="{{ number_format($adjustedBalance, 2) }} Tk" readonly>
+                    <input class="form-control" value="{{ number_format($bankDeposit->bankBalance->balance, 2) }} Tk" readonly>
                 </div>
 
                 <div class="col-md-6 form-group">
