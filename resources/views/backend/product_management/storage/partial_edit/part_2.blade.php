@@ -1,93 +1,57 @@
-<div class="row">
+  <div class="row">
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>Product</label> <span class="text-danger">*</span>
+              <select name="product_id" id="product_id" class="form-control @error('product_id') is-invalid @enderror">
+                  <option value="">Select Product</option>
+                  @foreach ($products as $prod)
+                      <option value="{{ $prod->id }}" data-sku="{{ $prod->sku }}"
+                          data-part_number="{{ $prod->part_number }}" data-type_model="{{ $prod->type_model }}"
+                          data-origin="{{ $prod->origin }}" data-using_place="{{ $prod->using_place }}"
+                          {{ old('product_id', $storage->product_id ?? '') == $prod->id ? 'selected' : '' }}>
+                          {{ $prod->name }}
+                      </option>
+                  @endforeach
+              </select>
 
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Rack</label> <span class="text-danger">*</span>
-            <input type="number" name="rack_number" class="form-control @error('rack_number') is-invalid @enderror"
-                value="{{ old('rack_number', $storage->rack_number) }}">
-            @error('rack_number')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
+              @error('product_id')
+                  <span class="text-danger small">{{ $message }}</span>
+              @enderror
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>SKU</label>
+              <input type="text" id="sku" name="sku" class="form-control" readonly>
+          </div>
+      </div>
 
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Rack Label</label> <span class="text-danger">*</span>
-            <input type="text" name="rack_no" class="form-control @error('rack_no') is-invalid @enderror"
-                value="{{ old('rack_no', $storage->rack_no) }}">
-            @error('rack_no')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>Part Number</label>
+              <input type="text" id="part_number" name="part_number" class="form-control" readonly>
+          </div>
+      </div>
 
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Rack Location</label> <span class="text-danger">*</span>
-            <input type="text" name="rack_location" class="form-control @error('rack_location') is-invalid @enderror"
-                value="{{ old('rack_location', $storage->rack_location) }}">
-            @error('rack_location')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>Type / Model</label>
+              <input type="text" id="type_model" name="type_model" class="form-control" readonly>
+          </div>
+      </div>
 
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Box</label> <span class="text-danger">*</span>
-            <input type="number" name="box_number" class="form-control @error('box_number') is-invalid @enderror"
-                value="{{ old('box_number', $storage->box_number) }}">
-            @error('box_number')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>Origin</label>
+              <input type="text" id="origin" name="origin" class="form-control" readonly>
+          </div>
+      </div>
 
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Box Label</label> <span class="text-danger">*</span>
-            <input type="text" name="box_no" class="form-control @error('box_no') is-invalid @enderror"
-                value="{{ old('box_no', $storage->box_no) }}">
-            @error('box_no')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <label>Using Place</label>
+              <input type="text" id="using_place" name="using_place" class="form-control" readonly>
+          </div>
+      </div>
 
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Box Location</label> <span class="text-danger">*</span>
-            <input type="text" name="box_location" class="form-control @error('box_location') is-invalid @enderror"
-                value="{{ old('box_location', $storage->box_location) }}">
-            @error('box_location')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Alert Quantity</label> <span class="text-danger">*</span>
-            <input type="number" name="alert_quantity"
-                class="form-control @error('alert_quantity') is-invalid @enderror"
-                value="{{ old('alert_quantity', $storage->alert_quantity) }}">
-            @error('alert_quantity')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Stock Quantity</label> <span class="text-danger">*</span>
-            <input type="number" name="stock_quantity"
-                class="form-control @error('stock_quantity') is-invalid @enderror"
-                value="{{ old('stock_quantity', $storage->stock_quantity) }}">
-            @error('stock_quantity')
-                <span class="text-danger small">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-
-</div>
+  </div>

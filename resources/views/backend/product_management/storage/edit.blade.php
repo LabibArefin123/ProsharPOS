@@ -43,6 +43,7 @@
                 @include('backend.product_management.storage.partial_edit.part_6')
                 @include('backend.product_management.storage.partial_edit.part_7')
                 @include('backend.product_management.storage.partial_edit.part_8')
+                @include('backend.product_management.storage.partial_edit.part_9')
 
                 <div class="text-end mt-3">
                     <button type="submit" class="btn btn-success">Update</button>
@@ -57,5 +58,6 @@
     <script src="{{ asset('js/backend/product_management/storage/edit_page/product_load.js') }}"></script>
     <script src="{{ asset('js/backend/product_management/storage/edit_page/supplier_load.js') }}"></script>
     <script src="{{ asset('js/backend/product_management/storage/edit_page/manufacture_load.js') }}"></script>
+    <script src="{{ asset('js/backend/product_management/storage/edit_page/warehouse_load.js') }}"></script>
     <script src="{{ asset('js/backend/product_management/storage/edit_page/upload_image_s.js') }}"></script>
 @endsection

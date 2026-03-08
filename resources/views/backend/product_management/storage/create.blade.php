@@ -35,6 +35,7 @@
                 @include('backend.product_management.storage.partial_create.part_3')
                 @include('backend.product_management.storage.partial_create.part_4')
                 @include('backend.product_management.storage.partial_create.part_5')
+                @include('backend.product_management.storage.partial_create.part_6')
                 <!-- Button to trigger modal -->
                 <div class="form-group">
                     <label>Upload Image</label>
@@ -68,5 +69,6 @@
     <script src="{{ asset('js/backend/product_management/storage/create_page/product_load.js') }}"></script> {{--  Product load  JS --}}
     <script src="{{ asset('js/backend/product_management/storage/create_page/supplier_load.js') }}"></script> {{--  Supplier load  JS --}}
     <script src="{{ asset('js/backend/product_management/storage/create_page/manufacture_load.js') }}"></script> {{--  Manufacture load  JS --}}
+    <script src="{{ asset('js/backend/product_management/storage/create_page/warehouse_load.js') }}"></script> {{--  Manufacture load  JS --}}
 
 @endsection

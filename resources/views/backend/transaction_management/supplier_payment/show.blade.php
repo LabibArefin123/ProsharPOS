@@ -5,9 +5,14 @@
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
         <h3>Supplier Payment Details</h3>
-        <a href="{{ route('supplier_payments.index') }}" class="btn btn-sm btn-secondary">
-            Back
-        </a>
+        <div>
+            <a href="{{ route('supplier_payments.index') }}" class="btn btn-sm btn-secondary">
+                Back
+            </a>
+            <a href="{{ route('supplier_payments.edit', $supplierPayment->id) }}" class="btn btn-sm btn-primary">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+        </div>
     </div>
 @stop
 

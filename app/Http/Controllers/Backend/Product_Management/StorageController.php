@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Milon\Barcode\DNS1D;
 use App\Models\Storage;
+use App\Models\Warehouse;
 use App\Models\Manufacturer;
 use App\Models\Supplier;
 use App\Models\Product;
@@ -34,10 +35,12 @@ class StorageController extends Controller
         $suppliers = Supplier::all();
         $products = Product::orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
+        $warehouses = Warehouse::orderBy('name', 'asc')->get();
 
         return view('backend.product_management.storage.create', compact(
             'suppliers',
             'manufacturers',
+            'warehouses',
             'products'
         ));
     }
@@ -129,15 +132,16 @@ class StorageController extends Controller
      */
     public function edit(Storage $storage)
     {
-
         $suppliers = Supplier::all();
         $products = Product::orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
+        $warehouses = Warehouse::orderBy('name', 'asc')->get();
         return view('backend.product_management.storage.edit', compact(
             'storage',
             'suppliers',
             'products',
-            'manufacturers'
+            'manufacturers',
+            'warehouses'
         ));
     }
 
