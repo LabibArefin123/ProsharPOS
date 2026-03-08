@@ -113,7 +113,7 @@ class ProductDamageController extends Controller
 
 
         return redirect()
-            ->route('product_damages.index')
+            ->route('products_damages.index')
             ->with('success', 'Product damage recorded successfully');
     }
 
@@ -228,7 +228,7 @@ class ProductDamageController extends Controller
 
 
         return redirect()
-            ->route('product_damages.index')
+            ->route('products_damages.index')
             ->with('success', 'Product damage updated successfully');
     }
 
@@ -273,7 +273,7 @@ class ProductDamageController extends Controller
 
 
         return redirect()
-            ->route('product_damages.index')
+            ->route('products_damages.index')
             ->with('success', 'Damage record deleted successfully');
     }
 }

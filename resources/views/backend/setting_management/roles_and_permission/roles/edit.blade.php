@@ -97,15 +97,10 @@
                             @foreach ($groupedPermissions as $group => $groupPermissions)
                                 {{-- GROUP HEADER --}}
                                 <tr class="">
-
                                     <td colspan="4">
-
                                         <div class="d-flex justify-content-between align-items-center">
-
                                             <strong>{{ ucfirst($group) }}</strong>
-
                                             <div>
-
                                                 <button type="button" class="btn btn-xs btn-light select-all-btn"
                                                     data-group="{{ $group }}">
                                                     Select

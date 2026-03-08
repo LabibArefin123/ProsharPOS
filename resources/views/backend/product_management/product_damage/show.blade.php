@@ -10,11 +10,11 @@
 
         <div>
 
-            <a href="{{ route('product_damages.index') }}" class="btn btn-sm btn-secondary">
+            <a href="{{ route('products_damages.index') }}" class="btn btn-sm btn-secondary">
                 Back
             </a>
 
-            <a href="{{ route('product_damages.edit', $damage->id) }}" class="btn btn-sm btn-primary">
+            <a href="{{ route('products_damages.edit', $damage->id) }}" class="btn btn-sm btn-primary">
                 <i class="fas fa-edit"></i> Edit
             </a>
 

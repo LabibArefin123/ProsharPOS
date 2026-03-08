@@ -6,7 +6,8 @@
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="mb-0">Create Product Damage</h3>
 
-        <a href="{{ route('product_damages.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
+        <a href="{{ route('products_damages.index') }}"
+            class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
             <i class="fas fa-arrow-left"></i>
             Back
         </a>
@@ -17,7 +18,7 @@
 @section('content')
     <div class="card shadow-sm">
         <div class="card-body">
-            <form action="{{ route('product_damages.store') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('products_damages.store') }}" method="POST" enctype="multipart/form-data"
                 data-confirm="create">
                 @csrf
 
@@ -29,7 +30,8 @@
                             <option value="">-- Select Product Storage --</option>
 
                             @foreach ($storages as $storage)
-                                <option value="{{ $storage->id }}" {{ old('storage_id') == $storage->id ? 'selected' : '' }}>
+                                <option value="{{ $storage->id }}"
+                                    {{ old('storage_id') == $storage->id ? 'selected' : '' }}>
 
                                     {{ $storage->product->name ?? 'Product' }}
                                     (Stock: {{ $storage->stock_quantity }})
@@ -96,7 +98,7 @@
                 </div>
                 <div class="text-end">
 
-                    <a href="{{ route('product_damages.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('products_damages.index') }}" class="btn btn-secondary">
                         Cancel
                     </a>
 

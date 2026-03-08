@@ -22,16 +22,16 @@ return [
 
         [
             'text' => 'Damage Product',
-            'route' => 'product_damages.stock',
-            'can' => 'product_damages.stock',
-            'active' => ['product_damages*'],
+            'route' => 'products_damages.index',
+            'can' => 'products_damages.index',
+            'active' => ['products_damages*'],
         ],
-        
+
         [
             'text' => 'Expired Product',
-            'route' => 'product_expirys.stock',
-            'can' => 'product_expirys.stock',
-            'active' => ['product_expirys*'],
+            'route' => 'products_expirys.index',
+            'can' => 'products_expirys.index',
+            'active' => ['products_expirys*'],
         ],
 
         [

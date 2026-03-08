@@ -6,13 +6,12 @@
     <div class="d-flex justify-content-between align-items-center">
         <h1>Product Damage List</h1>
         <div class="d-flex gap-2">
-            <a href="{{ route('product_damages.create') }}" class="btn btn-danger btn-sm">
+            <a href="{{ route('products_damages.create') }}" class="btn btn-danger btn-sm">
                 <i class="fas fa-plus"></i> Create New
             </a>
         </div>
     </div>
 @stop
-
 
 @section('content')
     <div class="card shadow-sm border-left-danger">
@@ -51,13 +50,13 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('product_damages.edit', $damage->id) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('products_damages.edit', $damage->id) }}" class="btn btn-primary btn-sm">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <a href="{{ route('product_damages.show', $damage->id) }}" class="btn btn-info btn-sm">
+                                <a href="{{ route('products_damages.show', $damage->id) }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <form action="{{ route('product_damages.destroy', $damage->id) }}" method="POST"
+                                <form action="{{ route('products_damages.destroy', $damage->id) }}" method="POST"
                                     class="d-inline" onsubmit="return confirm('Delete this damage record?')">
 
                                     @csrf

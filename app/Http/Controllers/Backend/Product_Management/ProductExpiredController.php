@@ -113,7 +113,7 @@ class ProductExpiredController extends Controller
 
 
         return redirect()
-            ->route('product_expirys.index')
+            ->route('products_expirys.index')
             ->with('success', 'Product expiry recorded successfully');
     }
 
@@ -228,7 +228,7 @@ class ProductExpiredController extends Controller
 
 
         return redirect()
-            ->route('product_expirys.index')
+            ->route('products_expirys.index')
             ->with('success', 'Product expiry updated successfully');
     }
 
@@ -273,7 +273,7 @@ class ProductExpiredController extends Controller
 
 
         return redirect()
-            ->route('product_expirys.index')
+            ->route('products_expirys.index')
             ->with('success', 'Expiry record deleted successfully');
     }
 }

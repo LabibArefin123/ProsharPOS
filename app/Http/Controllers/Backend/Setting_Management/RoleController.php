@@ -17,50 +17,19 @@ class RoleController extends Controller
         return view('backend.setting_management.roles_and_permission.roles.index', compact('roles'));
     }
 
-
     public function create()
     {
-        $routesCollection = collect(Route::getRoutes())
-            ->filter(function ($route) {
-                $middlewares = $route->gatherMiddleware();
+        $permissions = \Spatie\Permission\Models\Permission::all();
 
-                return $route->getName()
-                    && $route->getAction('controller')
-                    && collect($middlewares)->contains('auth')
-                    && collect($middlewares)->contains('permission');
-            })
-            ->values(); // reset keys (important)
-
-        // Pagination settings
-        $perPage = 15;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentItems = $routesCollection
-            ->slice(($currentPage - 1) * $perPage, $perPage)
-            ->values();
-
-        // Create paginator
-        $routes = new LengthAwarePaginator(
-            $currentItems,
-            $routesCollection->count(),
-            $perPage,
-            $currentPage,
-            [
-                'path' => request()->url(),
-                'query' => request()->query(),
-            ]
-        );
-
-        // Group paginated routes only
-        $groupedRoutes = $routes->getCollection()->groupBy(function ($route) {
-            return class_basename(explode('@', $route->getActionName())[0]);
+        $groupedPermissions = $permissions->groupBy(function ($permission) {
+            return explode('.', $permission->name)[0]; // user.create → user
         });
 
         return view(
             'backend.setting_management.roles_and_permission.roles.create',
-            compact('routes', 'groupedRoutes')
+            compact('groupedPermissions')
         );
     }
-
 
     public function store(Request $request)
     {
@@ -109,7 +78,7 @@ class RoleController extends Controller
             )
         );
     }
-    
+
     public function update(Request $request, $id)
     {
         $role = Role::findOrFail($id);

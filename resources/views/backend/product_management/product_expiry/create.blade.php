@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
         <h3>Create Product Expiry</h3>
-        <a href="{{ route('product_expirys.index') }}" class="btn btn-sm btn-secondary">
+        <a href="{{ route('products_expirys.index') }}" class="btn btn-sm btn-secondary">
             <i class="fas fa-arrow-left"></i> Back
         </a>
     </div>
@@ -15,7 +15,7 @@
 @section('content')
     <div class="card shadow-sm">
         <div class="card-body">
-            <form action="{{ route('product_expirys.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('products_expirys.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-3">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="text-end mt-3">
 
-                    <a href="{{ route('product_expirys.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('products_expirys.index') }}" class="btn btn-secondary">
                         Cancel
                     </a>
                     <button class="btn btn-success">

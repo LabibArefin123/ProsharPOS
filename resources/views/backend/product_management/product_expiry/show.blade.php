@@ -6,10 +6,10 @@
     <div class="d-flex justify-content-between align-items-center">
         <h3>Product Expiry Details</h3>
         <div>
-            <a href="{{ route('product_expirys.index') }}" class="btn btn-secondary btn-sm">
+            <a href="{{ route('products_expirys.index') }}" class="btn btn-secondary btn-sm">
                 Back
             </a>
-            <a href="{{ route('product_expirys.edit', $productExpiry->id) }}" class="btn btn-primary btn-sm">
+            <a href="{{ route('products_expirys.edit', $productExpiry->id) }}" class="btn btn-primary btn-sm">
 
                 <i class="fas fa-edit"></i> Edit
             </a>

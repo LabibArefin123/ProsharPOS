@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="mb-0">Edit Product Damage</h3>
 
-        <a href="{{ route('product_damages.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
+        <a href="{{ route('products_damages.index') }}" class="btn btn-sm btn-secondary d-flex align-items-center gap-2 back-btn">
 
             <i class="fas fa-arrow-left"></i>
             Back
@@ -18,7 +18,7 @@
 @section('content')
     <div class="card shadow-sm">
         <div class="card-body">
-            <form action="{{ route('product_damages.update', $productDamage->id) }}" method="POST"
+            <form action="{{ route('products_damages.update', $productDamage->id) }}" method="POST"
                 enctype="multipart/form-data" data-confirm="update">
                 @csrf
                 @method('PUT')
@@ -100,7 +100,7 @@
                 </div>
                 <div class="text-end">
 
-                    <a href="{{ route('product_damages.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('products_damages.index') }}" class="btn btn-secondary">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary">

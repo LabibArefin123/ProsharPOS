@@ -3,17 +3,17 @@
 @section('title', 'Product Expiry List')
 
 @section('content_header')
-    <h1>Product Expiry List</h1>
-@stop
-
-@section('content')
-
-    <div class="card">
-        <div class="card-header">
-            <a href="{{ route('product_expirys.create') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-plus"></i> Add Product Expiry
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Product Expired List</h1>
+        <div class="d-flex gap-2">
+            <a href="{{ route('products_expirys.create') }}" class="btn btn-danger btn-sm">
+                <i class="fas fa-plus"></i> Create New
             </a>
         </div>
+    </div>
+@stop
+@section('content')
+    <div class="card">
         <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead class="bg-dark">
@@ -27,21 +27,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
+                    @foreach ($expiries as $expire)
                         <tr>
-                            <td>{{ $product->id }}</td>
-                            <td>{{ $product->product_name }}</td>
-                            <td>{{ $product->batch_no }}</td>
-                            <td>{{ $product->expiry_date }}</td>
-                            <td>{{ $product->quantity }}</td>
+                            <td>{{ $expire->id }}</td>
+                            <td>{{ $expire->product_name }}</td>
+                            <td>{{ $expire->batch_no }}</td>
+                            <td>{{ $expire->expiry_date }}</td>
+                            <td>{{ $expire->quantity }}</td>
                             <td>
-                                <a href="{{ route('product_expirys.show', $product->id) }}" class="btn btn-info btn-sm">
+                                <a href="{{ route('products_expirys.show', $expire->id) }}" class="btn btn-info btn-sm">
                                     View
                                 </a>
-                                <a href="{{ route('product_expirys.edit', $product->id) }}" class="btn btn-warning btn-sm">
+                                <a href="{{ route('products_expirys.edit', $expire->id) }}" class="btn btn-warning btn-sm">
                                     Edit
                                 </a>
-                                <form action="{{ route('product_expirys.destroy', $product->id) }}" method="POST"
+                                <form action="{{ route('products_expirys.destroy', $expire->id) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
