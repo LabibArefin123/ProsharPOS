@@ -94,11 +94,9 @@ class RoleController extends Controller
 
         $rolePermissions = $role->permissions()->pluck('name')->toArray();
 
-        // Paginate permissions
-        $permissions = Permission::orderBy('name')->paginate(500);
+        $permissions = Permission::orderBy('name')->get();
 
-        // Group paginated items only
-        $groupedPermissions = $permissions->getCollection()->groupBy(function ($permission) {
+        $groupedPermissions = $permissions->groupBy(function ($permission) {
             return explode('.', $permission->name)[0];
         });
 
@@ -107,13 +105,11 @@ class RoleController extends Controller
             compact(
                 'role',
                 'rolePermissions',
-                'permissions',
                 'groupedPermissions'
             )
         );
     }
-
-
+    
     public function update(Request $request, $id)
     {
         $role = Role::findOrFail($id);

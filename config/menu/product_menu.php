@@ -21,6 +21,20 @@ return [
         ],
 
         [
+            'text' => 'Damage Product',
+            'route' => 'product_damages.stock',
+            'can' => 'product_damages.stock',
+            'active' => ['product_damages*'],
+        ],
+        
+        [
+            'text' => 'Expired Product',
+            'route' => 'product_expirys.stock',
+            'can' => 'product_expirys.stock',
+            'active' => ['product_expirys*'],
+        ],
+
+        [
             'text' => 'Stock Movement',
             'route' => 'stock_movements.index',
             'can' => 'stock_movements.index',

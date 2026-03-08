@@ -12,6 +12,8 @@ use App\Models\Warehouse;
 use App\Models\Manufacturer;
 use App\Models\Supplier;
 use App\Models\Product;
+use App\Models\ProductDamage;
+use App\Models\ProductExpiry;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -48,8 +50,6 @@ class StorageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
-
 
     public function store(Request $request)
     {
@@ -148,6 +148,7 @@ class StorageController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, Storage $storage)
     {
         /* Normalize Checkboxes */
@@ -166,53 +167,36 @@ class StorageController extends Controller
         }
 
         $validated = $request->validate([
-
             'product_id'      => 'required|exists:products,id',
             'supplier_id'     => 'required|exists:suppliers,id',
             'manufacturer_id' => 'required|exists:manufacturers,id',
 
-            'rack_number'     => 'required|string|max:100',
-            'box_number'      => 'required|string|max:100',
-            'rack_no'         => 'required|string|max:100',
-            'box_no'          => 'required|string|max:100',
+            'rack_number' => 'required|string|max:100',
+            'box_number'  => 'required|string|max:100',
+            'rack_no'     => 'required|string|max:100',
+            'box_no'      => 'required|string|max:100',
 
-            'rack_location'   => 'nullable|string|max:150',
-            'box_location'    => 'nullable|string|max:150',
+            'rack_location' => 'nullable|string|max:150',
+            'box_location'  => 'nullable|string|max:150',
 
-            'stock_quantity'  => 'required|integer|min:0',
-            'alert_quantity'  => 'required|integer|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            'alert_quantity' => 'required|integer|min:0',
+
             'minimum_stock_level' => 'required|integer|min:0',
             'maximum_stock_level' => 'required|integer|gt:minimum_stock_level',
 
-            'image_path'   => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 
-            'is_damaged' => 'required|in:0,1',
-            'is_expired' => 'required|in:0,1',
-
-            'damage_image' => 'required_if:is_damaged,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'damage_qty' => [
-                'nullable',
-                'integer',
-                Rule::requiredIf($request->is_damaged == 1),
-                Rule::when($request->is_damaged == 1, ['min:1']),
-            ],
-            'damage_solution'    => 'required_if:is_damaged,1|nullable|string|max:255',
-            'damage_description' => 'required_if:is_damaged,1|nullable|string',
-
-            'expired_image' => 'required_if:is_expired,1|nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'expired_qty' => [
-                'nullable',
-                'integer',
-                Rule::requiredIf($request->is_expired == 1),
-                Rule::when($request->is_expired == 1, ['min:1']),
-            ],
-            'expired_solution'    => 'required_if:is_expired,1|nullable|string|max:255',
-            'expired_description' => 'required_if:is_expired,1|nullable|string',
+            'damage_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'expired_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
-        /* ==========================
-       HANDLE MAIN IMAGE
-    ========================== */
+        /*
+    |--------------------------------------------------------------------------
+    | MAIN STORAGE IMAGE
+    |--------------------------------------------------------------------------
+    */
+
         if ($request->hasFile('image_path')) {
 
             if ($storage->image_path && file_exists(public_path($storage->image_path))) {
@@ -221,19 +205,20 @@ class StorageController extends Controller
 
             $file = $request->file('image_path');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/images/storage');
+            $destination = public_path('uploads/images/storage');
 
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
             }
 
-            $file->move($destinationPath, $filename);
+            $file->move($destination, $filename);
+
             $validated['image_path'] = 'uploads/images/storage/' . $filename;
         }
 
         /*
     |--------------------------------------------------------------------------
-    | BARCODE GENERATION (ONLY IF MISSING)
+    | BARCODE GENERATION
     |--------------------------------------------------------------------------
     */
 
@@ -244,114 +229,120 @@ class StorageController extends Controller
             $barcodeGenerator = new DNS1D();
             $barcodeImage = $barcodeGenerator->getBarcodePNG($barcode, 'C128');
 
-            $barcodeFolder = public_path('uploads/barcodes');
+            $folder = public_path('uploads/barcodes');
 
-            if (!file_exists($barcodeFolder)) {
-                mkdir($barcodeFolder, 0777, true);
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
             }
 
-            $barcodeFile = $barcode . '.png';
+            $file = $barcode . '.png';
 
             file_put_contents(
-                $barcodeFolder . '/' . $barcodeFile,
+                $folder . '/' . $file,
                 base64_decode($barcodeImage)
             );
 
             $validated['barcode'] = $barcode;
-            $validated['barcode_path'] = 'uploads/barcodes/' . $barcodeFile;
+            $validated['barcode_path'] = 'uploads/barcodes/' . $file;
         }
 
         /*
     |--------------------------------------------------------------------------
-    | EXISTING DAMAGE / EXPIRED LOGIC (UNCHANGED)
+    | UPDATE STORAGE
     |--------------------------------------------------------------------------
     */
 
-        if ($validated['is_damaged'] == 1) {
+        $storage->update($validated);
 
-            $validated['expired_solution'] = null;
-            $validated['expired_description'] = null;
+        /*
+    |--------------------------------------------------------------------------
+    | DAMAGE LOGIC
+    |--------------------------------------------------------------------------
+    */
 
-            if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
-                @unlink(public_path($storage->expired_image));
-            }
+        if ($request->is_damaged == 1) {
 
-            $validated['expired_image'] = null;
+            $damageImage = null;
 
             if ($request->hasFile('damage_image')) {
 
-                if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
-                    @unlink(public_path($storage->damage_image));
-                }
-
                 $file = $request->file('damage_image');
                 $filename = 'damage_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $destinationPath = public_path('uploads/images/storage/damage');
+                $path = public_path('uploads/images/storage/damage');
 
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0755, true);
+                if (!file_exists($path)) {
+                    mkdir($path, 0755, true);
                 }
 
-                $file->move($destinationPath, $filename);
-                $validated['damage_image'] = 'uploads/images/storage/damage/' . $filename;
+                $file->move($path, $filename);
+
+                $damageImage = 'uploads/images/storage/damage/' . $filename;
             }
+
+            ProductDamage::updateOrCreate(
+                [
+                    'storage_id' => $storage->id
+                ],
+                [
+                    'product_id' => $request->product_id,
+                    'damage_qty' => $request->damage_qty,
+                    'damage_description' => $request->damage_description,
+                    'damage_solution' => $request->damage_solution,
+                    'damage_image' => $damageImage
+                ]
+            );
+
+            /* Remove expiry if existed */
+            ProductExpiry::where('storage_id', $storage->id)->delete();
         } else {
 
-            $validated['damage_qty'] = 0;
-            $validated['damage_solution'] = null;
-            $validated['damage_description'] = null;
-
-            if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
-                @unlink(public_path($storage->damage_image));
-            }
-
-            $validated['damage_image'] = null;
+            ProductDamage::where('storage_id', $storage->id)->delete();
         }
 
-        if ($validated['is_expired'] == 1) {
+        /*
+    |--------------------------------------------------------------------------
+    | EXPIRY LOGIC
+    |--------------------------------------------------------------------------
+    */
 
-            $validated['is_damaged'] = 0;
-            $validated['damage_qty'] = 0;
-            $validated['damage_solution'] = null;
-            $validated['damage_description'] = null;
+        if ($request->is_expired == 1) {
 
-            if ($storage->damage_image && file_exists(public_path($storage->damage_image))) {
-                @unlink(public_path($storage->damage_image));
-            }
-
-            $validated['damage_image'] = null;
+            $expiryImage = null;
 
             if ($request->hasFile('expired_image')) {
 
-                if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
-                    @unlink(public_path($storage->expired_image));
-                }
-
                 $file = $request->file('expired_image');
                 $filename = 'expired_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $destinationPath = public_path('uploads/images/storage/expired');
+                $path = public_path('uploads/images/storage/expired');
 
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0755, true);
+                if (!file_exists($path)) {
+                    mkdir($path, 0755, true);
                 }
 
-                $file->move($destinationPath, $filename);
-                $validated['expired_image'] = 'uploads/images/storage/expired/' . $filename;
+                $file->move($path, $filename);
+
+                $expiryImage = 'uploads/images/storage/expired/' . $filename;
             }
+
+            ProductExpiry::updateOrCreate(
+                [
+                    'storage_id' => $storage->id
+                ],
+                [
+                    'product_id' => $request->product_id,
+                    'expired_qty' => $request->expired_qty,
+                    'expiry_description' => $request->expired_description,
+                    'error_solution' => $request->expired_solution,
+                    'expiry_image' => $expiryImage
+                ]
+            );
+
+            /* Remove damage if existed */
+            ProductDamage::where('storage_id', $storage->id)->delete();
         } else {
 
-            $validated['expired_qty'] = 0;
-            $validated['expired_solution'] = null;
-            $validated['expired_description'] = null;
-
-            if ($storage->expired_image && file_exists(public_path($storage->expired_image))) {
-                @unlink(public_path($storage->expired_image));
-            }
-
-            $validated['expired_image'] = null;
+            ProductExpiry::where('storage_id', $storage->id)->delete();
         }
-
-        $storage->update($validated);
 
         return redirect()
             ->route('storages.index')
