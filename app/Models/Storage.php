@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Storage extends Model
 {
     protected $fillable = [
+        'warehouse_id',
         'product_id',
         'supplier_id',
         'manufacturer_id',
@@ -24,19 +25,16 @@ class Storage extends Model
         'image_path',
         'is_active',
         'is_damaged',
-        'damage_description',
-        'damage_image',
-        'damage_qty',
-        'damage_solution',
         'is_expired',
-        'expired_description',
-        'expired_image',
-        'expired_qty',
-        'expired_solution',
         'barcode',
         'barcode_path',
 
     ];
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
 
     public function product()
     {
@@ -51,6 +49,16 @@ class Storage extends Model
     public function manufacturer()
     {
         return $this->belongsTo(Manufacturer::class);
+    }
+
+    public function damages()
+    {
+        return $this->hasMany(ProductDamage::class);
+    }
+
+    public function expiries()
+    {
+        return $this->hasMany(ProductExpiry::class);
     }
 
     public function stockMovements()

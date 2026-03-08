@@ -12,6 +12,8 @@ class Product extends Model
     protected $fillable = [
         'name',
         'sku',
+        'barcode',
+        'barcode_path',
         'category_id',
         'brand_id',
         'unit_id',
@@ -53,5 +55,15 @@ class Product extends Model
     public function storage()
     {
         return $this->hasOne(Storage::class);
+    }
+
+    public function damages()
+    {
+        return $this->hasMany(ProductDamage::class);
+    }
+
+    public function expiries()
+    {
+        return $this->hasMany(ProductExpiry::class);
     }
 }   

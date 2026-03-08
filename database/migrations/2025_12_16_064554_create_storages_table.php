@@ -33,19 +33,7 @@ return new class extends Migration
             
             /* 🧨 Damage Section */
             $table->boolean('is_damaged')->default(false);
-            $table->text('damage_description')->nullable();
-            $table->string('damage_image')->nullable();
-            $table->unsignedInteger('damage_qty')->default(0);
-            $table->string('damage_solution')->nullable();
-
-            /* ⏳ Expiry Section */
             $table->boolean('is_expired')->default(false);
-            $table->text('expiry_description')->nullable();
-            $table->string('expiry_image')->nullable();
-            $table->unsignedInteger('expired_qty')->default(0);
-            $table->string('error_solution')->nullable();
-            $table->string('damage_note');
-            $table->string('expiry_note');
             $table->timestamps();
         });
     }

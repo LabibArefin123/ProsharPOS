@@ -24,7 +24,10 @@ use App\Http\Controllers\Backend\Product_Management\BrandController;
 use App\Http\Controllers\Backend\Product_Management\UnitController;
 use App\Http\Controllers\Backend\Product_Management\WarrantyController;
 use App\Http\Controllers\Backend\Product_Management\ProductController;
+use App\Http\Controllers\Backend\Product_Management\ProductDamageController;
+use App\Http\Controllers\Backend\Product_Management\ProductExpiredController;
 use App\Http\Controllers\Backend\Product_Management\StorageController;
+use App\Http\Controllers\Backend\Product_Management\WarehouseController;
 use App\Http\Controllers\Backend\Product_Management\StockMovementController;
 use App\Http\Controllers\Backend\Product_Management\ProductInspectionController;
 
@@ -32,7 +35,6 @@ use App\Http\Controllers\Backend\Product_Management\ProductInspectionController;
 use App\Http\Controllers\Backend\Financial_Management\BankBalanceController;
 use App\Http\Controllers\Backend\Financial_Management\BankDepositController;
 use App\Http\Controllers\Backend\Financial_Management\BankWithdrawController;
-use App\Http\Controllers\Backend\Financial_Management\BankCardController;
 
 //People Management Part
 use App\Http\Controllers\Backend\People_Management\CustomerController;
@@ -104,7 +106,10 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::post('/products/bulk-delete',[ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
     Route::post('/products/bulk-export', [ProductController::class, 'bulkExport'])->name('products.bulkExport');
+    Route::resource('products_damages', ProductDamageController::class);
+    Route::resource('products_expirys', ProductExpiredController::class);
     Route::resource('storages', StorageController::class);
+    Route::resource('warehouses', WarehouseController::class);
     Route::post('/storages/{id}/generate-barcode', [StorageController::class, 'generateBarcode'])->name('storages.generateBarcode');
     Route::resource('stock_movements', StockMovementController::class);
     Route::resource('product_inspections', ProductInspectionController::class);

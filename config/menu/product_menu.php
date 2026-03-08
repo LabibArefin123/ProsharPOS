@@ -31,6 +31,12 @@ return [
             'active' => ['warranties*'],
         ],
         [
+            'text' => 'Warehouse List',
+            'route' => 'warehouses.index',
+            'can' => 'warehouses.index',
+            'active' => ['warehouses*'],
+        ],
+        [
             'text' => 'Storage List',
             'route' => 'storages.index',
             'can' => 'storages.index',
