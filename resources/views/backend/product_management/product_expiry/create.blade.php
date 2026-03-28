@@ -11,7 +11,6 @@
     </div>
 @stop
 
-
 @section('content')
     <div class="card shadow-sm">
         <div class="card-body">
@@ -61,11 +60,9 @@
                         Cancel
                     </a>
                     <button class="btn btn-success">
-                        <i class="fas fa-save"></i> Save Expiry
+                        <i class="fas fa-save"></i> Save 
                     </button>
-
                 </div>
-
             </form>
         </div>
     </div>

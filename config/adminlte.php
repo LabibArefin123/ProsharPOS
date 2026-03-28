@@ -341,6 +341,8 @@ return [
         require config_path('menu/organization_menu.php'),        
         require config_path('menu/department_menu.php'),        
         require config_path('menu/product_menu.php'),        
+        require config_path('menu/storage_menu.php'),        
+        require config_path('menu/service_menu.php'),        
         require config_path('menu/pos_menu.php'),        
         require config_path('menu/transaction_menu.php'),        
         require config_path('menu/financial_menu.php'),        

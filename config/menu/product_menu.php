@@ -41,28 +41,6 @@ return [
             'active' => ['stock_movements*'],
         ],
 
-        // Quality / Service
-        [
-            'text' => 'Product Inspection List',
-            'route' => 'product_inspections.index',
-            'can' => 'product_inspections.index',
-            'active' => ['product_inspections*'],
-        ],
-
-        // Warehouse / Storage
-        [
-            'text' => 'Warehouse List',
-            'route' => 'warehouses.index',
-            'can' => 'warehouses.index',
-            'active' => ['warehouses*'],
-        ],
-        [
-            'text' => 'Storage List',
-            'route' => 'storages.index',
-            'can' => 'storages.index',
-            'active' => ['storages*'],
-        ],
-
         // Master Data
         [
             'text' => 'Category List',
