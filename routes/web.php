@@ -8,7 +8,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AjaxController;
-use App\Http\Controllers\ActivityLogController;
 
 //Organization Management Part
 use App\Http\Controllers\Backend\Organization_Management\OrganizationController;
@@ -61,7 +60,10 @@ use App\Http\Controllers\Backend\Setting_Management\RoleController;
 use App\Http\Controllers\Backend\Setting_Management\PermissionController;
 
 use App\Http\Controllers\Backend\Setting_Management\CompanyController;
+use App\Http\Controllers\Backend\Setting_Management\ActivityLogController;
 use App\Http\Controllers\Backend\Setting_Management\UserController;
+use App\Http\Controllers\Backend\Setting_Management\BanUserController;
+use App\Http\Controllers\Backend\Setting_Management\UserDeviceController;
 use App\Http\Controllers\Backend\Setting_Management\UserCategoryController;
 use App\Http\Controllers\Backend\Setting_Management\SearchController;
 use App\Http\Controllers\Backend\Setting_Management\SystemInformationController;
@@ -173,6 +175,10 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('system_informations', SystemInformationController::class);
     Route::resource('user_categories', UserCategoryController::class);
     Route::resource('system_users', UserController::class);
+    Route::resource('ban_users', BanUserController::class);
+    Route::post('/user_devices/{id}/ban', [UserDeviceController::class, 'ban'])->name('user_devices.ban');
+    Route::post('/user_devices/{id}/unban', [UserDeviceController::class, 'unban'])->name('user_devices.unban');
+    Route::resource('user_devices', UserDeviceController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::post('/permissions/delete-selected', [PermissionController::class, 'deleteSelected'])->name('permissions.deleteSelected');
@@ -197,8 +203,8 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::post('/settings/datetime/update', [SettingController::class, 'updateDateTime'])->name('settings.datetime.update');
     Route::get('/settings/theme', [SettingController::class, 'theme'])->name('settings.theme');
     Route::post('/settings/theme/update', [SettingController::class, 'updateTheme'])->name('settings.theme.update');
-
-    Route::get('/activity_logs', [ActivityLogController::class, 'index'])->name('activity_log.index');
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity.logs.index');
+    Route::delete('/activity-logs/{id}', [ActivityLogController::class, 'destroy'])->name('activity.logs.destroy');
 });
 
 

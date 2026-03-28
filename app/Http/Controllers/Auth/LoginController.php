@@ -3,115 +3,76 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Services\AuthService;
 
 class LoginController extends Controller
 {
+    /**
+     * Where to redirect users after login.
+     */
+    protected string $redirectTo = '/dashboard';
 
-
-    protected $redirectTo = '/home';
 
     /**
-     * Login field name
+     * Show login page
      */
-    public function username()
+    public function showLoginForm()
     {
-        return 'login';
+        return view('auth.login');
     }
 
     /**
-     * Custom login logic
+     * Handle login (Crypt-based)
      */
-    protected function attemptLogin(Request $request)
+
+    public function login(LoginRequest $request, AuthService $authService)
     {
-        $loginInput = $request->input('login');
-        $password   = $request->input('password');
+        $request->ensureIsNotRateLimited();
 
-        $field = filter_var($loginInput, FILTER_VALIDATE_EMAIL)
-            ? 'email'
-            : 'username';
+        $user = $authService->findUser($request->input('login'));
 
-        $user = User::where($field, $loginInput)->first();
-
-        // Maintenance check
-        $maintenance = User::where('is_maintenance', 1)->first();
-
-        if ($maintenance && (!$user || !$user->hasRole('admin'))) {
-
-            activity()
-                ->withProperties([
-                    'login'   => $loginInput,
-                    'ip'      => $request->ip(),
-                    'browser' => $request->userAgent(),
-                ])
-                ->log('Login Blocked (Maintenance Mode)');
-
-            return redirect()
-                ->back()
-                ->with('error', $maintenance->maintenance_message);
+        if ($response = $authService->checkMaintenance($user)) {
+            return $response;
         }
 
-        $success = Auth::attempt(
-            [$field => $loginInput, 'password' => $password],
-            $request->filled('remember')
-        );
-
-        if ($success) {
-
-            activity()
-                ->causedBy(Auth::user())
-                ->withProperties([
-                    'ip'      => $request->ip(),
-                    'browser' => $request->userAgent(),
-                ])
-                ->log('User Logged In');
-        } else {
-
-            activity()
-                ->withProperties([
-                    'login'   => $loginInput,
-                    'ip'      => $request->ip(),
-                    'browser' => $request->userAgent(),
-                ])
-                ->log('Failed Login Attempt');
+        if (!$user) {
+            return $authService->failedLogin();
         }
 
-        return $success;
-    }
-    /**
-     * ✅ THIS is where login success MUST be handled
-     */
-    protected function sendLoginResponse(Request $request)
-    {
-        $request->session()->regenerate();
+        if ($response = $authService->checkUserBan($user)) {
+            return $response;
+        }
 
-        $this->clearLoginAttempts($request);
+        if (!$authService->validatePassword($request->input('password'), $user)) {
+            return $authService->failedLogin();
+        }
 
-        return redirect()
-            ->intended($this->redirectPath())
-            ->with('success', 'Welcome back, ' . Auth::user()->name . '!');
+        $authService->performLogin($request, $user);
+
+        return redirect()->intended($this->redirectTo);
     }
 
     /**
-     * Logout
+     * Logout user
      */
     public function logout(Request $request)
     {
-        $name = Auth::user()->name ?? 'User';
+        $user = Auth::user();
+
+        if ($user) {
+            activity('User')
+                ->causedBy($user)
+                ->log('User logged out');
+        }
 
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        session()->flash(
-            'logout_success',
-            'Goodbye, ' . $name . '! You have logged out successfully.'
-        );
-
-        return redirect('/login');
+        return redirect('/');
     }
 }
