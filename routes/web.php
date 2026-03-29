@@ -3,6 +3,8 @@
 //Welcome Page Part
 use App\Http\Controllers\Frontend\WelcomePageController;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
@@ -63,6 +65,7 @@ use App\Http\Controllers\Backend\Setting_Management\CompanyController;
 use App\Http\Controllers\Backend\Setting_Management\ActivityLogController;
 use App\Http\Controllers\Backend\Setting_Management\UserController;
 use App\Http\Controllers\Backend\Setting_Management\BanUserController;
+use App\Http\Controllers\Backend\Setting_Management\BannedDeviceController;
 use App\Http\Controllers\Backend\Setting_Management\UserDeviceController;
 use App\Http\Controllers\Backend\Setting_Management\UserCategoryController;
 use App\Http\Controllers\Backend\Setting_Management\SearchController;
@@ -176,6 +179,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::resource('user_categories', UserCategoryController::class);
     Route::resource('system_users', UserController::class);
     Route::resource('ban_users', BanUserController::class);
+    Route::resource('banned_devices', BannedDeviceController::class);
     Route::post('/user_devices/{id}/ban', [UserDeviceController::class, 'ban'])->name('user_devices.ban');
     Route::post('/user_devices/{id}/unban', [UserDeviceController::class, 'unban'])->name('user_devices.unban');
     Route::resource('user_devices', UserDeviceController::class);
@@ -207,8 +211,9 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::delete('/activity-logs/{id}', [ActivityLogController::class, 'destroy'])->name('activity.logs.destroy');
 });
 
+Auth::routes([
+    'register' => false, // disables register
+]);
 
-// Breeze authentication
-require __DIR__ . '/auth.php';
 
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');

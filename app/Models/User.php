@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 // use Laragear\TwoFactor\Contracts\TwoFactorAuthenticatable;
 // use Laragear\TwoFactor\TwoFactorAuthentication;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -90,5 +92,37 @@ class User extends Authenticatable
     public function payments()
     {
         return $this->hasMany(Payment::class, 'paid_by');
+    }
+
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->useLogName('User')
+            ->setDescriptionForEvent(function (string $eventName) {
+                return match ($eventName) {
+                    'created' => 'User created',
+                    'deleted' => 'User deleted',
+                    'updated' => 'User updated', // must return string
+                    default => 'User activity',  // ❗ NEVER return null
+                };
+            });
+    }
+
+    protected static function booted()
+    {
+        static::updating(function ($user) {
+            if ($user->isDirty('last_seen') && count($user->getDirty()) === 1) {
+                return false; // ❌ stop logging last_seen updates
+            }
+        });
+    }
+
+    public function getIsOnlineAttribute()
+    {
+        return $this->last_seen && $this->last_seen->gt(now()->subMinutes(5));
     }
 }

@@ -1,155 +1,251 @@
 @extends('adminlte::page')
 
-@section('title', 'Admin Activity Logs')
+@section('title', 'Activity Logs')
 
 @section('content_header')
-    <h3 class="mb-0">Admin Audit Logs</h3>
+    <div class="d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">
+            <i class="fas fa-history text-primary"></i> Activity Logs
+        </h4>
+        <button class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#filterSection">
+            <i class="fas fa-filter"></i> Filters
+        </button>
+    </div>
 @stop
 
 @section('content')
 
-    {{-- 🔥 STATISTICS CARDS --}}
-    <div class="row mb-3">
-        <div class="col-md-3">
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h4>{{ $activities->total() }}</h4>
-                    <p>Total Activities</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-history"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- 🔎 FILTER SECTION --}}
-    <div class="card mb-3">
+    {{-- FILTER CARD --}}
+    <div class="card shadow-sm collapse mb-3" id="filterSection">
         <div class="card-body">
-            <form method="GET" class="row g-3">
 
-                <div class="col-md-3">
-                    <label>User</label>
-                    <select name="user_id" class="form-control">
-                        <option value="">All</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }}
-                            </option>
+            <div class="row">
+                <div class="col-md-1"> <label>User</label> <select id="user" class="form-control form-control-sm">
+                        <option value="">All Users</option>
+                        @foreach ($users as $id => $name)
+                            <option value="{{ $id }}">{{ $name }}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <div class="col-md-3">
-                    <label>Model</label>
-                    <select name="model" class="form-control">
-                        <option value="">All</option>
-                        <option value="App\Models\Payment" {{ request('model') == 'App\Models\Payment' ? 'selected' : '' }}>
-                            Payment
-                        </option>
-                        <option value="App\Models\Invoice" {{ request('model') == 'App\Models\Invoice' ? 'selected' : '' }}>
-                            Invoice
-                        </option>
-                        <option value="App\Models\BankDeposit"
-                            {{ request('model') == 'App\Models\BankDeposit' ? 'selected' : '' }}>
-                            Bank Deposit
-                        </option>
-                        <option value="App\Models\BankWithdraw"
-                            {{ request('model') == 'App\Models\BankWithdraw' ? 'selected' : '' }}>
-                            Bank Withdraw
-                        </option>
-                    </select>
+                <div class="col-md-2">
+                    <label>Log</label>
+                    <input type="text" id="log_name" class="form-control form-control-sm">
                 </div>
 
                 <div class="col-md-2">
                     <label>From</label>
-                    <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+                    <input type="date" id="from_date" class="form-control form-control-sm">
                 </div>
 
                 <div class="col-md-2">
                     <label>To</label>
-                    <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+                    <input type="date" id="to_date" class="form-control form-control-sm">
                 </div>
 
                 <div class="col-md-2">
-                    <label>Search</label>
-                    <input type="text" name="search" class="form-control" placeholder="Action..."
-                        value="{{ request('search') }}">
+                    <label>Source</label>
+                    <select id="source" name="source" class="form-control form-control-sm">
+                        <option value="">All</option>
+                        @foreach ($sources as $key => $label)
+                            <option value="{{ $key }}" {{ request('source') == $key ? 'selected' : '' }}>
+                                {{ $label }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
-                <div class="col-md-12 text-end mt-2">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-search"></i> Filter
+                <div class="col-md-2">
+                    <label>Description</label>
+                    <input type="text" id="description" class="form-control form-control-sm">
+                </div>
+
+                <div class="col-md-1 d-flex align-items-end">
+                    <button class="btn btn-success btn-sm w-100" id="filterBtn">
+                        Apply
                     </button>
-                    <a href="{{ route('activity_log.index') }}" class="btn btn-secondary">
-                        Reset
-                    </a>
                 </div>
 
-            </form>
+            </div>
+
         </div>
     </div>
 
-    {{-- 📋 TABLE --}}
+    {{-- TABLE --}}
     <div class="card shadow-sm">
-        <div class="card-body table-responsive">
-            <table class="table table-striped table-hover text-nowrap" id="dataTables">
-                <thead class="thead-dark">
-                    <tr class="text-center">
+        <div class="card-body table-responsive p-2">
+
+            <table class="table table-sm table-hover align-middle" id="dataTables">
+                <thead class="bg-dark text-white">
                     <tr>
                         <th>#</th>
-                        <th class="text-center">User</th>
-                        <th class="text-center">Action</th>
-                        <th class="text-center">Model</th>
+                        <th>User</th>
+                        <th>Log</th>
+                        <th>Description</th>
+                        <th>Model</th>
+                        <th>ID</th>
                         <th>Details</th>
-                        <th class="text-center">Date</th>
-                        <th class="text-center">Time</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
-
-                <tbody>
-                    @forelse($activities as $activity)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-
-                            <td class="text-center">{{ $activity->causer?->name ?? 'System' }}</td>
-
-                            <td class="text-center">
-                                @if ($activity->description == 'created')
-                                    <span class="badge bg-success">Created</span>
-                                @elseif($activity->description == 'updated')
-                                    <span class="badge bg-warning">Updated</span>
-                                @elseif($activity->description == 'deleted')
-                                    <span class="badge bg-danger">Deleted</span>
-                                @else
-                                    <span class="badge bg-info">
-                                        {{ ucfirst($activity->description) }}
-                                    </span>
-                                @endif
-                            </td>
-
-                            <td class="text-center">{{ class_basename($activity->subject_type) }}</td>
-
-                            <td style="max-width:250px;">
-                                <div style="max-height:80px; overflow:auto; font-size:12px;">
-                                    {{ json_encode($activity->properties, JSON_PRETTY_PRINT) }}
-                                </div>
-                            </td>
-
-                            <td class="text-center">{{ $activity->created_at->format('d M Y') }}</td>
-                            <td class="text-center">{{ $activity->created_at->format('h:i A') }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center text-muted">
-                                No activity logs found.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-
             </table>
+
+        </div>
+    </div>
+    <div class="mt-4" style="height:50px;"> </div>
+    {{-- MODAL --}}
+    <div class="modal fade" id="propertyModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white">
+                        <i class="fas fa-database"></i> Activity Details
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="changeHighlight" class="mb-3"></div>
+
+                    <h6 class="text-muted">Full JSON</h6>
+                    <pre id="modalProperties"
+                        style="max-height:300px; overflow:auto; background:#111; color:#0f0; padding:10px; border-radius:5px;"></pre>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-sm" onclick="copyJSON()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this log?')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+
+                    <button class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
         </div>
     </div>
 
 @stop
+
+@push('js')
+    <script>
+        let table;
+
+        $(function() {
+
+            table = $('#dataTables').DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 25,
+                responsive: true,
+                order: [
+                    [7, 'desc']
+                ],
+
+                ajax: {
+                    url: "{{ route('activity.logs.index') }}",
+                    data: function(d) {
+                        d.user = $('#user').val();
+                        d.log_name = $('#log_name').val();
+                        d.from_date = $('#from_date').val();
+                        d.to_date = $('#to_date').val();
+                        d.description = $('#description').val();
+                        d.source = $('#source').val();
+                    }
+                },
+
+                columns: [{
+                        data: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'user'
+                    },
+                    {
+                        data: 'log'
+                    },
+                    {
+                        data: 'description'
+                    },
+                    {
+                        data: 'model'
+                    },
+                    {
+                        data: 'subject_id'
+                    },
+                    {
+                        data: 'details',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'date'
+                    },
+                ]
+            });
+
+            // 🔥 Filter reload
+            $('#filterBtn').click(function() {
+                table.ajax.reload();
+            });
+
+        });
+    </script>
+    <script>
+        let currentJSON = '';
+
+        $('#propertyModal').on('show.bs.modal', function(event) {
+
+            let button = $(event.relatedTarget);
+            let properties = button.data('properties');
+            let id = button.data('id');
+
+            currentJSON = JSON.stringify(properties, null, 4);
+            $('#modalProperties').text(currentJSON);
+
+            let html = '';
+
+            if (properties.old || properties.attributes) {
+
+                html += '<div class="row">';
+
+                if (properties.old) {
+                    html += `
+                <div class="col-md-6">
+                    <h6 class="text-danger">Old</h6>
+                    <pre class="bg-light p-2 border">${JSON.stringify(properties.old, null, 2)}</pre>
+                </div>`;
+                }
+
+                if (properties.attributes) {
+                    html += `
+                <div class="col-md-6">
+                    <h6 class="text-success">New</h6>
+                    <pre class="bg-light p-2 border">${JSON.stringify(properties.attributes, null, 2)}</pre>
+                </div>`;
+                }
+
+                html += '</div>';
+            } else {
+                html = '<p class="text-muted">No change data available</p>';
+            }
+
+            $('#changeHighlight').html(html);
+
+            let url = "{{ route('activity.logs.destroy', ':id') }}";
+            $('#deleteForm').attr('action', url.replace(':id', id));
+        });
+
+        function copyJSON() {
+            navigator.clipboard.writeText(currentJSON);
+        }
+    </script>
+@endpush
