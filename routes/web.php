@@ -71,6 +71,7 @@ use App\Http\Controllers\Backend\Setting_Management\UserCategoryController;
 use App\Http\Controllers\Backend\Setting_Management\SearchController;
 use App\Http\Controllers\Backend\Setting_Management\SystemInformationController;
 use App\Http\Controllers\Backend\Setting_Management\SettingController;
+use App\Http\Controllers\Backend\Setting_Management\SecurityController;
 
 
 // Landing page
@@ -82,7 +83,7 @@ Route::get('/home', function () {
 })->middleware(['auth', 'verified'])->name('home');
 
 // Authenticated routes
-Route::middleware(['auth', 'permission'])->group(function () {
+Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', 'permission']],  function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/system_dashboard', [DashboardController::class, 'system_index'])->name('dashboard.system');
@@ -183,6 +184,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::post('/user_devices/{id}/ban', [UserDeviceController::class, 'ban'])->name('user_devices.ban');
     Route::post('/user_devices/{id}/unban', [UserDeviceController::class, 'unban'])->name('user_devices.unban');
     Route::resource('user_devices', UserDeviceController::class);
+    Route::resource('security_logs', SecurityController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::post('/permissions/delete-selected', [PermissionController::class, 'deleteSelected'])->name('permissions.deleteSelected');
