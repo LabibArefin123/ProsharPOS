@@ -37,6 +37,9 @@ class User extends Authenticatable
         'session_timeout',
         'is_maintenance',
         'maintenance_message',
+        'is_banned',
+        'last_seen',
+        'is_notifications',
     ];
 
     /**
@@ -59,6 +62,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_seen' => 'datetime',
         ];
     }
 

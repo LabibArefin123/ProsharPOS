@@ -199,10 +199,13 @@ Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', '
     Route::post('/settings/timeout', [SettingController::class, 'updateTimeout'])->name('settings.timeout.update');
     Route::get('/settings/database-backup', [SettingController::class, 'databaseBackup'])->name('settings.database.backup');
     Route::post('/settings/database-backup/download', [SettingController::class, 'downloadDatabase'])->name('settings.database.backup.download');
+    Route::get('settings/notifications', [SettingController::class, 'notificationSettings'])->name('settings.notification.index');
+    Route::post('settings/notifications', [SettingController::class, 'notificationUpdate'])->name('settings.notification.update');
+    Route::post('settings/notifications/test', [SettingController::class, 'sendTestNotification'])->name('settings.notification.test');
     Route::get('/settings/logs', [SettingController::class, 'logs'])->name('settings.logs');
     Route::post('/settings/logs/clear', [SettingController::class, 'clearLogs'])->name('settings.clearLogs');
     Route::get('/settings/maintenance', [SettingController::class, 'maintenance'])->name('settings.maintenance');
-    Route::post('/settings/maintenance', [SettingController::class, 'maintenanceUpdate'])->name('settings.maintenance.update');
+Route::post('/settings/maintenance', [SettingController::class, 'maintenanceUpdate'])->name('settings.maintenance.update');
     Route::get('/settings/language', [SettingController::class, 'language'])->name('settings.language');
     Route::post('/settings/language/update', [SettingController::class, 'updateLanguage'])->name('settings.language.update');
     Route::get('/settings/datetime', [SettingController::class, 'dateTime'])->name('settings.datetime');

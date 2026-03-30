@@ -3,57 +3,90 @@
 @section('title', 'User Details')
 
 @section('content_header')
-    <div class="d-flex justify-content-between">
-        <h1>View System User</h1>
-        <a href="{{ route('system_users.index') }}" class="btn btn-sm btn-warning d-flex align-items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
-                viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l4.147
-                        4.146a.5.5 0 0 1-.708.708l-5-5a.5.5
-                        0 0 1 0-.708l5-5a.5.5 0 0
-                        1 .708.708L2.707 7.5H14.5A.5.5
-                        0 0 1 15 8z" />
-            </svg>
-            Go Back
-        </a>
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h4 class="mb-0 fw-bold">User Details</h4>
+
+        <div class="d-flex gap-2">
+            <a href="{{ route('system_users.index') }}" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+
+            <a href="{{ route('system_users.edit', $user->id) }}" class="btn btn-sm btn-primary">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+        </div>
     </div>
 @stop
 
 @section('content')
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card shadow border-0">
+                    <!-- HEADER -->
+                    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
 
-                    <div class="form-group col-md-6">
-                        <label><strong>Full Name:</strong></label>
-                        <p class="form-control">{{ $user->name }}</p>
+                        <style>
+                            .badge.bg-success {
+                                box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
+                            }
+                        </style>
+                        <h5 class="mb-0 fw-semibold">Profile Information</h5>
+
+                        <div class="ms-auto text-end">
+
+                            <span class="badge {{ $user->is_online ? 'bg-success' : 'bg-danger' }}">
+                                <i class="fas fa-circle me-1" style="font-size:8px;"></i>
+                                {{ $user->is_online ? 'Online' : 'Offline' }}
+                            </span>
+
+                            <div class="small text-muted">
+                                {{ $user->last_seen ? $user->last_seen->diffForHumans() : 'Never active' }}
+                            </div>
+
+                        </div>
                     </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="text-muted small">Full Name</label>
+                                <div class="fw-semibold fs-6">{{ $user->name }}</div>
+                            </div>
 
-                    <div class="form-group col-md-6">
-                        <label><strong>Username:</strong></label>
-                        <p class="form-control">{{ $user->username }}</p>
+                            <div class="col-md-6">
+                                <label class="text-muted small">Username</label>
+                                <div class="fw-semibold fs-6">{{ $user->username }}</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="text-muted small">Email Address</label>
+                                <div class="fw-semibold fs-6">{{ $user->email }}</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="text-muted small">Phone 1</label>
+                                <div class="fw-semibold fs-6">
+                                    {{ $user->phone_1 ?? '—' }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="text-muted small">Phone 2</label>
+                                <div class="fw-semibold fs-6">
+                                    {{ $user->phone_2 ?? '—' }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="text-muted small">User Role</label>
+                                <div>
+                                    <span class="badge bg-info text-dark px-3 py-2">
+                                        {{ $user->getRoleNames()->first() ?? 'Not Assigned' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group col-md-6">
-                        <label><strong>Email Address:</strong></label>
-                        <p class="form-control">{{ $user->email }}</p>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label><strong>Phone 1:</strong></label>
-                        <p class="form-control">{{ $user->phone ?? 'Not Provided' }}</p>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label><strong>User Role:</strong></label>
-                        <p class="form-control">
-                            {{ $user->roles->pluck('name')->join(', ') }}
-                        </p>
-                    </div>
-
                 </div>
             </div>
         </div>
-    </div>
 @stop
