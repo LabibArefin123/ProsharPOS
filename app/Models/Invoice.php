@@ -4,9 +4,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Invoice extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'invoice_id',
         'customer_id',
@@ -60,5 +63,14 @@ class Invoice extends Model
     public function salesReturns()
     {
         return $this->hasMany(SalesReturn::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->useLogName('Invoice')
+            ->setDescriptionForEvent(fn(string $eventName) => "Invoice {$eventName}");
     }
 }

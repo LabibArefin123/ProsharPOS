@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class ProductExpiry extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'storage_id',
         'product_id',
@@ -24,5 +27,14 @@ class ProductExpiry extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->useLogName('Product Expiry')
+            ->setDescriptionForEvent(fn(string $eventName) => "Product Expiry {$eventName}");
     }
 }

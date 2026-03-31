@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Department extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'branch_id',
@@ -29,5 +31,14 @@ class Department extends Model
     public function division()
     {
         return $this->belongsTo(Division::class, 'division_id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->useLogName('Department')
+            ->setDescriptionForEvent(fn(string $eventName) => "Department {$eventName}");
     }
 }
