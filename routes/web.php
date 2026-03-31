@@ -178,6 +178,7 @@ Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', '
     Route::resource('companies', CompanyController::class);
     Route::resource('system_informations', SystemInformationController::class);
     Route::resource('user_categories', UserCategoryController::class);
+    Route::post('/system-users/{user}/change-password', [UserController::class, 'updatePassword'])->name('system_users.password.update');
     Route::resource('system_users', UserController::class);
     Route::resource('ban_users', BanUserController::class);
     Route::resource('banned_devices', BannedDeviceController::class);

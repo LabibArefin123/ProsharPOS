@@ -141,6 +141,25 @@ class UserController extends Controller
         return redirect()->route('system_users.index')->with('success', 'User updated successfully!');
     }
 
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Log the password change activity
+        activity()
+            ->causedBy(auth()->user()) // the currently logged-in user
+            ->performedOn($user)       // the user whose password changed
+            ->log('Password changed');
+
+        return back()->with('success', 'Password updated successfully.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
