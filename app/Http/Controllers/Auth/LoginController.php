@@ -62,7 +62,7 @@ class LoginController extends Controller
         }
 
         if ($user->hasRole('inventory_manager')) {
-            return redirect()->intended('/products'); // ✅ YOUR REQUIREMENT
+            return redirect()->intended('/dashboard'); // ✅ YOUR REQUIREMENT
         }
 
         if ($user->hasRole('cashier')) {

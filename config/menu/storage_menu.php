@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'text' => 'Storage',
+    'text' => 'Storage Menu',
     'icon' => 'fas fa-warehouse',
     'submenu' => [
 

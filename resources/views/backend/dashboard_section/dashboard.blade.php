@@ -19,41 +19,190 @@
 @section('content')
 
     <div class="row g-4">
-        @include('backend.dashboard_section.dashboard_part.part_1')
-        @include('backend.dashboard_section.dashboard_part.part_2')
-        @include('backend.dashboard_section.dashboard_part.part_3')
 
-        {{-- BDT PAYMENT --}}
-        <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
-                <div class="inner">
-                    <h3>{{ $totalPayment }} Tk</h3>
-                    <p>BDT Payment</p>
+        {{-- ================= ADMIN & MANAGER ================= --}}
+        @role('admin|manager')
+            @include('backend.dashboard_section.dashboard_part.part_1')
+            @include('backend.dashboard_section.dashboard_part.part_2')
+            @include('backend.dashboard_section.dashboard_part.part_3')
+
+            {{-- BDT PAYMENT --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $totalPayment }} Tk</h3>
+                        <p>BDT Payment</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <a href="{{ route('payments.index') }}" class="small-box-footer">
+                        More Info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
-                <div class="icon">
-                    <i class="fas fa-credit-card"></i>
-                </div>
-                <a href="{{ route('payments.index') }}" class="small-box-footer">
-                    More Info <i class="fas fa-arrow-circle-right"></i>
-                </a>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
-                <div class="inner">
-                    <h3>$ {{ $totalPaymentInDollar }} </h3>
-                    <p>Dollar Payment</p>
+
+            {{-- Dollar Payment --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>$ {{ $totalPaymentInDollar }}</h3>
+                        <p>Dollar Payment</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <a href="{{ route('payments.index') }}" class="small-box-footer">
+                        More Info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
-                <div class="icon">
-                    <i class="fas fa-credit-card"></i>
-                </div>
-                <a href="{{ route('payments.index') }}" class="small-box-footer">
-                    More Info <i class="fas fa-arrow-circle-right"></i>
-                </a>
             </div>
-        </div>
+        @endrole
+
+
+        {{-- ================= CASHIER ================= --}}
+        @role('cashier')
+            {{-- Only Invoice + Sales --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-primary text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $total_invoices }}</h3>
+                        <p>Total Invoice</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-success text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $salesAmount }} Tk</h3>
+                        <p>Sales Amount</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-cash-register"></i>
+                    </div>
+                </div>
+            </div>
+        @endrole
+
+
+        {{-- ================= INVENTORY MANAGER ================= --}}
+        @role('inventory_manager')
+            {{-- You can connect real data later --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-info text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $total_products ?? 0 }}</h3>
+                        <p>Total Products</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-warning text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $total_stock_movements ?? 0 }}</h3>
+                        <p>Stock Movement</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-random"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-danger text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $damaged_products ?? 0 }}</h3>
+                        <p>Damaged Products</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-secondary text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $expired_products ?? 0 }}</h3>
+                        <p>Expired Products</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+        @endrole
+
+
+        {{-- ================= ACCOUNTANT ================= --}}
+        @role('accountant')
+            {{-- Sales (optional) --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-success text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $salesAmount }} Tk</h3>
+                        <p>Sales Amount</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-cash-register"></i>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Receive --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-indigo text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $receiveAmount }} Tk</h3>
+                        <p>Receive Amount</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Due --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-danger text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $dueAmount }} Tk</h3>
+                        <p>Due Amount</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-hourglass-end"></i>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Payments --}}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-cyan text-white shadow-sm dashboard-box">
+                    <div class="inner">
+                        <h3>{{ $totalPayment }} Tk</h3>
+                        <p>Total Payment</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Petty Cash --}}
+            @include('backend.dashboard_section.dashboard_part.part_3')
+        @endrole
+
     </div>
 
+    {{-- STYLES --}}
     <style>
         .dashboard-box {
             transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
@@ -73,51 +222,5 @@
             right: 15px;
         }
     </style>
-    {{-- Start of float box js  --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
 
-            const boxes = document.querySelectorAll('.dashboard-box');
-
-            boxes.forEach(box => {
-                const pendingBox = box.querySelector('.pending-float');
-
-                if (!pendingBox) return;
-
-                // Show on mouse enter
-                box.addEventListener('mouseenter', () => {
-                    pendingBox.style.display = 'block';
-                });
-
-                // Hide on mouse leave
-                box.addEventListener('mouseleave', () => {
-                    pendingBox.style.display = 'none';
-                });
-
-                // Toggle on click (mobile friendly)
-                box.addEventListener('click', (e) => {
-                    e.stopPropagation();
-
-                    // Hide all others
-                    document.querySelectorAll('.pending-float').forEach(el => {
-                        if (el !== pendingBox) el.style.display = 'none';
-                    });
-
-                    // Toggle current
-                    pendingBox.style.display =
-                        pendingBox.style.display === 'block' ? 'none' : 'block';
-                });
-            });
-
-            // Click outside closes all
-            document.addEventListener('click', () => {
-                document.querySelectorAll('.pending-float').forEach(el => {
-                    el.style.display = 'none';
-                });
-            });
-
-        });
-    </script>
-
-    {{-- End of float box js  --}}
 @endsection

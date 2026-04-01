@@ -2,7 +2,7 @@
 <?php
 
 return [
-    'text' => 'POS',
+    'text' => 'POS Menu',
     'icon' => 'fas fa-cash-register',
     'submenu' => [
 

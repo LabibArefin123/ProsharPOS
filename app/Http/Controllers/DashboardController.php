@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\ProductDamage;
+use App\Models\ProductExpiry;
+use App\Models\StockMovement;
 use App\Models\Invoice;
 use App\Models\PettyCash;
 use App\Models\Challan;
@@ -18,145 +22,150 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $total_invoices = Invoice::count();
-        $salesAmount = Invoice::sum('total');
-        $receiveAmount = Invoice::sum('paid_amount');
-        $totalPayment = Payment::sum('paid_amount');
-        $totalPaymentInDollar = Payment::sum('dollar_amount');
-        $dueAmount = Invoice::where('status', 0)
-            ->selectRaw('SUM(total - paid_amount) as due')
-            ->value('due');
+        $user = auth()->user();
 
-        //Challan part
-        $total_challans = Challan::count();
-        $total_challan_bill = ChallanItem::sum('challan_bill');
-        $total_challan_unbill = ChallanItem::sum('challan_unbill');
-        $total_challan_foc = ChallanItem::sum('challan_foc');
+        // Default values (avoid undefined errors in Blade)
+        $data = [
+            'total_invoices' => 0,
+            'salesAmount' => 0,
+            'receiveAmount' => 0,
+            'dueAmount' => 0,
+            'totalPayment' => 0,
+            'totalPaymentInDollar' => 0,
 
-        //Petty cash part
-        $totalPettyCashReceive = PettyCash::where('type', 'receive')
-            ->where('currency', 'BDT')
-            ->where('status', 'approved')
-            ->sum('amount');
+            'total_challans' => 0,
+            'total_challan_bill' => 0,
+            'total_challan_unbill' => 0,
+            'total_challan_foc' => 0,
 
-        // Petty Cash Expense (BDT)
-        $totalPettyCashExpense = PettyCash::where('type', 'expense')
-            ->where('currency', 'BDT')
-            ->where('status', 'approved')
-            ->sum('amount');
+            'totalPettyCashReceive' => 0,
+            'totalPettyCashExpense' => 0,
+            'totalPettyCashDollarReceive' => 0,
+            'totalPettyCashDollarExpense' => 0,
 
-        // Dollar Receive
-        $totalPettyCashDollarReceive = PettyCash::where('type', 'receive')
-            ->where('currency', 'USD')
-            ->where('status', 'approved')
-            ->sum('amount_in_dollar');
+            'totalPettyCashReceivePending' => 0,
+            'totalPettyCashExpensePending' => 0,
+            'totalPettyCashDollarReceivePending' => 0,
+            'totalPettyCashDollarExpensePending' => 0,
 
-        // Dollar Expense
-        $totalPettyCashDollarExpense = PettyCash::where('type', 'expense')
-            ->where('currency', 'USD')
-            ->where('status', 'approved')
-            ->sum('amount_in_dollar');
+            'totalPettyCashReceiveApproved' => 0,
+            'totalPettyCashExpenseApproved' => 0,
+            'totalPettyCashDollarReceiveApproved' => 0,
+            'totalPettyCashDollarExpenseApproved' => 0,
 
-        //Petty cash part pending
-        $totalPettyCashReceivePending = PettyCash::where('type', 'receive')
-            ->where('currency', 'BDT')
-            ->where('status', 'pending')
-            ->count();
+            'totalPettyCashReceiveRejected' => 0,
+            'totalPettyCashExpenseRejected' => 0,
+            'totalPettyCashDollarReceiveRejected' => 0,
+            'totalPettyCashDollarExpenseRejected' => 0,
 
-        // Petty Cash Expense (BDT)  pending
-        $totalPettyCashExpensePending = PettyCash::where('type', 'expense')
-            ->where('currency', 'BDT')
-            ->where('status', 'pending')
-            ->count();
+            // Inventory
+            'total_products' => 0,
+            'total_stock_movements' => 0,
+            'damaged_products' => 0,
+            'expired_products' => 0,
+        ];
 
-        // Dollar Receive  pending
-        $totalPettyCashDollarReceivePending = PettyCash::where('type', 'receive')
-            ->where('currency', 'USD')
-            ->where('status', 'pending')
-            ->count();
+        /*
+    |--------------------------------------------------------------------------
+    | ADMIN & MANAGER
+    |--------------------------------------------------------------------------
+    */
+        if ($user->hasRole(['admin', 'manager'])) {
 
-        // Dollar Expense  pending
-        $totalPettyCashDollarExpensePending = PettyCash::where('type', 'expense')
-            ->where('currency', 'USD')
-            ->where('status', 'pending')
-            ->count();
+            $data['total_invoices'] = Invoice::count();
+            $data['salesAmount'] = Invoice::sum('total');
+            $data['receiveAmount'] = Invoice::sum('paid_amount');
 
-        //Petty cash part approved
-        $totalPettyCashReceiveApproved = PettyCash::where('type', 'receive')
-            ->where('currency', 'BDT')
-            ->where('status', 'approved')
-            ->count();
+            $data['totalPayment'] = Payment::sum('paid_amount');
+            $data['totalPaymentInDollar'] = Payment::sum('dollar_amount');
 
-        // Petty Cash Expense (BDT)  approved
-        $totalPettyCashExpenseApproved = PettyCash::where('type', 'expense')
-            ->where('currency', 'BDT')
-            ->where('status', 'approved')
-            ->count();
+            $data['dueAmount'] = Invoice::where('status', 0)
+                ->selectRaw('SUM(total - paid_amount) as due')
+                ->value('due');
 
-        // Dollar Receive  approved
-        $totalPettyCashDollarReceiveApproved = PettyCash::where('type', 'receive')
-            ->where('currency', 'USD')
-            ->where('status', 'approved')
-            ->count();
+            // Challan
+            $data['total_challans'] = Challan::count();
+            $data['total_challan_bill'] = ChallanItem::sum('challan_bill');
+            $data['total_challan_unbill'] = ChallanItem::sum('challan_unbill');
+            $data['total_challan_foc'] = ChallanItem::sum('challan_foc');
 
-        // Dollar Expense  approved
-        $totalPettyCashDollarExpenseApproved = PettyCash::where('type', 'expense')
-            ->where('currency', 'USD')
-            ->where('status', 'approved')
-            ->count();
+            // Petty Cash (ALL)
+            $this->loadPettyCashData($data);
+        }
 
-        //Petty cash part rejected
-        $totalPettyCashReceiveRejected = PettyCash::where('type', 'receive')
-            ->where('currency', 'BDT')
-            ->where('status', 'rejected')
-            ->count();
+        /*
+    |--------------------------------------------------------------------------
+    | CASHIER
+    |--------------------------------------------------------------------------
+    */ elseif ($user->hasRole('cashier')) {
 
-        // Petty Cash Expense (BDT)  rejected
-        $totalPettyCashExpenseRejected = PettyCash::where('type', 'expense')
-            ->where('currency', 'BDT')
-            ->where('status', 'rejected')
-            ->count();
+            $data['total_invoices'] = Invoice::count();
+            $data['salesAmount'] = Invoice::sum('total');
+        }
 
-        // Dollar Receive  rejected
-        $totalPettyCashDollarReceiveRejected = PettyCash::where('type', 'receive')
-            ->where('currency', 'USD')
-            ->where('status', 'rejected')
-            ->count();
+        /*
+    |--------------------------------------------------------------------------
+    | INVENTORY MANAGER
+    |--------------------------------------------------------------------------
+    */ elseif ($user->hasRole('inventory_manager')) {
 
-        // Dollar Expense  rejected
-        $totalPettyCashDollarExpenseRejected = PettyCash::where('type', 'expense')
-            ->where('currency', 'USD')
-            ->where('status', 'rejected')
-            ->count();
+            $data['total_products'] = Product::count();
+            $data['total_stock_movements'] = StockMovement::count();
+            $data['damaged_products'] = ProductDamage::count();
+            $data['expired_products'] = ProductExpiry::count();
+        }
 
-        return view('backend.dashboard_section.dashboard', compact(
-            'total_invoices',
-            'salesAmount',
-            'receiveAmount',
-            'dueAmount',
-            'totalPayment',
-            'totalPaymentInDollar',
-            'total_challans',
-            'total_challan_bill',
-            'total_challan_unbill',
-            'total_challan_foc',
-            'totalPettyCashReceive',
-            'totalPettyCashExpense',
-            'totalPettyCashDollarReceive',
-            'totalPettyCashDollarExpense',
-            'totalPettyCashReceiveApproved',
-            'totalPettyCashExpenseApproved',
-            'totalPettyCashDollarReceiveApproved',
-            'totalPettyCashDollarExpenseApproved',
-            'totalPettyCashExpenseRejected',
-            'totalPettyCashReceiveRejected',
-            'totalPettyCashDollarReceiveRejected',
-            'totalPettyCashDollarExpenseRejected',
-            'totalPettyCashReceivePending',
-            'totalPettyCashExpensePending',
-            'totalPettyCashDollarReceivePending',
-            'totalPettyCashDollarExpensePending'
-        ));
+        /*
+    |--------------------------------------------------------------------------
+    | ACCOUNTANT
+    |--------------------------------------------------------------------------
+    */ elseif ($user->hasRole('accountant')) {
+
+            $data['salesAmount'] = Invoice::sum('total');
+            $data['receiveAmount'] = Invoice::sum('paid_amount');
+
+            $data['dueAmount'] = Invoice::where('status', 0)
+                ->selectRaw('SUM(total - paid_amount) as due')
+                ->value('due');
+
+            $data['totalPayment'] = Payment::sum('paid_amount');
+
+            // Petty Cash
+            $this->loadPettyCashData($data);
+        }
+
+        return view('backend.dashboard_section.dashboard', $data);
+    }
+
+    private function loadPettyCashData(&$data)
+    {
+        // MAIN
+        $data['totalPettyCashReceive'] = PettyCash::where('type', 'receive')->where('currency', 'BDT')->where('status', 'approved')->sum('amount');
+        $data['totalPettyCashExpense'] = PettyCash::where('type', 'expense')->where('currency', 'BDT')->where('status', 'approved')->sum('amount');
+
+        $data['totalPettyCashDollarReceive'] = PettyCash::where('type', 'receive')->where('currency', 'USD')->where('status', 'approved')->sum('amount_in_dollar');
+        $data['totalPettyCashDollarExpense'] = PettyCash::where('type', 'expense')->where('currency', 'USD')->where('status', 'approved')->sum('amount_in_dollar');
+
+        // PENDING
+        $data['totalPettyCashReceivePending'] = PettyCash::where('type', 'receive')->where('currency', 'BDT')->where('status', 'pending')->count();
+        $data['totalPettyCashExpensePending'] = PettyCash::where('type', 'expense')->where('currency', 'BDT')->where('status', 'pending')->count();
+
+        $data['totalPettyCashDollarReceivePending'] = PettyCash::where('type', 'receive')->where('currency', 'USD')->where('status', 'pending')->count();
+        $data['totalPettyCashDollarExpensePending'] = PettyCash::where('type', 'expense')->where('currency', 'USD')->where('status', 'pending')->count();
+
+        // APPROVED
+        $data['totalPettyCashReceiveApproved'] = PettyCash::where('type', 'receive')->where('currency', 'BDT')->where('status', 'approved')->count();
+        $data['totalPettyCashExpenseApproved'] = PettyCash::where('type', 'expense')->where('currency', 'BDT')->where('status', 'approved')->count();
+
+        $data['totalPettyCashDollarReceiveApproved'] = PettyCash::where('type', 'receive')->where('currency', 'USD')->where('status', 'approved')->count();
+        $data['totalPettyCashDollarExpenseApproved'] = PettyCash::where('type', 'expense')->where('currency', 'USD')->where('status', 'approved')->count();
+
+        // REJECTED
+        $data['totalPettyCashReceiveRejected'] = PettyCash::where('type', 'receive')->where('currency', 'BDT')->where('status', 'rejected')->count();
+        $data['totalPettyCashExpenseRejected'] = PettyCash::where('type', 'expense')->where('currency', 'BDT')->where('status', 'rejected')->count();
+
+        $data['totalPettyCashDollarReceiveRejected'] = PettyCash::where('type', 'receive')->where('currency', 'USD')->where('status', 'rejected')->count();
+        $data['totalPettyCashDollarExpenseRejected'] = PettyCash::where('type', 'expense')->where('currency', 'USD')->where('status', 'rejected')->count();
     }
 
     public function system_index()
