@@ -7,16 +7,16 @@
         <h3 class="mb-0 text-danger">
             <i class="fas fa-file-invoice"></i> Sales Return Details
         </h3>
-
-        <a href="{{ route('sales_returns.index') }}" class="btn btn-sm btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back
-        </a>
+        <div>
+            <a href="{{ route('sales_returns.edit', $return->id) }}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{{ route('sales_returns.index') }}" class="btn btn-sm btn-secondary">Go Back</a>
+        </div>
     </div>
 @stop
 
-@section('content')
 
-    <div class="card shadow mb-4">
+@section('content')
+    <div class="card">
         <div class="card-body">
 
             <div class="row mb-3">

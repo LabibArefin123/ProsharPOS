@@ -43,8 +43,5 @@ class SalesReturn extends Model
         return $this->hasMany(SalesReturnItem::class);
     }
 
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
+ 
 }

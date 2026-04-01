@@ -52,7 +52,29 @@ class LoginController extends Controller
 
         $authService->performLogin($request, $user);
 
-        return redirect()->intended($this->redirectTo);
+        // ✅ ROLE BASED REDIRECT
+        if ($user->hasRole('admin')) {
+            return redirect()->intended('/dashboard');
+        }
+
+        if ($user->hasRole('manager')) {
+            return redirect()->intended('/dashboard');
+        }
+
+        if ($user->hasRole('inventory_manager')) {
+            return redirect()->intended('/products'); // ✅ YOUR REQUIREMENT
+        }
+
+        if ($user->hasRole('cashier')) {
+            return redirect()->intended('/pos');
+        }
+
+        if ($user->hasRole('accountant')) {
+            return redirect()->intended('/payments');
+        }
+
+        // fallback
+        return redirect()->intended('/dashboard');
     }
 
     /**
