@@ -112,6 +112,11 @@ class ProfileController extends Controller
             ->sortByDesc('created_at')
             ->take(5); // last 5 transactions
 
+        if (!auth()->user()->hasAnyRole(['admin', 'manager', 'accountant'])) {
+            $bankBalance->balance = 0;
+            $bankBalance->balance_in_dollars = 0;
+        }
+
         return view('backend.setting_management.profile_page.show', compact('user', 'bankBalance', 'transactions'));
     }
     /**
@@ -158,6 +163,6 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
+        return redirect()->route('user_profile_show')->with('success', 'Profile updated successfully.');
     }
 }

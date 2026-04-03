@@ -24,7 +24,13 @@
 
                 <!-- User Info -->
                 <div class="col-md-9">
-                    <h4 class="mb-3">{{ $user->name }}</h4>
+                    <h4 class="mb-2">
+                        {{ $user->name }}
+                       
+                    </h4>
+                    <p class="text-muted mb-3">
+                        Welcome to ProsharPOS user panel
+                    </p>
                     <div class="row">
                         <div class="col-md-6 mb-2"><strong>Username:</strong> {{ $user->username }}</div>
                         <div class="col-md-6 mb-2"><strong>Email:</strong> {{ $user->email }}</div>
@@ -32,14 +38,18 @@
                         <div class="col-md-6 mb-2">
                             <strong>Role:</strong> {{ $user->getRoleNames()->first() ?? 'No Role Assigned' }}
                         </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Bank Balance (BDT):</strong>
-                            <span class="badge bg-success">৳{{ number_format($bankBalance->balance, 2) }}</span>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Bank Balance (USD):</strong>
-                            <span class="badge bg-info">${{ number_format($bankBalance->balance_in_dollars, 2) }}</span>
-                        </div>
+                        @role('admin|manager|accountant')
+                            <div class="col-md-6 mb-2">
+                                <strong>Bank Balance (BDT):</strong>
+                                <span class="badge bg-success">৳{{ number_format($bankBalance->balance, 2) }}</span>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <strong>Bank Balance (USD):</strong>
+                                <span class="badge bg-info">${{ number_format($bankBalance->balance_in_dollars, 2) }}</span>
+                            </div>
+                        @endrole
+
                     </div>
                 </div>
             </div>
@@ -111,7 +121,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $tx->description }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($tx->date)->format('d F Y') }} ({{ \Carbon\Carbon::parse($tx->created_at)->format('h:i A') }})</td>
+                                        <td>{{ \Carbon\Carbon::parse($tx->date)->format('d F Y') }}
+                                            ({{ \Carbon\Carbon::parse($tx->created_at)->format('h:i A') }})
+                                        </td>
                                         <td><span class="badge {{ $color }}">{{ $label }}</span></td>
                                         <td class="text-end {{ $color }}">{{ $sign }}
                                             ৳{{ number_format($tx->amount, 2) }}</td>
