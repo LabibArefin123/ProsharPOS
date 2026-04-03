@@ -325,36 +325,46 @@ return [
             'classes' => 'btn btn-primary mx-1',
         ],
 
-        // Dashboard
+        // ================= MAIN =================
         [
             'text' => 'Dashboard',
             'route' => 'dashboard',
             'can' => 'dashboard',
             'icon' => 'fas fa-home',
         ],
-        [
-            'text' => 'System Dashboard',
-            'route' => 'dashboard.system',
-            'can' => 'dashboard.system',
-            'icon' => 'fas fa-home',
-        ],
-        require config_path('menu/organization_menu.php'),        
-        require config_path('menu/department_menu.php'),        
-        require config_path('menu/product_menu.php'),        
-        require config_path('menu/storage_menu.php'),        
-        require config_path('menu/service_menu.php'),        
-        require config_path('menu/pos_menu.php'),        
-        require config_path('menu/transaction_menu.php'),        
-        require config_path('menu/financial_menu.php'),        
-        require config_path('menu/people_menu.php'),       
+
+        // ================= POS (TOP PRIORITY) =================
+        require config_path('menu/pos_menu.php'),
+
+        // ================= SALES & TRANSACTIONS =================
+        require config_path('menu/transaction_menu.php'),
+
+        // ================= PRODUCTS & STOCK =================
+        require config_path('menu/product_menu.php'),
+        require config_path('menu/storage_menu.php'),
+
+        // ================= PEOPLE =================
+        require config_path('menu/people_menu.php'),
+
+        // ================= FINANCIAL =================
+        require config_path('menu/financial_menu.php'),
+
+        // ================= REPORT =================
         require config_path('menu/report_menu.php'),
+
+        // ================= ORGANIZATION =================
+        require config_path('menu/organization_menu.php'),
+        require config_path('menu/department_menu.php'),
+
+        // ================= SYSTEM =================
         require config_path('menu/setting_menu.php'),
+
+        // ================= EXTRA =================
         [
             'text' => 'Newsletter Subscribers',
             'route' => 'newsletter-subscribers.index',
             'can' => 'newsletter-subscribers.index',
             'icon' => 'fas fa-envelope-open-text',
-            'active' => ['newsletter-subscribers*'],
         ],
         // [
         //     'text' => 'Activity Log',
