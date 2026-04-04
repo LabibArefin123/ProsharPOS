@@ -366,14 +366,6 @@ return [
             'can' => 'newsletter-subscribers.index',
             'icon' => 'fas fa-envelope-open-text',
         ],
-        // [
-        //     'text' => 'Activity Log',
-        //     'route' => 'activity_log.index',
-        //     'can' => 'activity_log.index',
-        //     'icon' => 'fas fa-envelope-open-text',
-        //     'active' => ['activity_log*'],
-        // ],
-
     ],
 
     /*
