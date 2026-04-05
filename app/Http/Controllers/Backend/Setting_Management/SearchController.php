@@ -35,7 +35,6 @@ class SearchController extends Controller
             });
 
         return response()->json($organizations
-            ->merge($system_users)
             ->merge($system_users));
     }
 }

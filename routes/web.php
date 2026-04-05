@@ -4,6 +4,7 @@
 use App\Http\Controllers\Frontend\WelcomePageController;
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\DashboardController;
@@ -78,9 +79,6 @@ use App\Http\Controllers\Backend\Setting_Management\SecurityController;
 Route::get('/', [WelcomePageController::class, 'index'])->name('welcome');
 Route::get('/help', [WelcomePageController::class, 'help'])->name('help');
 Route::post('/system-problem/store', [WelcomePageController::class, 'system_problem_store'])->name('system_problem.store');
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth', 'verified'])->name('home');
 
 // Authenticated routes
 Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', 'permission']],  function () {
@@ -217,9 +215,6 @@ Route::post('/settings/maintenance', [SettingController::class, 'maintenanceUpda
     Route::delete('/activity-logs/{id}', [ActivityLogController::class, 'destroy'])->name('activity.logs.destroy');
 });
 
-Auth::routes([
-    'register' => false, // disables register
-]);
-
+require __DIR__ . '/auth.php';
 
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
