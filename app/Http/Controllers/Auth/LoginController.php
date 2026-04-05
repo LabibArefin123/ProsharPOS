@@ -30,27 +30,23 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request, AuthService $authService)
     {
-        $request->ensureIsNotRateLimited();
+        $request->validate([
+            'login'    => 'required|string',
+            'password' => 'required|string',
+        ]);
 
         $user = $authService->findUser($request->input('login'));
 
-        if ($response = $authService->checkMaintenance($user)) {
-            return $response;
-        }
+        if ($response = $authService->checkMaintenance($user)) return $response;
+        if (!$user) return $authService->failedLogin();
+        if ($response = $authService->checkUserBan($user)) return $response;
+        if (!$authService->validatePassword($request->input('password'), $user)) return $authService->failedLogin();
 
-        if (!$user) {
-            return $authService->failedLogin();
-        }
+        $message = $authService->performLogin($request, $user);
 
-        if ($response = $authService->checkUserBan($user)) {
-            return $response;
-        }
-
-        if (!$authService->validatePassword($request->input('password'), $user)) {
-            return $authService->failedLogin();
-        }
-
-        $authService->performLogin($request, $user);
+        // Flash SweetAlert message
+        session()->flash('login_success', $message);
+        // session()->flash('login_success', $loginMessage);
 
         // ✅ ROLE BASED REDIRECT
         if ($user->hasRole('admin')) {
@@ -80,21 +76,13 @@ class LoginController extends Controller
     /**
      * Logout user
      */
-    public function logout(Request $request)
+
+    public function logout(Request $request, AuthService $authService)
     {
-        $user = Auth::user();
+        $logoutMessage = $authService->performLogout($request);
 
-        if ($user) {
-            activity('User')
-                ->causedBy($user)
-                ->log('User logged out');
-        }
+        session()->flash('login_success', $logoutMessage);
 
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect('/login'); // redirect to login page
     }
 }

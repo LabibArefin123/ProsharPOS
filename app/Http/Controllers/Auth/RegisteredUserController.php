@@ -14,7 +14,7 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    public function showRegistrationForm()
+    public function create()
     {
         return view('backend.auth.register'); // your new blade
     }

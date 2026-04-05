@@ -14,6 +14,7 @@ use App\Http\Controllers\AjaxController;
 
 //Organization Management Part
 use App\Http\Controllers\Backend\Organization_Management\OrganizationController;
+use App\Http\Controllers\Auth\LoginController;
 
 //Department Management Part
 use App\Http\Controllers\Backend\Department_Management\BranchController;
@@ -215,6 +216,24 @@ Route::post('/settings/maintenance', [SettingController::class, 'maintenanceUpda
     Route::delete('/activity-logs/{id}', [ActivityLogController::class, 'destroy'])->name('activity.logs.destroy');
 });
 
-require __DIR__ . '/auth.php';
+Route::middleware('guest')->group(function () {
+    // Login
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+
+    // Include your register & password routes from auth.php
+    require __DIR__ . '/auth.php';
+});
+
+// -----------------------------
+// AUTH ROUTES
+// -----------------------------
+Route::middleware('auth')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Logout
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+});
 
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');

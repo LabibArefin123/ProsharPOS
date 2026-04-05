@@ -5,23 +5,22 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\BanUser;
 use App\Models\UserDevice;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Jenssegers\Agent\Agent;
 
 class AuthService
 {
-    // ==============================
-    // 🔐 LOGIN FLOW
-    // ==============================
-
-    public function findUser($loginInput)
+    // 🔐 FIND USER
+    public function findUser(string $loginInput): ?User
     {
         $field = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         return User::where($field, $loginInput)->first();
     }
 
-    public function checkMaintenance($user)
+    // 🚧 CHECK GLOBAL MAINTENANCE
+    public function checkMaintenance(?User $user)
     {
         $globalMaintenance = User::where('is_maintenance', 1)->first();
 
@@ -32,6 +31,7 @@ class AuthService
         return null;
     }
 
+    // ❌ FAILED LOGIN RESPONSE
     public function failedLogin()
     {
         return back()->withErrors([
@@ -39,7 +39,8 @@ class AuthService
         ]);
     }
 
-    public function checkUserBan($user)
+    // ⛔ CHECK USER BAN
+    public function checkUserBan(User $user)
     {
         if ($user->is_banned) {
             $ban = BanUser::where('user_id', $user->id)
@@ -56,36 +57,49 @@ class AuthService
         return null;
     }
 
-    public function validatePassword($password, $user)
+    // 🔑 VALIDATE PASSWORD
+    public function validatePassword(string $password, User $user): bool
     {
         return Hash::check($password, $user->password);
     }
 
-    public function performLogin($request, $user)
+    // ✅ PERFORM LOGIN
+    public function performLogin(Request $request, User $user): string
     {
         Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
 
-        // ✅ LOG LOGIN
-        activity('User')
-            ->causedBy($user)
-            ->log('User logged in');
+        // Log activity
+        activity('User')->causedBy($user)->log('User logged in');
 
-        $this->handleAuthenticated($request, $user);
-    }
-
-    // ==============================
-    // ✅ AFTER LOGIN (AUTHENTICATED)
-    // ==============================
-
-    public function handleAuthenticated($request, $user)
-    {
+        // After login tasks
         $this->checkDeviceBan($request, $user);
         $this->trackUserDevice($request, $user);
-        $this->setLoginSuccessMessage($user);
+
+        return 'Welcome back, ' . $user->name . '!';
     }
 
-    private function checkDeviceBan($request, $user)
+    // ✅ PERFORM LOGOUT
+    public function performLogout(Request $request): string
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            activity('User')->causedBy($user)->log('User logged out');
+        }
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return 'You have successfully logged out.';
+    }
+
+    // -----------------------------
+    // PRIVATE METHODS
+    // -----------------------------
+    private function checkDeviceBan(Request $request, User $user)
     {
         $banned = UserDevice::where('user_id', $user->id)
             ->where('ip_address', $request->ip())
@@ -99,7 +113,7 @@ class AuthService
         }
     }
 
-    private function trackUserDevice($request, $user)
+    private function trackUserDevice(Request $request, User $user)
     {
         $agent = new Agent();
 
@@ -115,10 +129,5 @@ class AuthService
                 'last_login_at' => now(),
             ]
         );
-    }
-
-    private function setLoginSuccessMessage($user)
-    {
-        session()->flash('login_success', 'Welcome back, ' . $user->name . '!');
     }
 }

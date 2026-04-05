@@ -146,23 +146,17 @@
     @yield('js')
     {{-- Jquery table format --}}
     <!-- Start of Login / Logout -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            console.log('JS LOADED');
-
-            @if (session()->has('login_success'))
-                console.log('LOGIN SUCCESS SESSION:', "{{ session('login_success') }}");
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Welcome back!',
-                    text: "{{ session('login_success') }}",
-                    timer: 2500,
-                    showConfirmButton: false
-                });
-            @endif
-        });
-    </script>
+    @if (session('login_success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('login_success') }}",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
 
     <!-- End of Login / Logout -->
     <script src="{{ asset('js/backend/custom_adminlte/time clock.js') }}"></script>{{-- bangla-date js --}}
