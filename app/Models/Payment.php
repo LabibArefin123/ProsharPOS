@@ -15,7 +15,10 @@ class Payment extends Model
         'dollar_amount',
         'dollar_amount_in_dollar',
         'paid_by',
-        'payment_type'
+        'payment_type',
+        'payment_method',
+        'transaction_id',
+        'note'
     ];
 
     public function invoice()

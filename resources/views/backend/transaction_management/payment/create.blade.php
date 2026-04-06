@@ -97,6 +97,31 @@
                         @enderror
                     </div>
 
+                    <div class="col-md-6 form-group">
+                        <label><strong>Payment Method</strong></label> <span class="text-danger">*</span>
+                        <select name="payment_method" id="payment-method"
+                            class="form-control @error('payment_method') is-invalid @enderror">
+
+                            <option value="">--- Select Method ---</option>
+                            <option value="Cash">Cash</option>
+                            <option value="bKash">bKash</option>
+                            <option value="Nagad">Nagad</option>
+                            <option value="Bank">Bank</option>
+                            <option value="Card">Card</option>
+                        </select>
+
+                        @error('payment_method')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 form-group" id="trx-field" style="display:none;">
+                        <label><strong>Transaction ID</strong></label>
+                        <input type="text" name="transaction_id"
+                            class="form-control @error('transaction_id') is-invalid @enderror"
+                            placeholder="Enter trx ID (for bKash/Nagad/Card)">
+                    </div>
+
                     {{-- Paid Amount --}}
                     <div class="col-md-6 form-group">
                         <label><strong>Paid Amount</strong></label> <span class="text-danger">*</span>
@@ -143,6 +168,11 @@
                         @enderror
                     </div>
 
+                    <div class="col-md-12 form-group">
+                        <label><strong>Note</strong></label>
+                        <textarea name="note" class="form-control" rows="2"></textarea>
+                    </div>
+
                 </div>
                 <div class="text-end mt-3">
                     <button type="submit" class="btn btn-success">Submit</button>
@@ -185,6 +215,20 @@
 
             invoiceSelect.addEventListener('change', updateDue);
             paidAmountInputDollar.addEventListener('input', updateDue);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const method = document.getElementById('payment-method');
+            const trxField = document.getElementById('trx-field');
+
+            method.addEventListener('change', function() {
+                if (['bKash', 'Nagad', 'Card', 'Bank'].includes(this.value)) {
+                    trxField.style.display = 'block';
+                } else {
+                    trxField.style.display = 'none';
+                }
+            });
         });
     </script>
 @stop

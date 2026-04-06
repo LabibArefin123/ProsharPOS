@@ -22,6 +22,9 @@ return new class extends Migration
             $table->decimal('dollar_amount', 12, 2)->default(0);
             $table->foreignId('paid_by')->nullable()->index();
             $table->string('payment_type')->nullable(); 
+            $table->string('payment_method')->nullable(); 
+            $table->string('transaction_id')->nullable(); 
+            $table->string('note')->nullable(); 
             $table->timestamps();
         });
     }

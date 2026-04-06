@@ -229,8 +229,7 @@ Route::middleware('guest')->group(function () {
 // AUTH ROUTES
 // -----------------------------
 Route::middleware('auth')->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
 
     // Logout
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');

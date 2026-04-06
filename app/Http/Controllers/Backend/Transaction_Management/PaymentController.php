@@ -40,6 +40,9 @@ class PaymentController extends Controller
             'due_amount'   => 'nullable|numeric|min:0',
             'paid_by'      => 'required|exists:users,id',
             'payment_type' => 'required|string',
+            'payment_method' => 'required|string',
+            'transaction_id' => 'nullable|string',
+            'note' => 'nullable|string',
         ]);
 
         $invoice = Invoice::findOrFail($request->invoice_id);
@@ -56,6 +59,9 @@ class PaymentController extends Controller
             'due_amount'   => $request->due_amount ?? 0,
             'paid_by'      => $request->paid_by,
             'payment_type' => $request->payment_type,
+            'payment_method' => $request->payment_method,
+            'transaction_id' => $request->transaction_id,
+            'note'           => $request->note,
         ]);
 
         // Update invoice
@@ -69,17 +75,6 @@ class PaymentController extends Controller
         }
 
         $invoice->save();
-
-        // 🔥 Activity Log
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($payment)
-            ->withProperties([
-                'invoice_id'  => $invoice->invoice_id,
-                'paid_amount' => $request->paid_amount,
-                'payment_type' => $request->payment_type,
-            ])
-            ->log('Payment Created');
 
         return redirect()->route('payments.index')
             ->with('success', 'Payment recorded successfully');
@@ -218,6 +213,9 @@ class PaymentController extends Controller
             'due_amount'   => 'nullable|numeric|min:0',
             'paid_by'      => 'required|exists:users,id',
             'payment_type' => 'required|string',
+            'payment_method' => 'required|string',
+            'transaction_id' => 'nullable|string',
+            'note' => 'nullable|string',
         ]);
 
         // Keep old values for logging
@@ -231,6 +229,9 @@ class PaymentController extends Controller
             'due_amount'   => $request->due_amount ?? 0,
             'paid_by'      => $request->paid_by,
             'payment_type' => $request->payment_type,
+            'payment_method' => $request->payment_method,
+            'transaction_id' => $request->transaction_id,
+            'note'           => $request->note,
         ]);
 
         // Update invoice if linked
@@ -241,16 +242,6 @@ class PaymentController extends Controller
             $invoice->status      = $request->paid_amount >= $invoice->total ? 1 : 0;
             $invoice->save();
         }
-
-        // 🔥 Activity Log for update
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($payment)
-            ->withProperties([
-                'old' => $oldPaymentData,
-                'new' => $payment->only(['payment_name', 'invoice_id', 'paid_amount', 'due_amount', 'paid_by', 'payment_type']),
-            ])
-            ->log('Payment Updated');
 
         return redirect()->route('payments.index')->with('success', 'Payment updated successfully');
     }
