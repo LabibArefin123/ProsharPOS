@@ -30,35 +30,29 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request, AuthService $authService)
     {
-        $request->validate([
-            'login'    => 'required|string',
-            'password' => 'required|string',
-        ]);
-
+        
         $user = $authService->findUser($request->input('login'));
 
+        // ✅ FIRST check if user exists
+        if (!$user) {
+            return $authService->failedLogin();
+        }
+
+        // ✅ THEN other checks
         if ($response = $authService->checkMaintenance($user)) return $response;
-        if (!$user) return $authService->failedLogin();
         if ($response = $authService->checkUserBan($user)) return $response;
-        if (!$authService->validatePassword($request->input('password'), $user)) return $authService->failedLogin();
+
+        if (!$authService->validatePassword($request->input('password'), $user)) {
+            return $authService->failedLogin();
+        }
 
         $message = $authService->performLogin($request, $user);
 
-        // Flash SweetAlert message
         session()->flash('login_success', $message);
-        // session()->flash('login_success', $loginMessage);
 
-        // ✅ ROLE BASED REDIRECT
-        if ($user->hasRole('admin')) {
+        // ✅ CLEAN ROLE-BASED REDIRECT (priority-based)
+        if ($user->hasRole('admin') || $user->hasRole('manager') || $user->hasRole('inventory_manager')) {
             return redirect()->intended('/dashboard');
-        }
-
-        if ($user->hasRole('manager')) {
-            return redirect()->intended('/dashboard');
-        }
-
-        if ($user->hasRole('inventory_manager')) {
-            return redirect()->intended('/dashboard'); // ✅ YOUR REQUIREMENT
         }
 
         if ($user->hasRole('cashier')) {

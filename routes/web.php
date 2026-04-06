@@ -84,7 +84,6 @@ Route::post('/system-problem/store', [WelcomePageController::class, 'system_prob
 // Authenticated routes
 Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', 'permission']],  function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/system_dashboard', [DashboardController::class, 'system_index'])->name('dashboard.system');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
@@ -109,7 +108,7 @@ Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', '
     Route::resource('warranties', WarrantyController::class);
     Route::get('/products/stock', [ProductController::class, 'stock'])->name('products.stock');
     Route::resource('products', ProductController::class);
-    Route::post('/products/bulk-delete',[ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
+    Route::post('/products/bulk-delete', [ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
     Route::post('/products/bulk-export', [ProductController::class, 'bulkExport'])->name('products.bulkExport');
     Route::resource('products_damages', ProductDamageController::class);
     Route::resource('products_expirys', ProductExpiredController::class);
@@ -118,14 +117,14 @@ Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', '
     Route::post('/storages/{id}/generate-barcode', [StorageController::class, 'generateBarcode'])->name('storages.generateBarcode');
     Route::resource('stock_movements', StockMovementController::class);
     Route::resource('product_inspections', ProductInspectionController::class);
-    
+
     //people management menu
     Route::resource('customers', CustomerController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('manufacturers', ManufacturerController::class);
-    
+
     Route::get('/pos', [POSController::class, 'index'])->name('pos.index');
-    
+
     //transaction management menu
     Route::resource('purchases', PurchaseController::class);
     Route::resource('purchase_returns', PurchaseReturnController::class);
@@ -142,17 +141,17 @@ Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', '
     Route::get('/payment/history', [PaymentController::class, 'history'])->name('payments.history');
     Route::get('/payment/flow-diagram', [PaymentController::class, 'flowDiagram'])->name('payments.flow-diagram');
     Route::resource('supplier_payments', SupplierPaymentController::class);
-    
+
     Route::resource('petty_cashes', PettyCashController::class);
     Route::resource('sales_returns', SalesReturnController::class);
-    
+
     //financial management menu
     Route::resource('bank_balances', BankBalanceController::class);
-    Route::post('/bank_deposits/bulk-delete',[BankDepositController::class, 'bulkDelete'])->name('bank_deposits.bulkDelete');
+    Route::post('/bank_deposits/bulk-delete', [BankDepositController::class, 'bulkDelete'])->name('bank_deposits.bulkDelete');
     Route::resource('bank_deposits', BankDepositController::class);
-    Route::post('/bank_withdraws/bulk-delete',[BankWithdrawController::class, 'bulkDelete'])->name('bank_withdraws.bulkDelete');
+    Route::post('/bank_withdraws/bulk-delete', [BankWithdrawController::class, 'bulkDelete'])->name('bank_withdraws.bulkDelete');
     Route::resource('bank_withdraws', BankWithdrawController::class);
-    
+
     //ajax menu
     Route::get('/get-division-by-branch', [AjaxController::class, 'getDivisionByBranch'])->name('ajax.get_division_by_branch');
     Route::get('/get-department-by-division', [AjaxController::class, 'getDepartmentByDivision'])->name('ajax.get_department_by_division');
@@ -205,7 +204,7 @@ Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', '
     Route::get('/settings/logs', [SettingController::class, 'logs'])->name('settings.logs');
     Route::post('/settings/logs/clear', [SettingController::class, 'clearLogs'])->name('settings.clearLogs');
     Route::get('/settings/maintenance', [SettingController::class, 'maintenance'])->name('settings.maintenance');
-Route::post('/settings/maintenance', [SettingController::class, 'maintenanceUpdate'])->name('settings.maintenance.update');
+    Route::post('/settings/maintenance', [SettingController::class, 'maintenanceUpdate'])->name('settings.maintenance.update');
     Route::get('/settings/language', [SettingController::class, 'language'])->name('settings.language');
     Route::post('/settings/language/update', [SettingController::class, 'updateLanguage'])->name('settings.language.update');
     Route::get('/settings/datetime', [SettingController::class, 'dateTime'])->name('settings.datetime');
@@ -229,7 +228,8 @@ Route::middleware('guest')->group(function () {
 // AUTH ROUTES
 // -----------------------------
 Route::middleware('auth')->group(function () {
-    
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Logout
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');

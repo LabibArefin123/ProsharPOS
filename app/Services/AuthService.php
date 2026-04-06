@@ -69,16 +69,18 @@ class AuthService
         Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
 
-        // Log activity
+        // ✅ FIRST check device
+        $this->checkDeviceBan($request, $user);
+
+        // ✅ THEN log activity
         activity('User')->causedBy($user)->log('User logged in');
 
-        // After login tasks
-        $this->checkDeviceBan($request, $user);
+        // Track device
         $this->trackUserDevice($request, $user);
 
         return 'Welcome back, ' . $user->name . '!';
     }
-
+    
     // ✅ PERFORM LOGOUT
     public function performLogout(Request $request): string
     {
