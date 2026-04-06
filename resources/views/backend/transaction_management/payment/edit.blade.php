@@ -94,6 +94,43 @@
                     </div>
 
                     <div class="col-md-6 form-group">
+                        <label><strong>Payment Method</strong></label> <span class="text-danger">*</span>
+                        <select name="payment_method" class="form-control @error('payment_method') is-invalid @enderror">
+                            <option value="">--- Select Method ---</option>
+                            <option value="Cash" {{ $payment->payment_method == 'Cash' ? 'selected' : '' }}>Cash</option>
+                            <option value="bKash" {{ $payment->payment_method == 'bKash' ? 'selected' : '' }}>bKash
+                            </option>
+                            <option value="Nagad" {{ $payment->payment_method == 'Nagad' ? 'selected' : '' }}>Nagad
+                            </option>
+                            <option value="Bank" {{ $payment->payment_method == 'Bank' ? 'selected' : '' }}>Bank</option>
+                            <option value="Card" {{ $payment->payment_method == 'Card' ? 'selected' : '' }}>Card</option>
+                        </select>
+                        @error('payment_method')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label><strong>Transaction ID</strong></label>
+                        <input type="text" name="transaction_id"
+                            value="{{ old('transaction_id', $payment->transaction_id) }}"
+                            class="form-control @error('transaction_id') is-invalid @enderror"
+                            placeholder="Enter trx ID (if applicable)">
+                        @error('transaction_id')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <label><strong>Note</strong></label>
+                        <textarea name="note" class="form-control @error('note') is-invalid @enderror" rows="2"
+                            placeholder="Optional note">{{ old('note', $payment->note) }}</textarea>
+                        @error('note')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 form-group">
                         <label><strong>Paid Amount</strong></label> <span class="text-danger">*</span>
                         <input type="number" step="0.01" name="paid_amount"
                             class="form-control @error('paid_amount') is-invalid @enderror"

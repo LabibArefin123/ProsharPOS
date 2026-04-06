@@ -44,6 +44,21 @@
                 </div>
 
                 <div class="col-md-6 form-group">
+                    <label><strong>Payment Method</strong></label>
+                    <input type="text" class="form-control" value="{{ $payment->payment_method ?? '-' }}" readonly>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label><strong>Transaction ID</strong></label>
+                    <input type="text" class="form-control" value="{{ $payment->transaction_id ?? '-' }}" readonly>
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <label><strong>Note</strong></label>
+                    <textarea class="form-control" rows="2" readonly>{{ $payment->note ?? '-' }}</textarea>
+                </div>
+
+                <div class="col-md-6 form-group">
                     <label><strong>Paid Amount</strong></label>
                     <input type="text" class="form-control" value="৳{{ number_format($payment->paid_amount, 2) }}"
                         readonly>

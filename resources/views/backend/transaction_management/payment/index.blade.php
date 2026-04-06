@@ -32,6 +32,9 @@
                         <th class="text-end">Due (৳)</th>
                         <th class="text-end">Due ($)</th>
                         <th>Payment Type</th>
+                        <th>Method</th>
+                        <th>Trx ID</th>
+                        <th>Note</th>
                         <th>Date</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -57,6 +60,21 @@
                             <td class="text-end">৳{{ number_format($payment->due_amount, 2) }}</td>
                             <td class="text-end">${{ number_format($payment->due_amount_in_dollar, 2) }}</td>
                             <td>{{ ucfirst($payment->payment_type) }}</td>
+                            <td>
+                                <span
+                                    class="badge 
+                                @if ($payment->payment_method == 'Cash') bg-success
+                                @elseif($payment->payment_method == 'bKash') bg-pink
+                                @elseif($payment->payment_method == 'Nagad') bg-warning
+                                @elseif($payment->payment_method == 'Card') bg-info
+                                @else bg-secondary @endif">
+                                    {{ $payment->payment_method ?? '-' }}
+                                </span>
+                            </td>
+
+                            <td>{{ $payment->transaction_id ?? '-' }}</td>
+
+                            <td>{{ \Illuminate\Support\Str::limit($payment->note, 20) ?? '-' }}</td>
                             <td>{{ $payment->created_at->format('d M, Y') }}</td>
                             <td class="text-center">
                                 <a href="{{ route('payments.show', $payment->id) }}" class="btn btn-sm btn-info">View</a>
