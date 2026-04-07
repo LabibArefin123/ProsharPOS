@@ -81,6 +81,11 @@ Route::get('/', [WelcomePageController::class, 'index'])->name('welcome');
 Route::get('/help', [WelcomePageController::class, 'help'])->name('help');
 Route::post('/system-problem/store', [WelcomePageController::class, 'system_problem_store'])->name('system_problem.store');
 
+// Guest
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+});
 // Authenticated routes
 Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', 'permission']],  function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -215,23 +220,11 @@ Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', '
     Route::delete('/activity-logs/{id}', [ActivityLogController::class, 'destroy'])->name('activity.logs.destroy');
 });
 
-Route::middleware('guest')->group(function () {
-    // Login
-    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [LoginController::class, 'login']);
-
-    // Include your register & password routes from auth.php
-    require __DIR__ . '/auth.php';
-});
 
 // -----------------------------
 // AUTH ROUTES
 // -----------------------------
 Route::middleware('auth')->group(function () {
-
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Logout
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
