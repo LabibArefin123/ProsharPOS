@@ -64,30 +64,71 @@ class AuthService
     }
 
     // ✅ PERFORM LOGIN
-    public function performLogin(Request $request, User $user): string
+    // public function performLogin(Request $request, User $user): string
+    // {
+    //     Auth::login($user, $request->boolean('remember'));
+    //     $request->session()->regenerate();
+
+    //     // ✅ LOG FIRST (safe)
+    //     activity()
+    //         ->causedBy(Auth::user())
+    //         ->event('login')
+    //         ->log('User logged in');
+
+    //     // THEN do risky checks
+    //     $this->checkDeviceBan($request, $user);
+
+    //     $this->trackUserDevice($request, $user);
+
+    //     return 'Welcome back, ' . $user->name . '!';
+    // }
+    public function performLogin(Request $request, User $user)
     {
         Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
 
-        // ✅ FIRST check device
-        $this->checkDeviceBan($request, $user);
+        // ✅ ALWAYS use $user (NOT Auth::user())
+        activity('auth')
+            ->causedBy($user)
+            ->event('login')
+            ->log('User logged in');
 
-        // ✅ THEN log activity
-        activity('User')->causedBy($user)->log('User logged in');
+        // ✅ HANDLE device ban properly
+        if ($response = $this->checkDeviceBan($request, $user)) {
+            return $response;
+        }
 
-        // Track device
         $this->trackUserDevice($request, $user);
 
         return 'Welcome back, ' . $user->name . '!';
     }
-    
+
     // ✅ PERFORM LOGOUT
+    // public function performLogout(Request $request): string
+    // {
+    //     $user = Auth::user();
+
+    //     if ($user) {
+    //         activity('User')->causedBy($user)->log('User logged out');
+    //     }
+
+    //     Auth::logout();
+
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+
+    //     return 'You have successfully logged out.';
+    // }
+
     public function performLogout(Request $request): string
     {
         $user = Auth::user();
 
         if ($user) {
-            activity('User')->causedBy($user)->log('User logged out');
+            activity('auth')
+                ->causedBy($user)
+                ->event('logout')
+                ->log('User logged out');
         }
 
         Auth::logout();
@@ -97,7 +138,7 @@ class AuthService
 
         return 'You have successfully logged out.';
     }
-
+    
     // -----------------------------
     // PRIVATE METHODS
     // -----------------------------
@@ -111,8 +152,13 @@ class AuthService
 
         if ($banned) {
             Auth::logout();
-            abort(403, 'Your device is banned. Contact admin.');
+
+            return response()->json([
+                'error' => 'Your device is banned.'
+            ], 403);
         }
+
+        return null;
     }
 
     private function trackUserDevice(Request $request, User $user)

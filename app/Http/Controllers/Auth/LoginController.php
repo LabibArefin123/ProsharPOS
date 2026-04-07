@@ -48,6 +48,11 @@ class LoginController extends Controller
 
         $message = $authService->performLogin($request, $user);
 
+        // ✅ HANDLE banned device response
+        if ($message instanceof \Illuminate\Http\Response) {
+            return $message;
+        }
+
         session()->flash('login_success', $message);
 
         // ✅ CLEAN ROLE-BASED REDIRECT (priority-based)

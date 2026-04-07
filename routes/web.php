@@ -83,7 +83,7 @@ Route::post('/system-problem/store', [WelcomePageController::class, 'system_prob
 
 // Authenticated routes
 Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', 'permission']],  function () {
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/system_dashboard', [DashboardController::class, 'system_index'])->name('dashboard.system');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
