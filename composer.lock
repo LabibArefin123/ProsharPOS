@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1d548a498887d315df925d6fc7d9943",
+    "content-hash": "0ba0379f6665a8de7982a31572563680",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -3727,6 +3727,60 @@
                 }
             ],
             "time": "2026-01-02T08:56:05+00:00"
+        },
+        {
+            "name": "naimul/db-visualizer",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Naimcse56/db-visualizer.git",
+                "reference": "efce201fa2b70310cd5d2263714488dda9ac523a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Naimcse56/db-visualizer/zipball/efce201fa2b70310cd5d2263714488dda9ac523a",
+                "reference": "efce201fa2b70310cd5d2263714488dda9ac523a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/database": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/filesystem": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/support": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0 || ^9.0 || ^10.0 || ^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Naimul\\DbVisualizer\\DbVisualizerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Naimul\\DbVisualizer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Naimul Islam",
+                    "email": "naimcse56@gmail.com"
+                }
+            ],
+            "description": "Laravel Database & Code Intelligence Visualizer (N+1, Relations, Performance Analyzer)",
+            "support": {
+                "issues": "https://github.com/Naimcse56/db-visualizer/issues",
+                "source": "https://github.com/Naimcse56/db-visualizer/tree/v1.0.6"
+            },
+            "time": "2026-04-07T10:05:51+00:00"
         },
         {
             "name": "nesbot/carbon",

@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6",
         "milon/barcode": "^13.1",
+        "naimul/db-visualizer": "^1.0",
         "realrashid/sweet-alert": "^7.3",
         "spatie/laravel-activitylog": "^4.12",
         "spatie/laravel-permission": "^6.21",

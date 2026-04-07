@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'text'    => 'Setting Management',
+    'text'    => 'System Control',
     'icon'    => 'fas fa-cogs',
     'submenu' => [
 
@@ -17,19 +17,19 @@ return [
                     'active' => ['user_categories*'],
                 ],
                 [
-                    'text' => 'Role List',
+                    'text' => 'Roles',
                     'route' => 'roles.index',
                     'can' => 'roles.index',
                     'active' => ['roles*'],
                 ],
                 [
-                    'text' => 'Permission List',
+                    'text' => 'Permissions',
                     'route' => 'permissions.index',
                     'can' => 'permissions.index',
                     'active' => ['permissions*'],
                 ],
                 [
-                    'text' => 'System User',
+                    'text' => 'System Users',
                     'route' => 'system_users.index',
                     'can' => 'system_users.index',
                     'active' => ['system_users*'],
@@ -37,7 +37,7 @@ return [
             ],
         ],
 
-        // ================= COMPANY & SYSTEM =================
+        // ================= COMPANY =================
         [
             'text' => 'Company & System',
             'icon' => 'fas fa-building',
@@ -57,13 +57,13 @@ return [
             ],
         ],
 
-        // ================= SETTINGS =================
+        // ================= SYSTEM SETTINGS =================
         [
             'text' => 'System Settings',
             'icon' => 'fas fa-sliders-h',
             'submenu' => [
                 [
-                    'text' => 'Settings',
+                    'text' => 'General Settings',
                     'route' => 'settings.index',
                     'can' => 'settings.index',
                     'active' => ['settings*'],
@@ -77,6 +77,27 @@ return [
             ],
         ],
 
+        // ================= SYSTEM HEALTH (NEW 🔥) =================
+        [
+            'text' => 'System Health',
+            'icon' => 'fas fa-heartbeat',
+            'submenu' => [
+                [
+                    'text' => 'Health Dashboard',
+                    'route' => 'db.visualizer.index',
+                    'can' => 'db.visualizer.index',
+                    'icon' => 'fas fa-chart-line',
+                    'active' => ['db-visualizer*'],
+                ],
+                [
+                    'text' => 'DB Visualizer (Raw)',
+                    'url'  => '/dbv',
+                    'icon' => 'fas fa-database',
+                    'target' => '_blank',
+                ],
+            ],
+        ],
+
         // ================= SECURITY =================
         [
             'text' => 'Security & Logs',
@@ -86,7 +107,7 @@ return [
                     'text' => 'Activity Logs',
                     'route' => 'activity.logs.index',
                     'can' => 'activity.logs.index',
-                    'active' => ['activity_logs*'],
+                    'active' => ['activity-logs*'],
                 ],
                 [
                     'text' => 'Security Logs',

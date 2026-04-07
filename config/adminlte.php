@@ -354,7 +354,7 @@ return [
 
         // ================= ORGANIZATION =================
         require config_path('menu/organization_menu.php'),
-        require config_path('menu/department_menu.php'),
+    require config_path('menu/department_menu.php'),
 
         // ================= SYSTEM =================
         require config_path('menu/setting_menu.php'),
