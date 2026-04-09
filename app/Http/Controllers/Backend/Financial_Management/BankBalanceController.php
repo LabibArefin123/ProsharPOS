@@ -63,16 +63,6 @@ class BankBalanceController extends Controller
                 'balance_in_dollars' => $request->balance_in_dollars ?? 0,
             ]);
 
-            // 🔥 Activity Log
-            activity()
-                ->causedBy(auth()->user())
-                ->performedOn($bankBalance)
-                ->withProperties([
-                    'user_id'            => $request->user_id,
-                    'balance_bdt'        => $request->balance,
-                    'balance_usd'        => $request->balance_in_dollars ?? 0,
-                ])
-                ->log('Bank Balance Created');
         });
 
         return redirect()
@@ -142,19 +132,6 @@ class BankBalanceController extends Controller
                 'balance_in_dollars' => $request->balance_in_dollars ?? 0,
             ]);
 
-            // 🔥 Activity Log
-            activity()
-                ->causedBy(auth()->user())
-                ->performedOn($bank_balance)
-                ->withProperties([
-                    'old' => $oldData,
-                    'new' => [
-                        'user_id'            => $request->user_id,
-                        'balance_bdt'        => $request->balance,
-                        'balance_usd'        => $request->balance_in_dollars ?? 0,
-                    ]
-                ])
-                ->log('Bank Balance Updated');
         });
 
         return redirect()

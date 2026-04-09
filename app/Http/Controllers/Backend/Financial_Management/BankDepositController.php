@@ -64,20 +64,10 @@ class BankDepositController extends Controller
             'withdraws',
         ])->get();
 
-        $balancesData = $balances->map(function ($balance) {
-
-            $originalBalance = $balance->balance;
-
-            return [
-                'id' => $balance->id,
-                'user_id' => $balance->user_id,
-                'original_balance' => $originalBalance,
-            ];
-        });
 
         return view(
             'backend.financial_management.bank_deposit.create',
-            compact('users', 'balances', 'balancesData')
+            compact('users', 'balances')
         );
     }
 
@@ -120,18 +110,6 @@ class BankDepositController extends Controller
                 $bankBalance->increment('balance_in_dollars', $amountUSD);
             }
 
-            // 🔥 Activity Log
-            activity()
-                ->causedBy(auth()->user())
-                ->performedOn($deposit)
-                ->withProperties([
-                    'bank_balance_id'  => $bankId,
-                    'amount_bdt'       => $amountBDT,
-                    'amount_usd'       => $amountUSD,
-                    'deposit_method'   => $request->deposit_method,
-                    'reference_no'     => $request->reference_no,
-                ])
-                ->log('Bank Deposit Created');
         });
 
         return redirect()
@@ -250,22 +228,6 @@ class BankDepositController extends Controller
                     $bank->increment('balance_in_dollars', $newAmountInDollar - $oldAmountInDollar);
                 }
             }
-
-            // 🔥 Activity Log
-            activity()
-                ->causedBy(auth()->user())
-                ->performedOn($bankDeposit)
-                ->withProperties([
-                    'old_bank_balance_id' => $oldBankBalanceId,
-                    'new_bank_balance_id' => $newBankBalanceId,
-                    'old_amount_bdt'      => $oldAmount,
-                    'new_amount_bdt'      => $newAmount,
-                    'old_amount_usd'      => $oldAmountInDollar,
-                    'new_amount_usd'      => $newAmountInDollar,
-                    'deposit_method'      => $request->deposit_method,
-                    'reference_no'        => $request->reference_no,
-                ])
-                ->log('Bank Deposit Updated');
         });
 
         return redirect()

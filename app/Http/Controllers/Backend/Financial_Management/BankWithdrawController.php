@@ -58,18 +58,9 @@ class BankWithdrawController extends Controller
                 ->get();
         }
 
-        $balancesData = $balances->map(function ($balance) {
-
-            return [
-                'id' => $balance->id,
-                'user_id' => $balance->user_id,
-                'original_balance' => $balance->balance,
-            ];
-        });
-
         return view(
             'backend.financial_management.bank_withdraw.create',
-            compact('users', 'balances', 'balancesData')
+            compact('users', 'balances')
         );
     }
 
@@ -118,16 +109,6 @@ class BankWithdrawController extends Controller
             // Reduce bank balance
             $bankBalance->decrement('balance', $withdraw->amount);
 
-            activity()
-                ->causedBy($user)
-                ->performedOn($withdraw)
-                ->withProperties([
-                    'bank_balance_id' => $bankBalance->id,
-                    'amount'          => $request->amount,
-                    'withdraw_method' => $request->withdraw_method,
-                    'reference_no'    => $request->reference_no,
-                ])
-                ->log('Bank Withdrawal Created');
         });
 
         return redirect()
@@ -229,19 +210,6 @@ class BankWithdrawController extends Controller
                 'note'            => $request->note,
             ]);
 
-            // 🔥 Activity Log
-            activity()
-                ->causedBy(auth()->user())
-                ->performedOn($bankWithdraw)
-                ->withProperties([
-                    'old_bank_balance_id' => $oldBankId,
-                    'new_bank_balance_id' => $newBankId,
-                    'old_amount'          => $oldAmount,
-                    'new_amount'          => $newAmount,
-                    'withdraw_method'     => $request->withdraw_method,
-                    'reference_no'        => $request->reference_no,
-                ])
-                ->log('Bank Withdrawal Updated');
         });
 
         return redirect()
