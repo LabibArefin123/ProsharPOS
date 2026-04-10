@@ -56,3 +56,13 @@
     height: 100%;
     border-radius: 0;
 }
+
+.select2-container--default .select2-results__option {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.select2-container--default .select2-results__option--highlighted {
+    background-color: #28a745;
+    color: #fff;
+}

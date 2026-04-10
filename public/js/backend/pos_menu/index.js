@@ -136,6 +136,35 @@ $("#checkout-btn").click(function () {
     $("#checkoutModal").modal("show");
 });
 
+$(document).ready(function () {
+    $("#customer_id").select2({
+        placeholder: "🔍 Search name or phone...",
+        allowClear: true,
+        width: "100%",
+
+        // ✅ FIX: Works inside modal
+        dropdownParent: $("#checkoutModal"),
+
+        // ✅ Custom search (name + phone)
+        matcher: function (params, data) {
+            if ($.trim(params.term) === "") {
+                return data;
+            }
+
+            let search = params.term.toLowerCase();
+
+            let text = data.text.toLowerCase();
+            let phone = $(data.element).data("phone")?.toString() || "";
+
+            if (text.includes(search) || phone.includes(search)) {
+                return data;
+            }
+
+            return null;
+        },
+    });
+});
+
 $("#confirm-checkout").click(function () {
     let data = {
         customer_id: $("#customer_id").val(),

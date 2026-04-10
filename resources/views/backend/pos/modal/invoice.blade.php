@@ -9,14 +9,17 @@
             </div>
 
             <div class="modal-body">
-
                 {{-- Customer --}}
                 <div class="mb-2">
                     <label>Customer</label>
-                    <select class="form-control" id="customer_id">
+
+                    <select class="form-control select2" id="customer_id" style="width:100%">
                         <option value="">Walk-in Customer</option>
+
                         @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                            <option value="{{ $customer->id }}" data-phone="{{ $customer->phone_number }}">
+                                {{ $customer->name }} ({{ $customer->phone_number }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
