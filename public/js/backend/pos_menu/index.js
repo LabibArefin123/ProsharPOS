@@ -124,12 +124,41 @@ $("#search-product").on("keyup", function () {
 });
 
 // 💳 Checkout
+
 $("#checkout-btn").click(function () {
     if (Object.keys(cart).length === 0) {
         toastr.warning("Cart is empty!");
         return;
     }
+    let total = $("#grand-total").text();
+    $("#checkout-total").text(total);
 
-    console.log(cart);
-    alert("Next: Payment system 💳");
+    $("#checkoutModal").modal("show");
+});
+
+$("#confirm-checkout").click(function () {
+    let data = {
+        customer_id: $("#customer_id").val(),
+        payment_status: $("#payment_status").val(),
+        payment_method: $("#payment_method").val(),
+        paid_amount: $("#paid_amount").val(),
+        total: $("#checkout-total").text(),
+        items: cart, // your JS cart array
+    };
+
+    $.ajax({
+        url: "/pos/checkout",
+        method: "POST",
+        data: data,
+        success: function (res) {
+            alert("✅ Sale Completed");
+
+            // Clear cart
+            cart = [];
+            $("#pos-cart").html("");
+            $("#grand-total").text(0);
+
+            $("#checkoutModal").modal("hide");
+        },
+    });
 });

@@ -5,7 +5,9 @@
 
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title">🛒 Cart</h5>
-                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+
+                {{-- ✅ FIXED BUTTON --}}
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
@@ -14,7 +16,7 @@
                     <tbody id="pos-cart"></tbody>
                 </table>
 
-                <div class="text-right">
+                <div class="text-end">
                     <h4>Total: ৳ <span id="grand-total">0</span></h4>
                 </div>
 

@@ -3,69 +3,7 @@
 @section('title', 'POS Terminal')
 
 @section('content')
-
-    <style>
-        /* ===== PRODUCT GRID ===== */
-        .product-card {
-            border-radius: 12px;
-            transition: 0.2s;
-            cursor: pointer;
-            height: 200px;
-        }
-
-        .product-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* square feel */
-        .product-img {
-            height: 90px;
-            object-fit: contain;
-        }
-
-        /* ===== FLOATING CART ===== */
-        .cart-panel {
-            position: fixed;
-            top: 70px;
-            right: 0;
-            width: 350px;
-            height: calc(100vh - 70px);
-            background: #fff;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-body {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .qty-input {
-            width: 60px;
-        }
-
-        .product-meta {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .modal-dialog-right {
-            position: fixed;
-            right: 0;
-            margin: 0;
-            height: 100%;
-        }
-
-        .modal-dialog-right .modal-content {
-            height: 100%;
-            border-radius: 0;
-        }
-    </style>
-
-
+    <link rel="stylesheet" href="{{ asset('css/backend/pos_menu/index.css') }}">
     <div class="container-fluid">
 
         {{-- HEADER --}}
@@ -156,6 +94,7 @@
 
     </div>
     @include('backend.pos.modal.cart')
+    @include('backend.pos.modal.invoice')
 @endsection
 
 @section('js')
