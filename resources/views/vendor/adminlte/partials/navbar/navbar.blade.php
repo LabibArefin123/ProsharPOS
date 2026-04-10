@@ -19,26 +19,6 @@
 
     {{-- Navbar right links --}}
     <ul class="navbar-nav ml-auto">
-
-        {{-- CART ICON (RIGHT SIDE) --}}
-        <li class="nav-item dropdown position-relative">
-            <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
-                <i class="bi bi-cart3 fs-5"></i>
-
-                @if ($cartCount > 0)
-                    <span class="position-absolute top-20 start-600 translate-middle badge rounded-pill bg-danger"
-                        style="font-size: 0.65rem; padding: 0.25em 0.45em;">
-                        {{ $cartCount }}
-                    </span>
-                @endif
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-end p-0">
-                @include('backend.cart.cart_box')
-            </div>
-        </li>
-
-
         {{-- Custom right links --}}
         @yield('content_top_nav_right')
 
