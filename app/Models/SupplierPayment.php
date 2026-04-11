@@ -18,7 +18,6 @@ class SupplierPayment extends Model
         'payment_date',
         'payment_method',
         'note',
-        'created_by',
     ];
 
     protected $casts = [
@@ -36,17 +35,12 @@ class SupplierPayment extends Model
         return $this->belongsTo(Purchase::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    // 🔥 Activity Log
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['payment_no', 'supplier_id', 'amount', 'payment_date'])
+            ->logFillable()
             ->logOnlyDirty()
-            ->useLogName('supplier_payment');
+            ->useLogName('Supplier Payment')
+            ->setDescriptionForEvent(fn(string $eventName) => "Supplier Payment {$eventName}");
     }
 }

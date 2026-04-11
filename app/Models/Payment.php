@@ -4,8 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 class Payment extends Model
 {
+    use LogsActivity;
+    
     protected $fillable = [
         'payment_id',
         'payment_name',
@@ -31,4 +36,12 @@ class Payment extends Model
         return $this->belongsTo(User::class, 'paid_by');
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->useLogName('Payment')
+            ->setDescriptionForEvent(fn(string $eventName) => "Payment {$eventName}");
+    }
 }
