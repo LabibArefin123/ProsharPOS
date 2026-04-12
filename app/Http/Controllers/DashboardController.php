@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
+use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 
 class DashboardController extends Controller
@@ -246,5 +248,48 @@ class DashboardController extends Controller
             'databaseSize',
             'lastBackupTime'
         ));
+    }
+
+        public function viewTable($table)
+        {
+            if (!Schema::hasTable($table)) {
+                abort(404);
+            }
+
+            if (request()->ajax()) {
+                $query = DB::table($table)->latest();
+
+                return DataTables::of($query)
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+
+            return view('backend.dashboard_section.table_view', compact('table'));
+        }
+
+    public function truncateTable(Request $request)
+    {
+        $table = $request->table;
+
+        // ❌ Prevent dangerous tables
+        $protected = ['users', 'migrations', 'password_resets'];
+
+        if (in_array($table, $protected)) {
+            return response()->json([
+                'message' => 'This table is protected!'
+            ], 403);
+        }
+
+        if (!Schema::hasTable($table)) {
+            return response()->json([
+                'message' => 'Invalid table!'
+            ], 404);
+        }
+
+        DB::table($table)->truncate();
+
+        return response()->json([
+            'message' => "Table '$table' truncated successfully!"
+        ]);
     }
 }

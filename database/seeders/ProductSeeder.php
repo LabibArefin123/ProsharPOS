@@ -33,6 +33,9 @@ class ProductSeeder extends Seeder
 
             Product::create([
                 'name'              => $brand->name . ' ' . $category->name . ' Item ' . $i,
+                add barcode and sku also
+                'sku',
+                'barcode',
                 'category_id'       => $category->id,
                 'brand_id'          => $brand->id,
                 'unit_id'           => $units->random()->id,
@@ -45,7 +48,6 @@ class ProductSeeder extends Seeder
                 'handling_charge'   => rand(10, 300),
                 'maintenance_charge' => rand(0, 200),
                 'sell_price'        => rand(500, 20000),
-                'image'             => null,
                 'using_place'       => ['Store Room', 'Front Desk', 'Office', 'Warehouse'][rand(0, 3)],
                 'warranty_id'       => $warranties->random()->id,
                 'description'       => 'Auto-generated product seed data',

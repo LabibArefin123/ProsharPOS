@@ -102,6 +102,7 @@
                             <th style="width: 50%">Table Name</th>
                             <th class="text-end">Record Count</th>
                             <th class="text-end">Last Updated</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,6 +120,18 @@
                                     @else
                                         <span class="text-muted">N/A</span>
                                     @endif
+                                </td>
+
+                                <td class="text-center">
+                                    {{-- VIEW DATA --}}
+                                    <a href="{{ route('dashboard.system.table.view', $table) }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+
+                                    {{-- TRUNCATE --}}
+                                    <button class="btn btn-sm btn-danger truncate-btn" data-table="{{ $table }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @empty
@@ -163,4 +176,32 @@
         }
     </style>
 
+@endsection
+@section('js')
+    <script>
+        $(document).on('click', '.truncate-btn', function() {
+            let table = $(this).data('table');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This will permanently delete all data from " + table,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Yes, truncate it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post("{{ route('dashboard.system.table.truncate') }}", {
+                        _token: "{{ csrf_token() }}",
+                        table: table
+                    }, function(res) {
+                        toastr.success(res.message);
+                        location.reload();
+                    }).fail(function() {
+                        toastr.error("Something went wrong!");
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

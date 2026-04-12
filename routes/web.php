@@ -90,8 +90,9 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::group(['middleware' => ['auth', 'check_banned_device', 'detect.attack', 'permission']],  function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/system/table/{table}', [DashboardController::class, 'viewTable']) ->name('dashboard.system.table.view');
+    Route::post('/system/table/truncate', [DashboardController::class, 'truncateTable']) ->name('dashboard.system.table.truncate');
     Route::get('/system_dashboard', [DashboardController::class, 'system_index'])->name('dashboard.system');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
     Route::get('/db-visualizer', [DbVisualizerController::class, 'index'])->name('db.visualizer.index');
     Route::get('/db-visualizer/data', [DbVisualizerController::class, 'data'])->name('db.visualizer.data');
