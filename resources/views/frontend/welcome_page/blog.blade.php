@@ -1,105 +1,186 @@
-<section id="blog" class="latest-blog py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">Latest Blog</h2>
-            <p class="text-muted">
-                Insights & Updates — Explore Expert Articles on Retail & POS Technology (December 2025)
+<section id="blog" class="latest-blog-section py-5">
+    <div class="container blog-container">
+
+        <!-- Section Header -->
+        <div class="blog-header text-center">
+            <span class="blog-label">
+                <i class="fas fa-newspaper me-2"></i>
+                OUR LATEST INSIGHTS
+            </span>
+
+            <h2 class="blog-title">
+                Explore Our Latest
+                <span>Blogs & Insights</span>
+            </h2>
+
+            <p class="blog-description">
+                Stay updated with the latest POS technology, retail business
+                strategies, and digital solutions to grow your business in Bangladesh.
             </p>
         </div>
 
-        <div class="row">
+        <!-- Blog Grid -->
+        <div class="row g-4">
 
-            {{-- Blog Card 1 --}}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <img src="{{ asset('images/default.jpg') }}" class="card-img-top" alt="Blog Image">
+            <!-- Blog 1 -->
+            <div class="col-lg-4 col-md-6">
+                <article class="blog-card">
 
-                    <div class="card-body">
-                        <small class="text-muted">
-                            <i class="far fa-calendar"></i> 05 Dec
-                            · <i class="fas fa-user"></i> Admin
-                            · <i class="fas fa-tag"></i> POS Software
-                        </small>
+                    <div class="blog-image-wrapper">
+                        <img src="{{ asset('images/default.jpg') }}"
+                             class="blog-image"
+                             alt="POS software for retail shops in Bangladesh">
 
-                        <h5 class="mt-3 fw-bold">
-                            Boosting Retail Efficiency with Smart POS Innovation
+                        <span class="blog-category">POS Technology</span>
+                    </div>
+
+                    <div class="blog-content">
+
+                        <div class="blog-meta">
+                            <span>
+                                <i class="far fa-calendar-alt"></i>
+                                05 October 2026
+                            </span>
+                            <span>
+                                <i class="far fa-user"></i>
+                                Admin
+                            </span>
+                        </div>
+
+                        <h5>
+                            How Smart POS Software Can Transform Retail Shops in Bangladesh
                         </h5>
 
-                        <p class="text-muted">
-                            Discover how modern POS systems transform customer experience and streamline daily
-                            operations.
+                        <p>
+                            From Dhaka supermarkets to local retail stores,
+                            discover how modern POS software simplifies billing,
+                            inventory management, and daily business operations.
                         </p>
 
-                        <a href="#" class="text-primary fw-bold">Read More →</a>
-                    </div>
+                        <div class="blog-footer">
+                            <a href="#" class="blog-read-more">
+                                Read Article
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
 
-                    <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                        <span><i class="far fa-eye"></i> 120</span>
-                        <span><i class="far fa-heart"></i> 50</span>
+                            <span class="blog-read-time">
+                                <i class="far fa-clock"></i> 5 min read
+                            </span>
+                        </div>
+
                     </div>
-                </div>
+                </article>
             </div>
 
-            {{-- Blog Card 2 --}}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <img src="{{ asset('images/default.jpg') }}" class="card-img-top" alt="Blog Image">
+            <!-- Blog 2 -->
+            <div class="col-lg-4 col-md-6">
+                <article class="blog-card">
 
-                    <div class="card-body">
-                        <small class="text-muted">
-                            <i class="far fa-calendar"></i> 22 Nov
-                            · <i class="fas fa-user"></i> Admin
-                            · <i class="fas fa-tag"></i> Retail Business
-                        </small>
+                    <div class="blog-image-wrapper">
+                        <img src="{{ asset('images/default.jpg') }}"
+                             class="blog-image"
+                             alt="Inventory management for Bangladeshi businesses">
 
-                        <h5 class="mt-3 fw-bold">
-                            Why Retailers Are Switching to Cloud-Based POS
+                        <span class="blog-category">Inventory Management</span>
+                    </div>
+
+                    <div class="blog-content">
+
+                        <div class="blog-meta">
+                            <span>
+                                <i class="far fa-calendar-alt"></i>
+                                22 September 2026
+                            </span>
+                            <span>
+                                <i class="far fa-user"></i>
+                                Admin
+                            </span>
+                        </div>
+
+                        <h5>
+                            Managing Retail Inventory Efficiently During Eid Season
                         </h5>
 
-                        <p class="text-muted">
-                            Learn the advantages of cloud POS systems and why businesses prefer advanced mobility.
+                        <p>
+                            Learn how Bangladeshi retailers can manage seasonal
+                            stock, monitor product demand, avoid stock shortages,
+                            and prepare for increased Eid shopping.
                         </p>
 
-                        <a href="#" class="text-primary fw-bold">Read More →</a>
-                    </div>
+                        <div class="blog-footer">
+                            <a href="#" class="blog-read-more">
+                                Read Article
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
 
-                    <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                        <span><i class="far fa-eye"></i> 98</span>
-                        <span><i class="far fa-heart"></i> 36</span>
+                            <span class="blog-read-time">
+                                <i class="far fa-clock"></i> 6 min read
+                            </span>
+                        </div>
+
                     </div>
-                </div>
+                </article>
             </div>
 
-            {{-- Blog Card 3 --}}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <img src="{{ asset('images/default.jpg') }}" class="card-img-top" alt="Blog Image">
+            <!-- Blog 3 -->
+            <div class="col-lg-4 col-md-6">
+                <article class="blog-card">
 
-                    <div class="card-body">
-                        <small class="text-muted">
-                            <i class="far fa-calendar"></i> 02 Nov
-                            · <i class="fas fa-user"></i> Admin
-                            · <i class="fas fa-tag"></i> Business Growth
-                        </small>
+                    <div class="blog-image-wrapper">
+                        <img src="{{ asset('images/default.jpg') }}"
+                             class="blog-image"
+                             alt="Business analytics and sales reporting">
 
-                        <h5 class="mt-3 fw-bold">
-                            How POS Data Helps You Make Smarter Business Decisions
+                        <span class="blog-category">Business Growth</span>
+                    </div>
+
+                    <div class="blog-content">
+
+                        <div class="blog-meta">
+                            <span>
+                                <i class="far fa-calendar-alt"></i>
+                                10 September 2026
+                            </span>
+                            <span>
+                                <i class="far fa-user"></i>
+                                Admin
+                            </span>
+                        </div>
+
+                        <h5>
+                            Understanding Your Retail Profit Through Smart Sales Reports
                         </h5>
 
-                        <p class="text-muted">
-                            Understand how real-time sales insights help improve profit and reduce operational costs.
+                        <p>
+                            Discover how sales reports, purchase records,
+                            expense tracking, and profit analysis help local
+                            business owners make smarter financial decisions.
                         </p>
 
-                        <a href="#" class="text-primary fw-bold">Read More →</a>
-                    </div>
+                        <div class="blog-footer">
+                            <a href="#" class="blog-read-more">
+                                Read Article
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
 
-                    <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                        <span><i class="far fa-eye"></i> 140</span>
-                        <span><i class="far fa-heart"></i> 64</span>
+                            <span class="blog-read-time">
+                                <i class="far fa-clock"></i> 4 min read
+                            </span>
+                        </div>
+
                     </div>
-                </div>
+                </article>
             </div>
 
         </div>
+
+        <!-- View All Blogs -->
+        <div class="blog-bottom text-center">
+            <a href="{{ url('/blogs') }}" class="blog-view-all">
+                Explore All Articles
+                <i class="fas fa-long-arrow-alt-right ms-2"></i>
+            </a>
+        </div>
+
     </div>
 </section>

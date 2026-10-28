@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" href="{{ asset('uploads/images/logor.png') }}">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <!-- Custom Styles -->
-    
+
     <!-- Scripts -->
 
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -26,6 +26,9 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/frontend/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_improvement.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_feature.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_service.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_blog.css') }}">
 </head>
 
 <body>
