@@ -1,0 +1,38 @@
+.service-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 19px;
+    border-radius: 16px;
+    font-size: 24px;
+    transition: transform 0.35s ease;
+}
+.service-card:hover .service-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+.service-blue {
+    color: #3973df;
+    background: #edf3ff;
+}
+.service-green {
+    color: #16a36a;
+    background: #e9f8f0;
+}
+.service-orange {
+    color: #e58a20;
+    background: #fff4e6;
+}
+.service-purple {
+    color: #8757d9;
+    background: #f2edff;
+}
+.service-cyan {
+    color: #0897b2;
+    background: #e7f8fb;
+}
+.service-pink {
+    color: #e05291;
+    background: #fff0f6;
+}

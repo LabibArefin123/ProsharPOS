@@ -1,0 +1,42 @@
+.service-tag {
+    align-self: flex-start;
+    margin-bottom: 11px;
+    color: #8a96a9;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.service-card h5 {
+    margin-bottom: 12px;
+    color: #24334b;
+    font-size: 18px;
+    font-weight: 750;
+    line-height: 1.45;
+    transition: color 0.3s ease;
+}
+.service-card:hover h5 {
+    color: #3973df;
+}
+.service-card p {
+    margin-bottom: 22px;
+    color: #7c8798;
+    font-size: 13.5px;
+    line-height: 1.9;
+}
+.service-bottom {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #edf0f5;
+}
+.service-bottom span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #68778d;
+    font-size: 12px;
+    font-weight: 650;
+}
+.service-bottom i {
+    color: #18a873;
+    font-size: 14px;
+}
