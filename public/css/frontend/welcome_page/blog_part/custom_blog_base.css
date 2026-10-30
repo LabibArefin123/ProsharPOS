@@ -1,0 +1,9 @@
+        .latest-blog-section {
+    position: relative;
+    overflow: hidden;
+    padding: 90px 0 !important;
+    background: #ffffff;
+}
+.blog-container {
+    max-width: 1250px;
+}

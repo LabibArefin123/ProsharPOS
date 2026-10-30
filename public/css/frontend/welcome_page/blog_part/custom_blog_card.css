@@ -1,0 +1,16 @@
+.blog-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #e9edf4;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 5px 22px rgba(27, 45, 75, 0.04);
+    transition: all 0.35s ease;
+}
+.blog-card:hover {
+    transform: translateY(-8px);
+    border-color: #d7e3fa;
+    box-shadow: 0 18px 38px rgba(31, 65, 120, 0.11);
+}

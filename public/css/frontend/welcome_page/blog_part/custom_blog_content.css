@@ -1,0 +1,40 @@
+.blog-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 25px 23px 22px;
+}
+.blog-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 17px;
+    color: #8a95a6;
+    font-size: 11px;
+}
+.blog-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.blog-meta i {
+    color: #3973df;
+    font-size: 12px;
+}
+.blog-content h5 {
+    margin-bottom: 13px;
+    color: #24334b;
+    font-size: 18px;
+    font-weight: 750;
+    line-height: 1.55;
+    transition: color 0.3s ease;
+}
+.blog-card:hover .blog-content h5 {
+    color: #3973df;
+}
+.blog-content p {
+    margin-bottom: 22px;
+    color: #7c8798;
+    font-size: 13.5px;
+    line-height: 1.85;
+}   
