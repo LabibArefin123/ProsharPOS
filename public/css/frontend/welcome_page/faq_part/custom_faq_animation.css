@@ -1,0 +1,59 @@
+.custom-faq-item {
+    animation: customFaqFadeIn 0.6s ease both;
+}
+.custom-faq-item:nth-child(2) {
+    animation-delay: 0.08s;
+}
+.custom-faq-item:nth-child(3) {
+    animation-delay: 0.16s;
+}
+.custom-faq-item:nth-child(4) {
+    animation-delay: 0.24s;
+}
+@keyframes customFaqFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.custom-faq-footer {
+    margin-top: 50px;
+}
+.custom-faq-footer p {
+    margin-bottom: 18px;
+    color: #657187;
+    font-size: 15px;
+    font-weight: 600;
+}
+.custom-faq-contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 25px;
+    border-radius: 8px;
+    background: #3973df;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 7px 18px rgba(57, 115, 223, 0.20);
+    transition: all 0.3s ease;
+}
+.custom-faq-contact:hover {
+    transform: translateY(-3px);
+    background: #285fc5;
+    color: #ffffff;
+    box-shadow: 0 11px 24px rgba(57, 115, 223, 0.28);
+}
+.custom-faq-contact .fa-arrow-right {
+    font-size: 11px;
+    transition: transform 0.3s ease;
+}
+.custom-faq-contact:hover .fa-arrow-right {
+    transform: translateX(4px);
+}

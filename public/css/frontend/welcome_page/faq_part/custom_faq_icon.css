@@ -1,0 +1,21 @@
+.custom-faq-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #edf3ff;
+    color: #3973df;
+    font-size: 13px;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.custom-faq-item.active .custom-faq-toggle {
+    background: #3973df;
+    color: #ffffff;
+    transform: rotate(180deg);
+}
+.custom-faq-toggle i {
+    transition: transform 0.3s ease;
+}

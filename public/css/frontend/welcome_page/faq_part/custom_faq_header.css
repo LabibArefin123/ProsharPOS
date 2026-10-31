@@ -1,0 +1,35 @@
+.custom-faq-header {
+    max-width: 800px;
+    margin: 0 auto 55px;
+}
+.custom-faq-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 18px;
+    margin-bottom: 18px;
+    border-radius: 50px;
+    background: #eaf1ff;
+    color: #3568d4;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+.custom-faq-title {
+    margin-bottom: 18px;
+    color: #17243a;
+    font-size: clamp(29px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -1.2px;
+}
+.custom-faq-title span {
+    color: #3973df;
+}
+.custom-faq-description {
+    max-width: 720px;
+    margin: 0 auto;
+    color: #778397;
+    font-size: 15px;
+    line-height: 1.9;
+}

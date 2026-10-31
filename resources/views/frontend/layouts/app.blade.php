@@ -52,6 +52,14 @@
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_cta.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_responsive.css') }}">
     {{-- Service Part in Welcome Page End --}}
+    {{-- FAQ Part in Welcome Page Start --}}
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/faq_part/custom_faq_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/faq_part/custom_faq_header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/faq_part/custom_faq_item.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/faq_part/custom_faq_icon.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/faq_part/custom_faq_animation.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/faq_part/custom_faq_responsive.css') }}">
+    {{-- FAQ Part in Welcome Page End --}}
 </head>
 
 <body>
@@ -107,6 +115,8 @@
     @endif
 
     {{-- End of second --}}
+
+    <script src="{{ asset('js/frontend/welcome_page/custom_qa.js') }}" defer></script>
 
 </body>
 

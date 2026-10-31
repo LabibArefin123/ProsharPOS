@@ -1,0 +1,14 @@
+.custom-faq-section {
+    position: relative;
+    overflow: hidden;
+    padding: 90px 0 !important;
+    background: #f7f9fc;
+}
+.custom-faq-container {
+    max-width: 1100px;
+}
+.custom-faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}

@@ -1,0 +1,106 @@
+@media (max-width: 991px) {
+    .custom-faq-section {
+        padding: 70px 0 !important;
+    }
+    .custom-faq-header {
+        margin-bottom: 40px;
+    }
+    .custom-faq-grid {
+        gap: 18px;
+    }
+    .custom-faq-question {
+        padding: 21px 20px;
+        font-size: 14px;
+    }
+    .custom-faq-answer-inner {
+        padding: 0 55px 22px 52px;
+    }
+}
+@media (max-width: 767px) {
+    .custom-faq-section {
+        padding: 60px 0 !important;
+    }
+    .custom-faq-header {
+        margin-bottom: 35px;
+        padding: 0 10px;
+    }
+    .custom-faq-title {
+        font-size: 30px;
+        letter-spacing: -0.7px;
+    }
+    .custom-faq-description {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+    .custom-faq-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .custom-faq-question {
+        min-height: 80px;
+        padding: 20px;
+    }
+    .custom-faq-answer-inner {
+        padding: 0 60px 22px 52px;
+        font-size: 13px;
+    }
+    .custom-faq-footer {
+        margin-top: 40px;
+    }
+}
+@media (max-width: 575px) {
+    .custom-faq-section {
+        padding: 48px 0 !important;
+    }
+    .custom-faq-title {
+        font-size: 27px;
+    }
+    .custom-faq-label {
+        padding: 8px 14px;
+        font-size: 10px;
+    }
+    .custom-faq-item {
+        border-radius: 13px;
+    }
+    .custom-faq-question {
+        min-height: 75px;
+        padding: 17px 15px;
+        font-size: 13px;
+    }
+    .custom-faq-question-content {
+        gap: 10px;
+    }
+    .custom-faq-number {
+        font-size: 11px;
+    }
+    .custom-faq-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+    .custom-faq-answer-inner {
+        padding: 0 48px 20px 42px;
+        font-size: 12.5px;
+    }
+    .custom-faq-footer p {
+        font-size: 14px;
+    }
+    .custom-faq-contact {
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .custom-faq-item,
+    .custom-faq-toggle,
+    .custom-faq-toggle i,
+    .custom-faq-contact,
+    .custom-faq-contact .fa-arrow-right {
+        animation: none !important;
+        transition: none !important;
+    }
+    .custom-faq-item:hover,
+    .custom-faq-contact:hover {
+        transform: none;
+    }
+}
