@@ -1,0 +1,80 @@
+@media (max-width: 991px) {
+    .features-section {
+        padding: 70px 0 !important;
+    }
+    .features-header {
+        margin-bottom: 40px;
+    }
+    .feature-card {
+        min-height: 235px;
+        padding: 25px 22px;
+    }
+}
+@media (max-width: 767px) {
+    .features-section {
+        padding: 60px 0 !important;
+    }
+    .features-header {
+        margin-bottom: 32px;
+        padding: 0 10px;
+    }
+    .features-title {
+        font-size: 30px;
+        letter-spacing: -0.7px;
+    }
+    .features-description {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+    .feature-card {
+        min-height: 225px;
+        padding: 24px 20px;
+        border-radius: 13px;
+    }
+    .feature-card h5 {
+        font-size: 16px;
+    }
+    .feature-card p {
+        font-size: 13px;
+    }
+    .features-bottom {
+        margin-top: 40px;
+    }
+}
+@media (max-width: 575px) {
+    .features-section {
+        padding: 48px 0 !important;
+    }
+    .features-title {
+        font-size: 27px;
+    }
+    .features-label {
+        font-size: 10px;
+        padding: 8px 14px;
+    }
+    .feature-card {
+        min-height: auto;
+        padding: 24px;
+    }
+    .feature-icon {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 18px;
+        font-size: 21px;
+    }
+    .feature-number {
+        font-size: 55px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .feature-card,
+    .feature-icon,
+    .feature-number,
+    .features-cta {
+        transition: none;
+    }
+    .feature-card:hover,
+    .features-cta:hover {
+        transform: none;
+    }
+}

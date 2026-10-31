@@ -1,0 +1,46 @@
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 23px;
+    border-radius: 14px;
+    font-size: 23px;
+    transition: transform 0.35s ease;
+}
+.feature-card:hover .feature-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+.icon-blue {
+    color: #3973df;
+    background: #edf3ff;
+}
+.icon-green {
+    color: #16a36a;
+    background: #e9f8f0;
+}
+.icon-orange {
+    color: #e58a20;
+    background: #fff4e6;
+}
+.icon-purple {
+    color: #8757d9;
+    background: #f2edff;
+}
+.icon-pink {
+    color: #e05291;
+    background: #fff0f6;
+}
+.icon-cyan {
+    color: #0897b2;
+    background: #e7f8fb;
+}
+.icon-indigo {
+    color: #5865d9;
+    background: #eff0ff;
+}
+.icon-teal {
+    color: #149c91;
+    background: #e8f8f5;
+}

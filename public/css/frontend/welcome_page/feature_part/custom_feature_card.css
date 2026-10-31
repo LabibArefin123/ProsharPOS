@@ -1,0 +1,36 @@
+    .feature-card {
+    position: relative;
+    height: 100%;
+    min-height: 250px;
+    overflow: hidden;
+    padding: 30px 26px;
+    border: 1px solid #e9edf4;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 5px 22px rgba(27, 45, 75, 0.035);
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+.feature-card:hover {
+    transform: translateY(-8px);
+    border-color: #d7e3fa;
+    box-shadow: 0 18px 38px rgba(31, 65, 120, 0.10);
+}
+.feature-card h5 {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 12px;
+    color: #24334b;
+    font-size: 17px;
+    font-weight: 750;
+}
+.feature-card p {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+    color: #7c8798;
+    font-size: 13.5px;
+    line-height: 1.85;
+}

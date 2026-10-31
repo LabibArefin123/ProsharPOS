@@ -1,0 +1,9 @@
+.features-section {
+    position: relative;
+    overflow: hidden;
+    padding: 90px 0 !important;
+    background: #f7f9fc;
+}
+.features-container {
+    max-width: 1250px;
+}
