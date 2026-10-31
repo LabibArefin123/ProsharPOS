@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('css/frontend/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_improvement.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_feature.css') }}">
-    {{-- Blog Part in Welcome Page Start --}}
+    {{-- Blog Part in Blog Page Start --}}
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/blog_part/custom_blog_base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/blog_part/custom_blog_header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/blog_part/custom_blog_card.css') }}">
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/blog_part/custom_blog_content.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/blog_part/custom_blog_footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/blog_part/custom_blog_responsive.css') }}">
-    {{-- Blog Part in Welcome Page End --}}
+    {{-- Blog Part in Blog Page End --}}
     {{-- Service Part in Welcome Page Start --}}
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_header.css') }}">
