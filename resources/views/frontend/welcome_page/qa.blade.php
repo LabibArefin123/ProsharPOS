@@ -1,6 +1,5 @@
 <section id="faq" class="custom-faq-section">
     <div class="container custom-faq-container">
-
         <div class="custom-faq-header text-center">
             <span class="custom-faq-label">
                 <i class="fas fa-comments"></i>
@@ -109,6 +108,5 @@
                 <i class="fas fa-arrow-right"></i>
             </a>
         </div>
-
     </div>
 </section>
