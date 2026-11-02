@@ -1,0 +1,73 @@
+/* Description editor visual styles */
+.custom-description-editor {
+    width: 100%;
+    border: 1px solid #dce3ee;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+.custom-description-editor:focus-within {
+    border-color: #3973df;
+    box-shadow: 0 0 0 3px rgba(57, 115, 223, .12);
+}
+.description-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: #f6f8fc;
+    border-bottom: 1px solid #e7ecf4;
+}
+.description-tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 32px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: #526078;
+    cursor: pointer;
+    transition: .18s ease;
+}
+.description-tool:hover,
+.description-tool:focus-visible {
+    color: #2563eb;
+    border-color: #d8e4fb;
+    background: #fff;
+    outline: none;
+}
+.description-editable {
+    min-height: 150px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 14px 16px;
+    color: #263449;
+    font-size: 14px;
+    line-height: 1.7;
+    outline: none;
+    overflow-wrap: anywhere;
+}
+.description-editable:empty::before {
+    content: attr(data-placeholder);
+    color: #9aa6b8;
+    pointer-events: none;
+}
+.description-editable ul,
+.description-editable ol {
+    padding-left: 24px;
+    margin: 8px 0;
+}
+.description-word-counter {
+    padding: 8px 14px;
+    text-align: right;
+    font-size: 12px;
+    color: #758197;
+    background: #fbfcfe;
+    border-top: 1px solid #edf0f5;
+}
+.description-word-counter.is-over-limit { color: #dc5353; font-weight: 600; }
+.description-word-counter.is-under-minimum { color: #b7791f; }

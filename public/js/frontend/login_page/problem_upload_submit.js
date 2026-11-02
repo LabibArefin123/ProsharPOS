@@ -1,132 +1,94 @@
-/* XMLHttpRequest submission and upload progress */
+/* =========================================
+   PROBLEM UPLOAD SUBMISSION HELPERS
+   Actual submit handler: file_progress.js
+========================================= */
+
 (function (PU) {
-    PU.resetProgress = function () {
-        PU.progressBar.style.width = "0%";
-        PU.progressPercent.textContent = "0%";
-        PU.progressStatus.textContent = "Waiting for upload";
-        PU.progressSize.textContent = "0 / 0 MB";
-    };
+    "use strict";
 
     PU.setUploadingState = function (isUploading) {
+        PU.isUploading = isUploading;
+
+        if (!PU.submitButton) return;
+
         PU.submitButton.disabled = isUploading;
-        PU.submitButton.querySelector("span").textContent =
-            isUploading ? "Submitting..." : "Submit Problem";
-        PU.submitButton.querySelector("i").className =
-            isUploading ? "fas fa-spinner fa-spin" : "fas fa-paper-plane";
+        PU.submitButton.setAttribute(
+            "aria-busy",
+            isUploading ? "true" : "false",
+        );
+
+        const label = PU.submitButton.querySelector("span");
+        const icon = PU.submitButton.querySelector("i");
+
+        if (label) {
+            label.textContent = isUploading
+                ? "Submitting..."
+                : "Submit Problem";
+        } else if (!icon) {
+            PU.submitButton.textContent = isUploading
+                ? "Submitting..."
+                : "Submit Problem";
+        }
+
+        if (icon) {
+            icon.className = isUploading
+                ? "fas fa-spinner fa-spin"
+                : "fas fa-paper-plane";
+        }
+
+        if (PU.input) {
+            PU.input.disabled = isUploading;
+        }
+
+        if (PU.preview) {
+            PU.preview
+                .querySelectorAll(".problem-file-remove")
+                .forEach(function (button) {
+                    button.disabled = isUploading;
+                });
+        }
     };
 
-    PU.submitForm = function () {
-        PU.form.addEventListener("submit", function (event) {
-            event.preventDefault();
-            PU.clearMessage();
-            PU.clearErrors();
+    PU.resetProgress = function () {
+        if (PU.progressBar) {
+            PU.progressBar.style.width = "0%";
+            PU.progressBar.style.background = "";
+            PU.progressBar.setAttribute("aria-valuenow", "0");
+        }
 
-            if (PU.selectedFiles.length > PU.MAX_FILES) {
-                PU.showMessage("Maximum 8 attachments are allowed.", "error");
-                return;
-            }
+        if (PU.progressPercent) {
+            PU.progressPercent.textContent = "0%";
+        }
 
-            const formData = new FormData(PU.form);
-            formData.delete("attachments[]");
-            PU.selectedFiles.forEach(function (item) {
-                formData.append("attachments[]", item.file);
-            });
+        if (PU.progressStatus) {
+            PU.progressStatus.textContent = "Waiting for upload";
+        }
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", PU.form.action, true);
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        if (PU.progressSize) {
+            PU.progressSize.textContent = "0 B / 0 B";
+        }
+    };
 
-            PU.setUploadingState(true);
-            PU.progressSection.style.display = "block";
-            PU.renderProgressList("Queued");
+    PU.setProgress = function (percent, loaded, total, message) {
+        const safePercent = Math.max(0, Math.min(100, percent));
 
-            const totalSize = PU.selectedFiles.reduce(function (total, item) {
-                return total + item.file.size;
-            }, 0);
+        if (PU.progressBar) {
+            PU.progressBar.style.width = safePercent + "%";
+            PU.progressBar.setAttribute("aria-valuenow", String(safePercent));
+        }
 
-            xhr.upload.addEventListener("progress", function (event) {
-                if (!event.lengthComputable) return;
-                const percent = Math.round((event.loaded / event.total) * 100);
-                PU.progressBar.style.width = percent + "%";
-                PU.progressPercent.textContent = percent + "%";
-                PU.progressStatus.textContent = "Uploading attachments...";
-                PU.progressSize.textContent =
-                    PU.formatSize(event.loaded) + " / " + PU.formatSize(event.total);
+        if (PU.progressPercent) {
+            PU.progressPercent.textContent = safePercent + "%";
+        }
 
-                PU.progressList.querySelectorAll(".problem-progress-item").forEach(function (row) {
-                    row.querySelector(".progress-state").textContent =
-                        percent === 100 ? "Processing" : "Uploading";
-                });
-            });
+        if (PU.progressStatus) {
+            PU.progressStatus.textContent =
+                message || "Uploading attachments...";
+        }
 
-            xhr.onload = function () {
-                PU.setUploadingState(false);
-                let response;
-                try {
-                    response = JSON.parse(xhr.responseText);
-                } catch (error) {
-                    PU.showMessage("Unexpected server response. Please try again.", "error");
-                    PU.progressStatus.textContent = "Upload failed";
-                    return;
-                }
-
-                if (xhr.status >= 200 && xhr.status < 300 && response.success) {
-                    PU.progressBar.style.width = "100%";
-                    PU.progressPercent.textContent = "100%";
-                    PU.progressStatus.textContent = "Upload completed";
-                    PU.progressList.querySelectorAll(".progress-state").forEach(function (state) {
-                        state.textContent = "Completed";
-                    });
-
-                    PU.showMessage(
-                        response.message + (response.problem_uid
-                            ? " Reference: " + response.problem_uid : ""),
-                        "success"
-                    );
-
-                    PU.form.reset();
-                    PU.selectedFiles.forEach(function (item) {
-                        if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
-                    });
-                    PU.selectedFiles = [];
-                    PU.syncInputFiles();
-                    PU.renderPreview();
-
-                    const descriptionCount = document.getElementById("problemDescriptionCount");
-                    if (descriptionCount) descriptionCount.textContent = "0";
-                    return;
-                }
-
-                if (xhr.status === 422 && response.errors) {
-                    PU.showErrors(response.errors);
-                    PU.showMessage(
-                        response.message || "Please correct the highlighted errors.",
-                        "error"
-                    );
-                } else {
-                    PU.showMessage(
-                        response.message || "Unable to submit your problem report.",
-                        "error"
-                    );
-                }
-                PU.progressStatus.textContent = "Upload failed";
-                PU.progressBar.style.background = "#dc5353";
-            };
-
-            xhr.onerror = function () {
-                PU.setUploadingState(false);
-                PU.showMessage("Network error. Please check your connection.", "error");
-                PU.progressStatus.textContent = "Upload failed";
-            };
-
-            xhr.onabort = function () {
-                PU.setUploadingState(false);
-                PU.showMessage("Upload was cancelled.", "error");
-                PU.progressStatus.textContent = "Cancelled";
-            };
-
-            xhr.send(formData);
-        });
+        if (PU.progressSize) {
+            PU.progressSize.textContent =
+                PU.formatSize(loaded) + " / " + PU.formatSize(total);
+        }
     };
 })(window.ProblemUpload);

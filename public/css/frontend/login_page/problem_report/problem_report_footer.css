@@ -1,0 +1,127 @@
+/* =========================================
+   UPLOAD FOOTER
+========================================= */
+
+.problem-upload-footer {
+    position: relative;
+    z-index: 5;
+    flex-shrink: 0;
+    padding: 18px 30px;
+    border-top: 1px solid #e8edf4;
+    background: #ffffff;
+    box-shadow: 0 -5px 15px rgba(15, 23, 42, 0.04);
+}
+
+/* Footer Actions */
+
+.problem-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 0;
+}
+
+.problem-footer-actions button {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 48px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    visibility: visible;
+    opacity: 1;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Cancel Button */
+
+.problem-cancel-btn {
+    background: #f0f3f5;
+    color: #697681;
+}
+
+.problem-cancel-btn:hover {
+    background: #e5eaee;
+    color: #344451;
+}
+
+/* Submit Button */
+
+.problem-submit-btn {
+    background: #159b63;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(21, 155, 99, 0.18);
+}
+
+.problem-submit-btn:hover {
+    background: #108553;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.problem-submit-btn:active {
+    transform: translateY(0);
+}
+
+.problem-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* General Modal Footer - If Used */
+
+.problem-modal-footer {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 18px 30px;
+    border-top: 1px solid #edf0f3;
+    background: #ffffff;
+}
+
+.problem-footer-info {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #98a2aa;
+    font-size: 10px;
+}
+
+.problem-footer-info i {
+    color: #159b63;
+}
+
+/* Form Messages */
+
+.problem-form-message {
+    display: none;
+    flex-shrink: 0;
+    margin: 12px 30px 18px;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.problem-form-message.success {
+    display: block;
+    background: #e9f8ef;
+    color: #13824f;
+}
+
+.problem-form-message.error {
+    display: block;
+    background: #fff0f0;
+    color: #c44747;
+}

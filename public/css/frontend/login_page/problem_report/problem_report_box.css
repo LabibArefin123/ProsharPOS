@@ -1,0 +1,132 @@
+/* =========================================
+   PROBLEM REPORT MODAL BOX
+========================================= */
+
+.problem-report-modal {
+    display: flex;
+    flex-direction: column;
+    width: min(1050px, 94%);
+    height: 92vh;
+    max-width: 1050px;
+    max-height: 92vh;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Header */
+
+.problem-modal-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 25px 30px;
+    border-bottom: 1px solid #edf0f3;
+    background: #ffffff;
+}
+
+.problem-header-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #16a36a;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+.problem-modal-header h5 {
+    margin: 0;
+    color: #172b3a;
+    font-size: 21px;
+    font-weight: 750;
+}
+
+.problem-modal-header p {
+    margin: 6px 0 0;
+    color: #84909b;
+    font-size: 13px;
+}
+
+.problem-modal-header .close-btn {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: #f2f5f7;
+    color: #53616d;
+    font-size: 23px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.problem-modal-header .close-btn:hover {
+    background: #e8edf1;
+    color: #172b3a;
+}
+
+/* Main Form Layout */
+
+#problemReportForm {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.problem-report-grid {
+    display: grid;
+    flex: 1;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.problem-form-column,
+.problem-upload-column {
+    min-width: 0;
+    min-height: 0;
+    padding: 25px 30px;
+}
+
+.problem-form-column {
+    overflow-y: auto;
+    border-right: 1px solid #edf0f3;
+    background: #ffffff;
+}
+
+.problem-upload-column {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+    background: #fbfcfd;
+}
+
+/* Scrollbar */
+
+.problem-form-column,
+.problem-upload-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.problem-form-column::-webkit-scrollbar,
+.problem-upload-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.problem-form-column::-webkit-scrollbar-thumb,
+.problem-upload-scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #cbd5e1;
+}
