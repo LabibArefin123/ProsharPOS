@@ -1,0 +1,224 @@
+/* ==========================================
+   RESPONSIVE LOGIN DESIGN
+========================================== */
+
+/* Large Tablets */
+
+@media (max-width: 1199px) {
+    .login-wrapper {
+        max-width: 1000px;
+    }
+
+    .login-brand-panel {
+        padding: 38px 32px;
+    }
+
+    .login-form-panel {
+        padding: 40px 35px;
+    }
+
+    .brand-title {
+        font-size: 26px;
+    }
+}
+
+/* Tablets */
+
+@media (max-width: 991px) {
+    .login-page {
+        padding: 35px 20px;
+        background-attachment: scroll;
+    }
+
+    .login-card > .row {
+        min-height: auto;
+    }
+
+    .login-brand-panel {
+        padding: 32px 25px;
+    }
+
+    .brand-header {
+        margin-bottom: 20px;
+    }
+
+    .brand-logo-wrapper {
+        width: 75px;
+        height: 75px;
+        border-radius: 18px;
+    }
+
+    .brand-title {
+        font-size: 24px;
+    }
+
+    .brand-description {
+        font-size: 12px;
+    }
+
+    .brand-features {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 100%;
+        gap: 12px;
+    }
+
+    .brand-feature {
+        font-size: 11px;
+    }
+
+    .brand-bottom {
+        margin-top: 23px;
+    }
+
+    .login-form-panel {
+        padding: 45px 35px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 767px) {
+    .login-page {
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: 22px 14px;
+    }
+
+    .login-wrapper {
+        max-width: 480px;
+        margin: auto;
+    }
+
+    .login-card {
+        border-radius: 17px;
+    }
+
+    /* Hide Desktop Branding Panel */
+    .login-brand-panel {
+        display: none;
+    }
+
+    /* Show Compact Mobile Branding */
+    .mobile-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 35px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #edf0f4;
+    }
+
+    .mobile-brand img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .login-form-panel {
+        padding: 30px 26px;
+    }
+
+    .login-form-content {
+        max-width: 100%;
+    }
+
+    .login-heading {
+        margin-bottom: 25px;
+    }
+
+    .login-heading h2 {
+        font-size: 25px;
+    }
+
+    .login-footer {
+        font-size: 10px;
+        line-height: 1.8;
+    }
+}
+
+/* Small Mobile */
+
+@media (max-width: 480px) {
+    .login-page {
+        padding: 15px 10px;
+    }
+
+    .login-form-panel {
+        padding: 25px 19px;
+    }
+
+    .login-heading h2 {
+        font-size: 23px;
+    }
+
+    .login-heading p {
+        font-size: 12px;
+    }
+
+    .login-input-wrapper {
+        min-height: 50px;
+    }
+
+    .login-input-wrapper input {
+        height: 48px;
+        font-size: 12px;
+    }
+
+    .login-options {
+        align-items: flex-start;
+    }
+
+    .remember-option,
+    .forgot-password {
+        font-size: 11px;
+    }
+
+    .login-support {
+        padding: 14px;
+    }
+
+    .problem-modal-content {
+        border-radius: 14px;
+    }
+
+    .problem-modal-header {
+        padding: 20px 20px 0;
+    }
+
+    .problem-modal-body {
+        padding: 20px;
+    }
+
+    .problem-modal-footer {
+        flex-wrap: wrap;
+        padding: 15px 20px;
+    }
+}
+
+/* Very Small Devices */
+
+@media (max-width: 350px) {
+    .login-options {
+        flex-direction: column;
+        gap: 13px;
+    }
+
+    .login-submit-btn {
+        padding: 0 14px;
+        font-size: 11px;
+    }
+
+    .support-content h6 {
+        font-size: 11px;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .login-page *,
+    .problem-modal-content {
+        animation: none !important;
+        transition: none !important;
+    }
+}

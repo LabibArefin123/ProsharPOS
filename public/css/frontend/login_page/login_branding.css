@@ -1,0 +1,185 @@
+/* ==========================================
+   LOGIN BRANDING PANEL
+========================================== */
+
+.login-brand-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 45px 48px;
+    color: #ffffff;
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(255, 255, 255, 0.13),
+            transparent 35%
+        ),
+        linear-gradient(145deg, #198754, #11633d 65%, #0d5133);
+}
+
+.login-brand-panel::before,
+.login-brand-panel::after {
+    position: absolute;
+    content: "";
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.login-brand-panel::before {
+    top: -130px;
+    right: -110px;
+    width: 350px;
+    height: 350px;
+}
+
+.login-brand-panel::after {
+    bottom: -180px;
+    left: -130px;
+    width: 400px;
+    height: 400px;
+}
+
+.brand-panel-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+/* Brand Header */
+
+.brand-header {
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+.brand-logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 105px;
+    height: 105px;
+    margin: 0 auto 18px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.brand-logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.brand-title {
+    margin-bottom: 7px;
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.brand-divider {
+    width: 55px;
+    height: 3px;
+    margin: 21px auto;
+    border-radius: 10px;
+    background: #b8e8c8;
+}
+
+.brand-description {
+    max-width: 390px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* Feature List */
+
+.brand-features {
+    display: grid;
+    gap: 13px;
+    max-width: 380px;
+    margin: 0 auto;
+}
+
+.brand-feature {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.brand-feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #d7f5e2;
+    font-size: 14px;
+}
+
+/* Bottom Message */
+
+.brand-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    margin-top: 35px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.brand-bottom-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.brand-bottom h6 {
+    margin-bottom: 4px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.brand-bottom p {
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 11px;
+}
+
+/* Mobile Brand */
+
+.mobile-brand {
+    display: none;
+}

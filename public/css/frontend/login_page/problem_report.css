@@ -1,0 +1,603 @@
+/* =========================================
+   PROBLEM REPORT MODAL
+========================================= */
+
+.problem-report-modal {
+    width: min(1050px, 94%);
+    max-width: 1050px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 0;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+
+.problem-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 25px 30px;
+    border-bottom: 1px solid #edf0f3;
+}
+
+.problem-header-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #16a36a;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+.problem-modal-header h5 {
+    margin: 0;
+    color: #172b3a;
+    font-size: 21px;
+    font-weight: 750;
+}
+
+.problem-modal-header p {
+    margin: 6px 0 0;
+    color: #84909b;
+    font-size: 13px;
+}
+
+.problem-modal-header .close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: #f2f5f7;
+    color: #53616d;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+/* Main Grid */
+
+.problem-report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.problem-form-column,
+.problem-upload-column {
+    min-width: 0;
+    padding: 25px 30px;
+}
+
+.problem-form-column {
+    border-right: 1px solid #edf0f3;
+}
+
+.problem-upload-column {
+    background: #fbfcfd;
+}
+
+/* Section Heading */
+
+.problem-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 23px;
+}
+
+.problem-section-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #e7f7ef;
+    color: #159b63;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.problem-section-heading h6 {
+    margin: 0;
+    color: #263746;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.problem-section-heading p {
+    margin: 4px 0 0;
+    color: #89949d;
+    font-size: 11px;
+}
+
+/* Form Fields */
+
+.problem-field {
+    margin-bottom: 20px;
+}
+
+.problem-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: #344451;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.problem-field label span {
+    color: #e05252;
+}
+
+.problem-field .form-control {
+    min-height: 43px;
+    padding: 10px 13px;
+    border: 1px solid #e1e7ec;
+    border-radius: 9px;
+    background: #fff;
+    color: #344451;
+    font-size: 13px;
+    box-shadow: none;
+    transition: 0.2s ease;
+}
+
+.problem-field textarea.form-control {
+    min-height: 125px;
+    resize: vertical;
+}
+
+.problem-field .form-control:focus {
+    border-color: #27aa73;
+    box-shadow: 0 0 0 3px rgba(39, 170, 115, 0.1);
+}
+
+.problem-field-hint,
+.problem-description-footer {
+    color: #96a0a9;
+    font-size: 10px;
+}
+
+.problem-field-hint {
+    display: block;
+    margin-top: 6px;
+}
+
+.problem-description-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px;
+}
+
+/* Security Note */
+
+.problem-form-note {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 25px;
+    padding: 12px;
+    border-radius: 9px;
+    background: #f1f8f5;
+    color: #54816b;
+    font-size: 11px;
+}
+
+/* Upload Zone */
+
+.problem-upload-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 170px;
+    padding: 20px;
+    border: 1.5px dashed #b9dcca;
+    border-radius: 12px;
+    background: #f5fbf7;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.problem-upload-zone:hover,
+.problem-upload-zone.drag-over {
+    border-color: #159b63;
+    background: #edf9f2;
+}
+
+.problem-upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: #e1f5e9;
+    color: #159b63;
+    font-size: 20px;
+}
+
+.problem-upload-zone h6 {
+    margin: 0;
+    color: #344451;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.problem-upload-zone p {
+    margin: 6px 0;
+    color: #82909a;
+    font-size: 11px;
+}
+
+.problem-upload-zone > span {
+    color: #159b63;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* Upload Rules */
+
+.problem-upload-rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 17px 0 23px;
+}
+
+.problem-upload-rules div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #84909b;
+    font-size: 10px;
+}
+
+.problem-upload-rules i {
+    color: #18a36a;
+}
+
+/* Preview */
+
+.problem-preview-heading,
+.problem-progress-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.problem-preview-heading h6,
+.problem-progress-heading h6 {
+    margin: 0;
+    color: #344451;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.problem-preview-heading span,
+.problem-progress-heading span {
+    color: #159b63;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.problem-file-preview {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+    max-height: 205px;
+    overflow-y: auto;
+}
+
+.problem-empty-files {
+    grid-column: 1 / -1;
+    padding: 24px 10px;
+    border: 1px dashed #e1e7ec;
+    border-radius: 10px;
+    text-align: center;
+    color: #a3adb5;
+}
+
+.problem-empty-files i {
+    font-size: 23px;
+}
+
+.problem-empty-files p {
+    margin: 8px 0 0;
+    font-size: 11px;
+}
+
+.problem-file-card {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e5eaee;
+    border-radius: 9px;
+    background: #fff;
+}
+
+.problem-file-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 78px;
+    overflow: hidden;
+    background: #f0f4f6;
+    color: #e45d5d;
+    font-size: 27px;
+}
+
+.problem-file-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.problem-file-info {
+    padding: 7px;
+}
+
+.problem-file-name {
+    display: block;
+    overflow: hidden;
+    color: #52616d;
+    font-size: 9px;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.problem-file-size {
+    display: block;
+    margin-top: 3px;
+    color: #a0a9b1;
+    font-size: 9px;
+}
+
+.problem-file-remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    color: #d84d4d;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* Progress */
+
+.problem-progress-section {
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid #e9eef1;
+}
+
+.problem-progress-track {
+    height: 7px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #e9eef1;
+}
+
+.problem-progress-bar {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: #18a36a;
+    transition: width 0.2s ease;
+}
+
+.problem-progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0 12px;
+    color: #89959f;
+    font-size: 10px;
+}
+
+.problem-progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 115px;
+    overflow-y: auto;
+}
+
+.problem-progress-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px;
+    border: 1px solid #e9eef1;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.problem-progress-item > i {
+    color: #159b63;
+    font-size: 15px;
+}
+
+.problem-progress-item > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.problem-progress-item strong {
+    display: block;
+    overflow: hidden;
+    color: #52616d;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.problem-progress-item small {
+    display: block;
+    margin-top: 3px;
+    color: #9aa4ad;
+    font-size: 9px;
+}
+
+.problem-progress-item .progress-state {
+    color: #159b63;
+    font-size: 10px;
+}
+
+/* Footer */
+
+.problem-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 18px 30px;
+    border-top: 1px solid #edf0f3;
+    background: #fff;
+}
+
+.problem-footer-info {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #98a2aa;
+    font-size: 10px;
+}
+
+.problem-footer-info i {
+    color: #159b63;
+}
+
+.problem-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.problem-cancel-btn,
+.problem-submit-btn {
+    min-height: 40px;
+    padding: 0 19px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.problem-cancel-btn {
+    background: #f0f3f5;
+    color: #697681;
+}
+
+.problem-submit-btn {
+    background: #159b63;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(21, 155, 99, 0.18);
+}
+
+.problem-submit-btn:hover {
+    background: #108553;
+}
+
+.problem-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.problem-form-message {
+    display: none;
+    margin: 0 30px 18px;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.problem-form-message.success {
+    display: block;
+    background: #e9f8ef;
+    color: #13824f;
+}
+
+.problem-form-message.error {
+    display: block;
+    background: #fff0f0;
+    color: #c44747;
+}
+
+.problem-error {
+    margin-top: 6px;
+    color: #d64b4b;
+    font-size: 10px;
+}
+
+.problem-field.has-error .form-control {
+    border-color: #e05252;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .problem-report-modal {
+        width: 96%;
+        max-height: 95vh;
+    }
+
+    .problem-modal-header {
+        padding: 20px;
+    }
+
+    .problem-report-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .problem-form-column,
+    .problem-upload-column {
+        padding: 20px;
+    }
+
+    .problem-form-column {
+        border-right: 0;
+        border-bottom: 1px solid #edf0f3;
+    }
+
+    .problem-modal-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 17px 20px;
+    }
+
+    .problem-footer-actions {
+        width: 100%;
+    }
+
+    .problem-footer-actions button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 400px) {
+    .problem-upload-rules {
+        grid-template-columns: 1fr;
+    }
+
+    .problem-file-preview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

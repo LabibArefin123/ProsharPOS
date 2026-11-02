@@ -1,45 +1,35 @@
-.problem-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: none;
-    /* Hidden by default */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+/* ==========================================
+   PROSHARPOS LOGIN PAGE
+   MAIN CSS ENTRY
+========================================== */
+
+@import url('./login_layout.css');
+@import url('./login_branding.css');
+@import url('./login_form.css');
+@import url('./login_modal.css');
+@import url('./login_resp.css');
+
+/* Global Login Variables */
+
+.login-page {
+    --login-primary: #198754;
+    --login-primary-dark: #146c43;
+    --login-primary-light: #eaf7ef;
+    --login-text: #24334b;
+    --login-muted: #7d899a;
+    --login-border: #e8edf2;
+    --login-white: #ffffff;
+    --login-radius: 16px;
+    font-family: inherit;
 }
 
-.problem-modal.show {
-    display: flex;
-    /* Show when clicked */
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+    box-sizing: border-box;
 }
 
-.problem-modal-content {
-    background: #fff;
-    width: 500px;
-    max-width: 95%;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    animation: scaleIn 0.25s ease;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-@keyframes scaleIn {
-    from {
-        transform: scale(0.9);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+.login-page button,
+.login-page input {
+    font-family: inherit;
 }

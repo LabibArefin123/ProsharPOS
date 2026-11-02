@@ -1,27 +1,91 @@
-<!-- LEFT SIDE : BRAND & FEATURES -->
-<div class="col-lg-6 d-none d-lg-flex text-white" style="background: linear-gradient(135deg, #198754, #157347);">
-    <div class="p-5 w-100 d-flex flex-column justify-content-center">
+{{-- LOGIN BRANDING PANEL --}}
+<div class="col-lg-6 login-brand-panel">
+    <div class="brand-panel-content">
+        {{-- Logo and Brand --}}
+        <div class="brand-header">
+            <div class="brand-logo-wrapper">
+                <img src="{{ asset('uploads/images/logor.png') }}"
+                     alt="ProsharPOS Logo"
+                     class="brand-logo">
+            </div>
 
-        <div class="text-center mb-4">
-            <img src="{{ asset('uploads/images/logor.png') }}" style="width:110px;height:110px;" class="mb-3">
-            <h2 class="fw-bold">{{ $systemInfo->name ?? 'NA' }}</h2>
-            <p class="small opacity-75">
-                Bangladesh’s Smart POS & Inventory Solution
+            <h1 class="brand-title"> {{ $systemInfo->name ?? 'ProsharPOS' }}  </h1>
+
+            <p class="brand-subtitle"> Your Business, Smarter Every Day. </p>
+
+            <div class="brand-divider"></div>
+
+            <p class="brand-description">
+                Bangladesh's smart POS, inventory and business management
+                solution. Everything you need to run your business with confidence.
             </p>
         </div>
+        {{-- Features --}}
+        <div class="brand-features">
+            <div class="brand-feature">
+                <span class="brand-feature-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </span>
+                <span>Challan, Invoice & Payments</span>
+            </div>
 
-        <ul class="list-unstyled small">
-            <li class="mb-2">✅ Challan, Invoice & Payments</li>
-            <li class="mb-2">✅ Product, Category, Brand & Unit</li>
-            <li class="mb-2">✅ Stock, Storage & Warranty</li>
-            <li class="mb-2">✅ Petty Cash & Expense Tracking</li>
-            <li class="mb-2">✅ Reports & Business Analytics</li>
-            <li class="mb-2">✅ Customer, Supplier & Manufacturer</li>
-            <li class="mb-2">✅ Roles, Permissions & Settings</li>
-        </ul>
+            <div class="brand-feature">
+                <span class="brand-feature-icon">
+                    <i class="fas fa-boxes"></i>
+                </span>
+                <span>Product & Inventory Management</span>
+            </div>
 
-        <div class="mt-4 small opacity-75 text-center">
-            Designed for Retail, Wholesale & Distribution
+            <div class="brand-feature">
+                <span class="brand-feature-icon">
+                    <i class="fas fa-warehouse"></i>
+                </span>
+                <span>Stock, Storage & Warranty</span>
+            </div>
+
+            <div class="brand-feature">
+                <span class="brand-feature-icon">
+                    <i class="fas fa-wallet"></i>
+                </span>
+                <span>Petty Cash & Expense Tracking</span>
+            </div>
+
+            <div class="brand-feature">
+                <span class="brand-feature-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </span>
+                <span>Reports & Business Analytics</span>
+            </div>
+
+            <div class="brand-feature">
+                <span class="brand-feature-icon">
+                    <i class="fas fa-users"></i>
+                </span>
+                <span>Customer & Supplier Management</span>
+            </div>
+
+            <div class="brand-feature">
+                <span class="brand-feature-icon">
+                    <i class="fas fa-user-shield"></i>
+                </span>
+                <span>Roles, Permissions & Security</span>
+            </div>
+
+        </div>
+
+        {{-- Trust Message --}}
+        <div class="brand-bottom">
+
+            <div class="brand-bottom-icon">
+                <i class="fas fa-store"></i>
+            </div>
+
+            <div>
+                <h6>Built for Growing Businesses</h6>
+                <p>
+                    Retail · Wholesale · Distribution
+                </p>
+            </div>
         </div>
     </div>
 </div>

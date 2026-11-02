@@ -1,80 +1,160 @@
-<!-- RIGHT SIDE : LOGIN -->
-<div class="col-lg-6">
-    <div class="p-4 p-md-5">
+{{-- LOGIN FORM PANEL --}}
+<div class="col-lg-6 login-form-panel">
+    <div class="login-form-content">
+        {{-- Mobile Brand --}}
+        <div class="mobile-brand">
+            <img src="{{ asset('uploads/images/logor.png') }}" alt="ProsharPOS">
+            <span>{{ $systemInfo->name ?? 'ProsharPOS' }}</span>
+        </div>
 
-        <h4 class="fw-bold mb-1">Welcome Back</h4>
-        <p class="text-muted small mb-4">
-            Login to manage your business smarter
-        </p>
+        {{-- Welcome --}}
+        <div class="login-heading">
 
-        {{-- Error --}}
+            <div class="login-welcome-icon">
+                <i class="fas fa-hand-sparkles"></i>
+            </div>
+
+            <span class="login-eyebrow">WELCOME BACK</span>
+
+            <h2>Sign in to your account</h2>
+
+            <p>
+                Welcome back! Please enter your details to continue
+                managing your business.
+            </p>
+
+        </div>
+
+        {{-- Session Error --}}
         @if (session('error'))
-            <div class="alert alert-danger small">
-                <i class="fas fa-circle-exclamation me-1"></i>
-                {{ session('error') }}
+            <div class="login-alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>{{ session('error') }}</span>
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        {{-- Validation Errors --}}
+        @if ($errors->any())
+            <div class="login-alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Please check your login information and try again.</span>
+            </div>
+        @endif
+
+        {{-- Login Form --}}
+        <form method="POST" action="{{ route('login') }}" class="login-form">
+
             @csrf
 
-            <!-- Login -->
-            <div class="mb-3">
-                <label class="form-label fw-semibold small">Email / Username</label>
-                <div class="input-group input-group-lg shadow-sm">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="fas fa-user text-muted"></i>
+            {{-- Username / Email --}}
+            <div class="login-field">
+
+                <label for="loginUsername">
+                    Email Address / Username
+                </label>
+
+                <div class="login-input-wrapper @error('login') has-error @enderror">
+
+                    <span class="login-input-icon">
+                        <i class="fas fa-user"></i>
                     </span>
-                    <input type="text" name="login"
-                        class="form-control border-start-0 @error('login') is-invalid @enderror"
-                        placeholder="Enter email or username" value="{{ old('login') }}" required autofocus>
+
+                    <input type="text" id="loginUsername" name="login" value="{{ old('login') }}"
+                        placeholder="Enter your email or username" autocomplete="username" required autofocus>
+
                 </div>
+
                 @error('login')
-                    <div class="text-danger small mt-1">{{ $message }}</div>
+                    <small class="login-error">{{ $message }}</small>
                 @enderror
+
             </div>
 
-            <!-- Password -->
-            <div class="mb-4">
-                <label class="form-label fw-semibold small">Password</label>
-                <div class="input-group input-group-lg shadow-sm">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="fas fa-lock text-muted"></i>
+            {{-- Password --}}
+            <div class="login-field">
+
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <div class="login-input-wrapper @error('password') has-error @enderror">
+
+                    <span class="login-input-icon">
+                        <i class="fas fa-lock"></i>
                     </span>
-                    <input type="password" name="password"
-                        class="form-control border-start-0 @error('password') is-invalid @enderror"
-                        placeholder="Enter password" required>
+
+                    <input type="password" id="loginPassword" name="password" placeholder="Enter your password"
+                        autocomplete="current-password" required>
+
+                    <button type="button" class="password-toggle" id="togglePassword" aria-label="Show password">
+                        <i class="far fa-eye"></i>
+                    </button>
+
                 </div>
+
                 @error('password')
-                    <div class="text-danger small mt-1">{{ $message }}</div>
+                    <small class="login-error">{{ $message }}</small>
                 @enderror
+
             </div>
 
-            <!-- Actions -->
-            <div class="d-flex justify-content-between align-items-center">
-                <button type="submit" class="btn btn-success btn-lg rounded-pill px-4 shadow">
-                    <i class="fas fa-sign-in-alt me-1"></i> Login
-                </button>
+            {{-- Remember / Forgot --}}
+            <div class="login-options">
+
+                <label class="remember-option">
+                    <input type="checkbox" name="remember" value="1">
+                    <span>Remember me</span>
+                </label>
 
                 @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="small fw-semibold text-decoration-none">
-                        Forgot Password?
+                    <a href="{{ route('password.request') }}" class="forgot-password">
+                        Forgot password?
                     </a>
                 @endif
+
             </div>
+
+            {{-- Submit --}}
+            <button type="submit" class="login-submit-btn">
+
+                <span>Sign In to Your Account</span>
+
+                <i class="fas fa-arrow-right"></i>
+
+            </button>
+
         </form>
 
-        <hr class="my-4">
-
-        <div class="text-center">
-            <a href="javascript:void(0)" onclick="openProblemModal()"
-                class="text-decoration-none fw-semibold text-danger">
-                ⚠ Facing a system problem?
-            </a>
-            <p class="text-muted small mt-1">
-                Let us know — our technical team will take care of it.
-            </p>
+        {{-- Divider --}}
+        <div class="login-divider">
+            <span>NEED ASSISTANCE?</span>
         </div>
 
+        {{-- Support --}}
+        <div class="login-support">
+
+            <div class="support-icon">
+                <i class="fas fa-headset"></i>
+            </div>
+
+            <div class="support-content">
+                <h6>Having trouble signing in?</h6>
+
+                <p>
+                    Don't worry! Let our technical team help you.
+                </p>
+
+                <button type="button" onclick="openProblemModal()">
+                    Report a Problem
+                </button>
+            </div>
+
+        </div>
+
+        {{-- Security Message --}}
+        <div class="login-security">
+            <i class="fas fa-shield-alt"></i>
+            Your business information is protected.
+        </div>
     </div>
 </div>

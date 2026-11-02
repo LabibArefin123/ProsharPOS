@@ -17,7 +17,6 @@
         </div>
 
         <div class="custom-faq-grid">
-
             <div class="custom-faq-item">
                 <button class="custom-faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-1">
                     <span class="custom-faq-question-content">

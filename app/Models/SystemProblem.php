@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SystemProblem extends Model
 {
@@ -11,6 +12,10 @@ class SystemProblem extends Model
         'problem_title',
         'problem_description',
         'status',
-        'problem_file',
     ];
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(SystemProblemAttachment::class);
+    }
 }

@@ -1,0 +1,198 @@
+/* ==========================================
+   PROBLEM REPORT MODAL
+========================================== */
+
+.problem-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(12, 25, 19, 0.65);
+    backdrop-filter: blur(5px);
+}
+
+.problem-modal.show {
+    display: flex;
+    animation: modalFadeIn 0.25s ease;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Modal Content */
+
+.problem-modal-content {
+    width: 100%;
+    max-width: 460px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.23);
+    animation: modalScaleIn 0.3s ease;
+}
+
+/* Header */
+
+.problem-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 27px 0;
+}
+
+.problem-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 53px;
+    height: 53px;
+    border-radius: 15px;
+    background: #eaf7ef;
+    color: #198754;
+    font-size: 23px;
+}
+
+.close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border: 0;
+    border-radius: 9px;
+    background: #f3f5f7;
+    color: #7c8798;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background: #ffecec;
+    color: #dc3545;
+}
+
+/* Body */
+
+.problem-modal-body {
+    padding: 23px 27px 25px;
+}
+
+.problem-modal-label {
+    color: #198754;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.problem-modal-body h4 {
+    margin: 9px 0 10px;
+    color: #24334b;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.problem-modal-body > p {
+    margin-bottom: 22px;
+    color: #8590a0;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* Information Items */
+
+.problem-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 13px;
+    color: #657187;
+    font-size: 12px;
+}
+
+.problem-info-item i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #f0f7f2;
+    color: #198754;
+}
+
+/* Footer */
+
+.problem-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 17px 27px;
+    border-top: 1px solid #edf0f4;
+    background: #fafbfc;
+}
+
+.problem-cancel-btn,
+.problem-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 41px;
+    padding: 0 17px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.problem-cancel-btn {
+    background: #edf0f4;
+    color: #657187;
+}
+
+.problem-cancel-btn:hover {
+    background: #e1e5eb;
+}
+
+.problem-contact-btn {
+    background: #198754;
+    color: #ffffff;
+}
+
+.problem-contact-btn:hover {
+    background: #146c43;
+    color: #ffffff;
+}
+
+/* Animations */
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalScaleIn {
+    from {
+        transform: translateY(15px) scale(0.96);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
