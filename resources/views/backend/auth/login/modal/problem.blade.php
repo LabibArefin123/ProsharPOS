@@ -10,17 +10,12 @@
                 <p>Tell us what happened. We'll look into it.</p>
             </div>
 
-            <button type="button"
-                class="close-btn"
-                onclick="closeProblemModal()">
+            <button type="button" class="close-btn" onclick="closeProblemModal()">
                 &times;
             </button>
         </div>
 
-        <form
-            id="problemReportForm"
-            method="POST"
-            action="{{ route('system_problem.store') }}"
+        <form id="problemReportForm" method="POST" action="{{ route('system_problem.store') }}"
             enctype="multipart/form-data">
 
             @csrf
@@ -44,14 +39,8 @@
                             Problem Title <span>*</span>
                         </label>
 
-                        <input
-                            type="text"
-                            name="problem_title"
-                            id="problem_title"
-                            class="form-control"
-                            placeholder="Example: Login not working"
-                            maxlength="150"
-                            required>
+                        <input type="text" name="problem_title" id="problem_title" class="form-control"
+                            placeholder="Example: Login not working" maxlength="150" required>
 
                         <small class="problem-field-hint">
                             Keep the title short and clear.
@@ -66,14 +55,8 @@
                             Describe the Problem <span>*</span>
                         </label>
 
-                        <textarea
-                            name="problem_description"
-                            id="problem_description"
-                            class="form-control"
-                            rows="5"
-                            maxlength="5000"
-                            placeholder="Explain what happened, what you expected, and what you actually experienced..."
-                            required></textarea>
+                        <textarea name="problem_description" id="problem_description" class="form-control" rows="5" maxlength="5000"
+                            placeholder="Explain what happened, what you expected, and what you actually experienced..." required></textarea>
 
                         <div class="problem-description-footer">
                             <small>Provide as much detail as possible.</small>
@@ -91,11 +74,7 @@
                             Priority Level <span>*</span>
                         </label>
 
-                        <select
-                            name="status"
-                            id="problem_status"
-                            class="form-control"
-                            required>
+                        <select name="status" id="problem_status" class="form-control" required>
 
                             <option value="low">Low - Minor issue</option>
                             <option value="medium" selected>Medium - Normal issue</option>
@@ -140,12 +119,8 @@
                             JPG, PNG, WEBP, PDF
                         </span>
 
-                        <input
-                            type="file"
-                            id="problem_attachments"
-                            name="attachments[]"
-                            accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf"
-                            multiple
+                        <input type="file" id="problem_attachments" name="attachments[]"
+                            accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf" multiple
                             hidden>
                     </label>
 
@@ -195,9 +170,7 @@
                         </div>
 
                         <div class="problem-progress-track">
-                            <div
-                                id="problemProgressBar"
-                                class="problem-progress-bar">
+                            <div id="problemProgressBar" class="problem-progress-bar">
                             </div>
                         </div>
 
@@ -224,17 +197,11 @@
                 </div>
 
                 <div class="problem-footer-actions">
-                    <button
-                        type="button"
-                        class="problem-cancel-btn"
-                        onclick="closeProblemModal()">
+                    <button type="button" class="problem-cancel-btn" onclick="closeProblemModal()">
                         Cancel
                     </button>
 
-                    <button
-                        type="submit"
-                        id="problemSubmitButton"
-                        class="problem-submit-btn">
+                    <button type="submit" id="problemSubmitButton" class="problem-submit-btn">
 
                         <i class="fas fa-paper-plane"></i>
                         <span>Submit Problem</span>

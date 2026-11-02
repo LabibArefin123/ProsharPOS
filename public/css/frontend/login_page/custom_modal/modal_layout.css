@@ -1,0 +1,198 @@
+/* ==========================================
+   PROBLEM MODAL - OVERLAY & LAYOUT
+========================================== */
+
+#problemModal.problem-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(12, 25, 35, 0.68);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+#problemModal.problem-modal.active {
+    display: flex;
+    animation: modalFadeIn 0.25s ease;
+}
+
+body.problem-modal-open {
+    overflow: hidden !important;
+}
+
+/* Modal Container */
+
+#problemModal .problem-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1050px;
+    max-height: calc(100vh - 40px);
+    margin: auto;
+    overflow: hidden;
+    border: 0;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+    animation: modalScaleIn 0.3s ease;
+}
+
+/* Modal Header */
+
+#problemModal .problem-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 28px;
+    border-bottom: 1px solid #edf0f4;
+    background: #ffffff;
+}
+
+#problemModal .problem-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: #eaf7ef;
+    color: #198754;
+    font-size: 21px;
+}
+
+/* Close Button */
+
+#problemModal .close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 10px;
+    background: #f3f5f7;
+    color: #7c8798;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#problemModal .close-btn:hover {
+    background: #ffecec;
+    color: #dc3545;
+}
+
+/* Modal Body */
+
+#problemModal .problem-modal-body {
+    flex: 1;
+    min-height: 0;
+    padding: 25px 28px;
+    overflow-y: auto;
+}
+
+/* Modal Footer */
+
+#problemModal .problem-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 17px 28px;
+    border-top: 1px solid #edf0f4;
+    background: #fafbfc;
+}
+
+/* Footer Buttons */
+
+#problemModal .problem-cancel-btn,
+#problemModal .problem-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#problemModal .problem-cancel-btn {
+    background: #edf0f4;
+    color: #657187;
+}
+
+#problemModal .problem-cancel-btn:hover {
+    background: #e1e5eb;
+}
+
+#problemModal .problem-contact-btn {
+    background: #198754;
+    color: #ffffff;
+}
+
+#problemModal .problem-contact-btn:hover {
+    background: #146c43;
+    color: #ffffff;
+}
+
+/* Animations */
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalScaleIn {
+    from {
+        transform: translateY(15px) scale(0.97);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    #problemModal.problem-modal {
+        padding: 10px;
+        align-items: center;
+    }
+
+    #problemModal .problem-modal-content {
+        max-height: calc(100dvh - 20px);
+        border-radius: 15px;
+    }
+
+    #problemModal .problem-modal-header {
+        padding: 17px 18px;
+    }
+
+    #problemModal .problem-modal-body {
+        padding: 20px 18px;
+    }
+
+    #problemModal .problem-modal-footer {
+        padding: 14px 18px;
+    }
+}

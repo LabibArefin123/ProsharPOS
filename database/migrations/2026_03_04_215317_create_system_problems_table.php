@@ -9,11 +9,11 @@ return new class extends Migration {
     {
         Schema::create('system_problems', function (Blueprint $table) {
             $table->id();
-            $table->string('problem_uid')->unique(); // DFCH-PROB-XXXX
-            $table->string('problem_title');
+            $table->string('problem_uid')->unique();
+            $table->string('problem_title', 150);
             $table->text('problem_description');
-            $table->enum('status', ['low', 'medium', 'high', 'critical'])->default('low');
-            $table->string('problem_file')->nullable();
+            $table->string('status')->nullable();
+
             $table->timestamps();
         });
     }

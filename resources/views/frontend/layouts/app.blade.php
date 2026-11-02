@@ -117,6 +117,7 @@
     {{-- End of second --}}
 
     <script src="{{ asset('js/frontend/welcome_page/custom_qa.js') }}" defer></script>
+    
 
 </body>
 

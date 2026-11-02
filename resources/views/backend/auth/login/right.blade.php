@@ -144,7 +144,9 @@
                     Don't worry! Let our technical team help you.
                 </p>
 
-                <button type="button" onclick="openProblemModal()">
+                <button type="button" class="login-problem-link" onclick="openProblemModal()">
+
+                    <i class="fas fa-headset"></i>
                     Report a Problem
                 </button>
             </div>

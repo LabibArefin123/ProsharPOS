@@ -1,0 +1,198 @@
+/* ==========================================
+   PROBLEM MODAL - FILE UPLOAD
+========================================== */
+
+#problemModal .problem-upload-zone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 155px;
+    padding: 22px;
+    border: 2px dashed #d8e4dc;
+    border-radius: 13px;
+    background: #f8fbf9;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#problemModal .problem-upload-zone:hover,
+#problemModal .problem-upload-zone.dragover {
+    border-color: #198754;
+    background: #effaf3;
+}
+
+#problemModal .problem-upload-zone i {
+    margin-bottom: 10px;
+    color: #198754;
+    font-size: 28px;
+}
+
+#problemModal .problem-upload-zone strong {
+    color: #344054;
+    font-size: 13px;
+}
+
+#problemModal .problem-upload-zone p {
+    margin: 5px 0 0;
+    color: #98a2b3;
+    font-size: 11px;
+}
+
+#problemModal .problem-upload-zone input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Upload Rules */
+
+#problemModal .problem-upload-rules {
+    margin-top: 9px;
+    color: #98a2b3;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* File Count */
+
+#problemModal .problem-file-count {
+    margin-top: 12px;
+    color: #667085;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Preview Container */
+
+#problemModal .problem-file-preview {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Preview Item */
+
+#problemModal .problem-file-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #e8edf0;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+#problemModal .problem-file-item img {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    object-fit: cover;
+}
+
+#problemModal .problem-file-item i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #fff1f0;
+    color: #dc3545;
+    font-size: 19px;
+}
+
+#problemModal .problem-file-details {
+    min-width: 0;
+    flex: 1;
+}
+
+#problemModal .problem-file-details strong {
+    display: block;
+    overflow: hidden;
+    color: #344054;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#problemModal .problem-file-details small {
+    display: block;
+    margin-top: 4px;
+    color: #98a2b3;
+    font-size: 10px;
+}
+
+/* Remove File */
+
+#problemModal .problem-file-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 7px;
+    background: #fff1f0;
+    color: #dc3545;
+    cursor: pointer;
+}
+
+/* Upload Progress */
+
+#problemModal .problem-progress-section {
+    margin-top: 18px;
+    padding: 15px;
+    border: 1px solid #e8edf0;
+    border-radius: 11px;
+    background: #fafbfc;
+}
+
+#problemModal .problem-progress-bar {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #e9edf0;
+}
+
+#problemModal .problem-progress-fill {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: #198754;
+    transition: width 0.2s ease;
+}
+
+#problemModal .problem-progress-status {
+    margin-top: 9px;
+    color: #667085;
+    font-size: 11px;
+}
+
+#problemModal .problem-progress-percent {
+    color: #198754;
+    font-weight: 800;
+}
+
+/* Responsive */
+
+@media (max-width: 575px) {
+    #problemModal .problem-file-preview {
+        grid-template-columns: 1fr;
+    }
+
+    #problemModal .problem-upload-zone {
+        min-height: 135px;
+        padding: 17px;
+    }
+}

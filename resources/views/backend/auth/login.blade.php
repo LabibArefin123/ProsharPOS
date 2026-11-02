@@ -2,7 +2,8 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/frontend/login_page/custom_login.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/frontend/login/custom_problem.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/login_page/custom_modal/login_modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/login_page/problem_report.css') }}">
     <main class="login-page" style="--login-wallpaper: url('{{ asset('images/wallpaper.jpg') }}');">
         <div class="login-wrapper">
             <div class="login-card">
@@ -26,7 +27,7 @@
         {{-- Problem Modal --}}
         @include('backend.auth.login.modal.problem')
     </main>
-
+    {{-- 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -53,7 +54,11 @@
 
 
         });
-    </script>
+    </script> --}}
     <script src="{{ asset('js/frontend/login_page/custom_problem.js') }}" defer></script>
+    <script src="{{ asset('js/frontend/login_page/problem_upload_config.js') }}" defer></script>
+    <script src="{{ asset('js/frontend/login_page/problem_upload_preview.js') }}" defer></script>
+    <script src="{{ asset('js/frontend/login_page/problem_upload_selection.js') }}" defer></script>
+    <script src="{{ asset('js/frontend/login_page/problem_upload_submit.js') }}" defer></script>
     <script src="{{ asset('js/frontend/login_page/file_progress.js') }}" defer></script>
 @endsection
