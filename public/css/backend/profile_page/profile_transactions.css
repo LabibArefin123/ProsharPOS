@@ -1,0 +1,190 @@
+
+/* =========================================
+   RECENT TRANSACTIONS
+========================================= */
+
+.profile-transaction-heading {
+    margin-top: 30px;
+}
+
+.profile-view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #b38737 !important;
+    font-size: 12px;
+    font-weight: 750;
+    text-decoration: none !important;
+    transition: all .2s ease;
+}
+
+.profile-view-all-btn:hover {
+    color: #8e6824 !important;
+    gap: 13px;
+}
+
+.profile-transaction-card {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #edf0f5;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(30, 50, 80, .035);
+}
+
+.profile-transaction-table {
+    min-width: 750px;
+    margin: 0;
+}
+
+.profile-transaction-table thead th {
+    padding: 15px 17px;
+    color: #8491a5;
+    background: #f8fafc;
+    border-top: none;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.profile-transaction-table tbody td {
+    padding: 15px 17px;
+    color: #526176;
+    border-top: 1px solid #f0f2f6;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.profile-transaction-table tbody tr {
+    transition: background .2s ease;
+}
+
+.profile-transaction-table tbody tr:hover {
+    background: #fafcff;
+}
+
+.profile-transaction-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    color: #718096;
+    background: #f0f3f8;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.profile-transaction-description strong {
+    display: block;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.profile-transaction-date strong {
+    display: block;
+    color: #40516a;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.profile-transaction-date small {
+    display: block;
+    color: #9aa5b5;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.profile-transaction-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-success {
+    color: #16865d;
+    background: #e9f8f0;
+}
+
+.badge-danger {
+    color: #d44c59;
+    background: #fff0f1;
+}
+
+.badge-warning {
+    color: #a97519;
+    background: #fff6e5;
+}
+
+.badge-primary {
+    color: #3572ca;
+    background: #edf4ff;
+}
+
+.badge-secondary {
+    color: #64748b;
+    background: #f1f4f8;
+}
+
+.profile-transaction-amount {
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.amount-success,
+.amount-primary {
+    color: #16966c;
+}
+
+.amount-danger {
+    color: #d94b5a;
+}
+
+.amount-warning {
+    color: #c28b30;
+}
+
+.amount-secondary {
+    color: #64748b;
+}
+
+.profile-empty-state {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.profile-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    color: #b18a43;
+    background: #fbf6eb;
+    border-radius: 16px;
+    font-size: 23px;
+}
+
+.profile-empty-state h5 {
+    color: #334155;
+    font-size: 15px;
+    font-weight: 750;
+    margin-bottom: 7px;
+}
+
+.profile-empty-state p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 0;
+}

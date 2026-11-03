@@ -1,0 +1,75 @@
+
+/* =========================================
+   PROFILE EDIT - BASE
+========================================= */
+
+.profile-edit-page {
+    padding: 5px 5px 25px;
+    color: #334155;
+}
+
+.profile-edit-page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.profile-edit-eyebrow {
+    display: block;
+    color: #b58a38;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+}
+
+.profile-edit-page-title {
+    color: #172b4d;
+    font-size: 25px;
+    font-weight: 750;
+    margin: 0;
+}
+
+.profile-edit-page-subtitle {
+    color: #8491a5;
+    font-size: 13px;
+    margin: 7px 0 0;
+}
+
+.profile-edit-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 10px 17px;
+    color: #fff !important;
+    background: #c99b42;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none !important;
+    box-shadow: 0 4px 12px rgba(201, 155, 66, .16);
+    transition: all .25s ease;
+}
+
+.profile-edit-back-btn:hover {
+    color: #fff;
+    background: #ad8130;
+    transform: translateY(-2px);
+}
+
+.profile-edit-security-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 20px;
+}
+
+.profile-edit-security-note i {
+    color: #b58a38;
+}

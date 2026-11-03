@@ -1,0 +1,131 @@
+
+/* =========================================
+   PROFILE HERO HEADER
+========================================= */
+
+.profile-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 205px;
+    padding: 35px 40px;
+    border-radius: 14px;
+    background: linear-gradient(115deg, #142b49 0%, #1d4269 65%, #285477 100%);
+    box-shadow: 0 8px 25px rgba(22, 46, 76, .12);
+}
+
+.profile-hero-decoration {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    right: -65px;
+    top: -160px;
+    border: 45px solid rgba(255, 255, 255, .045);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.profile-hero-decoration::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -100px;
+    bottom: -230px;
+    border: 25px solid rgba(255, 255, 255, .04);
+    border-radius: 50%;
+}
+
+.profile-hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.profile-avatar {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid rgba(255, 255, 255, .85);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .2);
+}
+
+.profile-avatar-status {
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    right: 9px;
+    bottom: 10px;
+    background: #32c48d;
+    border: 3px solid #fff;
+    border-radius: 50%;
+}
+
+.profile-hero-details {
+    color: #fff;
+}
+
+.profile-welcome-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #e5c47f;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+}
+
+.profile-hero-details h2 {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 750;
+    margin: 0 0 8px;
+}
+
+.profile-hero-details > p {
+    color: rgba(255, 255, 255, .72);
+    font-size: 13px;
+    margin: 0 0 15px;
+}
+
+.profile-hero-details > p i {
+    margin-right: 6px;
+    color: #e5c47f;
+}
+
+.profile-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.profile-role-badge,
+.profile-member-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.profile-role-badge {
+    color: #ffe2a0;
+    background: rgba(226, 184, 101, .15);
+    border: 1px solid rgba(226, 184, 101, .3);
+}
+
+.profile-member-badge {
+    color: #d3e9f8;
+    background: rgba(255, 255, 255, .09);
+    border: 1px solid rgba(255, 255, 255, .12);
+}

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend\Transaction_Management;
 
 use App\Http\Controllers\Controller;
-use App\Models\Supplier;
 use App\Models\Purchase;
 use App\Models\SupplierPayment;
 use Illuminate\Http\Request;

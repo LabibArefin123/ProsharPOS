@@ -1,0 +1,105 @@
+
+/* =========================================
+   PROFILE EDIT RESPONSIVE
+========================================= */
+
+@media (max-width: 767.98px) {
+
+    .profile-edit-page {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .profile-edit-page-heading {
+        align-items: flex-start;
+    }
+
+    .profile-edit-page-title {
+        font-size: 22px;
+    }
+
+    .profile-edit-page-subtitle {
+        max-width: 280px;
+        line-height: 1.6;
+    }
+
+    .profile-edit-back-btn {
+        padding: 9px 12px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .profile-edit-hero {
+        padding: 23px 20px;
+    }
+
+    .profile-edit-hero-content {
+        align-items: center;
+        gap: 16px;
+    }
+
+    .profile-edit-avatar-wrapper {
+        width: 75px;
+        height: 75px;
+    }
+
+    .profile-edit-hero-info h3 {
+        font-size: 18px;
+        overflow-wrap: anywhere;
+    }
+
+    .profile-edit-card-header {
+        padding: 17px;
+    }
+
+    .profile-edit-card-body {
+        padding: 22px 17px 12px;
+    }
+
+    .profile-edit-card-footer {
+        padding: 15px 17px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .profile-edit-page-heading {
+        flex-direction: column;
+    }
+
+    .profile-edit-back-btn {
+        width: 100%;
+    }
+
+    .profile-edit-hero-content {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .profile-edit-hero-info h3 {
+        font-size: 19px;
+    }
+
+    .profile-edit-card-header {
+        align-items: flex-start;
+    }
+
+    .profile-edit-card-header p {
+        line-height: 1.5;
+    }
+
+    .profile-edit-card-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .profile-edit-save-btn,
+    .profile-edit-cancel-btn {
+        width: 100%;
+    }
+
+    .profile-edit-security-note {
+        text-align: center;
+        line-height: 1.6;
+    }
+}

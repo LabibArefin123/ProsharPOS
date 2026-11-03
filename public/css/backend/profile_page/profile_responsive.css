@@ -1,0 +1,118 @@
+
+/* =========================================
+   RESPONSIVE PROFILE PAGE
+========================================= */
+
+@media (max-width: 991.98px) {
+    .profile-hero {
+        padding: 30px;
+    }
+
+    .profile-info-card {
+        min-height: 90px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .profile-page {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .profile-page-heading {
+        align-items: flex-start;
+    }
+
+    .profile-page-title {
+        font-size: 22px;
+    }
+
+    .profile-page-subtitle {
+        max-width: 300px;
+        line-height: 1.6;
+    }
+
+    .profile-edit-btn {
+        padding: 9px 12px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .profile-hero {
+        padding: 25px 20px;
+    }
+
+    .profile-hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 17px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-hero-details h2 {
+        font-size: 21px;
+    }
+
+    .profile-section-heading {
+        align-items: flex-start;
+    }
+
+    .profile-info-card {
+        min-height: 82px;
+    }
+
+    .profile-balance-card {
+        min-height: 115px;
+        padding: 18px;
+    }
+
+    .profile-balance-content h3 {
+        font-size: 21px;
+    }
+
+    .profile-transaction-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-page-heading {
+        flex-direction: column;
+    }
+
+    .profile-edit-btn {
+        width: 100%;
+    }
+
+    .profile-hero {
+        border-radius: 10px;
+    }
+
+    .profile-hero-badges {
+        gap: 6px;
+    }
+
+    .profile-role-badge,
+    .profile-member-badge {
+        font-size: 9px;
+    }
+
+    .profile-balance-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 18px;
+    }
+
+    .profile-balance-content h3 {
+        font-size: 19px;
+    }
+
+    .profile-view-all-btn {
+        font-size: 11px;
+    }
+}

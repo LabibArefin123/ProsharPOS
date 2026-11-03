@@ -1,0 +1,147 @@
+
+/* =========================================
+   ACCOUNT INFORMATION CARDS
+========================================= */
+
+.profile-info-row,
+.profile-balance-row {
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.profile-info-row > div,
+.profile-balance-row > div {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.profile-info-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 95px;
+    height: 100%;
+    padding: 18px 16px;
+    background: #fff;
+    border: 1px solid #edf0f5;
+    border-radius: 11px;
+    box-shadow: 0 3px 12px rgba(30, 50, 80, .035);
+    transition: all .25s ease;
+}
+
+.profile-info-card:hover {
+    transform: translateY(-3px);
+    border-color: #dbe4f0;
+    box-shadow: 0 8px 20px rgba(30, 50, 80, .07);
+}
+
+.profile-info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 43px;
+    height: 43px;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.icon-blue {
+    color: #3678d8;
+    background: #edf4ff;
+}
+
+.icon-purple {
+    color: #8660d4;
+    background: #f3efff;
+}
+
+.icon-green {
+    color: #24a477;
+    background: #eaf8f2;
+}
+
+.icon-orange {
+    color: #d98b35;
+    background: #fff4e8;
+}
+
+.profile-info-content {
+    min-width: 0;
+}
+
+.profile-info-content span {
+    display: block;
+    color: #94a0b2;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.profile-info-content h5 {
+    color: #25344b;
+    font-size: 13px;
+    font-weight: 750;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+/* Financial Balance Cards */
+
+.profile-balance-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    min-height: 130px;
+    padding: 22px 25px;
+    border-radius: 12px;
+    color: #fff;
+    box-shadow: 0 5px 16px rgba(30, 50, 80, .09);
+}
+
+.balance-bdt {
+    background: linear-gradient(120deg, #138c72, #25b18c);
+}
+
+.balance-usd {
+    background: linear-gradient(120deg, #326bc2, #568ee1);
+}
+
+.profile-balance-content {
+    position: relative;
+    z-index: 1;
+}
+
+.profile-balance-content span {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, .85);
+    margin-bottom: 9px;
+}
+
+.profile-balance-content h3 {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 800;
+    margin: 0 0 5px;
+}
+
+.profile-balance-content small {
+    color: rgba(255, 255, 255, .7);
+    font-size: 10px;
+}
+
+.profile-balance-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    color: rgba(255, 255, 255, .9);
+    background: rgba(255, 255, 255, .15);
+    font-size: 23px;
+}
