@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <!-- Toast Image Editor -->
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.min.css">
-
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_controls.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_resp.css') }}">
     <!-- Start of animation pop up notifcation -->
     <style>
         .animate-bounce {

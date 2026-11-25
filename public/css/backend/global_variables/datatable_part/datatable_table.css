@@ -1,0 +1,129 @@
+/* ==========================================
+   ProsharPOS - DataTables Table
+========================================== */
+
+table.dataTable {
+    border: 1px solid #e8edf3;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* Table Header */
+
+table.dataTable thead th {
+    padding: 13px 14px !important;
+    border-bottom: 1px solid #e8edf3 !important;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* Sorting */
+
+table.dataTable thead th .dt-column-order {
+    opacity: 0.55;
+}
+
+table.dataTable thead th.dt-ordering-asc,
+table.dataTable thead th.dt-ordering-desc {
+    color: #2563eb;
+}
+
+/* Table Body */
+
+table.dataTable tbody td {
+    padding: 12px 14px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 400;
+    vertical-align: middle;
+    transition: background 0.15s ease;
+}
+
+/* Row Hover */
+
+table.dataTable tbody tr:hover td {
+    background-color: #f8fbff !important;
+}
+
+/* Remove Default Striping */
+
+table.dataTable.stripe > tbody > tr.odd > *,
+table.dataTable.display > tbody > tr.odd > * {
+    box-shadow: none;
+}
+
+/* Last Row */
+
+table.dataTable tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Selected Row */
+
+table.dataTable tbody tr.selected td {
+    background: #eff6ff !important;
+    color: #1e40af;
+}
+
+/* Action Buttons */
+
+table.dataTable .btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 29px;
+    min-height: 29px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    transition: all 0.2s ease;
+}
+
+table.dataTable .btn i {
+    font-size: 12px;
+}
+
+/* Status Badges */
+
+table.dataTable .badge {
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15px;
+}
+
+/* Product Image */
+
+table.dataTable .datatable-product-image {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    object-fit: cover;
+    background: #f8fafc;
+}
+
+/* Product Name */
+
+table.dataTable .datatable-product-name {
+    color: #1e293b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Amounts */
+
+table.dataTable .datatable-amount {
+    color: #0f172a;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,54 @@
+/* ==========================================
+   ProsharPOS - DataTables Base
+========================================== */
+
+.dt-container,
+.dataTables_wrapper {
+    width: 100%;
+    color: #334155;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.dt-container .dt-layout-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 14px 0;
+}
+
+.dt-container .dt-layout-cell {
+    min-width: 0;
+}
+
+.dataTables_wrapper .dataTables_processing {
+    z-index: 5;
+    padding: 14px 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #334155;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+}
+
+.dataTables_wrapper .dataTables_empty,
+.dt-container .dt-empty {
+    padding: 40px 15px !important;
+    color: #94a3b8;
+    font-size: 13px;
+    text-align: center;
+}
+
+.table-responsive {
+    border-radius: 10px;
+}
+
+table.dataTable {
+    width: 100% !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}

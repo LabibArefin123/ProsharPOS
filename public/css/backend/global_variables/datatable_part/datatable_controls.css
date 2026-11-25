@@ -1,0 +1,122 @@
+/* ==========================================
+   ProsharPOS - DataTables Controls
+========================================== */
+
+/* Search */
+
+.dt-container .dt-search {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.dt-container .dt-search label {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dt-container .dt-search input {
+    width: 230px;
+    height: 37px;
+    margin-left: 0 !important;
+    padding: 7px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    outline: none;
+    background: #fff;
+    color: #334155;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.dt-container .dt-search input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Page Length */
+
+.dt-container .dt-length {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dt-container .dt-length label {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.dt-container .dt-length select {
+    height: 35px;
+    padding: 5px 28px 5px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    background-color: #fff;
+    color: #334155;
+    font-size: 12px;
+    outline: none;
+}
+
+.dt-container .dt-length select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Information */
+
+.dt-container .dt-info {
+    padding-top: 10px !important;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* Pagination */
+
+.dt-container .dt-paging {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.dt-container .dt-paging .dt-paging-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 32px;
+    height: 32px;
+    margin: 0 !important;
+    padding: 5px 10px !important;
+    border: 1px solid transparent !important;
+    border-radius: 6px !important;
+    background: transparent !important;
+    color: #64748b !important;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.dt-container .dt-paging .dt-paging-button:hover:not(.disabled) {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+}
+
+.dt-container .dt-paging .dt-paging-button.current {
+    border-color: #2563eb !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.dt-container .dt-paging .dt-paging-button.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.dt-container .dt-paging .dt-paging-button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

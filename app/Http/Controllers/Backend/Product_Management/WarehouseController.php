@@ -12,12 +12,12 @@ class WarehouseController extends Controller
     public function index()
     {
         $warehouses = Warehouse::latest()->get();
-        return view('backend.product_management.warehouses.index', compact('warehouses'));
+        return view('backend.product_management.warehouse.index', compact('warehouses'));
     }
 
     public function create()
     {
-        return view('backend.product_management.warehouses.create');
+        return view('backend.product_management.warehouse.create');
     }
 
     public function store(Request $request)
@@ -43,13 +43,13 @@ class WarehouseController extends Controller
     public function show($id)
     {
         $warehouse = Warehouse::findOrFail($id);
-        return view('backend.product_management.warehouses.show', compact('warehouse'));
+        return view('backend.product_management.warehouse.show', compact('warehouse'));
     }
 
     public function edit($id)
     {
         $warehouse = Warehouse::findOrFail($id);
-        return view('backend.product_management.warehouses.edit', compact('warehouse'));
+        return view('backend.product_management.warehouse.edit', compact('warehouse'));
     }
 
     public function update(Request $request, $id)

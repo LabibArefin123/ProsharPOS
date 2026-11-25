@@ -3,67 +3,20 @@
  @section('title', 'Edit User Profile')
 
  @section('content_header')
-     <div class="profile-edit-page-heading">
-         <div>
-             <span class="profile-edit-eyebrow">ACCOUNT SETTINGS</span>
-             <h1 class="profile-edit-page-title">Edit Profile</h1>
-             <p class="profile-edit-page-subtitle">
-                 Update your personal information and account details.
-             </p>
-         </div>
-
-         <a href="{{ url()->previous() }}" class="profile-edit-back-btn" id="backProfileBtn">
-             <i class="fas fa-arrow-left"></i>
-             <span>Go Back</span>
-         </a>
-     </div>
+     @include('backend.setting_management.profile_page.partial_page.edit_page.header_part')
  @stop
 
  @section('content')
-
      <div class="container-fluid profile-edit-page">
-
-         <form action="{{ route('user_profile_update') }}" method="POST" enctype="multipart/form-data"
-             id="profileUpdateForm">
-
+         <form action="{{ route('user_profile_update') }}" method="POST" enctype="multipart/form-data" id="profileUpdateForm">
              @csrf
              @method('PUT')
 
              {{-- Profile Edit Header --}}
-             <div class="profile-edit-hero">
-                 <div class="profile-edit-hero-decoration"></div>
-
-                 <div class="profile-edit-hero-content">
-
-                     <div class="profile-edit-avatar-wrapper">
-                         <img src="{{ $user->adminlte_image() }}" alt="{{ $user->name }}" class="profile-edit-avatar"
-                             id="profileAvatarPreview">
-                     </div>
-
-                     <div class="profile-edit-hero-info">
-                         <span>
-                             <i class="fas fa-user-circle"></i>
-                             PROFILE INFORMATION
-                         </span>
-
-                         <h3>{{ $user->name }}</h3>
-
-                         <p>
-                             {{ $user->email }}
-                         </p>
-
-                         <small>
-                             <i class="fas fa-shield-alt"></i>
-                             Update your account information securely.
-                         </small>
-                     </div>
-
-                 </div>
-             </div>
+              @include('backend.setting_management.profile_page.partial_page.edit_page.part_1')
 
              {{-- Form Card --}}
              <div class="profile-edit-card">
-
                  <div class="profile-edit-card-header">
                      <div class="profile-edit-card-icon">
                          <i class="fas fa-user-edit"></i>
