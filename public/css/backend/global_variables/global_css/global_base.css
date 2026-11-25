@@ -1,0 +1,136 @@
+/* ==========================================
+   ProsharPOS - Global Base
+========================================== */
+
+/* Body */
+
+body {
+    font-family: var(--pp-font-family);
+    font-size: var(--pp-font-size);
+    color: var(--pp-text);
+    background-color: var(--pp-body-bg);
+}
+
+/* Main Content */
+
+.content-wrapper {
+    background-color: var(--pp-body-bg);
+}
+
+.content {
+    padding-top: 15px;
+    padding-bottom: 25px;
+}
+
+/* Page Heading */
+
+.content-header h1 {
+    color: var(--pp-heading);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.content-header .breadcrumb {
+    font-size: 12px;
+}
+
+/* Headings */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--pp-heading);
+    font-weight: var(--pp-heading-weight);
+}
+
+/* Paragraph */
+
+p {
+    color: var(--pp-text);
+    line-height: 1.6;
+}
+
+/* Links */
+
+a {
+    transition: var(--pp-transition);
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Cards */
+
+.card {
+    border: 1px solid var(--pp-border-light);
+    border-radius: var(--pp-radius-lg);
+    background: var(--pp-surface);
+    box-shadow: var(--pp-shadow-sm);
+}
+
+.card-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--pp-border-light);
+    background: var(--pp-surface);
+    border-radius: var(--pp-radius-lg) var(--pp-radius-lg) 0 0;
+}
+
+.card-header .card-title {
+    margin: 0;
+    color: var(--pp-heading);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 18px;
+}
+
+.card-footer {
+    padding: 13px 18px;
+    border-top: 1px solid var(--pp-border-light);
+    background: var(--pp-surface-muted);
+}
+
+/* Content Sections */
+
+.pp-section {
+    margin-bottom: 20px;
+}
+
+.pp-section-title {
+    margin-bottom: 15px;
+    color: var(--pp-heading);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.pp-section-subtitle {
+    margin-top: -9px;
+    margin-bottom: 15px;
+    color: var(--pp-muted);
+    font-size: 12px;
+}
+
+/* Muted Text */
+
+.text-muted {
+    color: var(--pp-muted) !important;
+}
+
+/* Horizontal Rule */
+
+hr {
+    border-top: 1px solid var(--pp-border-light);
+}
+
+/* Selection */
+
+::selection {
+    color: #ffffff;
+    background: var(--pp-primary);
+}

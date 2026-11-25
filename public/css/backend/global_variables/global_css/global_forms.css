@@ -1,0 +1,206 @@
+/* ==========================================
+   ProsharPOS - Global Forms
+========================================== */
+
+/* Form Groups */
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+/* Labels */
+
+.form-group label,
+label {
+    margin-bottom: 6px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.form-group label .required,
+.pp-required {
+    margin-left: 2px;
+    color: var(--pp-danger);
+}
+
+/* Inputs */
+
+.form-control,
+.custom-select,
+select.form-control {
+    min-height: var(--pp-input-height);
+    padding: var(--pp-input-padding);
+    border: 1px solid var(--pp-border);
+    border-radius: var(--pp-radius-md);
+    background-color: #ffffff;
+    color: var(--pp-text);
+    font-family: inherit;
+    font-size: 13px;
+    box-shadow: none;
+    transition: var(--pp-transition);
+}
+
+.form-control:focus,
+.custom-select:focus,
+select.form-control:focus {
+    border-color: var(--pp-border-focus);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Placeholder */
+
+.form-control::placeholder,
+textarea.form-control::placeholder {
+    color: var(--pp-placeholder);
+    opacity: 1;
+}
+
+/* Textarea */
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Select */
+
+select.form-control,
+.custom-select {
+    cursor: pointer;
+}
+
+/* Disabled */
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #f8fafc;
+    color: var(--pp-muted);
+    cursor: not-allowed;
+}
+
+/* Input Groups */
+
+.input-group .form-control {
+    min-height: var(--pp-input-height);
+}
+
+.input-group-text {
+    border-color: var(--pp-border);
+    border-radius: var(--pp-radius-md);
+    background-color: var(--pp-surface-muted);
+    color: var(--pp-muted);
+    font-size: 13px;
+}
+
+/* Validation */
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    border-color: var(--pp-danger);
+    background-image: none;
+}
+
+.form-control.is-invalid:focus,
+.was-validated .form-control:invalid:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.form-control.is-valid,
+.was-validated .form-control:valid {
+    border-color: var(--pp-success);
+    background-image: none;
+}
+
+.invalid-feedback {
+    margin-top: 5px;
+    color: var(--pp-danger);
+    font-size: 11px;
+}
+
+.valid-feedback {
+    font-size: 11px;
+}
+
+/* Help Text */
+
+.form-text,
+.text-help {
+    margin-top: 5px;
+    color: var(--pp-muted);
+    font-size: 11px;
+}
+
+/* Checkboxes and Radios */
+
+.custom-control-label {
+    color: var(--pp-text);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Form Row Spacing */
+
+.form-row {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.form-row > .col,
+.form-row > [class*="col-"] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+/* Bootstrap Grid Compatibility */
+
+.row {
+    width: 100%;
+}
+
+.row > [class*="col-"] {
+    min-width: 0;
+}
+
+/* Select2 */
+
+.select2-container--default .select2-selection--single {
+    height: var(--pp-input-height);
+    border: 1px solid var(--pp-border);
+    border-radius: var(--pp-radius-md);
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+    padding-left: 12px;
+    color: var(--pp-text);
+    line-height: 36px;
+    font-size: 13px;
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+    height: 36px;
+}
+
+.select2-container--default.select2-container--focus
+    .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--pp-border-focus);
+}
+
+/* CKEditor */
+
+.ck-editor__editable {
+    min-height: 180px;
+    border-color: var(--pp-border) !important;
+    border-radius: 0 0 var(--pp-radius-md) var(--pp-radius-md) !important;
+}
+
+.ck.ck-toolbar {
+    border-color: var(--pp-border) !important;
+    border-radius: var(--pp-radius-md) var(--pp-radius-md) 0 0 !important;
+}

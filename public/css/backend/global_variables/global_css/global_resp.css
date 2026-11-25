@@ -1,0 +1,102 @@
+
+/* ==========================================
+   ProsharPOS - Global Responsive
+========================================== */
+
+/* Tablet */
+
+@media (max-width: 991.98px) {
+
+    .content {
+        padding: 12px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .content-header h1 {
+        font-size: 20px;
+    }
+
+    .pp-stat-value {
+        font-size: 21px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 767.98px) {
+
+    .content {
+        padding: 10px;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .card-header {
+        padding: 12px 14px;
+    }
+
+    .card-body {
+        padding: 14px;
+    }
+
+    .card-footer {
+        padding: 12px 14px;
+    }
+
+    .content-header h1 {
+        font-size: 18px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .btn {
+        min-height: 34px;
+    }
+
+    .modal-dialog {
+        margin: 10px;
+    }
+
+    .pp-stat-card {
+        padding: 14px;
+    }
+
+    .pp-stat-value {
+        font-size: 20px;
+    }
+}
+
+/* Small Mobile */
+
+@media (max-width: 480px) {
+
+    .content {
+        padding: 8px;
+    }
+
+    .card-body {
+        padding: 12px;
+    }
+
+    .content-header h1 {
+        font-size: 17px;
+    }
+
+    .pp-stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+    }
+
+    .btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+}

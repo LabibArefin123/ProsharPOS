@@ -1,0 +1,74 @@
+/* ==========================================
+   ProsharPOS - Global Variables
+========================================== */
+
+:root {
+    /* Brand Colors */
+    --pp-primary: #2563eb;
+    --pp-primary-hover: #1d4ed8;
+    --pp-primary-light: #eff6ff;
+    --pp-secondary: #64748b;
+
+    /* Status Colors */
+    --pp-success: #16a34a;
+    --pp-success-light: #f0fdf4;
+
+    --pp-danger: #dc2626;
+    --pp-danger-light: #fef2f2;
+
+    --pp-warning: #d97706;
+    --pp-warning-light: #fffbeb;
+
+    --pp-info: #0891b2;
+    --pp-info-light: #ecfeff;
+
+    /* Background */
+    --pp-body-bg: #f4f6f9;
+    --pp-surface: #ffffff;
+    --pp-surface-muted: #f8fafc;
+
+    /* Text */
+    --pp-heading: #1e293b;
+    --pp-text: #334155;
+    --pp-muted: #64748b;
+    --pp-placeholder: #94a3b8;
+
+    /* Borders */
+    --pp-border: #e2e8f0;
+    --pp-border-light: #f1f5f9;
+    --pp-border-focus: #3b82f6;
+
+    /* Typography */
+    --pp-font-family: "Source Sans Pro", "Segoe UI", Arial, sans-serif;
+    --pp-font-size: 13px;
+    --pp-heading-weight: 600;
+
+    /* Spacing */
+    --pp-spacing-xs: 4px;
+    --pp-spacing-sm: 8px;
+    --pp-spacing-md: 12px;
+    --pp-spacing-lg: 16px;
+    --pp-spacing-xl: 24px;
+
+    /* Radius */
+    --pp-radius-sm: 5px;
+    --pp-radius-md: 8px;
+    --pp-radius-lg: 12px;
+    --pp-radius-xl: 16px;
+
+    /* Shadows */
+    --pp-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+    --pp-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+    --pp-shadow-lg: 0 10px 25px rgba(15, 23, 42, 0.08);
+
+    /* Inputs */
+    --pp-input-height: 38px;
+    --pp-input-padding: 8px 12px;
+
+    /* Transitions */
+    --pp-transition: all 0.2s ease;
+
+    /* Layering */
+    --pp-dropdown-zindex: 1050;
+    --pp-modal-zindex: 1060;
+}
