@@ -85,105 +85,343 @@ class PaymentController extends Controller
         return view('backend.transaction_management.payment.show', compact('payment'));
     }
 
+
     public function history()
     {
         $user = auth()->user();
+
         $isAdmin = $user->hasRole('admin') || $user->hasRole('accountant');
 
-        // Helper to load transactions
-        $loadTransactions = fn($model, $type, $relationUserField, $amountField, $dateField, $descField, $userColumn = 'user_id') =>
-        $model::with([$relationUserField])
-            ->when(!$isAdmin && $userColumn, fn($q) => $q->where($userColumn, $user->id))
-            ->get()
-            ->map(fn($item) => (object)[
-                'type'        => $type,
-                'date'        => $item->$dateField,
-                'created_at'  => $item->created_at,
-                'amount'      => (float) $item->$amountField,
-                'currency'    => 'BDT',
-                'description' => $item->$descField ?? ucfirst($type),
-                'user'        => $item->$relationUserField, // null for supplier/purchase
-                'source'      => $item,
-                'old_balance' => null,
-                'new_balance' => null,
-            ]);
+        /*
+    |--------------------------------------------------------------------------
+    | Load Transactions
+    |--------------------------------------------------------------------------
+    */
 
-        // User-linked transactions
-        $deposits  = $loadTransactions(BankDeposit::class, 'deposit', 'user', 'amount', 'deposit_date', 'reference_no');
-        $withdraws = $loadTransactions(BankWithdraw::class, 'withdraw', 'user', 'amount', 'withdraw_date', 'reference_no');
-        $payments  = $loadTransactions(Payment::class, 'payment', 'paidBy', 'paid_amount', 'created_at', 'invoice_id', 'paid_by');
+        $loadTransactions = function (
+            $model,
+            $type,
+            $relations,
+            $actorRelation,
+            $amountField,
+            $dateField,
+            $descriptionField,
+            $userColumn = 'user_id'
+        ) use ($isAdmin, $user) {
 
-        // Supplier/purchase related transactions
-        $supplierPayments = $loadTransactions(SupplierPayment::class, 'supplier_payment', 'supplier', 'amount', 'payment_date', 'purchase.reference_no', null);
-        $purchases        = $loadTransactions(Purchase::class, 'purchase', 'supplier', 'total_amount', 'created_at', 'reference_no', null);
-        $returns          = $loadTransactions(PurchaseReturn::class, 'purchase_return', 'supplier', 'total_amount', 'return_date', 'reference_no', null);
+            $query = $model::query()->with($relations);
 
-        // Merge all
+            // Non-admin users can only see their own user-linked transactions.
+            if (!$isAdmin && $userColumn) {
+                $query->where($userColumn, $user->id);
+            }
+
+            return $query->get()->map(function ($item) use (
+                $type,
+                $actorRelation,
+                $amountField,
+                $dateField,
+                $descriptionField
+            ) {
+                return (object) [
+                    'type' => $type,
+
+                    'date' => $item->{$dateField},
+
+                    'created_at' => $item->created_at,
+
+                    'amount' => (float) $item->{$amountField},
+
+                    'currency' => 'BDT',
+
+                    'description' => data_get($item, $descriptionField)
+                        ?: ucfirst(str_replace('_', ' ', $type)),
+
+                    // Only actual users belong here.
+                    'user' => $actorRelation
+                        ? data_get($item, $actorRelation)
+                        : null,
+
+                    // Original transaction model.
+                    'source' => $item,
+
+                    'old_balance' => null,
+                    'new_balance' => null,
+                ];
+            });
+        };
+
+        /*
+    |--------------------------------------------------------------------------
+    | User-Linked Transactions
+    |--------------------------------------------------------------------------
+    */
+
+        $deposits = $loadTransactions(
+            BankDeposit::class,
+            'deposit',
+            ['user'],
+            'user',
+            'amount',
+            'deposit_date',
+            'reference_no'
+        );
+
+        $withdraws = $loadTransactions(
+            BankWithdraw::class,
+            'withdraw',
+            ['user'],
+            'user',
+            'amount',
+            'withdraw_date',
+            'reference_no'
+        );
+
+        $payments = $loadTransactions(
+            Payment::class,
+            'payment',
+            ['paidBy'],
+            'paidBy',
+            'paid_amount',
+            'created_at',
+            'invoice_id',
+            'paid_by'
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | Supplier and Purchase Transactions
+    |--------------------------------------------------------------------------
+    */
+
+        $supplierPayments = $loadTransactions(
+            SupplierPayment::class,
+            'supplier_payment',
+            ['supplier', 'purchase'],
+            null,
+            'amount',
+            'payment_date',
+            'purchase.reference_no',
+            null
+        );
+
+        $purchases = $loadTransactions(
+            Purchase::class,
+            'purchase',
+            ['supplier'],
+            null,
+            'total_amount',
+            'created_at',
+            'reference_no',
+            null
+        );
+
+        $returns = $loadTransactions(
+            PurchaseReturn::class,
+            'purchase_return',
+            ['supplier'],
+            null,
+            'total_amount',
+            'return_date',
+            'reference_no',
+            null
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | Merge All Transactions
+    |--------------------------------------------------------------------------
+    */
+
         $transactions = collect()
             ->merge($deposits)
             ->merge($withdraws)
             ->merge($payments)
             ->merge($supplierPayments)
             ->merge($purchases)
-            ->merge($returns)
-            ->sortByDesc('created_at')
+            ->merge($returns);
+
+        /*
+    |--------------------------------------------------------------------------
+    | Chronological Sorting
+    |--------------------------------------------------------------------------
+    */
+
+        $sortKey = function ($transaction) {
+            $date = $transaction->date
+                ? \Carbon\Carbon::parse($transaction->date)->format('Ymd')
+                : '00000000';
+
+            $time = $transaction->created_at
+                ? \Carbon\Carbon::parse($transaction->created_at)->format('His')
+                : '000000';
+
+            return $date . $time;
+        };
+
+        $transactions = $transactions
+            ->sortByDesc($sortKey)
             ->values();
 
-        // --- Running Balance ---
-        if (!$isAdmin) {
-            // Non-admin: only own user balance
-            $runningBalance = BankBalance::where('user_id', $user->id)->sum('balance');
+        /*
+    |--------------------------------------------------------------------------
+    | Running Balance Calculation
+    |--------------------------------------------------------------------------
+    |
+    | bank_balances.balance represents the latest/current balance.
+    |
+    | Deposit         = + amount
+    | Withdraw        = - amount
+    | Customer Payment = - amount
+    |
+    | We process newest to oldest to reconstruct historical balances.
+    |
+    */
 
-            $transactions = $transactions->map(function ($t) use (&$runningBalance) {
-                $amount = abs($t->amount);
+        $balanceTypes = [
+            'deposit',
+            'withdraw',
+            'payment',
+        ];
 
-                if (in_array($t->type, ['deposit', 'withdraw', 'payment'])) {
-                    $t->new_balance = $runningBalance;
-                    $t->old_balance = in_array($t->type, ['withdraw', 'payment']) ? $runningBalance + $amount : $runningBalance - $amount;
-                    $runningBalance = $t->old_balance;
-                }
+        if ($isAdmin) {
 
-                // Non-user transactions already have null balances
-                return $t;
-            });
-        } else {
-            // Admin: only users with a role
+            /*
+        |--------------------------------------------------------------------------
+        | Admin / Accountant: Calculate Each User Separately
+        |--------------------------------------------------------------------------
+        */
+
             $userTransactions = $transactions
-                ->filter(fn($t) => in_array($t->type, ['deposit', 'withdraw', 'payment']) && $t->user?->roles?->isNotEmpty())
-                ->groupBy(fn($t) => $t->user->id)
-                ->flatMap(function ($userTxs) {
-                    $userModel = $userTxs->first()->user;
-                    $runningBalance = $userModel?->bankBalances?->sum('balance') ?? 0;
+                ->filter(function ($transaction) use ($balanceTypes) {
+                    return in_array($transaction->type, $balanceTypes)
+                        && $transaction->user !== null;
+                })
+                ->groupBy(fn($transaction) => $transaction->user->id);
 
-                    return $userTxs->sortBy('created_at')->map(function ($t) use (&$runningBalance) {
-                        $amount = abs($t->amount);
-                        $t->new_balance = $runningBalance;
-                        $t->old_balance = in_array($t->type, ['withdraw', 'payment']) ? $runningBalance + $amount : $runningBalance - $amount;
-                        $runningBalance = $t->old_balance;
-                        return $t;
-                    });
-                });
+            $userIds = $userTransactions->keys()->all();
 
-            // Non-user transactions: keep null balances
-            $nonUserTransactions = $transactions->filter(fn($t) => !in_array($t->type, ['deposit', 'withdraw', 'payment']));
+            $currentBalances = BankBalance::whereIn('user_id', $userIds)
+                ->pluck('balance', 'user_id');
 
-            $transactions = $userTransactions->merge($nonUserTransactions)
-                ->sortByDesc('created_at')
+            $calculatedUserTransactions = $userTransactions->flatMap(
+                function ($userTxs, $userId) use (
+                    $currentBalances,
+                    $sortKey
+                ) {
+                    // Current/latest balance of this particular user.
+                    $runningBalance = (float) ($currentBalances[$userId] ?? 0);
+
+                    // Newest transaction first.
+                    return $userTxs
+                        ->sortByDesc($sortKey)
+                        ->values()
+                        ->map(function ($transaction) use (&$runningBalance) {
+
+                            $amount = abs((float) $transaction->amount);
+
+                            $delta = match ($transaction->type) {
+                                'deposit' => $amount,
+                                'withdraw', 'payment' => -$amount,
+                                default => 0,
+                            };
+
+                            // Balance immediately after this transaction.
+                            $transaction->new_balance = $runningBalance;
+
+                            // Balance immediately before this transaction.
+                            $transaction->old_balance = $runningBalance - $delta;
+
+                            // Move backward to the previous balance.
+                            $runningBalance = $transaction->old_balance;
+
+                            return $transaction;
+                        });
+                }
+            );
+
+            // Supplier and purchase transactions do not affect user balances.
+            $nonUserTransactions = $transactions->filter(
+                fn($transaction) => !in_array(
+                    $transaction->type,
+                    $balanceTypes
+                )
+            );
+
+            $transactions = $calculatedUserTransactions
+                ->merge($nonUserTransactions)
+                ->sortByDesc($sortKey)
                 ->values();
+        } else {
+
+            /*
+        |--------------------------------------------------------------------------
+        | Normal User: Own Running Balance
+        |--------------------------------------------------------------------------
+        */
+
+            $runningBalance = (float) BankBalance::where(
+                'user_id',
+                $user->id
+            )->value('balance');
+
+            $transactions = $transactions->map(
+                function ($transaction) use (&$runningBalance) {
+
+                    if (!in_array($transaction->type, [
+                        'deposit',
+                        'withdraw',
+                        'payment',
+                    ])) {
+                        return $transaction;
+                    }
+
+                    $amount = abs((float) $transaction->amount);
+
+                    $delta = match ($transaction->type) {
+                        'deposit' => $amount,
+                        'withdraw', 'payment' => -$amount,
+                        default => 0,
+                    };
+
+                    $transaction->new_balance = $runningBalance;
+
+                    $transaction->old_balance = $runningBalance - $delta;
+
+                    $runningBalance = $transaction->old_balance;
+
+                    return $transaction;
+                }
+            );
         }
 
-        // Pagination
-        $page = request()->get('page', 1);
-        $perPage = 5;
-        $transactionsPaginated = $transactions->slice(($page - 1) * $perPage, $perPage)->values();
-        $totalPages = ceil($transactions->count() / $perPage);
+        /*
+    |--------------------------------------------------------------------------
+    | Pagination
+    |--------------------------------------------------------------------------
+    */
 
-        return view('backend.transaction_management.payment.history', [
-            'transactions' => $transactionsPaginated,
-            'currentPage'  => $page,
-            'totalPages'   => $totalPages,
-            'isAdmin'      => $isAdmin,
-        ]);
+        $page = max(1, (int) request()->query('page', 1));
+
+        $perPage = 5;
+
+        $totalRecords = $transactions->count();
+
+        $totalPages = (int) ceil($totalRecords / $perPage);
+
+        $transactionsPaginated = $transactions
+            ->slice(($page - 1) * $perPage, $perPage)
+            ->values();
+
+        return view(
+            'backend.transaction_management.payment.history',
+            [
+                'transactions' => $transactionsPaginated,
+                'currentPage' => $page,
+                'totalPages' => $totalPages,
+                'isAdmin' => $isAdmin,
+            ]
+        );
     }
 
     public function flowDiagram()

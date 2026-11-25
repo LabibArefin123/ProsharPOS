@@ -15,7 +15,7 @@ class BankBalanceSeeder extends Seeder
             'admin' => 500000,
             'manager' => 100000,
             'cashier' => 30000,
-            'inventory_manager' => 50000,
+            'imanager' => 50000,
             'accountant' => 75000,
         ];
 

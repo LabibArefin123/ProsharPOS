@@ -34,7 +34,7 @@ class BankWithdrawSeeder extends Seeder
                 ],
             ],
             [
-                'username' => 'inventory_manager',
+                'username' => 'imanager',
                 'records' => [
                     ['date' => '2026-08-25', 'amount' => 4000, 'method' => 'transfer'],
                     ['date' => '2026-10-25', 'amount' => 6000, 'method' => 'cash'],

@@ -34,7 +34,7 @@ class BankDepositSeeder extends Seeder
                 ],
             ],
             [
-                'username' => 'inventory_manager',
+                'username' => 'imanager',
                 'records' => [
                     ['date' => '2026-08-10', 'amount' => 7000, 'method' => 'transfer'],
                     ['date' => '2026-10-15', 'amount' => 12000, 'method' => 'cash'],
