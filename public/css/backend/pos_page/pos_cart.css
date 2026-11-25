@@ -1,0 +1,221 @@
+/* ==========================================
+   ProsharPOS - Cart Panel
+========================================== */
+
+.pp-cart-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 540px;
+    overflow: hidden;
+    border: 1px solid var(--pp-border-light);
+    border-radius: var(--pp-radius-lg);
+    background: #ffffff;
+    box-shadow: var(--pp-shadow-sm);
+}
+
+.pp-cart-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px;
+    border-bottom: 1px solid var(--pp-border-light);
+}
+
+.pp-cart-panel-header h5 {
+    margin: 0;
+    color: var(--pp-heading);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.pp-cart-panel-header h5 i {
+    margin-right: 5px;
+    color: var(--pp-primary);
+}
+
+.pp-cart-panel-header p {
+    margin: 4px 0 0;
+    color: var(--pp-muted);
+    font-size: 11px;
+}
+
+.pp-cart-panel-header > span {
+    padding: 5px 8px;
+    border-radius: 5px;
+    background: var(--pp-primary-light);
+    color: var(--pp-primary);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.pp-cart-panel-body {
+    flex: 1;
+    max-height: 430px;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+.pp-cart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    text-align: center;
+}
+
+.pp-cart-empty i {
+    margin-bottom: 13px;
+    color: #cbd5e1;
+    font-size: 42px;
+}
+
+.pp-cart-empty h6 {
+    margin: 0;
+    color: var(--pp-heading);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.pp-cart-empty p {
+    margin-top: 5px;
+    color: var(--pp-muted);
+    font-size: 11px;
+}
+
+.pp-cart-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 2px;
+    border-bottom: 1px solid var(--pp-border-light);
+}
+
+.pp-cart-item-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.pp-cart-item-info strong {
+    display: block;
+    overflow: hidden;
+    color: var(--pp-heading);
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pp-cart-item-info small {
+    color: var(--pp-muted);
+    font-size: 10px;
+}
+
+.pp-cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.pp-qty-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border: 1px solid var(--pp-border);
+    border-radius: 5px;
+    background: #ffffff;
+    color: var(--pp-text);
+    cursor: pointer;
+}
+
+.pp-qty-btn:hover {
+    border-color: var(--pp-primary);
+    color: var(--pp-primary);
+}
+
+.pp-qty-value {
+    min-width: 22px;
+    color: var(--pp-heading);
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.pp-cart-item-price {
+    color: var(--pp-primary);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pp-cart-remove {
+    padding: 3px;
+    border: 0;
+    background: transparent;
+    color: var(--pp-danger);
+    cursor: pointer;
+}
+
+.pp-cart-panel-footer {
+    padding: 15px;
+    border-top: 1px solid var(--pp-border-light);
+    background: #ffffff;
+}
+
+.pp-cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.pp-cart-total-row span {
+    color: var(--pp-muted);
+    font-size: 12px;
+}
+
+.pp-cart-total-row strong {
+    color: var(--pp-heading);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.pp-checkout-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 42px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--pp-primary);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.pp-checkout-btn:hover:not(:disabled) {
+    background: var(--pp-primary-hover);
+    color: #ffffff;
+}
+
+.pp-checkout-btn:disabled {
+    background: #cbd5e1;
+    color: #ffffff;
+    cursor: not-allowed;
+}
+
+.pp-clear-cart-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 7px;
+    border: 0;
+    background: transparent;
+    color: var(--pp-danger);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}

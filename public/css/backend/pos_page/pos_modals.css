@@ -1,0 +1,154 @@
+
+/* ==========================================
+   ProsharPOS - POS Modals
+========================================== */
+
+.pp-pos-modal .modal-content {
+    overflow: hidden;
+    border: 1px solid var(--pp-border-light);
+    border-radius: 13px;
+    box-shadow: var(--pp-shadow-lg);
+}
+
+.pp-pos-modal .modal-header {
+    padding: 17px 20px;
+    border-bottom: 1px solid var(--pp-border-light);
+    background: #ffffff;
+}
+
+.pp-pos-modal .modal-title {
+    color: var(--pp-heading);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pp-pos-modal .modal-title i {
+    margin-right: 7px;
+    color: var(--pp-primary);
+}
+
+.pp-pos-modal .modal-header small {
+    display: block;
+    margin-top: 4px;
+    color: var(--pp-muted);
+    font-size: 11px;
+}
+
+.pp-pos-modal .modal-body {
+    padding: 20px;
+}
+
+.pp-pos-modal .modal-footer {
+    padding: 13px 20px;
+    border-top: 1px solid var(--pp-border-light);
+    background: #f8fafc;
+}
+
+.pp-pos-modal .form-group {
+    margin-bottom: 17px;
+}
+
+.pp-pos-modal label {
+    color: var(--pp-heading);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pp-pos-modal .close {
+    color: var(--pp-muted);
+    opacity: 1;
+}
+
+.pp-cart-table {
+    margin: 0;
+}
+
+.pp-cart-table th {
+    padding: 11px;
+    border-bottom: 1px solid var(--pp-border);
+    background: #f8fafc;
+    color: var(--pp-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.pp-cart-table td {
+    padding: 11px;
+    vertical-align: middle;
+    color: var(--pp-text);
+    font-size: 12px;
+}
+
+.pp-cart-table .form-control {
+    width: 75px;
+    min-height: 32px;
+}
+
+.pp-modal-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: var(--pp-primary-light);
+}
+
+.pp-modal-total span {
+    color: var(--pp-heading);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pp-modal-total strong {
+    color: var(--pp-primary);
+    font-size: 20px;
+}
+
+.pp-checkout-summary {
+    padding: 15px;
+    border: 1px solid var(--pp-border-light);
+    border-radius: 9px;
+    background: #f8fafc;
+}
+
+.pp-checkout-summary > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    color: var(--pp-muted);
+    font-size: 12px;
+}
+
+.pp-checkout-summary strong {
+    color: var(--pp-heading);
+    font-weight: 700;
+}
+
+.pp-checkout-summary > div:last-child strong {
+    color: var(--pp-danger);
+}
+
+.pp-pos-modal .select2-container {
+    width: 100% !important;
+}
+
+.pp-pos-modal .select2-container--default .select2-selection--single {
+    height: 38px;
+    border: 1px solid var(--pp-border);
+    border-radius: 8px;
+}
+
+.pp-pos-modal .select2-container--default .select2-selection--single
+.select2-selection__rendered {
+    padding-left: 12px;
+    line-height: 36px;
+    color: var(--pp-text);
+    font-size: 12px;
+}
+
+.pp-pos-modal .select2-container--default .select2-selection--single
+.select2-selection__arrow {
+    height: 36px;
+}

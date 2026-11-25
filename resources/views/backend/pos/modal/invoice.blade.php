@@ -1,41 +1,55 @@
-{{-- CHECKOUT MODAL --}}
-<div class="modal fade" id="checkoutModal" tabindex="-1">
-    <div class="modal-dialog modal-md modal-dialog-right">
+
+<div class="modal fade pp-pos-modal" id="checkoutModal" tabindex="-1"
+    role="dialog" aria-labelledby="checkoutModalTitle" aria-hidden="true">
+
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+
         <div class="modal-content">
 
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">💳 Checkout</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="checkoutModalTitle">
+                        <i class="fas fa-receipt"></i>
+                        Complete Sale
+                    </h5>
+                    <small>Enter payment information</small>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
             </div>
 
             <div class="modal-body">
-                {{-- Customer --}}
-                <div class="mb-2">
+
+                <div class="form-group">
                     <label>Customer</label>
 
-                    <select class="form-control select2" id="customer_id" style="width:100%">
+                    <select class="form-control select2" id="customer_id"
+                        style="width: 100%">
                         <option value="">Walk-in Customer</option>
 
                         @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}" data-phone="{{ $customer->phone_number }}">
+                            <option value="{{ $customer->id }}"
+                                data-phone="{{ $customer->phone_number }}">
                                 {{ $customer->name }} ({{ $customer->phone_number }})
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-                {{-- Payment Status --}}
-                <div class="mb-2">
+                <div class="form-group">
                     <label>Payment Status</label>
+
                     <select class="form-control" id="payment_status">
                         <option value="paid">Paid</option>
                         <option value="due">Due</option>
                     </select>
                 </div>
 
-                {{-- Payment Method --}}
-                <div class="mb-2">
+                <div class="form-group">
                     <label>Payment Method</label>
+
                     <select class="form-control" id="payment_method">
                         <option value="cash">Cash</option>
                         <option value="bkash">bKash</option>
@@ -44,23 +58,51 @@
                     </select>
                 </div>
 
-                {{-- Paid Amount --}}
-                <div class="mb-2">
-                    <label>Paid Amount</label>
-                    <input type="number" class="form-control" id="paid_amount" placeholder="Enter amount">
+                <div class="form-group">
+                    <label>Paid Amount (৳)</label>
+
+                    <input type="number"
+                        class="form-control"
+                        id="paid_amount"
+                        min="0"
+                        step="0.01"
+                        placeholder="Enter paid amount">
                 </div>
 
-                {{-- Total --}}
-                <div class="text-end">
-                    <h4>Total: ৳ <span id="checkout-total">0</span></h4>
+                <div class="pp-checkout-summary">
+
+                    <div>
+                        <span>Grand Total</span>
+                        <strong>৳ <span id="checkout-total">0.00</span></strong>
+                    </div>
+
+                    <div>
+                        <span>Paid Amount</span>
+                        <strong>৳ <span id="checkout-paid-preview">0.00</span></strong>
+                    </div>
+
+                    <div>
+                        <span>Due Amount</span>
+                        <strong>৳ <span id="checkout-due-preview">0.00</span></strong>
+                    </div>
+
                 </div>
 
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-success" id="confirm-checkout">
-                    ✅ Confirm Sale
+
+                <button type="button" class="btn btn-light"
+                    data-dismiss="modal">
+                    Cancel
                 </button>
+
+                <button type="button" class="btn btn-success"
+                    id="confirm-checkout">
+                    <i class="fas fa-check-circle"></i>
+                    Confirm Sale
+                </button>
+
             </div>
 
         </div>

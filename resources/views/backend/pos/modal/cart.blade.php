@@ -1,30 +1,61 @@
-{{-- CART MODAL --}}
-<div class="modal fade" id="cartModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-right">
+
+<div class="modal fade pp-pos-modal" id="cartModal" tabindex="-1"
+    role="dialog" aria-labelledby="cartModalTitle" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
         <div class="modal-content">
 
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title">🛒 Cart</h5>
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="cartModalTitle">
+                        <i class="fas fa-shopping-cart"></i>
+                        Shopping Cart
+                    </h5>
+                    <small>Review your selected products</small>
+                </div>
 
-                {{-- ✅ FIXED BUTTON --}}
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span>&times;</span>
+                </button>
             </div>
 
             <div class="modal-body">
 
-                <table class="table">
-                    <tbody id="pos-cart"></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table pp-cart-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                <div class="text-end">
-                    <h4>Total: ৳ <span id="grand-total">0</span></h4>
+                        <tbody id="pos-cart-modal"></tbody>
+                    </table>
+                </div>
+
+                <div class="pp-modal-total">
+                    <span>Grand Total</span>
+                    <strong>৳ <span id="modal-grand-total">0.00</span></strong>
                 </div>
 
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-success" id="checkout-btn">
-                    💳 Checkout
+                <button type="button" class="btn btn-light"
+                    data-dismiss="modal">
+                    Continue Shopping
+                </button>
+
+                <button type="button" class="btn btn-primary"
+                    id="checkout-btn-modal">
+                    <i class="fas fa-credit-card"></i>
+                    Checkout
                 </button>
             </div>
 

@@ -1,0 +1,59 @@
+/* ==========================================
+   ProsharPOS - POS Base
+========================================== */
+
+.pp-pos-container {
+    padding: 12px 15px 25px;
+    color: var(--pp-text);
+}
+
+.pp-pos-container,
+.pp-pos-container * {
+    box-sizing: border-box;
+}
+
+.pp-pos-container .card {
+    border-radius: var(--pp-radius-lg);
+}
+
+.pp-pos-container button,
+.pp-pos-container input {
+    font-family: inherit;
+}
+
+.pp-pos-container .row {
+    align-items: stretch;
+}
+
+.pp-pos-container .pp-product-section,
+.pp-pos-container .pp-cart-panel {
+    height: 100%;
+}
+
+.pp-empty-products {
+    width: 100%;
+    padding: 65px 20px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px dashed var(--pp-border);
+    border-radius: var(--pp-radius-lg);
+}
+
+.pp-empty-products i {
+    color: #94a3b8;
+    font-size: 38px;
+}
+
+.pp-empty-products h5 {
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+.pp-empty-products p {
+    color: var(--pp-muted);
+    font-size: 12px;
+}
+
+.pp-pos-container .text-primary {
+    color: var(--pp-primary) !important;
+}
