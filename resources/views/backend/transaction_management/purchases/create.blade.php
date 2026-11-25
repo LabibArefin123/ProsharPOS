@@ -125,7 +125,7 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm removeRow">
-                                    <i class="fas fa-trash"></i>
+                                    Delete
                                 </button>
                             </td>
                         </tr>
@@ -152,77 +152,77 @@
 @stop
 
 @section('js')
-<script>
-$(function () {
+    <script>
+        $(function() {
 
-    /* ===============================
-       SUPPLIER AUTO FILL (NO AJAX)
-    =============================== */
+            /* ===============================
+               SUPPLIER AUTO FILL (NO AJAX)
+            =============================== */
 
-    function fillSupplierInfo() {
-        let selected = $('#supplier_id').find(':selected');
+            function fillSupplierInfo() {
+                let selected = $('#supplier_id').find(':selected');
 
-        if (!selected.val()) {
-            $('#company_name, #email, #phone_number, #license_number').val('');
-            return;
-        }
+                if (!selected.val()) {
+                    $('#company_name, #email, #phone_number, #license_number').val('');
+                    return;
+                }
 
-        $('#company_name').val(selected.data('company') || '');
-        $('#email').val(selected.data('email') || '');
-        $('#phone_number').val(selected.data('phone') || '');
-        $('#license_number').val(selected.data('license') || '');
-    }
+                $('#company_name').val(selected.data('company') || '');
+                $('#email').val(selected.data('email') || '');
+                $('#phone_number').val(selected.data('phone') || '');
+                $('#license_number').val(selected.data('license') || '');
+            }
 
-    // Change supplier
-    $('#supplier_id').on('change', fillSupplierInfo);
+            // Change supplier
+            $('#supplier_id').on('change', fillSupplierInfo);
 
-    // Auto load on edit / refresh
-    fillSupplierInfo();
+            // Auto load on edit / refresh
+            fillSupplierInfo();
 
 
-    /* ===============================
-       PURCHASE CALCULATION LOGIC
-    =============================== */
+            /* ===============================
+               PURCHASE CALCULATION LOGIC
+            =============================== */
 
-    function calculateRow(row) {
-        let qty   = parseFloat(row.find('.qty').val()) || 0;
-        let price = parseFloat(row.find('.price').val()) || 0;
-        row.find('.subtotal').val((qty * price).toFixed(2));
-    }
+            function calculateRow(row) {
+                let qty = parseFloat(row.find('.qty').val()) || 0;
+                let price = parseFloat(row.find('.price').val()) || 0;
+                row.find('.subtotal').val((qty * price).toFixed(2));
+            }
 
-    function calculateGrandTotal() {
-        let total = 0;
-        $('.subtotal').each(function () {
-            total += parseFloat($(this).val()) || 0;
+            function calculateGrandTotal() {
+                let total = 0;
+                $('.subtotal').each(function() {
+                    total += parseFloat($(this).val()) || 0;
+                });
+                $('#grandTotal').text(total.toFixed(2));
+            }
+
+            // Qty / Price change
+            $(document).on('input', '.qty, .price', function() {
+                let row = $(this).closest('tr');
+                calculateRow(row);
+                calculateGrandTotal();
+            });
+
+            // Add row
+            $('#addRow').on('click', function() {
+                let row = $('#purchaseTable tbody tr:first').clone();
+
+                row.find('input').val('');
+                row.find('.subtotal').val('0.00');
+
+                $('#purchaseTable tbody').append(row);
+            });
+
+            // Remove row
+            $(document).on('click', '.removeRow', function() {
+                if ($('#purchaseTable tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                    calculateGrandTotal();
+                }
+            });
+
         });
-        $('#grandTotal').text(total.toFixed(2));
-    }
-
-    // Qty / Price change
-    $(document).on('input', '.qty, .price', function () {
-        let row = $(this).closest('tr');
-        calculateRow(row);
-        calculateGrandTotal();
-    });
-
-    // Add row
-    $('#addRow').on('click', function () {
-        let row = $('#purchaseTable tbody tr:first').clone();
-
-        row.find('input').val('');
-        row.find('.subtotal').val('0.00');
-
-        $('#purchaseTable tbody').append(row);
-    });
-
-    // Remove row
-    $(document).on('click', '.removeRow', function () {
-        if ($('#purchaseTable tbody tr').length > 1) {
-            $(this).closest('tr').remove();
-            calculateGrandTotal();
-        }
-    });
-
-});
-</script>
+    </script>
 @endsection

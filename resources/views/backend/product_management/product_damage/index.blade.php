@@ -51,10 +51,10 @@
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('products_damages.edit', $damage->id) }}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-pen"></i>
+                                    Edit
                                 </a>
                                 <a href="{{ route('products_damages.show', $damage->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
                                 <form action="{{ route('products_damages.destroy', $damage->id) }}" method="POST"
                                     class="d-inline" onsubmit="return confirm('Delete this damage record?')">
@@ -63,7 +63,7 @@
                                     @method('DELETE')
 
                                     <button class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </button>
                                 </form>
                             </td>

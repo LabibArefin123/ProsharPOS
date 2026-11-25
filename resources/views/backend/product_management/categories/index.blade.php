@@ -42,7 +42,7 @@
                                     {{-- Show --}}
                                     <a href="{{ route('categories.show', $category->id) }}"
                                         class="btn btn-sm btn-outline-info me-2" title="View">
-                                        <i class="fas fa-eye"></i>
+                                        View
                                     </a>
 
                                     {{-- Edit --}}
@@ -58,7 +58,7 @@
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger btn-sm"
                                             onclick="triggerDeleteModal('{{ route('categories.destroy', $category->id) }}')">
-                                            <i class="fas fa-trash"></i>
+                                            Delete
                                         </button>
                                     </form>
                                 </td>

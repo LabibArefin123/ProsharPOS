@@ -36,7 +36,7 @@
                                     {{-- Show --}}
                                     <a href="{{ route('brands.show', $brand->id) }}" class="btn btn-info btn-sm me-1"
                                         title="View">
-                                        <i class="fas fa-eye"></i> View
+                                        View View
                                     </a>
 
                                     {{-- Edit --}}

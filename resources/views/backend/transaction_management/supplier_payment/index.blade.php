@@ -41,16 +41,16 @@
                             <td class="text-center">
                                 <a href="{{ route('supplier_payments.edit', $payment->id) }}"
                                     class="btn btn-primary btn-sm">
-                                    <i class="fas fa-pen"></i>
+                                    Edit
                                 </a>
                                 <a href="{{ route('supplier_payments.show', $payment->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
-                                <form action="{{ route('supplier_payments.destroy', $payment->id) }}" method="POST" class="d-inline"
-                                    onsubmit="return confirm('Are you sure to delete this data?');">
+                                <form action="{{ route('supplier_payments.destroy', $payment->id) }}" method="POST"
+                                    class="d-inline" onsubmit="return confirm('Are you sure to delete this data?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"> <i class="fas fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger"> Delete</button>
                                 </form>
                             </td>
                         </tr>

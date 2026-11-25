@@ -64,14 +64,14 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <a href="{{ route('storages.show', $store->id) }}" class="btn btn-sm btn-warning">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
                                 <form action="{{ route('storages.destroy', $store->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-outline-danger btn-sm"
                                         onclick="triggerDeleteModal('{{ route('storages.destroy', $store->id) }}')">
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </button>
                                 </form>
                             </td>

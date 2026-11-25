@@ -106,7 +106,7 @@ class ActivityLogController extends Controller
 
                 ->addColumn('details', function ($activity) {
                     $properties = htmlspecialchars(json_encode($activity->properties), ENT_QUOTES, 'UTF-8');
-                    return '<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#propertyModal" data-properties="' . $properties . '" data-id="' . $activity->id . '"><i class="fas fa-eye"></i></button>';
+                    return '<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#propertyModal" data-properties="' . $properties . '" data-id="' . $activity->id . '">View</button>';
                 })
 
                 ->addColumn('date', fn($a) => '<span title="' . $a->created_at->format('d M Y H:i:s') . '">' . $a->created_at->diffForHumans() . '</span>')

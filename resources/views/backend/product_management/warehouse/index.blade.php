@@ -51,10 +51,10 @@
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('warehouses.edit', $warehouse->id) }}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-pen"></i>
+                                    Edit
                                 </a>
                                 <a href="{{ route('warehouses.show', $warehouse->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
                                 <form action="{{ route('warehouses.destroy', $warehouse->id) }}" method="POST"
                                     class="d-inline" onsubmit="return confirm('Are you sure to delete this warehouse?');">
@@ -63,7 +63,7 @@
                                     @method('DELETE')
 
                                     <button class="btn btn-sm btn-danger">
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </button>
                                 </form>
                             </td>

@@ -123,7 +123,7 @@
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this log?')">
-                            <i class="fas fa-trash"></i>
+                            Delete
                         </button>
                     </form>
 

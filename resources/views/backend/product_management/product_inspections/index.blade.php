@@ -75,7 +75,7 @@
                                 {{-- Show --}}
                                 <a href="{{ route('product_inspections.show', $inspection->id) }}"
                                     class="btn btn-sm btn-outline-info" title="View">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
 
                                 {{-- Edit --}}
@@ -91,7 +91,7 @@
                                     @method('DELETE')
                                     <button type="button" class="btn btn-outline-danger btn-sm"
                                         onclick="triggerDeleteModal('{{ route('product_inspections.destroy', $inspection->id) }}')">
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </button>
                                 </form>
 

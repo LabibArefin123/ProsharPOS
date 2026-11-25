@@ -31,7 +31,7 @@
                     <!-- Right side buttons -->
                     <div class="d-flex gap-2 ms-auto">
                         <button id="bulkDeleteBtn" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i> Delete
+                            Delete Delete
                         </button>
 
                         <button id="bulkExportBtn" class="btn btn-success btn-sm">
@@ -79,7 +79,7 @@
                             <td>{{ $with->note }}</td>
                             <td>
                                 <a href="{{ route('bank_withdraws.show', $with->id) }}" class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
                                 @role('admin')
                                     <a href="{{ route('bank_withdraws.edit', $with->id) }}" class="btn btn-sm btn-warning">
@@ -90,7 +90,7 @@
                                         class="d-inline" onsubmit="return confirm('Delete this record?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>
                             @endrole

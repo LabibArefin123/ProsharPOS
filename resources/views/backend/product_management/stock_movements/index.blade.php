@@ -59,7 +59,7 @@
                             <td class="d-flex justify-content-center gap-1">
                                 <a href="{{ route('stock_movements.show', $movement->id) }}"
                                     class="btn btn-sm btn-outline-info" title="View">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
                                 {{-- Edit --}}
                                 <a href="{{ route('stock_movements.edit', $movement->id) }}"
@@ -74,7 +74,7 @@
                                     <button type="button" class="btn btn-outline-danger btn-sm"
                                         onclick="triggerDeleteModal('{{ route('stock_movements.destroy', $movement->id) }}')">
 
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </button>
                                 </form>
                             </td>

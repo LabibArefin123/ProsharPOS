@@ -99,7 +99,7 @@
 
                                                 <div class="input-group-append">
                                                     <span class="input-group-text toggle-password" data-target="password">
-                                                        <i class="fas fa-eye"></i>
+                                                        View
                                                     </span>
                                                 </div>
                                             </div>
@@ -115,7 +115,7 @@
                                                 <div class="input-group-append">
                                                     <span class="input-group-text toggle-password"
                                                         data-target="password_confirmation">
-                                                        <i class="fas fa-eye"></i>
+                                                        View
                                                     </span>
                                                 </div>
                                             </div>

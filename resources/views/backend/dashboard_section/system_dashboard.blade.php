@@ -124,13 +124,14 @@
 
                                 <td class="text-center">
                                     {{-- VIEW DATA --}}
-                                    <a href="{{ route('dashboard.system.table.view', $table) }}" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-eye"></i>
+                                    <a href="{{ route('dashboard.system.table.view', $table) }}"
+                                        class="btn btn-sm btn-primary">
+                                        View
                                     </a>
 
                                     {{-- TRUNCATE --}}
                                     <button class="btn btn-sm btn-danger truncate-btn" data-table="{{ $table }}">
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </button>
                                 </td>
                             </tr>

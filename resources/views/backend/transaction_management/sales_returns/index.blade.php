@@ -78,19 +78,16 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('sales_returns.edit', $return->id) }}"
-                                   class="btn btn-primary btn-sm">
-                                    <i class="fas fa-pen"></i>
+                                <a href="{{ route('sales_returns.edit', $return->id) }}" class="btn btn-primary btn-sm">
+                                    Edit
                                 </a>
-                                <a href="{{ route('sales_returns.show', $return->id) }}"
-                                   class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
+                                <a href="{{ route('sales_returns.show', $return->id) }}" class="btn btn-info btn-sm">
+                                    View
                                 </a>
 
-                                <button type="button"
-                                    class="btn btn-danger btn-sm"
+                                <button type="button" class="btn btn-danger btn-sm"
                                     onclick="triggerDeleteModal('{{ route('sales_returns.destroy', $return->id) }}')">
-                                    <i class="fas fa-trash"></i>
+                                    Delete
                                 </button>
                             </td>
                         </tr>

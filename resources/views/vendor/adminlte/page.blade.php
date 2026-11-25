@@ -19,12 +19,13 @@
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/global_css/global_forms.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/global_css/global_components.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/global_css/global_resp.css') }}">
-
+    
     {{-- ProsharPOS DataTables Styles --}}
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_controls.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_table.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_resp.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/global_css/global_adminlte_override.css') }}">
     <!-- Start of animation pop up notifcation -->
     <style>
         .animate-bounce {

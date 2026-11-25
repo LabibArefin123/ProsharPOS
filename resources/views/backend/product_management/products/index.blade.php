@@ -83,7 +83,7 @@
                     <!-- Right side buttons -->
                     <div class="d-flex gap-2 ms-auto">
                         <button id="bulkDeleteBtn" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i> Delete
+                            Delete Delete
                         </button>
 
                         <button id="bulkExportBtn" class="btn btn-success btn-sm">
@@ -151,7 +151,7 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-warning">
-                                        <i class="fas fa-eye"></i>
+                                        View
                                     </a>
                                     <form action="{{ route('products.destroy', $product->id) }}" method="POST"
                                         class="d-inline">
@@ -159,7 +159,7 @@
                                         @method('DELETE')
                                         <button type="button" class="btn btn-outline-danger btn-sm"
                                             onclick="triggerDeleteModal('{{ route('products.destroy', $product->id) }}')">
-                                            <i class="fas fa-trash"></i>
+                                            Delete
                                         </button>
                                     </form>
                                 </td>

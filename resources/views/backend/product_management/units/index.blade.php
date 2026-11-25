@@ -38,7 +38,7 @@
                                     {{-- Show --}}
                                     <a href="{{ route('units.show', $unit->id) }}" class="btn btn-sm btn-outline-info"
                                         title="View">
-                                        <i class="fas fa-eye"></i>
+                                        View
                                     </a>
 
                                     {{-- Edit --}}
@@ -53,7 +53,7 @@
                                         @method('DELETE')
                                         <button type="button" class="btn btn-outline-danger btn-sm"
                                             onclick="triggerDeleteModal('{{ route('units.destroy', $unit->id) }}')">
-                                            <i class="fas fa-trash"></i>
+                                            Delete
                                         </button>
                                     </form>
                                 </td>

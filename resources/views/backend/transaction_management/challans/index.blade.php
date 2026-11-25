@@ -61,7 +61,7 @@
                             <td>{{ $challan->note }}</td>
                             <td>
                                 <a href="{{ route('challans.show', $challan->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
+                                    View
                                 </a>
 
                                 <a href="{{ route('challans.edit', $challan->id) }}" class="btn btn-warning btn-sm">
@@ -70,7 +70,7 @@
 
                                 <button type="button" class="btn btn-danger btn-sm"
                                     onclick="triggerDeleteModal('{{ route('challans.destroy', $challan->id) }}')">
-                                    <i class="fas fa-trash"></i>
+                                    Delete
                                 </button>
                             </td>
                         </tr>

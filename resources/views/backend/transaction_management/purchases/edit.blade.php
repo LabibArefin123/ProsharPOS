@@ -103,7 +103,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm removeRow">
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </button>
                                 </td>
                             </tr>

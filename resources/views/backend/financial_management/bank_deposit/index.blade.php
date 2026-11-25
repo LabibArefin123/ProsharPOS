@@ -38,7 +38,7 @@
                     <!-- Right side buttons -->
                     <div class="d-flex gap-2 ms-auto">
                         <button id="bulkDeleteBtn" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i> Delete
+                            Delete Delete
                         </button>
 
                         <button id="bulkExportBtn" class="btn btn-success btn-sm">
