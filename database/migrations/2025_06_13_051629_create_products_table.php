@@ -25,8 +25,6 @@ return new class extends Migration
             $table->decimal('handling_charge', 10, 2)->default(0);
             $table->decimal('maintenance_charge', 10, 2)->default(0);
             $table->decimal('sell_price', 10, 2)->default(0);
-            $table->integer('stock_quantity')->default(0);
-            $table->integer('alert_quantity')->default(0);
             $table->string('using_place')->nullable();
             $table->decimal('profit_amount', 10, 2)->default(0);
             $table->text('description')->nullable();

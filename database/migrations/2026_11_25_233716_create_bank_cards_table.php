@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('bank_cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bank_balance_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('bank_balance_id')->nullable()->index();
+            $table->foreignId('user_id')->nullable()->index();
             $table->date('payment_date');
             $table->string('card_type'); // Visa, MasterCard, Amex, etc.
             $table->string('card_holder_name');

@@ -2,18 +2,15 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Brand;
 use App\Models\Category;
+use Illuminate\Database\Seeder;
 
 class BrandSeeder extends Seeder
 {
     public function run(): void
     {
-        // Category → Brand Mapping
         $brandMap = [
-
-            // Electronics
             'Electronics' => [
                 'Walton (Electronics)',
                 'Singer (Electronics)',
@@ -26,7 +23,6 @@ class BrandSeeder extends Seeder
                 'Conion (Electronics)',
             ],
 
-            // Mobile & Accessories
             'Mobile & Accessories' => [
                 'Samsung (Mobile)',
                 'Xiaomi (Mobile)',
@@ -46,7 +42,6 @@ class BrandSeeder extends Seeder
                 'Remax (Mobile)',
             ],
 
-            // Computer & Laptop
             'Computer & Laptop' => [
                 'Dell (Computer)',
                 'HP (Computer)',
@@ -62,7 +57,6 @@ class BrandSeeder extends Seeder
                 'MSI (Computer)',
             ],
 
-            // Home Appliances
             'Home Appliances' => [
                 'Marcel (Home Appliance)',
                 'Vision (Home Appliance)',
@@ -73,7 +67,6 @@ class BrandSeeder extends Seeder
                 'Miyako (Home Appliance)',
             ],
 
-            // Kitchen Appliances
             'Kitchen Appliances' => [
                 'Miyako (Kitchen)',
                 'Philips (Kitchen)',
@@ -83,7 +76,6 @@ class BrandSeeder extends Seeder
                 'Vision (Kitchen)',
             ],
 
-            // Grocery & Food
             'Grocery & Food' => [
                 'Pran (Grocery)',
                 'Radhuni (Grocery)',
@@ -97,7 +89,6 @@ class BrandSeeder extends Seeder
                 'Olympic (Grocery)',
             ],
 
-            // Beverages
             'Beverages' => [
                 'Coca-Cola (Beverage)',
                 'Pepsi (Beverage)',
@@ -110,7 +101,6 @@ class BrandSeeder extends Seeder
                 'Red Bull (Beverage)',
             ],
 
-            // Cosmetics & Beauty
             'Cosmetics & Beauty' => [
                 'Jui (Cosmetics)',
                 'Meril (Cosmetics)',
@@ -124,7 +114,6 @@ class BrandSeeder extends Seeder
                 'Garnier (Cosmetics)',
             ],
 
-            // Fashion & Clothing
             'Fashion & Clothing' => [
                 'Aarong (Fashion)',
                 'Yellow (Fashion)',
@@ -137,7 +126,6 @@ class BrandSeeder extends Seeder
                 'H&M (Fashion)',
             ],
 
-            // Footwear
             'Footwear' => [
                 'Apex (Footwear)',
                 'Bata (Footwear)',
@@ -147,7 +135,6 @@ class BrandSeeder extends Seeder
                 'Puma (Footwear)',
             ],
 
-            // Stationery & Office Supplies
             'Stationery & Office Supplies' => [
                 'Matador (Stationery)',
                 'Deli (Stationery)',
@@ -156,7 +143,6 @@ class BrandSeeder extends Seeder
                 'Faber-Castell (Stationery)',
             ],
 
-            // Furniture
             'Furniture' => [
                 'Hatil (Furniture)',
                 'Partex (Furniture)',
@@ -165,7 +151,6 @@ class BrandSeeder extends Seeder
                 'IKEA (Furniture)',
             ],
 
-            // Plastics & Household
             'Plastics & Household' => [
                 'RFL Plastics (Household)',
                 'Bashundhara (Household)',
@@ -173,7 +158,6 @@ class BrandSeeder extends Seeder
                 'Click (Household)',
             ],
 
-            // Hardware & Tools
             'Hardware & Tools' => [
                 'Bosch (Hardware)',
                 'Makita (Hardware)',
@@ -182,7 +166,6 @@ class BrandSeeder extends Seeder
                 'Black+Decker (Hardware)',
             ],
 
-            // Automobile Accessories
             'Automobile Accessories' => [
                 'Mobil (Automobile)',
                 'Honda (Automobile)',
@@ -191,7 +174,6 @@ class BrandSeeder extends Seeder
                 'Suzuki (Automobile)',
             ],
 
-            // Sports & Fitness
             'Sports & Fitness' => [
                 'Nike (Sports)',
                 'Adidas (Sports)',
@@ -200,7 +182,6 @@ class BrandSeeder extends Seeder
                 'Decathlon (Sports)',
             ],
 
-            // Toys & Kids
             'Toys & Kids' => [
                 'Hot Wheels (Toys)',
                 'Barbie (Toys)',
@@ -209,7 +190,6 @@ class BrandSeeder extends Seeder
                 'Hasbro (Toys)',
             ],
 
-            // Medicine & Healthcare
             'Medicine & Healthcare' => [
                 'Square Pharma (Medicine)',
                 'ACI Pharma (Medicine)',
@@ -217,7 +197,6 @@ class BrandSeeder extends Seeder
                 'Incepta (Medicine)',
             ],
 
-            // Watches & Accessories
             'Watches & Accessories' => [
                 'Casio (Watch)',
                 'Rolex (Watch)',
@@ -226,7 +205,6 @@ class BrandSeeder extends Seeder
                 'Tissot (Watch)',
             ],
 
-            // Jewelry
             'Jewelry' => [
                 'Aarong Jewelry (Jewelry)',
                 'Diamond World (Jewelry)',
@@ -235,14 +213,12 @@ class BrandSeeder extends Seeder
                 'Chowdhury Jewelers (Jewelry)',
             ],
 
-            // Agriculture Supplies
             'Agriculture Supplies' => [
                 'ACI Seeds (Agri)',
                 'Metal Seeds (Agri)',
                 'BRAC Seeds (Agri)',
             ],
 
-            // Pet Supplies
             'Pet Supplies' => [
                 'Drools (Pet)',
                 'Whiskas (Pet)',
@@ -251,21 +227,22 @@ class BrandSeeder extends Seeder
             ],
         ];
 
-        $adminId = 1;
-
         foreach ($brandMap as $categoryName => $brands) {
-
             $category = Category::where('name', $categoryName)->first();
 
-            if (!$category) continue;
+            if (!$category) {
+                continue;
+            }
 
-            foreach ($brands as $brand) {
-                Brand::create([
-                    'name'        => $brand,
-                    'category_id' => $category->id,
-                    'description' => $brand . ' brand',
-                    'created_by'  => $adminId,
-                ]);
+            foreach ($brands as $brandName) {
+                Brand::updateOrCreate(
+                    ['name' => $brandName],
+                    [
+                        'category_id' => $category->id,
+                        'description' => $brandName . ' brand',
+                        'created_by' => null,
+                    ]
+                );
             }
         }
     }

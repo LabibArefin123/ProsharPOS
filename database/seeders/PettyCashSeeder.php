@@ -2,37 +2,48 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\BankBalance;
+use App\Models\Customer;
 use App\Models\PettyCash;
 use App\Models\Product;
 use App\Models\Supplier;
-use App\Models\Customer;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use RuntimeException;
 
 class PettyCashSeeder extends Seeder
 {
     public function run(): void
     {
-        $startDate = Carbon::create(2025, 12, 10);
-        $endDate   = Carbon::create(2026, 3, 10);
+        $users = User::whereIn('username', [
+            'admin',
+            'manager',
+            'cashier',
+            'inventory_manager',
+            'accountant',
+        ])->get()->keyBy('id');
 
-        $totalRecords = rand(50, 75);
+        $bankBalances = BankBalance::whereIn('user_id', $users->keys())
+            ->get()
+            ->keyBy('user_id');
 
-        // Fetch existing IDs (important)
-        $productIds  = Product::pluck('id')->toArray();
-        $supplierIds = Supplier::pluck('id')->toArray();
-        $customerIds = Customer::pluck('id')->toArray();
+        $productIds = Product::pluck('id')->all();
+        $supplierIds = Supplier::pluck('id')->all();
+        $customerIds = Customer::pluck('id')->all();
 
-        // Safety check
-        if (empty($productIds) || empty($supplierIds) || empty($customerIds)) {
-            $this->command->error('Product, Supplier or Customer table is empty!');
-            return;
+        if (
+            $users->isEmpty() ||
+            $bankBalances->isEmpty() ||
+            empty($productIds) ||
+            empty($supplierIds) ||
+            empty($customerIds)
+        ) {
+            throw new RuntimeException(
+                'Required users, bank balances, products, suppliers or customers are missing.'
+            );
         }
-
-        $paymentMethods = ['cash', 'bank', 'bkash'];
-        $statuses = ['pending', 'pending', 'pending', 'approved']; // rare approved
-        $types = ['expense', 'receive'];
 
         $notes = [
             'Office stationery purchase',
@@ -40,64 +51,84 @@ class PettyCashSeeder extends Seeder
             'Customer cash receive',
             'Supplier payment',
             'Transport and logistics cost',
-            'Internet & utility bill',
+            'Internet and utility bill',
             'Snacks for office',
             'Emergency maintenance',
             'Miscellaneous petty expense',
         ];
 
-        for ($i = 1; $i <= $totalRecords; $i++) {
+        $userList = $users->values();
 
-            $date = Carbon::createFromTimestamp(
-                rand($startDate->timestamp, $endDate->timestamp)
-            );
+        DB::transaction(function () use (
+            $userList,
+            $bankBalances,
+            $productIds,
+            $supplierIds,
+            $customerIds,
+            $notes
+        ) {
+            for ($i = 1; $i <= 20; $i++) {
+                $user = $userList->get(($i - 1) % $userList->count());
+                $bankBalance = $bankBalances->get($user->id);
 
-            // Decide type
-            $type = $types[array_rand($types)];
+                if (!$bankBalance) {
+                    throw new RuntimeException(
+                        "Bank balance missing for user {$user->username}."
+                    );
+                }
 
-            // Currency logic (Mostly BDT)
-            $isDollar = rand(1, 10) === 10; // ~10% USD
+                $type = $i % 2 === 0 ? 'receive' : 'expense';
+                $isDollar = $i % 10 === 0;
 
-            if ($isDollar) {
-                $currency = 'USD';
-                $amountDollar = rand(5, 100);
-                $exchangeRate = rand(108, 120);
-                $amountBDT = $amountDollar * $exchangeRate;
-            } else {
-                $currency = 'BDT';
-                $amountBDT = rand(200, 6000);
-                $amountDollar = null;
-                $exchangeRate = null;
+                if ($isDollar) {
+                    $currency = 'USD';
+                    $amountDollar = random_int(5, 100);
+                    $exchangeRate = 120;
+                    $amountBDT = $amountDollar * $exchangeRate;
+                } else {
+                    $currency = 'BDT';
+                    $amountBDT = random_int(200, 6000);
+                    $amountDollar = null;
+                    $exchangeRate = null;
+                }
+
+                $date = Carbon::create(2026, 6, 10)
+                    ->addDays(($i * 7) % 154)
+                    ->setTime(10 + ($i % 8), ($i * 5) % 60);
+
+                $reference = 'PC-SEED-' . str_pad(
+                    $i,
+                    4,
+                    '0',
+                    STR_PAD_LEFT
+                );
+
+                PettyCash::updateOrCreate(
+                    ['reference_no' => $reference],
+                    [
+                        'bank_balance_id' => $bankBalance->id,
+                        'product_id' => $productIds[($i - 1) % count($productIds)],
+                        'supplier_id' => $supplierIds[($i - 1) % count($supplierIds)],
+                        'customer_id' => $customerIds[($i - 1) % count($customerIds)],
+                        'category_id' => null,
+                        'user_id' => $user->id,
+                        'type' => $type,
+                        'reference_type' => 'petty_cash',
+                        'amount' => $amountBDT,
+                        'amount_in_dollar' => $amountDollar,
+                        'exchange_rate' => $exchangeRate,
+                        'currency' => $currency,
+                        'payment_method' => ['cash', 'bank', 'bkash'][$i % 3],
+                        'note' => $notes[($i - 1) % count($notes)],
+                        'attachment' => null,
+                        'status' => $i % 4 === 0 ? 'approved' : 'pending',
+                        'created_at' => $date,
+                        'updated_at' => $date,
+                    ]
+                );
             }
+        });
 
-            PettyCash::create([
-                'bank_balance_id'  => 1,
-
-                // Non-null relations
-                'product_id'       => $productIds[array_rand($productIds)],
-                'supplier_id'      => $supplierIds[array_rand($supplierIds)],
-                'customer_id'      => $customerIds[array_rand($customerIds)],
-
-                'category_id'      => null, // keep optional
-                'user_id'          => 1, // admin
-
-                'reference_no'     => 'PC-' . strtoupper(Str::random(8)),
-                'type'             => $type,
-                'reference_type'   => 'petty_cash',
-
-                'amount'           => $amountBDT,
-                'amount_in_dollar' => $amountDollar,
-                'exchange_rate'    => $exchangeRate,
-                'currency'         => $currency,
-
-                'payment_method'   => $paymentMethods[array_rand($paymentMethods)],
-                'note'             => $notes[array_rand($notes)],
-                'attachment'       => null,
-                'status'           => $statuses[array_rand($statuses)],
-
-                'created_at'       => $date,
-                'updated_at'       => $date,
-            ]);
-        }
+        $this->command->info('20 petty cash records seeded successfully.');
     }
 }

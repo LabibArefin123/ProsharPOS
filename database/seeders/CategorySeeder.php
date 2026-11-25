@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Category;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -35,13 +35,15 @@ class CategorySeeder extends Seeder
             'Pet Supplies',
         ];
 
-        foreach ($categories as $cat) {
-            Category::create([
-                'name'        => $cat,
-                'slug'        => Str::slug($cat),
-                'description' => $cat . ' category',
-                'status'      => 1,
-            ]);
+        foreach ($categories as $name) {
+            Category::updateOrCreate(
+                ['name' => $name],
+                [
+                    'slug' => Str::slug($name),
+                    'description' => $name . ' category',
+                    'status' => 1,
+                ]
+            );
         }
     }
 }

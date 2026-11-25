@@ -2,65 +2,51 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Warranty;
+use Illuminate\Database\Seeder;
 
 class WarrantySeeder extends Seeder
 {
     public function run(): void
     {
-        $createdBy = 1; // Admin user ID
-
         $warranties = [
-
             [
                 'name' => 'No Warranty',
                 'duration_type' => 'days',
                 'day_count' => 0,
-                'description' => 'This product has no warranty.',
+                'description' => 'No warranty applicable.',
             ],
             [
                 'name' => '7 Days Replacement',
                 'duration_type' => 'days',
                 'day_count' => 7,
-                'description' => '7-day replacement warranty.',
+                'description' => '7 days replacement warranty.',
             ],
             [
-                'name' => '14 Days Replacement',
-                'duration_type' => 'days',
-                'day_count' => 14,
-                'description' => '14-day replacement warranty.',
-            ],
-            [
-                'name' => '6 Months Service Warranty',
+                'name' => '1 Month Warranty',
                 'duration_type' => 'months',
-                'day_count' => 180, // 6 months = 180 days
-                'description' => '6 months service warranty.',
+                'day_count' => 1,
+                'description' => '1 month service warranty.',
             ],
             [
                 'name' => '1 Year Warranty',
                 'duration_type' => 'years',
-                'day_count' => 365,
-                'description' => 'One year service warranty.',
+                'day_count' => 1,
+                'description' => '1 year manufacturer warranty.',
             ],
             [
                 'name' => '2 Years Warranty',
                 'duration_type' => 'years',
-                'day_count' => 730, // 365 * 2
-                'description' => 'Two years warranty.',
-            ],
-            [
-                'name' => '3 Years Warranty',
-                'duration_type' => 'years',
-                'day_count' => 1095, // 365 * 3
-                'description' => 'Three years warranty.',
+                'day_count' => 2,
+                'description' => '2 years manufacturer warranty.',
             ],
         ];
 
         foreach ($warranties as $warranty) {
-            Warranty::create(array_merge($warranty, [
-                'created_by' => $createdBy,
-            ]));
+            Warranty::updateOrCreate(
+                ['name' => $warranty['name']],
+                array_merge($warranty, ['created_by' => null])
+            );
         }
     }
 }

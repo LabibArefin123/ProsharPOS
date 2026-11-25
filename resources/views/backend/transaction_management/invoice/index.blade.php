@@ -121,7 +121,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="12" class="text-center text-muted">No invoices found.</td>
+                            <td colspan="19" class="text-center text-muted">No invoices found.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -36,13 +36,13 @@
                                     {{-- Show --}}
                                     <a href="{{ route('brands.show', $brand->id) }}" class="btn btn-info btn-sm me-1"
                                         title="View">
-                                        View View
+                                        View
                                     </a>
 
                                     {{-- Edit --}}
                                     <a href="{{ route('brands.edit', $brand->id) }}" class="btn btn-primary btn-sm me-1"
                                         title="Edit">
-                                        <i class="fas fa-edit"></i> Edit
+                                        Edit
                                     </a>
 
                                     {{-- Delete --}}
