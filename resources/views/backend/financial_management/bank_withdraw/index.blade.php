@@ -83,7 +83,7 @@
                                 </a>
                                 @role('admin')
                                     <a href="{{ route('bank_withdraws.edit', $with->id) }}" class="btn btn-sm btn-warning">
-                                        <i class="fas fa-edit"></i>
+                                        Edit
                                     </a>
 
                                     <form action="{{ route('bank_withdraws.destroy', $with->id) }}" method="POST"

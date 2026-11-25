@@ -64,7 +64,7 @@
                                 {{-- Edit --}}
                                 <a href="{{ route('stock_movements.edit', $movement->id) }}"
                                     class="btn btn-sm btn-outline-primary" title="Edit">
-                                    <i class="fas fa-edit"></i>
+                                    Edit
                                 </a>
                                 {{-- Delete --}}
                                 <form action="{{ route('stock_movements.destroy', $movement->id) }}" method="POST"

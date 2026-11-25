@@ -44,7 +44,7 @@
                                     {{-- Edit --}}
                                     <a href="{{ route('units.edit', $unit->id) }}" class="btn btn-sm btn-outline-primary"
                                         title="Edit">
-                                        <i class="fas fa-edit"></i>
+                                        Edit
                                     </a>
 
                                     {{-- Delete --}}

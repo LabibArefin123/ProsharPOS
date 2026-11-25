@@ -81,7 +81,7 @@
                                 {{-- Edit --}}
                                 <a href="{{ route('product_inspections.edit', $inspection->id) }}"
                                     class="btn btn-sm btn-outline-primary" title="Edit">
-                                    <i class="fas fa-edit"></i>
+                                    Edit
                                 </a>
 
                                 {{-- Delete --}}

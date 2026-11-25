@@ -65,7 +65,7 @@
                                 </a>
 
                                 <a href="{{ route('challans.edit', $challan->id) }}" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
+                                    Edit
                                 </a>
 
                                 <button type="button" class="btn btn-danger btn-sm"

@@ -48,7 +48,7 @@
                                     {{-- Edit --}}
                                     <a href="{{ route('categories.edit', $category->id) }}"
                                         class="btn btn-sm btn-outline-primary me-2" title="Edit">
-                                        <i class="fas fa-edit"></i>
+                                        Edit
                                     </a>
 
                                     {{-- Delete --}}

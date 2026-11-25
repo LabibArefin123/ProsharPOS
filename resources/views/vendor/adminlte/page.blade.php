@@ -27,45 +27,7 @@
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_table.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_resp.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/global_css/global_adminlte_override.css') }}">
-    <!-- Start of animation pop up notifcation -->
-    <style>
-        .animate-bounce {
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .brand-link {
-            text-decoration: none !important;
-        }
-
-        .brand-link span {
-            text-decoration: none !important;
-        }
-
-        .normal-link {
-            transition: all 0.2s ease-in-out;
-        }
-
-        .normal-link:hover {
-            background-color: #f3e5f5;
-            /* light purple hover */
-            color: #5300b7;
-            /* keep readable */
-            text-decoration: none;
-        }
-    </style>
-    <!-- End of animation pop up notifcation -->
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/shared_modal/all_modal.css') }}">
 @stop
 
 <!-- start of language auto-translate -->

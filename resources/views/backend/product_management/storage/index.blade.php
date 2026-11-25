@@ -61,7 +61,7 @@
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('storages.edit', $store->id) }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-edit"></i>
+                                    Edit
                                 </a>
                                 <a href="{{ route('storages.show', $store->id) }}" class="btn btn-sm btn-warning">
                                     View

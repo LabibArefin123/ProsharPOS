@@ -1,0 +1,13 @@
+/* ==========================================
+   ProsharPOS - DataTables Table Base
+========================================== */
+
+table.dataTable {
+    width: 100% !important;
+    border: 1px solid #e8edf3;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}

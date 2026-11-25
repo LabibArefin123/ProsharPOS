@@ -1,0 +1,39 @@
+/* ==========================================
+   DATATABLES TABLE BODY
+========================================== */
+
+table.dataTable tbody td {
+    padding: 12px 14px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #475569 !important;
+    font-size: 12px;
+    font-weight: 400;
+    vertical-align: middle;
+    transition: background 0.15s ease;
+}
+
+/* Row Hover */
+
+table.dataTable tbody tr:hover td {
+    background-color: #f8fbff !important;
+}
+
+/* Remove Default Striping */
+
+table.dataTable.stripe > tbody > tr.odd > *,
+table.dataTable.display > tbody > tr.odd > * {
+    box-shadow: none;
+}
+
+/* Last Row */
+
+table.dataTable tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Selected Row */
+
+table.dataTable tbody tr.selected td {
+    background: #eff6ff !important;
+    color: #1e40af !important;
+}

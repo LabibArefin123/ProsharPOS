@@ -1,0 +1,62 @@
+/* ==========================================
+   DATATABLES TABLE HEADER
+========================================== */
+
+/* Default Light Header */
+
+table.dataTable thead th {
+    padding: 13px 14px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    color: #334155 !important;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* Dark Header - Bootstrap table-dark */
+
+table.dataTable thead.table-dark th,
+table.dataTable thead.table-dark td,
+table.dataTable.table-dark thead th,
+table.dataTable.table-dark thead td {
+    background-color: #343a40 !important;
+    border-color: #454d55 !important;
+    color: #ffffff !important;
+}
+
+/* Sorting Indicators */
+
+table.dataTable thead th .dt-column-order {
+    opacity: 0.65;
+}
+
+table.dataTable thead.table-dark th .dt-column-order {
+    color: #ffffff !important;
+    opacity: 0.85;
+}
+
+table.dataTable thead th.dt-ordering-asc,
+table.dataTable thead th.dt-ordering-desc {
+    color: #2563eb !important;
+}
+
+table.dataTable thead.table-dark th.dt-ordering-asc,
+table.dataTable thead.table-dark th.dt-ordering-desc {
+    color: #ffffff !important;
+}
+
+/* Table Footer */
+
+table.dataTable tfoot th,
+table.dataTable tfoot td {
+    padding: 12px 14px !important;
+    border-top: 1px solid #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    color: #334155 !important;
+    font-size: 12px;
+    font-weight: 700;
+}

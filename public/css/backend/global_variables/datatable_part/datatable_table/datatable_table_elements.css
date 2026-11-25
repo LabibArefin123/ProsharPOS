@@ -1,0 +1,60 @@
+/* ==========================================
+   DATATABLES ACTION BUTTONS
+========================================== */
+
+table.dataTable .btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 29px;
+    min-height: 29px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    transition: all 0.2s ease;
+}
+
+table.dataTable .btn i {
+    font-size: 12px;
+}
+
+/* ==========================================
+   DATATABLES STATUS BADGES
+========================================== */
+
+table.dataTable .badge {
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15px;
+}
+
+/* ==========================================
+   DATATABLES PRODUCT IMAGE
+========================================== */
+
+table.dataTable .datatable-product-image {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    object-fit: cover;
+    background: #f8fafc;
+}
+
+/* Product Name */
+
+table.dataTable .datatable-product-name {
+    color: #1e293b !important;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Amounts */
+
+table.dataTable .datatable-amount {
+    color: #0f172a !important;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}

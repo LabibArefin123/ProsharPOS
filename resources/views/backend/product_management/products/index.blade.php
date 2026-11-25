@@ -145,10 +145,10 @@
                                     <span class="badge {{ $product->status ? 'bg-success' : 'bg-danger' }}">
                                         {{ $product->status ? 'Active' : 'Inactive' }}
                                     </span>
-                                </td>
+                                </td>   
                                 <td class="text-center">
                                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-edit"></i>
+                                        Edit
                                     </a>
                                     <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-warning">
                                         View

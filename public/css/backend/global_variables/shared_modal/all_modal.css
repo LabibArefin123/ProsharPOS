@@ -1,0 +1,295 @@
+
+/* ==========================================
+   ProsharPOS - Premium Confirmation Modals
+========================================== */
+
+/* ==========================================
+   MODAL BASE
+========================================== */
+
+.pp-confirm-modal {
+    --pp-modal-accent: #64748b;
+    --pp-modal-accent-light: #f1f5f9;
+    --pp-modal-accent-border: #e2e8f0;
+}
+
+.pp-confirm-modal .modal-dialog {
+    width: 100%;
+    max-width: 420px;
+    margin: 1.5rem auto;
+}
+
+.pp-confirm-modal .modal-content {
+    position: relative;
+    overflow: hidden;
+    padding: 30px 28px 24px;
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.14);
+    text-align: center;
+}
+
+/* Top Accent */
+
+.pp-confirm-modal .modal-content::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--pp-modal-accent);
+    content: "";
+}
+
+/* ==========================================
+   MODAL CLOSE BUTTON
+========================================== */
+
+.pp-confirm-modal .btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    padding: 9px;
+    border-radius: 8px;
+    background-color: #f1f5f9;
+    opacity: 0.75;
+    transition: all 0.2s ease;
+}
+
+.pp-confirm-modal .btn-close:hover {
+    background-color: #e2e8f0;
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+/* ==========================================
+   MODAL ICON
+========================================== */
+
+.pp-confirm-modal__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    margin: 5px auto 18px;
+    border: 1px solid var(--pp-modal-accent-border);
+    border-radius: 20px;
+    background: var(--pp-modal-accent-light);
+    color: var(--pp-modal-accent);
+}
+
+.pp-confirm-modal__icon svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+}
+
+/* ==========================================
+   MODAL CONTENT
+========================================== */
+
+.pp-confirm-modal__title {
+    margin: 0 0 9px;
+    color: #1e293b;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.pp-confirm-modal__message {
+    max-width: 330px;
+    margin: 0 auto;
+    padding: 0;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+.pp-confirm-modal__message strong {
+    color: #334155;
+    font-weight: 700;
+}
+
+/* ==========================================
+   MODAL FOOTER
+========================================== */
+
+.pp-confirm-modal .modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.pp-confirm-modal .modal-footer form {
+    margin: 0;
+}
+
+/* ==========================================
+   MODAL BUTTONS
+========================================== */
+
+.pp-confirm-modal .modal-footer .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 112px;
+    min-height: 39px;
+    padding: 9px 16px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.pp-confirm-modal .modal-footer .btn:hover {
+    transform: translateY(-1px);
+}
+
+.pp-confirm-modal .modal-footer .btn:active {
+    transform: translateY(0);
+}
+
+.pp-confirm-modal .pp-confirm-cancel {
+    border-color: #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+}
+
+.pp-confirm-modal .pp-confirm-cancel:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+/* ==========================================
+   ACTION THEMES
+========================================== */
+
+/* Warning / Leave */
+
+.pp-confirm-modal--warning {
+    --pp-modal-accent: #d97706;
+    --pp-modal-accent-light: #fffbeb;
+    --pp-modal-accent-border: #fde68a;
+}
+
+.pp-confirm-modal--warning .pp-confirm-action {
+    background: #d97706;
+    color: #ffffff;
+}
+
+.pp-confirm-modal--warning .pp-confirm-action:hover {
+    background: #b45309;
+}
+
+/* Create */
+
+.pp-confirm-modal--create {
+    --pp-modal-accent: #16a34a;
+    --pp-modal-accent-light: #f0fdf4;
+    --pp-modal-accent-border: #bbf7d0;
+}
+
+.pp-confirm-modal--create .pp-confirm-action {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.pp-confirm-modal--create .pp-confirm-action:hover {
+    background: #15803d;
+}
+
+/* Delete */
+
+.pp-confirm-modal--delete {
+    --pp-modal-accent: #dc2626;
+    --pp-modal-accent-light: #fef2f2;
+    --pp-modal-accent-border: #fecaca;
+}
+
+.pp-confirm-modal--delete .pp-confirm-action {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.pp-confirm-modal--delete .pp-confirm-action:hover {
+    background: #b91c1c;
+}
+
+/* Edit */
+
+.pp-confirm-modal--edit {
+    --pp-modal-accent: #0891b2;
+    --pp-modal-accent-light: #ecfeff;
+    --pp-modal-accent-border: #a5f3fc;
+}
+
+.pp-confirm-modal--edit .pp-confirm-action {
+    background: #0891b2;
+    color: #ffffff;
+}
+
+.pp-confirm-modal--edit .pp-confirm-action:hover {
+    background: #0e7490;
+}
+
+/* ==========================================
+   MODAL ANIMATION
+========================================== */
+
+.pp-confirm-modal.fade .modal-dialog {
+    transform: translateY(14px) scale(0.98);
+    transition: transform 0.25s ease-out;
+}
+
+.pp-confirm-modal.show .modal-dialog {
+    transform: translateY(0) scale(1);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 480px) {
+    .pp-confirm-modal .modal-dialog {
+        max-width: calc(100% - 28px);
+        margin: 14px auto;
+    }
+
+    .pp-confirm-modal .modal-content {
+        padding: 28px 20px 22px;
+        border-radius: 15px;
+    }
+
+    .pp-confirm-modal__icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .pp-confirm-modal .modal-footer .btn {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pp-confirm-modal *,
+    .pp-confirm-modal *::before,
+    .pp-confirm-modal *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
