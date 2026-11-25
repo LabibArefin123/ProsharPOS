@@ -1,7 +1,9 @@
+
 <div class="row">
-    {{-- ================= PRODUCTS ================= --}}
+
     <div class="col-md-12">
         <div class="row">
+
             @foreach ($products as $product)
                 @php
                     $stock = $product->storage->stock_quantity ?? 0;
@@ -9,31 +11,49 @@
 
                 <div class="col-md-2 mb-3 product-item">
 
-                    <div class="card product-card p-2 text-center add-product" data-id="{{ $product->id }}"
-                        data-name="{{ $product->name }}" data-price="{{ $product->sell_price }}"
+                    <div class="card product-card p-2 text-center add-product"
+                        data-id="{{ $product->id }}"
+                        data-name="{{ $product->name }}"
+                        data-price="{{ $product->sell_price }}"
                         data-stock="{{ $stock }}">
 
                         <img src="{{ $product->storage->image_path ? asset($product->storage->image_path) : asset('images/default.jpg') }}"
-                            class="product-img mb-1">
+                            class="product-img mb-1"
+                            alt="{{ $product->name }}">
 
                         <strong class="text-truncate d-block">
                             {{ $product->name }}
                         </strong>
 
                         <div class="product-meta">
+                            <i class="fa-solid fa-barcode"></i>
                             SKU: {{ $product->sku ?? 'N/A' }}
                         </div>
 
                         <div class="text-primary font-weight-bold">
+                            <i class="fa-solid fa-tag"></i>
                             ৳ {{ number_format($product->sell_price, 2) }}
                         </div>
 
                         <small class="{{ $stock > 0 ? 'text-success' : 'text-danger' }}">
+                            <i class="fa-solid {{ $stock > 0 ? 'fa-circle-check' : 'fa-circle-xmark' }}"></i>
+
                             {{ $stock > 0 ? "In Stock ($stock)" : 'Out of Stock' }}
                         </small>
+
+                        <div class="mt-2">
+                            <small class="text-primary font-weight-bold">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                Click to Add
+                            </small>
+                        </div>
+
                     </div>
+
                 </div>
             @endforeach
+
         </div>
     </div>
+
 </div>

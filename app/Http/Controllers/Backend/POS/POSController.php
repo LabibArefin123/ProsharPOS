@@ -14,7 +14,7 @@ class POSController extends Controller
         $products = Product::with('storage')
             ->where('status', 1)
             ->latest()
-            ->paginate(30)
+            ->paginate(12)
             ->withQueryString();
 
         $customers = Customer::orderBy('name')->get();

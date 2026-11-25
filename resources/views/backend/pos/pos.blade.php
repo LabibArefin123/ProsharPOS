@@ -1,3 +1,4 @@
+
 @extends('adminlte::page')
 
 @section('title', 'POS Terminal')
@@ -7,7 +8,15 @@
 @stop
 
 @section('adminlte_css')
-    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+    {{-- Font Awesome 7 --}}
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    {{-- Select2 CDN --}}
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css">
+
+    {{-- POS Stylesheets --}}
     <link rel="stylesheet" href="{{ asset('css/backend/pos_page/pos_base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/pos_page/pos_header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/pos_page/pos_products.css') }}">
@@ -18,7 +27,10 @@
 
 @section('content')
     <div class="container-fluid pp-pos-container">
+
+        {{-- POS HEADER --}}
         @include('backend.pos.partials.pos_header')
+
         <div class="row">
 
             {{-- PRODUCT SECTION --}}
@@ -34,13 +46,16 @@
         </div>
     </div>
 
+    {{-- POS MODALS --}}
     @include('backend.pos.modal.cart')
     @include('backend.pos.modal.invoice')
 @stop
 
 @section('js')
-    <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+    {{-- Select2 --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
 
+    {{-- POS Scripts --}}
     <script src="{{ asset('js/backend/pos_menu/pos_cart.js') }}"></script>
     <script src="{{ asset('js/backend/pos_menu/pos_products.js') }}"></script>
     <script src="{{ asset('js/backend/pos_menu/pos_checkout.js') }}"></script>

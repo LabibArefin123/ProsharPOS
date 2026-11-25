@@ -1,30 +1,38 @@
-  <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3 class="font-weight-bold">🧾 POS Terminal</h3>
-      <div class="d-flex align-items-center">
-          <input type="text" id="search-product" class="form-control mr-3" style="width:250px"
-              placeholder="🔍 Search product...">
 
-          {{-- 🛒 CART BUTTON --}}
-          <div style="position: relative;">
-              <button class="btn btn-dark" id="open-cart">
-                  🛒 Cart
-              </button>
+<div class="pp-pos-header">
 
-              {{-- 🔴 BADGE --}}
-              <span id="cart-count"
-                  style="
-                    position:absolute;
-                    top:-8px;
-                    right:-8px;
-                    background:red;
-                    color:white;
-                    border-radius:50%;
-                    padding:2px 6px;
-                    font-size:12px;
-                    display:none;
-                  ">
-                  0
-              </span>
-          </div>
-      </div>
-  </div>
+    <div class="pp-pos-heading">
+        <div class="pp-pos-heading-icon">
+            <i class="fa-solid fa-cash-register"></i>
+        </div>
+
+        <div class="pp-pos-heading-content">
+            <h3>POS Terminal</h3>
+            <p>Manage products, sales and customer payments</p>
+        </div>
+    </div>
+
+    <div class="pp-pos-header-actions">
+
+        <div class="pp-pos-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="text"
+                id="search-product"
+                placeholder="Search products, SKU..."
+                autocomplete="off">
+
+            <kbd>Search</kbd>
+        </div>
+
+        <button type="button" class="pp-cart-header-btn" id="open-cart">
+            <span class="pp-cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="pp-cart-count" id="cart-count">0</span>
+            </span>
+            <span class="pp-cart-label">Cart</span>
+        </button>
+
+    </div>
+
+</div>

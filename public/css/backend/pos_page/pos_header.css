@@ -1,140 +1,418 @@
 /* ==========================================
-   ProsharPOS - POS Header
+   POS HEADER
 ========================================== */
 
 .pp-pos-header {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 22px;
-    padding: 17px 20px;
-    border: 1px solid var(--pp-border-light);
-    border-radius: var(--pp-radius-lg);
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+
     background: #ffffff;
-    box-shadow: var(--pp-shadow-sm);
+    border: 1px solid #e8edf3;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.045);
+    box-sizing: border-box;
 }
+
+.pp-pos-header *,
+.pp-pos-header *::before,
+.pp-pos-header *::after {
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   FONT AWESOME 7 - ICON BASE
+========================================== */
+
+.pp-pos-header i.fa-solid {
+    display: inline-block;
+    font-family: "Font Awesome 7 Free" !important;
+    font-style: normal;
+    font-weight: 900 !important;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================
+   HEADER HEADING
+========================================== */
 
 .pp-pos-heading {
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 15px;
+    min-width: 220px;
 }
 
 .pp-pos-heading-icon {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    background: var(--pp-primary-light);
-    color: var(--pp-primary);
-    font-size: 20px;
+
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: 15px;
+
+    box-shadow: 0 5px 12px rgba(37, 99, 235, 0.2);
 }
 
-.pp-pos-heading h3 {
+.pp-pos-heading-icon i {
+    display: inline-block !important;
+    color: #ffffff !important;
+    font-size: 23px !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.pp-pos-heading-content {
+    min-width: 0;
+}
+
+.pp-pos-heading-content h3 {
     margin: 0;
-    color: var(--pp-heading);
-    font-size: 19px;
-    font-weight: 700;
+    color: #172033;
+    font-size: 21px;
+    font-weight: 750;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
 }
 
-.pp-pos-heading p {
-    margin: 4px 0 0;
-    color: var(--pp-muted);
-    font-size: 12px;
+.pp-pos-heading-content p {
+    margin: 5px 0 0;
+    color: #7b8798;
+    font-size: 13px;
+    line-height: 1.5;
 }
+
+/* ==========================================
+   HEADER ACTIONS
+========================================== */
 
 .pp-pos-header-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: flex-end;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
 }
 
+/* ==========================================
+   PRODUCT SEARCH
+========================================== */
+
 .pp-pos-search {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 9px;
-    width: 280px;
-    height: 40px;
-    padding: 0 12px;
-    border: 1px solid var(--pp-border);
-    border-radius: var(--pp-radius-md);
-    background: #ffffff;
-    transition: var(--pp-transition);
+
+    width: 100%;
+    max-width: 390px;
+    min-width: 180px;
+    height: 46px;
+
+    padding: 0 12px 0 15px;
+
+    background: #f8fafc;
+    border: 1px solid #e5eaf1;
+    border-radius: 10px;
+
+    transition: all 0.2s ease;
 }
 
 .pp-pos-search:focus-within {
-    border-color: var(--pp-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .pp-pos-search > i {
-    color: var(--pp-muted);
-    font-size: 13px;
+    display: inline-block !important;
+    flex-shrink: 0;
+    margin-right: 10px;
+
+    color: #64748b !important;
+    font-size: 16px !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .pp-pos-search input {
     width: 100%;
     min-width: 0;
     height: 100%;
+
     padding: 0;
     border: 0;
     outline: 0;
+
     background: transparent;
-    color: var(--pp-text);
-    font-size: 12px;
+    color: #1e293b;
+    font-size: 13px;
+    box-shadow: none;
+}
+
+.pp-pos-search input:focus {
+    border: 0;
+    outline: 0;
+    box-shadow: none;
 }
 
 .pp-pos-search input::placeholder {
-    color: var(--pp-placeholder);
+    color: #9aa5b5;
 }
 
 .pp-pos-search kbd {
-    padding: 3px 6px;
-    border: 1px solid var(--pp-border);
-    border-radius: 4px;
-    background: #f8fafc;
-    color: var(--pp-muted);
+    flex-shrink: 0;
+    padding: 4px 7px;
+
+    color: #64748b;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+
+    font-family: inherit;
     font-size: 10px;
-    white-space: nowrap;
+    font-weight: 600;
 }
+
+/* ==========================================
+   CART HEADER BUTTON
+========================================== */
 
 .pp-cart-header-btn {
     position: relative;
-    display: inline-flex;
+
+    display: inline-flex !important;
     align-items: center;
-    gap: 9px;
-    min-height: 40px;
-    padding: 0 17px;
-    border: 0;
-    border-radius: var(--pp-radius-md);
-    background: var(--pp-primary);
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 600;
+    justify-content: center;
+    gap: 10px;
+
+    min-width: 125px;
+    height: 46px;
+    padding: 0 16px;
+
+    flex-shrink: 0;
+
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    border: 1px solid #1d4ed8 !important;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+
     cursor: pointer;
-    transition: var(--pp-transition);
+    white-space: nowrap;
+
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
+    transition: all 0.2s ease;
 }
 
 .pp-cart-header-btn:hover {
-    background: var(--pp-primary-hover);
-    color: #ffffff;
-    transform: translateY(-1px);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+    border-color: #1e40af !important;
+
+    transform: translateY(-2px);
+    box-shadow: 0 7px 15px rgba(37, 99, 235, 0.25);
 }
 
-.pp-cart-count {
-    display: inline-flex;
+.pp-cart-header-btn:active {
+    transform: translateY(0);
+}
+
+.pp-cart-header-btn:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, 0.3);
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   CART ICON
+========================================== */
+
+.pp-cart-icon {
+    position: relative;
+
+    display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    min-width: 21px;
-    height: 21px;
-    padding: 0 5px;
-    border-radius: 20px;
-    background: #ffffff;
-    color: var(--pp-primary);
-    font-size: 11px;
+
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+}
+
+.pp-cart-icon > i {
+    display: inline-block !important;
+
+    color: #ffffff !important;
+    font-size: 21px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.pp-cart-label {
+    display: inline-block;
+    color: #ffffff !important;
+    font-size: 13px;
     font-weight: 700;
+}
+
+.pp-cart-arrow {
+    display: inline-block !important;
+    margin-left: 2px;
+
+    color: #ffffff !important;
+    font-size: 11px !important;
+    opacity: 0.85;
+}
+
+/* ==========================================
+   CART COUNT BADGE
+========================================== */
+
+.pp-cart-count {
+    position: absolute;
+    top: -9px;
+    right: -11px;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+
+    color: #ffffff !important;
+    background: #ef4444 !important;
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+
+    white-space: nowrap;
+    z-index: 5;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 991.98px) {
+    .pp-pos-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .pp-pos-header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .pp-pos-search {
+        max-width: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .pp-pos-header {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .pp-pos-heading {
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .pp-pos-heading-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+    }
+
+    .pp-pos-heading-icon i {
+        font-size: 20px !important;
+    }
+
+    .pp-pos-heading-content h3 {
+        font-size: 18px;
+    }
+
+    .pp-pos-heading-content p {
+        font-size: 11px;
+    }
+
+    .pp-pos-header-actions {
+        gap: 10px;
+    }
+
+    .pp-pos-search {
+        height: 43px;
+        min-width: 0;
+        padding: 0 10px;
+    }
+
+    .pp-pos-search kbd {
+        display: none;
+    }
+
+    .pp-cart-header-btn {
+        min-width: 100px;
+        height: 43px;
+        padding: 0 12px;
+        gap: 8px;
+    }
+
+    .pp-cart-icon {
+        width: 23px;
+        height: 23px;
+    }
+
+    .pp-cart-icon > i {
+        font-size: 19px !important;
+    }
+
+    .pp-cart-arrow {
+        display: none !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .pp-pos-heading-content p {
+        display: none;
+    }
+
+    .pp-pos-search input {
+        font-size: 12px;
+    }
+
+    .pp-cart-header-btn {
+        min-width: 88px;
+        padding: 0 9px;
+    }
 }
