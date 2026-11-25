@@ -1,0 +1,74 @@
+/* ==========================================
+   GLOBAL DROPDOWNS
+========================================== */
+
+.dropdown-menu {
+    padding: 6px;
+    border: 1px solid var(--pp-border-light);
+    border-radius: var(--pp-radius-md);
+    box-shadow: var(--pp-shadow-lg);
+}
+
+.dropdown-item {
+    padding: 8px 11px;
+    border-radius: var(--pp-radius-sm);
+    color: var(--pp-text);
+    font-size: 12px;
+    transition: var(--pp-transition);
+}
+
+.dropdown-item:hover {
+    background: var(--pp-surface-muted);
+    color: var(--pp-primary);
+}
+
+/* ==========================================
+   GLOBAL MODALS
+========================================== */
+
+.modal-content {
+    overflow: hidden;
+    border: 1px solid var(--pp-border-light);
+    border-radius: var(--pp-radius-lg);
+    box-shadow: var(--pp-shadow-lg);
+}
+
+.modal-header {
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--pp-border-light);
+    background: #ffffff;
+}
+
+.modal-title {
+    color: var(--pp-heading);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.modal-body {
+    padding: 18px;
+}
+
+.modal-footer {
+    padding: 13px 18px;
+    border-top: 1px solid var(--pp-border-light);
+    background: var(--pp-surface-muted);
+}
+
+/* ==========================================
+   BREADCRUMB
+========================================== */
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    font-size: 12px;
+}
+
+.breadcrumb-item a {
+    color: var(--pp-primary);
+}
+
+.breadcrumb-item.active {
+    color: var(--pp-muted);
+}

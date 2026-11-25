@@ -1,0 +1,40 @@
+/* ==========================================
+   GENERAL TEXT VISIBILITY
+========================================== */
+
+.content-wrapper,
+.main-sidebar,
+.main-header,
+.main-footer {
+    color: #334155;
+}
+
+.content-wrapper .text-muted,
+.content-wrapper small,
+.content-wrapper .small {
+    color: #64748b !important;
+}
+
+/* ==========================================
+   ADMINLTE NAVIGATION
+========================================== */
+
+.main-sidebar .nav-link {
+    color: #cbd5e1;
+}
+
+.main-sidebar .nav-link.active {
+    color: #ffffff;
+}
+
+.main-sidebar .nav-header {
+    color: #94a3b8;
+}
+
+/* ==========================================
+   BREADCRUMB
+========================================== */
+
+.breadcrumb-item.active {
+    color: #475569;
+}

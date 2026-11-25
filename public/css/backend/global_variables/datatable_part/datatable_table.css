@@ -1,21 +1,27 @@
+
 /* ==========================================
    ProsharPOS - DataTables Table
 ========================================== */
 
 table.dataTable {
+    width: 100% !important;
     border: 1px solid #e8edf3;
     border-radius: 10px;
     overflow: hidden;
-    background: #fff;
+    background: #ffffff;
+    border-collapse: separate !important;
+    border-spacing: 0;
 }
 
-/* Table Header */
+/* ==========================================
+   Table Header - Default Light Theme
+========================================== */
 
 table.dataTable thead th {
     padding: 13px 14px !important;
-    border-bottom: 1px solid #e8edf3 !important;
-    background: #f8fafc;
-    color: #475569;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    color: #334155 !important;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.35px;
@@ -24,23 +30,48 @@ table.dataTable thead th {
     vertical-align: middle;
 }
 
-/* Sorting */
+/* ==========================================
+   Dark Header - Bootstrap table-dark
+========================================== */
+
+table.dataTable thead.table-dark th,
+table.dataTable thead.table-dark td,
+table.dataTable.table-dark thead th,
+table.dataTable.table-dark thead td {
+    background-color: #343a40 !important;
+    border-color: #454d55 !important;
+    color: #ffffff !important;
+}
+
+/* Sorting Indicators */
 
 table.dataTable thead th .dt-column-order {
-    opacity: 0.55;
+    opacity: 0.65;
+}
+
+table.dataTable thead.table-dark th .dt-column-order {
+    color: #ffffff !important;
+    opacity: 0.85;
 }
 
 table.dataTable thead th.dt-ordering-asc,
 table.dataTable thead th.dt-ordering-desc {
-    color: #2563eb;
+    color: #2563eb !important;
 }
 
-/* Table Body */
+table.dataTable thead.table-dark th.dt-ordering-asc,
+table.dataTable thead.table-dark th.dt-ordering-desc {
+    color: #ffffff !important;
+}
+
+/* ==========================================
+   Table Body
+========================================== */
 
 table.dataTable tbody td {
     padding: 12px 14px !important;
     border-bottom: 1px solid #f1f5f9 !important;
-    color: #475569;
+    color: #475569 !important;
     font-size: 12px;
     font-weight: 400;
     vertical-align: middle;
@@ -70,10 +101,26 @@ table.dataTable tbody tr:last-child td {
 
 table.dataTable tbody tr.selected td {
     background: #eff6ff !important;
-    color: #1e40af;
+    color: #1e40af !important;
 }
 
-/* Action Buttons */
+/* ==========================================
+   Table Footer
+========================================== */
+
+table.dataTable tfoot th,
+table.dataTable tfoot td {
+    padding: 12px 14px !important;
+    border-top: 1px solid #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    color: #334155 !important;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* ==========================================
+   Action Buttons
+========================================== */
 
 table.dataTable .btn {
     display: inline-flex;
@@ -91,7 +138,9 @@ table.dataTable .btn i {
     font-size: 12px;
 }
 
-/* Status Badges */
+/* ==========================================
+   Status Badges
+========================================== */
 
 table.dataTable .badge {
     padding: 5px 9px;
@@ -101,7 +150,9 @@ table.dataTable .badge {
     letter-spacing: 0.15px;
 }
 
-/* Product Image */
+/* ==========================================
+   Product Image
+========================================== */
 
 table.dataTable .datatable-product-image {
     width: 38px;
@@ -115,7 +166,7 @@ table.dataTable .datatable-product-image {
 /* Product Name */
 
 table.dataTable .datatable-product-name {
-    color: #1e293b;
+    color: #1e293b !important;
     font-size: 12px;
     font-weight: 600;
 }
@@ -123,7 +174,7 @@ table.dataTable .datatable-product-name {
 /* Amounts */
 
 table.dataTable .datatable-amount {
-    color: #0f172a;
+    color: #0f172a !important;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
 }

@@ -1,0 +1,61 @@
+/* ==========================================
+   ADMINLTE INFO BOXES
+========================================== */
+
+.info-box-text,
+.info-box-number,
+.info-box .progress-description {
+    color: #334155;
+}
+
+/* ==========================================
+   ADMINLTE SMALL BOXES
+========================================== */
+
+.small-box h3,
+.small-box p {
+    color: #ffffff;
+}
+
+/* ==========================================
+   CONTROL SIDEBAR / CONFIGURATION
+========================================== */
+
+.control-sidebar,
+.control-sidebar-content {
+    color: #e2e8f0;
+}
+
+.control-sidebar .text-muted,
+.control-sidebar small,
+.control-sidebar .small {
+    color: #cbd5e1 !important;
+}
+
+.control-sidebar label,
+.control-sidebar h1,
+.control-sidebar h2,
+.control-sidebar h3,
+.control-sidebar h4,
+.control-sidebar h5 {
+    color: #f1f5f9;
+}
+
+.control-sidebar input,
+.control-sidebar select,
+.control-sidebar textarea {
+    color: #1e293b;
+    background-color: #ffffff;
+}
+
+/* ==========================================
+   CONFIGURATION HELP TEXT
+========================================== */
+
+.config-description,
+.setting-description,
+.help-text {
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.6;
+}

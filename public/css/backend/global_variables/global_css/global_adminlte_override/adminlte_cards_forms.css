@@ -1,0 +1,59 @@
+/* ==========================================
+   ADMINLTE CARDS
+========================================== */
+
+.card,
+.card-body,
+.card-header {
+    color: #334155;
+}
+
+.card .text-muted,
+.card small,
+.card .small,
+.card .description-text {
+    color: #64748b !important;
+}
+
+.card label {
+    color: #475569;
+}
+
+/* ==========================================
+   ADMINLTE FORMS
+========================================== */
+
+.form-group label,
+.col-form-label,
+label {
+    color: #334155;
+}
+
+.form-control,
+.custom-select,
+select.form-control {
+    color: #1e293b;
+}
+
+.form-control::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+.form-text,
+.help-block,
+.invalid-feedback {
+    color: #64748b;
+}
+
+/* ==========================================
+   FORM VALIDATION
+========================================== */
+
+.invalid-feedback {
+    color: #dc2626 !important;
+}
+
+.valid-feedback {
+    color: #16a34a !important;
+}

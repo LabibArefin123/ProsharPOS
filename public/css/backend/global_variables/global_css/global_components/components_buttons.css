@@ -1,0 +1,94 @@
+/* ==========================================
+   GLOBAL BUTTONS
+========================================== */
+
+/* Base Button */
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    min-height: 34px;
+    padding: 7px 13px;
+    border-radius: var(--pp-radius-md);
+    font-size: 12px;
+    font-weight: 600;
+    transition: var(--pp-transition);
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.btn i {
+    font-size: 12px;
+}
+
+/* Primary Button */
+
+.btn-primary {
+    border-color: var(--pp-primary);
+    background-color: var(--pp-primary);
+}
+
+.btn-primary:hover {
+    border-color: var(--pp-primary-hover);
+    background-color: var(--pp-primary-hover);
+}
+
+/* Secondary Button */
+
+.btn-secondary {
+    border-color: #64748b;
+    background-color: #64748b;
+}
+
+/* Outline Buttons */
+
+.btn-outline-primary {
+    border-color: var(--pp-primary);
+    color: var(--pp-primary);
+}
+
+.btn-outline-primary:hover {
+    border-color: var(--pp-primary);
+    background-color: var(--pp-primary);
+    color: #ffffff;
+}
+
+/* Light Buttons */
+
+.btn-light {
+    border-color: var(--pp-border);
+    background-color: #ffffff;
+    color: var(--pp-text);
+}
+
+.btn-light:hover {
+    background-color: var(--pp-surface-muted);
+    border-color: #cbd5e1;
+}
+
+/* Icon Buttons */
+
+.pp-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--pp-border);
+    border-radius: var(--pp-radius-md);
+    background: #ffffff;
+    color: var(--pp-secondary);
+    cursor: pointer;
+    transition: var(--pp-transition);
+}
+
+.pp-icon-btn:hover {
+    border-color: var(--pp-primary);
+    background: var(--pp-primary-light);
+    color: var(--pp-primary);
+}

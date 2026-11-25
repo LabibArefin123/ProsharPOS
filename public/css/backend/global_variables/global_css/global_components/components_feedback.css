@@ -1,0 +1,71 @@
+/* ==========================================
+   GLOBAL BADGES
+========================================== */
+
+.badge {
+    padding: 5px 9px;
+    border-radius: var(--pp-radius-sm);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+}
+
+.badge-primary {
+    background: var(--pp-primary-light);
+    color: var(--pp-primary);
+}
+
+.badge-success {
+    background: var(--pp-success-light);
+    color: var(--pp-success);
+}
+
+.badge-danger {
+    background: var(--pp-danger-light);
+    color: var(--pp-danger);
+}
+
+.badge-warning {
+    background: var(--pp-warning-light);
+    color: var(--pp-warning);
+}
+
+.badge-info {
+    background: var(--pp-info-light);
+    color: var(--pp-info);
+}
+
+/* ==========================================
+   GLOBAL ALERTS
+========================================== */
+
+.alert {
+    padding: 12px 15px;
+    border: 1px solid transparent;
+    border-radius: var(--pp-radius-md);
+    font-size: 12px;
+}
+
+.alert-success {
+    border-color: #bbf7d0;
+    background: var(--pp-success-light);
+    color: #166534;
+}
+
+.alert-danger {
+    border-color: #fecaca;
+    background: var(--pp-danger-light);
+    color: #991b1b;
+}
+
+.alert-warning {
+    border-color: #fde68a;
+    background: var(--pp-warning-light);
+    color: #92400e;
+}
+
+.alert-info {
+    border-color: #a5f3fc;
+    background: var(--pp-info-light);
+    color: #155e75;
+}

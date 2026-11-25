@@ -1,0 +1,29 @@
+/* ==========================================
+   ADMINLTE TABLES
+========================================== */
+
+.table,
+.table td,
+.table th {
+    color: #334155;
+}
+
+.table thead th {
+    color: #334155;
+}
+
+.table .text-muted {
+    color: #64748b !important;
+}
+
+/* ==========================================
+   DARK TABLE HEADER
+========================================== */
+
+.table thead.table-dark th,
+.table thead.table-dark td,
+.table.table-dark thead th,
+.table.table-dark thead td {
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+}
