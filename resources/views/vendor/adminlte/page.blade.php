@@ -153,6 +153,10 @@
     <script src="{{ asset('js/backend/custom_adminlte/action-reminder.js') }}"></script>{{-- action reminder notification js --}}
     <script src="{{ asset('js/backend/custom_adminlte/manual_search.js') }}"></script>{{-- manual search js --}}
     <script src="{{ asset('js/backend/custom_adminlte/sweet_notifications.js') }}"></script>{{-- notification toaster js --}}
+
+    <script src="{{ asset('js/backend/global_variables/image_modal/image_modal.js') }}"></script>
+    <script src="{{ asset('js/backend/global_variables/image_modal/image_modal_info.js') }}"></script>
+    <script src="{{ asset('js/backend/global_variables/image_modal/image_modal_load.js') }}"></script>
     <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
     <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
     <script src="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.min.js"></script>

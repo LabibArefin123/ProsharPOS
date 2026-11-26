@@ -123,9 +123,12 @@
                                 @endrole
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    <img src="{{ asset($product->image ?? 'images/default.jpg') }}"
-                                        alt="{{ $product->name }}" class="img-thumbnail"
-                                        style="width: 60px; height: 60px;">
+                                    <div class="datatable-image-wrapper">
+                                        <img src="{{ asset($product->image ?? 'images/default.jpg') }}"
+                                            data-global-image="{{ asset($product->image ?? 'images/default.jpg') }}"
+                                            data-caption="{{ $product->name }}" alt="{{ $product->name }}"
+                                            class="datatable-product-image">
+                                    </div>
                                 </td>
                                 <td>{{ $product->part_number }}</td>
                                 <td>{{ $product->name }}</td>

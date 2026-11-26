@@ -3,19 +3,24 @@
 ========================================== */
 
 table.dataTable .btn {
-    display: inline-flex;
-    justify-content: center;
+    display: inline-flex !important;
     align-items: center;
+    justify-content: center;
     min-width: 29px;
     min-height: 29px;
     padding: 5px 8px;
+    margin: 2px;
     border-radius: 6px;
     font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: middle;
     transition: all 0.2s ease;
 }
 
 table.dataTable .btn i {
     font-size: 12px;
+    line-height: 1;
 }
 
 /* ==========================================
@@ -23,38 +28,87 @@ table.dataTable .btn i {
 ========================================== */
 
 table.dataTable .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 5px 9px;
     border-radius: 5px;
     font-size: 10px;
     font-weight: 600;
+    line-height: 1.4;
     letter-spacing: 0.15px;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 /* ==========================================
    DATATABLES PRODUCT IMAGE
 ========================================== */
 
-table.dataTable .datatable-product-image {
-    width: 60px;
-    height: 60px;
+table.dataTable td .datatable-image-wrapper {
+    position: relative;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    padding: 0 !important;
+    margin: 0 auto;
+    overflow: hidden;
     border: 1px solid #e2e8f0;
-    border-radius: 7px;
-    object-fit: cover;
+    border-radius: 8px;
     background: #f8fafc;
+    vertical-align: middle;
+    cursor: zoom-in !important;
+    pointer-events: auto !important;
 }
 
-/* Product Name */
+table.dataTable td .datatable-image-wrapper .datatable-product-image {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 7px;
+    object-fit: cover !important;
+    object-position: center;
+    background: #f8fafc;
+    cursor: zoom-in !important;
+    pointer-events: auto !important;
+    transition: transform 0.2s ease;
+}
+
+table.dataTable td .datatable-image-wrapper:hover .datatable-product-image {
+    transform: scale(1.08);
+}
+
+/* ==========================================
+   DATATABLES PRODUCT NAME
+========================================== */
 
 table.dataTable .datatable-product-name {
     color: #1e293b !important;
     font-size: 12px;
     font-weight: 600;
+    line-height: 1.5;
 }
 
-/* Amounts */
+/* ==========================================
+   DATATABLES AMOUNTS
+========================================== */
 
 table.dataTable .datatable-amount {
     color: #0f172a !important;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
