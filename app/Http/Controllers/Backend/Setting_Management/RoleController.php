@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend\Setting_Management;
 
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -13,22 +12,24 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::with('permissions')->paginate(25);
+        $roles = Role::with('permissions')->get();
         return view('backend.setting_management.roles_and_permission.roles.index', compact('roles'));
     }
 
     public function create()
     {
-        $permissions = \Spatie\Permission\Models\Permission::all();
+        $routes = collect(Route::getRoutes())
+            ->filter(function ($route) {
+                $middlewares = $route->gatherMiddleware();
+                return $route->getName() &&
+                    $route->getAction('controller') &&
+                    collect($middlewares)->contains('auth');
+            })
+            ->groupBy(function ($route) {
+                return class_basename(explode('@', $route->getActionName())[0]);
+            });
 
-        $groupedPermissions = $permissions->groupBy(function ($permission) {
-            return explode('.', $permission->name)[0]; // user.create → user
-        });
-
-        return view(
-            'backend.setting_management.roles_and_permission.roles.create',
-            compact('groupedPermissions')
-        );
+        return view('backend.setting_management.roles_and_permission.roles.create', compact('routes'));
     }
 
     public function store(Request $request)
@@ -36,12 +37,11 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required|unique:roles,name',
             'permissions' => 'nullable|array',
+            // No need to validate permissions.* here
         ]);
 
-        // Create the new role
         $role = Role::create(['name' => $request->name]);
 
-        // Handle attached permissions if available
         if ($request->filled('permissions')) {
             foreach ($request->permissions as $permissionName) {
                 Permission::firstOrCreate([
@@ -50,11 +50,25 @@ class RoleController extends Controller
                 ]);
             }
 
-            // Attach permissions to the role
             $role->syncPermissions($request->permissions);
         }
 
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+    }
+
+    public function show($id)
+    {
+        $role = Role::with('permissions')->findOrFail($id);
+
+        // Group permissions by prefix (before first dot)
+        $groupedPermissions = $role->permissions->groupBy(function ($permission) {
+            return explode('.', $permission->name)[0];
+        });
+
+        return view(
+            'backend.setting_management.roles_and_permission.roles.show',
+            compact('role', 'groupedPermissions')
+        );
     }
 
     public function edit($id)
@@ -63,20 +77,19 @@ class RoleController extends Controller
 
         $rolePermissions = $role->permissions()->pluck('name')->toArray();
 
-        $permissions = Permission::orderBy('name')->get();
+        // Paginate permissions
+        $permissions = Permission::orderBy('name')->paginate(500);
 
-        $groupedPermissions = $permissions->groupBy(function ($permission) {
+        // Group paginated items only
+        $groupedPermissions = $permissions->getCollection()->groupBy(function ($permission) {
             return explode('.', $permission->name)[0];
         });
-
-        return view(
-            'backend.setting_management.roles_and_permission.roles.edit',
-            compact(
-                'role',
-                'rolePermissions',
-                'groupedPermissions'
-            )
-        );
+        return view('backend.setting_management.roles_and_permission.roles.edit', compact(
+            'role',
+            'rolePermissions',
+            'permissions',
+            'groupedPermissions',
+        ));
     }
 
     public function update(Request $request, $id)
