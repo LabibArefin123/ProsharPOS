@@ -25,11 +25,9 @@
             <!-- Blog 1 -->
             <div class="col-lg-4 col-md-6">
                 <article class="blog-card">
-
                     <div class="blog-image-wrapper">
-                        <img src="{{ asset('images/default.jpg') }}"
-                             class="blog-image"
-                             alt="POS software for retail shops in Bangladesh">
+                        <img src="{{ asset('images/blog/pos_1.JPG') }}" class="blog-image"
+                            alt="Cashier using modern POS software">
 
                         <span class="blog-category">POS Technology</span>
                     </div>
@@ -77,9 +75,8 @@
                 <article class="blog-card">
 
                     <div class="blog-image-wrapper">
-                        <img src="{{ asset('images/default.jpg') }}"
-                             class="blog-image"
-                             alt="Inventory management for Bangladeshi businesses">
+                        <img src="{{ asset('images/blog/pos_2.JPG') }}" class="blog-image"
+                            alt="Organized retail inventory">
 
                         <span class="blog-category">Inventory Management</span>
                     </div>
@@ -127,9 +124,8 @@
                 <article class="blog-card">
 
                     <div class="blog-image-wrapper">
-                        <img src="{{ asset('images/default.jpg') }}"
-                             class="blog-image"
-                             alt="Business analytics and sales reporting">
+                        <img src="{{ asset('images/blog/pos_3.JPG') }}" class="blog-image"
+                            alt="Business sales analytics and financial reports">
 
                         <span class="blog-category">Business Growth</span>
                     </div>
@@ -173,14 +169,14 @@
             </div>
 
         </div>
-
+{{-- 
         <!-- View All Blogs -->
         <div class="blog-bottom text-center">
             <a href="{{ url('/blogs') }}" class="blog-view-all">
                 Explore All Articles
                 <i class="fas fa-long-arrow-alt-right ms-2"></i>
             </a>
-        </div>
+        </div> --}}
 
     </div>
 </section>

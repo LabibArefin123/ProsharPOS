@@ -146,13 +146,13 @@
         </div>
 
         <!-- Bottom CTA -->
-        <div class="features-bottom text-center">
+        {{-- <div class="features-bottom text-center">
             <p>Ready to simplify your business operations?</p>
             <a href="#contact" class="features-cta">
                 Get Started Today
                 <i class="fas fa-arrow-right ms-2"></i>
             </a>
-        </div>
+        </div> --}}
 
     </div>
 </section>
