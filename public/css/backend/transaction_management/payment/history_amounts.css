@@ -1,0 +1,52 @@
+/* ==========================================
+   TRANSACTION AMOUNTS
+========================================== */
+
+.transaction-amount-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    background: var(--pp-background);
+}
+
+.transaction-amount-label {
+    color: var(--pp-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.transaction-amount-value {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+
+.transaction-amount-value.deposit,
+.transaction-amount-value.purchase-return {
+    color: var(--pp-success);
+}
+
+.transaction-amount-value.withdraw,
+.transaction-amount-value.payment {
+    color: var(--pp-danger);
+}
+
+.transaction-amount-value.supplier-payment,
+.transaction-amount-value.purchase {
+    color: var(--pp-warning);
+}
+
+.transaction-amount-value.neutral {
+    color: var(--pp-text);
+}
+
+@media (max-width: 575px) {
+    .transaction-amount-section {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,174 @@
+/* ==========================================
+   SALES RETURN FLOW DIAGRAM
+========================================== */
+
+.flow-return-card {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--pp-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+.flow-return-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--pp-border);
+}
+
+.flow-return-title {
+    margin: 0 0 5px;
+    color: var(--pp-text);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.flow-return-meta {
+    color: var(--pp-muted);
+    font-size: 12px;
+}
+
+.flow-return-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid var(--pp-border);
+    border-radius: 9px;
+    background: #fff;
+    color: var(--pp-primary);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.flow-return-toggle:hover {
+    border-color: var(--pp-primary);
+    background: var(--pp-primary-soft);
+}
+
+.flow-return-content {
+    display: block;
+}
+
+.flow-return-content.is-collapsed {
+    display: none;
+}
+
+.flow-diagram-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.flow-node {
+    width: min(100%, 430px);
+    padding: 17px 20px;
+    border: 1px solid var(--pp-border);
+    border-left: 4px solid var(--pp-primary);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+    text-align: center;
+}
+
+.flow-node.purchase {
+    border-left-color: var(--pp-info);
+}
+
+.flow-node.stock {
+    border-left-color: var(--pp-warning);
+}
+
+.flow-node.return {
+    border-left-color: var(--pp-success);
+}
+
+.flow-node.invoice {
+    border-left-color: var(--pp-primary);
+}
+
+.flow-node-title {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--pp-text);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.flow-node-detail {
+    color: var(--pp-muted);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.flow-node-detail strong {
+    color: var(--pp-text);
+}
+
+.flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--pp-primary-soft);
+    color: var(--pp-primary);
+    font-size: 14px;
+}
+
+.flow-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    margin-top: 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.flow-status.success {
+    color: var(--pp-success);
+    background: var(--pp-success-soft);
+}
+
+.flow-status.warning {
+    color: var(--pp-warning);
+    background: var(--pp-warning-soft);
+}
+
+.flow-status.info {
+    color: var(--pp-info);
+    background: var(--pp-info-soft);
+}
+
+.flow-empty {
+    padding: 55px 20px;
+    text-align: center;
+    color: var(--pp-muted);
+}
+
+.flow-empty i {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 38px;
+    opacity: 0.4;
+}
+
+@media (max-width: 575px) {
+    .flow-return-header {
+        flex-direction: column;
+    }
+
+    .flow-node {
+        padding: 15px;
+    }
+}

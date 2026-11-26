@@ -1,0 +1,74 @@
+/* ==========================================
+   TRANSACTION BALANCE SUMMARY
+========================================== */
+
+.transaction-balance {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid var(--pp-border);
+    border-radius: 12px;
+    background: #fbfcfe;
+}
+
+.transaction-balance-item {
+    min-width: 0;
+    padding: 8px 10px;
+}
+
+.transaction-balance-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--pp-muted);
+    font-size: 11px;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+}
+
+.transaction-balance-value {
+    color: var(--pp-text);
+    font-size: 14px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.transaction-balance-item.old .transaction-balance-value {
+    color: var(--pp-muted);
+}
+
+.transaction-balance-item.new .transaction-balance-value {
+    color: var(--pp-primary);
+}
+
+.transaction-balance-item.transaction .transaction-balance-value {
+    color: var(--pp-text);
+}
+
+@media (max-width: 767px) {
+    .transaction-balance {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .transaction-balance-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--pp-border);
+    }
+
+    .transaction-balance-item:last-child {
+        border-bottom: 0;
+    }
+
+    .transaction-balance-label {
+        margin-bottom: 0;
+    }
+
+    .transaction-balance-value {
+        text-align: right;
+    }
+}

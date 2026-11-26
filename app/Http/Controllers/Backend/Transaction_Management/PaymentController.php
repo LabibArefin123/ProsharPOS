@@ -426,13 +426,20 @@ class PaymentController extends Controller
 
     public function flowDiagram()
     {
-        // Fetch last 5 sales returns with invoices and customer info
-        $salesReturns = SalesReturn::with(['invoice.customer', 'items.product'])
-            ->orderBy('return_date', 'desc')
+        $salesReturns = SalesReturn::with([
+            'invoice.customer',
+            'invoice.invoiceItems',
+            'items.product',
+        ])
+            ->orderByDesc('return_date')
+            ->orderByDesc('created_at')
             ->take(5)
             ->get();
 
-        return view('backend.transaction_management.payment.flow_diagram', compact('salesReturns'));
+        return view(
+            'backend.transaction_management.payment.flow_diagram',
+            compact('salesReturns')
+        );
     }
 
     public function edit(Payment $payment)

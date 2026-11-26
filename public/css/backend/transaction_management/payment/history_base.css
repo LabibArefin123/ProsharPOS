@@ -1,0 +1,92 @@
+/* ==========================================
+   TRANSACTION MANAGEMENT - BASE
+========================================== */
+
+.transaction-history-page,
+.flow-diagram-page {
+    --pp-primary: #4f46e5;
+    --pp-primary-soft: #eef2ff;
+    --pp-success: #16a34a;
+    --pp-success-soft: #ecfdf3;
+    --pp-danger: #dc2626;
+    --pp-danger-soft: #fef2f2;
+    --pp-warning: #d97706;
+    --pp-warning-soft: #fffbeb;
+    --pp-info: #0284c7;
+    --pp-info-soft: #f0f9ff;
+    --pp-text: #172033;
+    --pp-muted: #64748b;
+    --pp-border: #e8edf4;
+    --pp-surface: #ffffff;
+    --pp-background: #f6f8fc;
+}
+
+.transaction-history-page,
+.flow-diagram-page {
+    color: var(--pp-text);
+}
+
+.transaction-history-page .card,
+.flow-diagram-page .card {
+    border: 1px solid var(--pp-border);
+    border-radius: 16px;
+    background: var(--pp-surface);
+    box-shadow: 0 5px 24px rgba(15, 23, 42, 0.045);
+    overflow: hidden;
+}
+
+.transaction-history-page .card-body,
+.flow-diagram-page .card-body {
+    padding: 24px;
+}
+
+.transaction-page-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.transaction-page-heading h3 {
+    margin: 0;
+    color: var(--pp-text);
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+}
+
+.transaction-page-heading i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    color: var(--pp-primary);
+    background: var(--pp-primary-soft);
+    font-size: 18px;
+}
+
+.transaction-muted {
+    color: var(--pp-muted);
+}
+
+.transaction-empty {
+    padding: 55px 20px;
+    text-align: center;
+    color: var(--pp-muted);
+}
+
+.transaction-empty i {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 36px;
+    opacity: 0.45;
+}
+
+.transaction-empty strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--pp-text);
+    font-size: 16px;
+}

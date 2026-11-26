@@ -1,0 +1,174 @@
+/* ==========================================
+   TRANSACTION HISTORY CARDS
+========================================== */
+
+.transaction-card {
+    position: relative;
+    margin-bottom: 16px !important;
+    padding: 20px !important;
+    border: 1px solid var(--pp-border) !important;
+    border-radius: 14px !important;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035) !important;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.transaction-card:hover {
+    transform: translateY(-2px);
+    border-color: #c7d2fe !important;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.075) !important;
+}
+
+.transaction-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.transaction-card-title {
+    margin-bottom: 5px;
+    color: var(--pp-text);
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.transaction-card-date {
+    color: var(--pp-muted);
+    font-size: 12px;
+}
+
+.transaction-card-actor {
+    color: var(--pp-muted);
+    font-size: 12px;
+    text-align: right;
+}
+
+.transaction-card-actor strong {
+    color: var(--pp-text);
+}
+
+.transaction-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.transaction-type-badge.deposit {
+    color: var(--pp-success);
+    background: var(--pp-success-soft);
+}
+
+.transaction-type-badge.withdraw {
+    color: var(--pp-danger);
+    background: var(--pp-danger-soft);
+}
+
+.transaction-type-badge.payment {
+    color: var(--pp-info);
+    background: var(--pp-info-soft);
+}
+
+.transaction-type-badge.supplier-payment,
+.transaction-type-badge.purchase {
+    color: var(--pp-warning);
+    background: var(--pp-warning-soft);
+}
+
+.transaction-type-badge.purchase-return {
+    color: var(--pp-primary);
+    background: var(--pp-primary-soft);
+}
+/* ==========================================
+   TRANSACTION ACTOR & FLOW ACTION
+========================================== */
+
+.transaction-card-actor-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.transaction-card-actor {
+    color: var(--pp-muted);
+    font-size: 12px;
+    text-align: right;
+}
+
+.transaction-card-actor strong {
+    color: var(--pp-text);
+    font-weight: 700;
+}
+
+.transaction-flow-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid #c7d2fe;
+    border-radius: 9px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 11px;
+    font-weight: 750;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.transaction-flow-btn:hover {
+    border-color: #4338ca;
+    background: #4338ca;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(67, 56, 202, 0.16);
+}
+
+.transaction-flow-btn i {
+    font-size: 12px;
+}
+
+.transaction-pagination {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 24px;
+}
+
+.transaction-pagination .btn {
+    min-width: 36px;
+    border-radius: 8px;
+    font-weight: 650;
+}
+
+@media (max-width: 575px) {
+    .transaction-card-header {
+        flex-direction: column;
+    }
+
+    .transaction-card-actor-wrapper {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .transaction-card-actor {
+        text-align: left;
+    }
+
+    .transaction-flow-btn {
+        padding: 8px 10px;
+    }
+}

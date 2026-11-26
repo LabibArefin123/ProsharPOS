@@ -3,149 +3,204 @@
 @section('title', 'Transaction History')
 
 @section('content_header')
-    <div class="d-flex justify-content-between align-items-center">
-        <h3 class="mb-0">Transaction History</h3>
+    <div class="transaction-page-heading">
+        <i class="fas fa-receipt"></i>
+        <div>
+            <h3>Transaction History</h3>
+            <small class="transaction-muted">Review deposits, withdrawals and payment activities.</small>
+        </div>
     </div>
 @stop
-@section('css')
-    <link rel="stylesheet" href="{{ asset('css/backend/transaction_management/payment/custom_history.css') }}">
+
+@section('adminlte_css')
+    <link rel="stylesheet" href="{{ asset('css/backend/transaction_management/payment/transaction_history.css') }}">
 @stop
 
 @section('content')
-    <div class="card shadow-sm">
-        <div class="card-body">
-            @forelse($transactions as $tx)
-                <div class="transaction-card p-3 mb-3 border rounded shadow-sm">
+    <div class="transaction-history-page">
+        <div class="card">
+            <div class="card-body">
 
-                    {{-- Header --}}
-                    <div class="d-flex justify-content-between mb-2">
-                        <div>
-                            <strong>{{ $tx->description }}</strong><br>
-                            <small class="text-muted">
-                                {{ \Carbon\Carbon::parse($tx->date)->format('d M Y') }}
-                                ({{ \Carbon\Carbon::parse($tx->created_at)->format('h:i:s A') }})
-                            </small>
-                        </div>
-                        <div>
-                            @if ($tx->user)
-                                <strong>User:</strong> {{ $tx->user->name }}
-                            @elseif(in_array($tx->type, ['supplier_payment', 'purchase', 'purchase_return']))
-                                <strong>Supplier:</strong> {{ $tx->source->supplier->name ?? 'N/A' }}
-                            @else
-                                <strong>Source:</strong> System
-                            @endif
-                        </div>
-                    </div>
-
-                    {{-- Amount --}}
+                @forelse($transactions as $tx)
                     @php
-                        switch ($tx->type) {
-                            case 'deposit':
-                                $sign = '+';
-                                $color = 'text-success';
-                                $label = 'Deposit';
-                                break;
-                            case 'withdraw':
-                                $sign = '-';
-                                $color = 'text-danger';
-                                $label = 'Withdraw';
-                                break;
-                            case 'payment':
-                                $sign = '-';
-                                $color = 'text-danger';
-                                $label = 'Customer Payment';
-                                break;
-                            case 'supplier_payment':
-                                $sign = '-';
-                                $color = 'text-warning';
-                                $label = 'Supplier Payment';
-                                break;
-                            case 'purchase':
-                                $sign = '-';
-                                $color = 'text-warning';
-                                $label = 'Purchase';
-                                break;
-                            case 'purchase_return':
-                                $sign = '+';
-                                $color = 'text-primary';
-                                $label = 'Purchase Return';
-                                break;
-                            default:
-                                $sign = '';
-                                $color = 'text-dark';
-                                $label = ucfirst($tx->type);
-                                break;
-                        }
+                        $transactionConfig = [
+                            'deposit' => [
+                                'label' => 'Deposit',
+                                'sign' => '+',
+                                'class' => 'deposit',
+                                'icon' => 'fa-arrow-down',
+                            ],
+                            'withdraw' => [
+                                'label' => 'Withdraw',
+                                'sign' => '-',
+                                'class' => 'withdraw',
+                                'icon' => 'fa-arrow-up',
+                            ],
+                            'payment' => [
+                                'label' => 'Customer Payment',
+                                'sign' => '+',
+                                'class' => 'payment',
+                                'icon' => 'fa-money-bill-wave',
+                            ],
+                            'supplier_payment' => [
+                                'label' => 'Supplier Payment',
+                                'sign' => '-',
+                                'class' => 'supplier-payment',
+                                'icon' => 'fa-truck',
+                            ],
+                            'purchase' => [
+                                'label' => 'Purchase',
+                                'sign' => '-',
+                                'class' => 'purchase',
+                                'icon' => 'fa-cart-shopping',
+                            ],
+                            'purchase_return' => [
+                                'label' => 'Purchase Return',
+                                'sign' => '+',
+                                'class' => 'purchase-return',
+                                'icon' => 'fa-rotate-left',
+                            ],
+                        ];
+
+                        $config = $transactionConfig[$tx->type] ?? [
+                            'label' => ucfirst(str_replace('_', ' ', $tx->type)),
+                            'sign' => '',
+                            'class' => 'neutral',
+                            'icon' => 'fa-circle-info',
+                        ];
+
+                        $amount = abs((float) $tx->amount);
                     @endphp
-                    <div class="mb-2">
-                        <span class="{{ $color }}">
-                            <strong>{{ $label }}:</strong> {{ $sign }}
-                            ৳{{ number_format(abs($tx->amount), 2) }}
-                        </span>
+
+                    <div class="transaction-card">
+
+                        <div class="transaction-card-header">
+                            <div>
+                                <div class="transaction-card-title">
+                                    {{ $tx->description ?: $config['label'] }}
+                                </div>
+
+                                <div class="transaction-card-date">
+                                    <i class="far fa-calendar-alt mr-1"></i>
+                                    {{ \Carbon\Carbon::parse($tx->date)->format('d M Y') }}
+
+                                    <span class="mx-1">•</span>
+
+                                    <i class="far fa-clock mr-1"></i>
+                                    {{ \Carbon\Carbon::parse($tx->created_at)->format('h:i:s A') }}
+                                </div>
+                            </div>
+
+                            <div class="transaction-card-actor-wrapper">
+
+                                <div class="transaction-card-actor">
+                                    @if ($tx->user)
+                                        <strong>
+                                            <i class="fas fa-user mr-1"></i>
+                                            User
+                                        </strong>
+                                        <div>{{ $tx->user->name }}</div>
+                                    @elseif(in_array($tx->type, ['supplier_payment', 'purchase', 'purchase_return']))
+                                        <strong>
+                                            <i class="fas fa-truck mr-1"></i>
+                                            Supplier
+                                        </strong>
+                                        <div>{{ $tx->source->supplier->name ?? 'N/A' }}</div>
+                                    @else
+                                        <strong>
+                                            <i class="fas fa-cogs mr-1"></i>
+                                            Source
+                                        </strong>
+                                        <div>System</div>
+                                    @endif
+                                </div>
+
+                                <a href="{{ route('payments.flow-diagram') }}" class="transaction-flow-btn"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction flow diagram">
+
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span>Show Flow Diagram</span>
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <div class="transaction-amount-section">
+                            <div>
+                                <div class="transaction-amount-label">Transaction Type</div>
+
+                                <span class="transaction-type-badge {{ $config['class'] }}">
+                                    <i class="fas {{ $config['icon'] }}"></i>
+                                    {{ $config['label'] }}
+                                </span>
+                            </div>
+
+                            <div class="text-right">
+                                <div class="transaction-amount-label">Transaction Amount</div>
+
+                                <div class="transaction-amount-value {{ $config['class'] }}">
+                                    {{ $config['sign'] }}৳{{ number_format($amount, 2) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transaction-balance">
+                            <div class="transaction-balance-item old">
+                                <span class="transaction-balance-label">Old Balance</span>
+                                <span class="transaction-balance-value">
+                                    @if ($tx->old_balance !== null)
+                                        ৳{{ number_format($tx->old_balance, 2) }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </span>
+                            </div>
+
+                            <div class="transaction-balance-item transaction">
+                                <span class="transaction-balance-label">Transaction</span>
+                                <span class="transaction-balance-value">
+                                    {{ $config['sign'] }}৳{{ number_format($amount, 2) }}
+                                </span>
+                            </div>
+
+                            <div class="transaction-balance-item new">
+                                <span class="transaction-balance-label">New Balance</span>
+                                <span class="transaction-balance-value">
+                                    @if ($tx->new_balance !== null)
+                                        ৳{{ number_format($tx->new_balance, 2) }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </span>
+                            </div>
+                        </div>
+
                     </div>
-
-                    {{-- Balance --}}
-                    <div class="d-flex justify-content-between fw-bold mt-2 p-2 bg-light rounded">
-                        <div>
-                            Old Balance:
-                            @if (isset($tx->old_balance))
-                                ৳{{ number_format($tx->old_balance, 2) }}
-                            @else
-                                N/A
-                            @endif
-                        </div>
-                        <div>
-                            Transaction: {{ $sign }}
-                            ৳{{ number_format(abs($tx->amount), 2) }}
-                        </div>
-                        <div class="text-primary">
-                            New Balance:
-                            @if (isset($tx->new_balance))
-                                ৳{{ number_format($tx->new_balance, 2) }}
-                            @else
-                                N/A
-                            @endif
-                        </div>
+                @empty
+                    <div class="transaction-empty">
+                        <i class="fas fa-receipt"></i>
+                        <strong>No transactions found</strong>
+                        <span>Transaction records will appear here when available.</span>
                     </div>
+                @endforelse
 
-                </div>
-            @empty
-                <div class="text-center text-muted">No transactions found.</div>
-            @endforelse
-
-            {{-- Pagination --}}
-            <div class="d-flex justify-content-center mt-3">
                 @if ($totalPages > 1)
-                    @for ($i = 1; $i <= $totalPages; $i++)
-                        <a href="?page={{ $i }}"
-                            class="btn btn-sm {{ $currentPage == $i ? 'btn-primary' : 'btn-outline-primary' }} mx-1">
-                            {{ $i }}
-                        </a>
-                    @endfor
+                    <div class="transaction-pagination">
+                        @for ($i = 1; $i <= $totalPages; $i++)
+                            <a href="{{ request()->fullUrlWithQuery(['page' => $i]) }}"
+                                class="btn btn-sm {{ $currentPage == $i ? 'btn-primary' : 'btn-outline-primary' }}">
+                                {{ $i }}
+                            </a>
+                        @endfor
+                    </div>
                 @endif
+
             </div>
         </div>
     </div>
 @stop
 
 @section('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // Toggle collapsible diagram
-            document.querySelectorAll('.flow-diagram .diagram-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const content = header.nextElementSibling;
-                    content.style.display = (content.style.display === 'block') ? 'none' : 'block';
-                });
-            });
-
-            // Bootstrap tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
-
-        });
-    </script>
+    <script src="{{ asset('js/backend/transaction_management/payment/history_tooltips.js') }}"></script>
+    <script src="{{ asset('js/backend/transaction_management/payment/transaction_history.js') }}"></script>
 @stop
