@@ -1,0 +1,45 @@
+.ban-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 17px 28px;
+    border-top: 1px solid #edf1f7;
+    background: #fbfcfe;
+}
+.ban-form-cancel-btn,
+.ban-form-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 39px;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none !important;
+    transition: all 0.22s ease;
+}
+.ban-form-cancel-btn {
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    color: #64748b !important;
+}
+.ban-form-cancel-btn:hover {
+    border-color: #cbd5e1;
+    background: #f1f5f9;
+}
+.ban-form-submit-btn {
+    border: 1px solid #dc2626;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    box-shadow: 0 4px 11px rgba(220, 38, 38, 0.15);
+    cursor: pointer;
+}
+.ban-form-submit-btn:hover {
+    border-color: #b91c1c;
+    background: #b91c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(220, 38, 38, 0.22);
+}

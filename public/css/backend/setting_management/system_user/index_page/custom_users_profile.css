@@ -1,0 +1,23 @@
+
+.user-profile-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user-profile-image {
+    width: 43px;
+    height: 43px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    padding: 2px;
+    background: #fff;
+    border: 2px solid #dbeafe;
+    box-shadow: 0 2px 7px rgba(37,99,235,.12);
+    transition: all .25s ease;
+}
+.system-users-table tbody tr:hover .user-profile-image {
+    border-color: #3b82f6;
+    transform: scale(1.09);
+    box-shadow: 0 4px 12px rgba(37,99,235,.2);
+}

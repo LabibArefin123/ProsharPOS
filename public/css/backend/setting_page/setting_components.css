@@ -1,0 +1,136 @@
+
+/* =========================================================
+   SETTINGS PAGE - COMPONENTS
+========================================================= */
+
+/* Section Header */
+
+.setting-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    color: #ffffff;
+    user-select: none;
+    text-align: left;
+}
+
+.setting-section-title {
+    min-width: 0;
+}
+
+.setting-section-label {
+    display: block;
+    margin-bottom: 5px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.setting-section-title h5 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.setting-section-title p {
+    margin: 5px 0 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* Bootstrap 5 Collapse Arrow */
+
+.setting-collapse-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+.setting-section-header[aria-expanded="true"] .setting-collapse-icon {
+    background: rgba(255, 255, 255, 0.22);
+    transform: rotate(180deg);
+}
+
+.setting-section-header:focus-visible {
+    outline: 3px solid rgba(99, 102, 241, 0.4);
+    outline-offset: 3px;
+}
+
+/* Optional Label */
+
+.setting-optional-label {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: #f0f2f6;
+    color: #778398;
+    font-size: 9px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+/* Coming Soon */
+
+.setting-coming-soon {
+    flex-shrink: 0;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f0f3fa;
+    color: #78869b;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+/* Section Icon Colors */
+
+.security-icon {
+    background: #edf1ff;
+    color: #4968d2;
+}
+
+.notification-icon {
+    background: #e8f9fc;
+    color: #1395ac;
+}
+
+.system-icon {
+    background: #eff2f6;
+    color: #64748b;
+}
+
+.logs-icon {
+    background: #edf0f5;
+    color: #475569;
+}
+
+.ui-icon {
+    background: #fff0fb;
+    color: #b34a9b;
+}
+
+.backup-icon {
+    background: #fff5e8;
+    color: #c47a20;
+}
+
+.integration-icon {
+    background: #edf5ff;
+    color: #3975c8;
+}

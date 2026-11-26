@@ -1,0 +1,119 @@
+
+/* =========================================================
+   SETTINGS PAGE - ITEMS
+========================================================= */
+
+/* Setting List */
+
+.setting-accordion .list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 0;
+    border-radius: 0;
+}
+
+.setting-accordion .list-group-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 76px;
+    padding: 17px 19px;
+    border: 1px solid #edf0f5;
+    border-radius: 11px !important;
+    background: #ffffff;
+    color: var(--setting-text);
+    font-size: 13px;
+
+    transition:
+        background 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.setting-accordion .list-group-item:hover {
+    background: #fafbff;
+    border-color: #dfe5f1;
+    transform: translateX(3px);
+    box-shadow: 0 4px 13px rgba(30, 41, 59, 0.045);
+}
+
+/* Item Links */
+
+.setting-item-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.setting-accordion .list-group-item a {
+    width: 100%;
+    gap: 15px;
+    color: inherit !important;
+}
+
+.setting-item-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.setting-item-content strong,
+.setting-accordion .list-group-item strong {
+    display: inline-block;
+    margin: 0 0 5px;
+    color: #273449;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.setting-item-content small,
+.setting-accordion .list-group-item small {
+    color: var(--setting-muted);
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+/* Item Icon */
+
+.setting-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+/* Item Arrow */
+
+.setting-item-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 29px;
+    height: 29px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #f4f6fa;
+    color: #8491a5;
+    font-size: 11px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.setting-item-link:hover .setting-item-arrow {
+    background: #e9edff;
+    color: #4f46e5;
+    transform: translateX(3px);
+}

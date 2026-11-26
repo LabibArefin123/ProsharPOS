@@ -1,0 +1,45 @@
+.system-users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+.system-users-heading .system-users-eyebrow {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #2563eb;
+    margin-bottom: 5px;
+}
+.system-users-heading h1 {
+    font-size: 25px;
+    font-weight: 750;
+    color: #17243a;
+    margin: 0 0 5px;
+}
+.system-users-heading p {
+    color: #8491a5;
+    font-size: 13px;
+    margin: 0;
+}
+.system-users-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 17px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff !important;
+    border: 0;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 5px 13px rgba(37, 99, 235, 0.2);
+    transition: all 0.25s ease;
+}
+.system-users-add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.3);
+}

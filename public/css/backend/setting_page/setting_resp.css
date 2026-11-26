@@ -1,0 +1,83 @@
+
+/* =========================================================
+   SETTINGS PAGE - RESPONSIVE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .setting-page-container {
+        padding: 5px 3px 25px;
+    }
+
+    .setting-accordion {
+        gap: 13px;
+    }
+
+    .setting-accordion > .card > .card-header {
+        min-height: 65px;
+        padding: 17px;
+    }
+
+    .setting-accordion > .card > .card-header h5 {
+        font-size: 14px;
+    }
+
+    .setting-accordion > .card > .collapse > .card-body {
+        padding: 15px;
+    }
+
+    .setting-accordion .list-group-item {
+        min-height: 68px;
+        padding: 14px;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .setting-section-header {
+        gap: 10px;
+    }
+
+    .setting-section-title p {
+        max-width: 260px;
+    }
+
+    .setting-item-icon {
+        width: 37px;
+        height: 37px;
+        font-size: 14px;
+    }
+
+    .setting-item-link,
+    .setting-info-item {
+        gap: 10px;
+    }
+
+    .setting-coming-soon {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .setting-accordion .list-group-item strong {
+        font-size: 13px;
+    }
+
+    .setting-accordion .list-group-item small,
+    .setting-accordion .list-group-item a div {
+        font-size: 12px;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .setting-accordion *,
+    .setting-accordion *::before,
+    .setting-accordion *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}

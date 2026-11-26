@@ -1,0 +1,52 @@
+
+.user-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 21px;
+    margin-top: 10px;
+    border-top: 1px solid #edf1f6;
+}
+.user-form-footer > a,
+.user-form-footer > button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 115px;
+    padding: 10px 17px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 750;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+.user-form-cancel-btn {
+    color: #64748b !important;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+}
+.user-form-cancel-btn:hover {
+    color: #334155 !important;
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+.user-form-submit-btn {
+    color: #fff;
+    background: linear-gradient(135deg,#2563eb,#1d4ed8);
+    border: 1px solid #2563eb;
+    box-shadow: 0 4px 12px rgba(37,99,235,.17);
+}
+.user-form-submit-btn:hover {
+    color: #fff;
+    background: linear-gradient(135deg,#1d4ed8,#1e40af);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 16px rgba(37,99,235,.25);
+}
+.user-form-footer > a:focus,
+.user-form-footer > button:focus {
+    outline: 3px solid rgba(37,99,235,.15);
+    outline-offset: 2px;
+}

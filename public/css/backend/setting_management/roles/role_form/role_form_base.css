@@ -1,0 +1,170 @@
+.role-form-page {
+    --role-primary: #5267e9;
+    --role-primary-dark: #3d50c9;
+    --role-success: #15966b;
+    --role-danger: #dc5966;
+    --role-text: #25324b;
+    --role-muted: #8591a5;
+    --role-border: #e7ebf3;
+    padding: 8px 7px 35px;
+    color: var(--role-text);
+}
+.role-form-page .role-form-card,
+.role-form-page .role-permission-group {
+    overflow: hidden;
+    margin-bottom: 22px;
+    border: 1px solid var(--role-border);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(31, 45, 75, 0.045);
+    transition:
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+.role-form-page .role-form-card:hover,
+.role-form-page .role-permission-group:hover {
+    box-shadow: 0 9px 26px rgba(31, 45, 75, 0.07);
+}
+.role-form-page .role-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 19px 23px;
+    border-bottom: 1px solid var(--role-border);
+    background: #fff;
+}
+.role-form-page .role-card-heading-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #edf1ff;
+    color: var(--role-primary);
+    font-size: 17px;
+}
+.role-form-page .role-card-heading h5 {
+    margin: 0 0 5px;
+    color: var(--role-text);
+    font-size: 15px;
+    font-weight: 800;
+}
+.role-form-page .role-card-heading p {
+    margin: 0;
+    color: var(--role-muted);
+    font-size: 11px;
+}
+.role-form-page .role-card-body {
+    padding: 23px;
+}
+.role-form-page .role-error-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 22px;
+    padding: 17px 19px;
+    border: 1px solid #f4cbd0;
+    border-radius: 11px;
+    background: #fff6f6;
+    color: #a93b49;
+}
+.role-form-page .role-error-icon {
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #ffe5e8;
+    font-size: 16px;
+}
+.role-form-page .role-error-alert strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+.role-form-page .role-error-alert ul {
+    padding-left: 17px;
+    font-size: 12px;
+    line-height: 1.8;
+}
+.role-form-page .role-submit-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 11px;
+    margin-top: 25px;
+    padding: 19px 21px;
+    border: 1px solid var(--role-border);
+    border-radius: 13px;
+    background: #fff;
+}
+.role-form-page .role-cancel-btn,
+.role-form-page .role-submit-btn {
+    min-height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 750;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all 0.23s ease;
+}
+.role-form-page .role-cancel-btn {
+    border: 1px solid #e1e6ef;
+    background: #f7f8fb;
+    color: #68758a;
+}
+.role-form-page .role-cancel-btn:hover {
+    background: #edf0f5;
+    color: #3e4b61;
+}
+.role-form-page .role-submit-btn {
+    background: linear-gradient(135deg, #15996d, #087b56);
+    color: #fff;
+    box-shadow: 0 5px 13px rgba(21, 153, 109, 0.17);
+}
+.role-form-page .role-submit-btn:hover {
+    background: linear-gradient(135deg, #087b56, #066647);
+    color: #fff;
+    box-shadow: 0 8px 19px rgba(21, 153, 109, 0.23);
+    transform: translateY(-2px);
+}
+.role-form-page .role-update-btn {
+    background: linear-gradient(135deg, #5267e9, #3d50c9);
+    box-shadow: 0 5px 13px rgba(82, 103, 233, 0.18);
+}
+.role-form-page .role-update-btn:hover {
+    background: linear-gradient(135deg, #3d50c9, #3041ad);
+}
+.role-form-page .role-empty-state {
+    padding: 45px 20px;
+    border: 1px dashed #dfe5ef;
+    border-radius: 13px;
+    background: #fff;
+    text-align: center;
+}
+.role-form-page .role-empty-state i {
+    margin-bottom: 12px;
+    color: #a7b1c2;
+    font-size: 34px;
+}
+.role-form-page .role-empty-state h5 {
+    margin-bottom: 7px;
+    color: #43516a;
+    font-size: 15px;
+    font-weight: 800;
+}
+.role-form-page .role-empty-state p {
+    margin: 0;
+    color: var(--role-muted);
+    font-size: 12px;
+}

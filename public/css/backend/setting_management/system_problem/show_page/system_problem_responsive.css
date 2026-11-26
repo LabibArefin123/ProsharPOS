@@ -1,0 +1,228 @@
+/* ==========================================
+   SYSTEM PROBLEM SHOW - RESPONSIVE
+========================================== */
+
+@media (max-width: 1199px) {
+    .sps-info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sps-content-grid {
+        grid-template-columns: minmax(0, 1.3fr) minmax(250px, 0.9fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .sps-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .sps-header-actions {
+        width: 100%;
+    }
+
+    .sps-overview-card {
+        padding: 24px;
+    }
+
+    .sps-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sps-overview-main h2 {
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 767px) {
+    .sps-page-container {
+        padding: 3px 0 20px;
+    }
+
+    .sps-page-header {
+        padding: 16px;
+        gap: 15px;
+    }
+
+    .sps-header-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 17px;
+    }
+
+    .sps-header-content h1 {
+        font-size: 19px;
+    }
+
+    .sps-header-content p {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .sps-header-actions {
+        flex-wrap: wrap;
+    }
+
+    .sps-btn {
+        flex: 1;
+        padding: 10px 11px;
+    }
+
+    .sps-overview-card {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+        padding: 22px 19px;
+    }
+
+    .sps-overview-main h2 {
+        font-size: 19px;
+    }
+
+    .sps-overview-priority {
+        align-items: flex-start;
+        gap: 7px;
+    }
+
+    .sps-overview-decoration {
+        right: -5px;
+        bottom: -30px;
+        font-size: 135px;
+    }
+
+    .sps-info-grid {
+        gap: 10px;
+    }
+
+    .sps-info-card {
+        padding: 14px 11px;
+        gap: 10px;
+    }
+
+    .sps-info-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .sps-info-content span {
+        font-size: 9px;
+    }
+
+    .sps-info-content strong {
+        font-size: 11px;
+    }
+
+    .sps-card-heading {
+        padding: 16px;
+    }
+
+    .sps-card-heading-icon {
+        width: 37px;
+        height: 37px;
+        font-size: 15px;
+    }
+
+    .sps-card-heading h5 {
+        font-size: 13px;
+    }
+
+    .sps-card-heading p {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .sps-description-content {
+        padding: 19px 17px;
+        font-size: 12px;
+    }
+
+    .sps-description-footer {
+        padding: 12px 16px;
+        line-height: 1.6;
+    }
+
+    .sps-report-list {
+        padding: 7px 16px 12px;
+    }
+
+    .sps-report-item {
+        padding: 12px 0;
+    }
+
+    .sps-report-label,
+    .sps-report-item strong {
+        font-size: 10px;
+    }
+
+    .sps-report-footer {
+        padding: 12px 16px;
+    }
+
+    .sps-attachment-content {
+        padding: 16px;
+    }
+
+    .sps-bottom-actions {
+        flex-wrap: wrap;
+    }
+
+    .sps-bottom-back {
+        flex: 1;
+        padding: 11px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sps-info-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .sps-info-card {
+        align-items: flex-start;
+        flex-direction: column;
+        min-height: 105px;
+    }
+
+    .sps-info-content strong {
+        font-size: 11px;
+    }
+
+    .sps-overview-meta {
+        gap: 8px;
+        font-size: 10px;
+    }
+
+    .sps-file-preview {
+        flex-wrap: wrap;
+        padding: 13px;
+    }
+
+    .sps-file-info {
+        flex-basis: calc(100% - 70px);
+    }
+
+    .sps-file-open-btn {
+        width: 100%;
+    }
+
+    .sps-bottom-actions {
+        flex-direction: column;
+    }
+
+    .sps-bottom-back {
+        width: 100%;
+        flex: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sps-page-container *,
+    .sps-page-container *::before,
+    .sps-page-container *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

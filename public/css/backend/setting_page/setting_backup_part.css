@@ -1,0 +1,47 @@
+
+/* =========================================================
+   SETTINGS - BACKUP & MAINTENANCE SECTION
+========================================================= */
+
+#backup > .card-header {
+    background: linear-gradient(115deg, #c16b17, #e79a32) !important;
+    box-shadow: inset 4px 0 0 #ffdaa3;
+}
+
+#backup > .card-header h5::before {
+    content: "\f019";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.13);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 14px;
+}
+
+#backup .list-group-item {
+    border-left: 3px solid #e9a64f;
+}
+
+#backup .list-group-item:hover {
+    border-left-color: #c16b17;
+    background: #fffaf3;
+}
+
+#backup .list-group-item strong {
+    color: #85501c;
+}
+
+#backup .list-group-item a > i {
+    color: #d48a2d !important;
+}
+
+/* Maintenance and Backup Item Spacing */
+
+#backup .card-body {
+    background: #fffefd;
+}

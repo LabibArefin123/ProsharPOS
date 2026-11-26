@@ -1,0 +1,68 @@
+.system-users-page {
+    --users-primary: #2563eb;
+    --users-primary-dark: #1d4ed8;
+    --users-text: #1e293b;
+    --users-muted: #64748b;
+    --users-border: #e8edf4;
+    --users-bg: #f8fafc;
+    --users-radius: 14px;
+    padding: 10px 0 30px;
+    color: var(--users-text);
+}
+.system-users-card {
+    background: #fff;
+    border: 1px solid var(--users-border);
+    border-radius: var(--users-radius);
+    box-shadow: 0 5px 25px rgba(15, 23, 42, 0.045);
+    overflow: hidden;
+}
+.system-users-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 23px 25px;
+    border-bottom: 1px solid var(--users-border);
+}
+.system-users-card-header h5 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--users-text);
+}
+.system-users-card-header h5 i {
+    color: var(--users-primary);
+    margin-right: 8px;
+}
+.system-users-card-header p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--users-muted);
+}
+.system-users-count {
+    padding: 7px 13px;
+    border-radius: 30px;
+    background: #eff6ff;
+    color: var(--users-primary);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.system-users-empty {
+    text-align: center;
+    padding: 55px 15px;
+}
+.system-users-empty > i {
+    font-size: 38px;
+    color: #cbd5e1;
+    margin-bottom: 15px;
+}
+.system-users-empty h5 {
+    font-weight: 700;
+    color: var(--users-text);
+}
+.system-users-empty p {
+    color: var(--users-muted);
+    font-size: 13px;
+    margin: 0;
+}

@@ -1,0 +1,41 @@
+
+/* =========================================================
+   SETTINGS - UI SECTION
+========================================================= */
+
+#ui > .card-header {
+    background: linear-gradient(115deg, #a13a91, #c45aae) !important;
+    box-shadow: inset 4px 0 0 #f5b8e9;
+}
+
+#ui > .card-header h5::before {
+    content: "\f1fc";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.13);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 14px;
+}
+
+#ui .list-group-item {
+    border-left: 3px solid #d17ac1;
+}
+
+#ui .list-group-item:hover {
+    border-left-color: #a13a91;
+    background: #fff8fd;
+}
+
+#ui .list-group-item strong {
+    color: #74366c;
+}
+
+#ui .list-group-item a > i {
+    color: #bd5aa9 !important;
+}

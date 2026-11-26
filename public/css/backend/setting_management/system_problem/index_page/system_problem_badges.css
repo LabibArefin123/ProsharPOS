@@ -1,0 +1,125 @@
+
+/* ==========================================
+   SYSTEM PROBLEM - BADGES & NOTIFICATIONS
+========================================== */
+
+/* Priority Badges */
+
+#systemProblemTable .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 11px;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .2px;
+    border: 1px solid transparent;
+}
+
+#systemProblemTable .badge-danger {
+    color: #d9364f;
+    background: #fff0f2;
+    border-color: #ffdee3;
+}
+
+#systemProblemTable .badge-warning {
+    color: #b77a12;
+    background: #fff8e8;
+    border-color: #f9e8bd;
+}
+
+#systemProblemTable .badge-info {
+    color: #2874c9;
+    background: #edf5ff;
+    border-color: #dceaff;
+}
+
+#systemProblemTable .badge-success {
+    color: #16865a;
+    background: #eafaf3;
+    border-color: #d2f2e3;
+}
+
+#systemProblemTable .badge-secondary {
+    color: #69778b;
+    background: #f0f2f5;
+    border-color: #e4e8ee;
+}
+
+/* Action Buttons */
+
+#systemProblemTable .btn {
+    border-radius: 8px;
+    font-size: 11px;
+    transition: all .2s ease;
+}
+
+#systemProblemTable .btn:hover {
+    transform: translateY(-2px);
+}
+
+#systemProblemTable .btn i {
+    font-size: 11px;
+}
+
+/* Attachments */
+
+#systemProblemTable a {
+    transition: color .2s ease;
+}
+
+#systemProblemTable a:hover {
+    color: #245cb5;
+    text-decoration: none;
+}
+
+/* Error Notification */
+
+.sp-error-message {
+    display: none;
+    align-items: center;
+    gap: 13px;
+    margin: 16px 22px 0;
+    padding: 14px 16px;
+    border: 1px solid #ffd9dd;
+    border-radius: 11px;
+    background: #fff5f6;
+    color: #bd3547;
+    animation: spFadeIn .3s ease;
+}
+
+.sp-error-message.show {
+    display: flex;
+}
+
+.sp-error-icon {
+    width: 37px;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: #ffe5e8;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.sp-error-message strong {
+    font-size: 12px;
+}
+
+.sp-error-message p {
+    margin-top: 3px;
+    color: #9b6470;
+    font-size: 11px;
+}
+
+.sp-error-close {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    color: #bd6975;
+    cursor: pointer;
+    font-size: 14px;
+}

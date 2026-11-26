@@ -1,0 +1,102 @@
+
+/* ==========================================
+   Permission Generator Modal
+========================================== */
+
+.permission-modal-content {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e9edf4;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+}
+
+.permission-modal-content .modal-header {
+    padding: 23px 25px 18px;
+    background: #ffffff;
+    border-bottom: 0;
+}
+
+.permission-modal-content .modal-title {
+    color: #1e293b;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.permission-modal-content .modal-header small {
+    display: block;
+    margin-top: 5px;
+    color: #94a3b8 !important;
+    font-size: 12px;
+}
+
+.permission-modal-content .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 20px 25px;
+    background: #f8fafc;
+}
+
+.permission-modal-content .modal-footer {
+    display: flex;
+    gap: 9px;
+    padding: 16px 25px 22px;
+    background: #ffffff;
+    border-top: 0;
+}
+
+/* ==========================================
+   Generated Permission List
+========================================== */
+
+.generated-permission-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.generated-permission-list > * {
+    min-width: 0;
+}
+
+/* ==========================================
+   Modal Scrollbar
+========================================== */
+
+.permission-modal-content .modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.permission-modal-content .modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.permission-modal-content .modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.permission-modal-content .modal-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.permission-modal-content .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ==========================================
+   Modal Close Button
+========================================== */
+
+.permission-modal-content .btn-close,
+.permission-modal-content .close {
+    opacity: 0.65;
+    transition: opacity 0.2s ease;
+}
+
+.permission-modal-content .btn-close:hover,
+.permission-modal-content .close:hover {
+    opacity: 1;
+}

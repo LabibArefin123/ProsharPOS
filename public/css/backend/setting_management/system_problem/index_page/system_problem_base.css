@@ -1,0 +1,149 @@
+/* ==========================================
+   SYSTEM PROBLEM - BASE
+========================================== */
+
+.sp-page-container {
+    --sp-primary: #3975dc;
+    --sp-primary-light: #edf4ff;
+    --sp-dark: #25334a;
+    --sp-muted: #8491a5;
+    --sp-border: #e9edf3;
+    --sp-bg: #f7f9fc;
+    --sp-radius: 16px;
+    padding: 8px 2px 30px;
+    color: var(--sp-dark);
+}
+
+.sp-table-card {
+    background: #fff;
+    border: 1px solid var(--sp-border);
+    border-radius: var(--sp-radius);
+    box-shadow: 0 5px 25px rgba(35, 52, 80, 0.045);
+    overflow: hidden;
+    transition:
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+.sp-table-card:hover {
+    box-shadow: 0 10px 32px rgba(35, 52, 80, 0.075);
+}
+
+.sp-section-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.sp-section-intro h5 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 5px;
+    color: #25334a;
+}
+
+.sp-section-intro h5 i {
+    color: var(--sp-primary);
+    margin-right: 7px;
+}
+
+.sp-section-intro p {
+    color: var(--sp-muted);
+    font-size: 13px;
+    margin: 0;
+}
+
+.sp-live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border-radius: 30px;
+    background: #ecfdf5;
+    color: #16865a;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.sp-live-dot {
+    width: 7px;
+    height: 7px;
+    background: #20bd78;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(32, 189, 120, 0.12);
+    animation: spPulse 1.8s infinite;
+}
+
+@keyframes spPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 3px rgba(32, 189, 120, 0.12);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(32, 189, 120, 0.04);
+    }
+}
+
+.sp-table-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--sp-border);
+}
+
+.sp-table-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sp-table-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: var(--sp-primary-light);
+    color: var(--sp-primary);
+    border-radius: 12px;
+    font-size: 17px;
+}
+
+.sp-table-heading h6 {
+    margin: 0 0 4px;
+    color: #26364e;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.sp-table-heading span {
+    color: var(--sp-muted);
+    font-size: 12px;
+}
+
+.sp-table-header-note {
+    color: var(--sp-muted);
+    font-size: 11px;
+}
+
+.sp-table-header-note i {
+    color: #20a875;
+    margin-right: 5px;
+}
+
+.sp-table-footer {
+    padding: 14px 22px;
+    border-top: 1px solid var(--sp-border);
+    color: var(--sp-muted);
+    font-size: 11px;
+    background: #fcfdff;
+}
+
+.sp-table-footer i {
+    color: var(--sp-primary);
+    margin-right: 5px;
+}

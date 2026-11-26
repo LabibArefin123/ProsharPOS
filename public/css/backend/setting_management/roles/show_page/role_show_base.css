@@ -1,0 +1,20 @@
+.role-show-page{
+    --role-show-primary:#4f46e5;
+    --role-show-primary-dark:#4338ca;
+    --role-show-text:#1e293b;
+    --role-show-muted:#64748b;
+    --role-show-border:#e8edf5;
+    --role-show-surface:#ffffff;
+    color:var(--role-show-text);
+    animation:roleShowFade .45s ease both;
+}
+.role-show-page *{
+    box-sizing:border-box;
+}
+.role-show-page .card{
+    border:0;
+}
+@keyframes roleShowFade{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+}

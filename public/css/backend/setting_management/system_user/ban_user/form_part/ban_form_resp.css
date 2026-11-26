@@ -1,0 +1,56 @@
+
+@media (max-width: 767px) {
+    .ban-form-page-header {
+        align-items: flex-start;
+    }
+    .ban-form-page-header h1 {
+        font-size: 22px;
+    }
+    .ban-form-card-header {
+        padding: 19px 20px;
+    }
+    .ban-form-body {
+        padding: 22px 20px;
+    }
+    .ban-form-footer {
+        padding: 15px 20px;
+    }
+}
+@media (max-width: 575px) {
+    .ban-form-page-header {
+        gap: 13px;
+    }
+    .ban-form-page-header h1 {
+        font-size: 20px;
+    }
+    .ban-form-page-header p {
+        max-width: 260px;
+        line-height: 1.6;
+    }
+    .ban-form-back-btn {
+        padding: 9px 11px;
+        font-size: 10px;
+    }
+    .ban-form-card-header {
+        align-items: flex-start;
+        padding: 17px 15px;
+    }
+    .ban-form-card-header h3 {
+        font-size: 14px;
+    }
+    .ban-form-body {
+        padding: 20px 15px;
+    }
+    .ban-form-footer {
+        padding: 14px 15px;
+    }
+    .ban-form-cancel-btn,
+    .ban-form-submit-btn {
+        flex: 1;
+        padding: 9px 10px;
+        font-size: 10px;
+    }
+    .ban-warning-note {
+        padding: 13px;
+    }
+}

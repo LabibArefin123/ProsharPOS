@@ -1,0 +1,96 @@
+@media (max-width: 1199.98px) {
+    .role-form-page .role-permission-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 767.98px) {
+    .role-page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+        padding: 18px;
+    }
+    .role-page-heading h1 {
+        font-size: 19px;
+    }
+    .role-heading-icon {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+        font-size: 19px;
+    }
+    .role-back-btn {
+        width: 100%;
+    }
+    .role-form-page .role-card-heading {
+        padding: 16px;
+    }
+    .role-form-page .role-card-body {
+        padding: 18px;
+    }
+    .role-form-page .role-permissions-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 25px;
+    }
+    .role-form-page .role-group-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 15px;
+    }
+    .role-form-page .role-group-actions {
+        width: 100%;
+    }
+    .role-form-page .role-select-btn,
+    .role-form-page .role-unselect-btn {
+        flex: 1;
+    }
+    .role-form-page .role-permission-grid {
+        grid-template-columns: 1fr;
+        padding: 14px;
+        gap: 9px;
+    }
+    .role-form-page .role-submit-area {
+        padding: 15px;
+    }
+}
+@media (max-width: 420px) {
+    .role-heading-content {
+        align-items: flex-start;
+        gap: 11px;
+    }
+    .role-page-heading h1 {
+        font-size: 17px;
+    }
+    .role-page-heading p {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+    .role-form-page .role-card-heading h5 {
+        font-size: 14px;
+    }
+    .role-form-page .role-card-heading p {
+        font-size: 10px;
+    }
+    .role-form-page .role-submit-area {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+    .role-form-page .role-submit-area > * {
+        width: 100%;
+    }
+    .role-form-page .role-permission-name {
+        font-size: 10px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .role-form-page *,
+    .role-form-page *::before,
+    .role-form-page *::after,
+    .role-page-heading *,
+    .role-page-heading *::before,
+    .role-page-heading *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

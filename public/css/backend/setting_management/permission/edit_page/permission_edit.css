@@ -1,0 +1,181 @@
+
+/* ==========================================
+   Permission Edit - Main Layout
+========================================== */
+
+.permission-edit-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px 12px 30px;
+}
+
+.permission-edit-card {
+    overflow: hidden;
+    border: 1px solid #e8edf4;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.045);
+}
+
+/* Card Header */
+.permission-edit-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid #edf1f6;
+    background: #ffffff;
+}
+
+.permission-edit-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 18px;
+}
+
+.permission-edit-heading {
+    margin: 0;
+    color: #1e293b;
+    font-size: 17px;
+    font-weight: 650;
+}
+
+.permission-edit-subtitle {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* Card Body */
+.permission-edit-card .card-body {
+    padding: 28px 24px;
+}
+
+.permission-edit-form-group {
+    margin-bottom: 24px;
+}
+
+.permission-edit-form-group:last-child {
+    margin-bottom: 0;
+}
+
+.permission-edit-form-group label {
+    display: block;
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.permission-edit-form-group label .text-danger {
+    margin-left: 2px;
+}
+
+.permission-edit-form-group .form-control {
+    min-height: 44px;
+    padding: 10px 13px;
+    border: 1px solid #dbe3ed;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 14px;
+    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.permission-edit-form-group .form-control::placeholder {
+    color: #a0aec0;
+}
+
+.permission-edit-form-group .form-control:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+}
+
+/* Card Footer */
+.permission-edit-card .card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid #edf1f6;
+    background: #fafbfc;
+}
+
+/* Update Button */
+.permission-edit-submit {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border: 1px solid #2563eb;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.permission-edit-submit:hover {
+    border-color: #1d4ed8;
+    background: #1d4ed8;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
+    transform: translateY(-1px);
+}
+
+.permission-edit-submit:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+/* Validation */
+.permission-edit-form-group .is-invalid {
+    border-color: #ef4444;
+}
+
+.permission-edit-error {
+    display: block;
+    margin-top: 6px;
+    color: #dc2626;
+    font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .permission-edit-container {
+        padding: 5px 0 20px;
+    }
+
+    .permission-edit-card .card-header {
+        padding: 17px;
+    }
+
+    .permission-edit-card .card-body {
+        padding: 22px 17px;
+    }
+
+    .permission-edit-card .card-footer {
+        padding: 14px 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    .permission-edit-card .card-footer {
+        justify-content: stretch;
+    }
+
+    .permission-edit-submit {
+        width: 100%;
+    }
+}

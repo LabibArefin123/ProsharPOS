@@ -1,0 +1,37 @@
+.user-show-container {
+    --us-primary: #2563eb;
+    --us-primary-dark: #1d4ed8;
+    --us-text: #17243a;
+    --us-muted: #8491a5;
+    --us-border: #e8edf5;
+    --us-bg: #f8faff;
+    padding: 8px 0 30px;
+}
+.user-show-layout {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.8fr);
+    gap: 22px;
+    align-items: start;
+}
+.user-show-profile-card,
+.user-show-information-card {
+    background: #fff;
+    border: 1px solid var(--us-border);
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(30, 55, 90, 0.055);
+    overflow: hidden;
+}
+.user-show-information-card {
+    padding: 28px;
+}
+.user-show-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity 0.55s ease,
+        transform 0.55s ease;
+}
+.user-show-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

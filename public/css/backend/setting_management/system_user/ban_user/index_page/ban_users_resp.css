@@ -1,0 +1,45 @@
+
+@media (max-width: 767px) {
+    .ban-page-header {
+        align-items: flex-start;
+    }
+    .ban-page-heading h1 {
+        font-size: 22px;
+    }
+    .ban-summary-card {
+        padding: 16px;
+    }
+    .ban-summary-description {
+        display: none;
+    }
+    .ban-table-card-header {
+        padding: 17px 15px;
+    }
+}
+@media (max-width: 575px) {
+    .ban-page-header {
+        gap: 13px;
+    }
+    .ban-page-heading h1 {
+        font-size: 20px;
+    }
+    .ban-page-heading p {
+        max-width: 240px;
+        line-height: 1.6;
+    }
+    .ban-add-btn {
+        padding: 9px 12px;
+        font-size: 11px;
+    }
+    .ban-summary-icon {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+    .ban-table-card-header {
+        align-items: flex-start;
+    }
+    .ban-record-count {
+        font-size: 9px;
+    }
+}

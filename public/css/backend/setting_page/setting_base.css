@@ -1,0 +1,34 @@
+
+/* =========================================================
+   SETTINGS PAGE - BASE
+========================================================= */
+
+.setting-page-container {
+    --setting-primary: #4f46e5;
+    --setting-text: #1e293b;
+    --setting-muted: #8491a5;
+    --setting-border: #e9edf4;
+    --setting-surface: #ffffff;
+    --setting-background: #f5f7fb;
+
+    padding: 10px 8px 35px;
+    color: var(--setting-text);
+    background: transparent;
+    min-width: 0;
+}
+
+.setting-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.setting-info-item {
+    gap: 14px;
+    cursor: default;
+}
+
+.setting-info-item:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}

@@ -1,0 +1,126 @@
+
+.user-form-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+.user-form-section-heading > i {
+    width: 37px;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 15px;
+}
+.user-form-section-heading h6 {
+    margin: 0 0 4px;
+    color: #26364d;
+    font-size: 13px;
+    font-weight: 750;
+}
+.user-form-section-heading p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 11px;
+}
+.system-user-form .form-group {
+    margin-bottom: 21px;
+}
+.system-user-form .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 11px;
+    font-weight: 700;
+}
+.system-user-form .form-group label > span {
+    color: #ef4444;
+}
+.system-user-form .form-group label small {
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 500;
+}
+.user-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.user-input-wrapper > i {
+    position: absolute;
+    left: 13px;
+    z-index: 2;
+    color: #94a3b8;
+    font-size: 12px;
+    pointer-events: none;
+    transition: color .2s ease;
+}
+.user-input-wrapper .form-control {
+    width: 100%;
+    height: 43px;
+    padding: 9px 13px 9px 37px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #334155;
+    font-size: 12px;
+    box-shadow: none;
+    transition: all .22s ease;
+}
+.user-input-wrapper select.form-control {
+    cursor: pointer;
+}
+.user-input-wrapper .form-control::placeholder {
+    color: #b0bac8;
+    font-size: 11px;
+}
+.user-input-wrapper:focus-within > i {
+    color: #2563eb;
+}
+.user-input-wrapper .form-control:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.09);
+}
+.user-input-wrapper .form-control.is-invalid {
+    border-color: #ef4444;
+}
+.user-input-wrapper .form-control.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(239,68,68,.08);
+}
+.system-user-form .invalid-feedback {
+    margin-top: 6px;
+    font-size: 10px;
+}
+.user-field-hint {
+    display: block;
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 10px;
+}
+.user-password-wrapper .form-control {
+    padding-right: 43px;
+}
+.user-password-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 42px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 12px;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+.user-password-toggle:hover {
+    color: #2563eb;
+}

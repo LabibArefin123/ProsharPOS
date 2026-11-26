@@ -1,0 +1,200 @@
+.role-show-permissions-card {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e9edf5;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.035);
+}
+.role-show-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding: 22px 25px;
+    border-bottom: 1px solid #edf0f5;
+}
+.role-show-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+.role-show-section-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4f46e5;
+    background: #eef2ff;
+    border-radius: 13px;
+    font-size: 17px;
+}
+.role-show-section-heading h4 {
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0 0 4px;
+}
+.role-show-section-heading p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 0;
+}
+.role-show-total-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    color: #4f46e5;
+    background: #eef2ff;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 800;
+}
+.role-show-permissions-body {
+    padding: 24px 25px;
+}
+.role-show-permission-group {
+    padding: 19px;
+    margin-bottom: 17px;
+    background: #fbfcff;
+    border: 1px solid #edf0f7;
+    border-radius: 14px;
+    animation: roleGroupAppear 0.4s ease both;
+}
+.role-show-permission-group:last-child {
+    margin-bottom: 0;
+}
+@keyframes roleGroupAppear {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.role-show-group-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.role-show-group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.role-show-group-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6366f1;
+    background: #eef2ff;
+    border-radius: 9px;
+    font-size: 13px;
+}
+.role-show-group-title h5 {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 800;
+    margin: 0;
+}
+.role-show-group-count {
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 5px 9px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 700;
+}
+.role-show-permission-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+.role-show-permission-item {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 12px;
+    background: #fff;
+    border: 1px solid #e9edf5;
+    border-radius: 10px;
+    transition: all 0.22s ease;
+}
+.role-show-permission-item:hover {
+    border-color: #c7d2fe;
+    background: #f8faff;
+    transform: translateY(-2px);
+}
+.role-show-permission-check {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #059669;
+    background: #ecfdf5;
+    border-radius: 7px;
+    font-size: 10px;
+}
+.role-show-permission-name {
+    min-width: 0;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+.role-show-empty-state {
+    padding: 55px 20px;
+    text-align: center;
+}
+.role-show-empty-icon {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: #94a3b8;
+    background: #f1f5f9;
+    border-radius: 20px;
+    font-size: 25px;
+}
+.role-show-empty-state h5 {
+    color: #334155;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+.role-show-empty-state p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-bottom: 18px;
+}
+.role-show-empty-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 15px;
+    color: #fff !important;
+    background: #4f46e5;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+.role-show-empty-btn:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+}

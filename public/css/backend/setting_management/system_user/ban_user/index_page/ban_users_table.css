@@ -1,0 +1,187 @@
+
+.ban-table-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 22px;
+    border-bottom: 1px solid #edf1f7;
+}
+.ban-table-card-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 5px;
+    color: #25344b;
+    font-size: 15px;
+    font-weight: 800;
+}
+.ban-table-card-header h3 i {
+    color: #3976e8;
+}
+.ban-table-card-header p {
+    margin: 0;
+    color: #98a3b3;
+    font-size: 11px;
+}
+.ban-record-count {
+    padding: 7px 11px;
+    border: 1px solid #e5edfa;
+    border-radius: 20px;
+    background: #f4f7ff;
+    color: #3973df;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+.ban-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+.ban-users-table {
+    width: 100%;
+    min-width: 1050px;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.ban-users-table thead th {
+    padding: 14px 13px;
+    border: 0;
+    border-bottom: 1px solid #e8edf5;
+    background: #f7f9fd;
+    color: #66758b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .45px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.ban-users-table tbody td {
+    padding: 14px 13px;
+    border-top: 0;
+    border-bottom: 1px solid #f0f2f7;
+    color: #4b5b70;
+    font-size: 11px;
+    vertical-align: middle;
+}
+.ban-users-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+.ban-users-table tbody tr {
+    transition: background .2s ease;
+}
+.ban-users-table tbody tr:hover {
+    background: #f8faff;
+}
+.ban-row-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    border-radius: 8px;
+    background: #f0f4fb;
+    color: #62738c;
+    font-size: 10px;
+    font-weight: 800;
+}
+.ban-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 155px;
+}
+.ban-user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    border-radius: 11px;
+    background: #eaf1ff;
+    color: #3973df;
+    font-size: 13px;
+}
+.ban-user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+.ban-user-details strong {
+    color: #26364d;
+    font-size: 11px;
+    font-weight: 800;
+}
+.ban-user-details small {
+    color: #9aa5b5;
+    font-size: 9px;
+}
+.ban-email,
+.ban-username {
+    color: #52627a;
+    font-size: 10px;
+}
+.ban-date-cell {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 140px;
+    color: #66758b;
+    font-size: 10px;
+}
+.ban-date-cell i {
+    color: #8ba0bd;
+}
+.ban-reason-text {
+    display: inline-block;
+    max-width: 180px;
+    overflow: hidden;
+    color: #66758b;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.ban-empty-state {
+    padding: 55px 20px;
+    text-align: center;
+}
+.ban-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px;
+    border-radius: 20px;
+    background: #f0f5ff;
+    color: #6c91d8;
+    font-size: 25px;
+}
+.ban-empty-state h4 {
+    margin: 0 0 7px;
+    color: #29384e;
+    font-size: 16px;
+    font-weight: 800;
+}
+.ban-empty-state p {
+    margin: 0 0 17px;
+    color: #94a0b1;
+    font-size: 11px;
+}
+.ban-empty-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none !important;
+}

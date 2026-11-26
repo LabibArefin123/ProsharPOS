@@ -1,0 +1,217 @@
+
+/* ==========================================
+   SYSTEM PROBLEM SHOW - HEADER
+========================================== */
+
+.sps-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+    padding: 19px 23px;
+    background: linear-gradient(115deg, #fff, #f2f6ff);
+    border: 1px solid #e7edf8;
+    border-radius: 15px;
+}
+
+.sps-header-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.sps-header-icon {
+    width: 49px;
+    height: 49px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    color: #fff;
+    background: linear-gradient(135deg, #3975dc, #6798ed);
+    box-shadow: 0 5px 14px rgba(57, 117, 220, .2);
+    font-size: 19px;
+}
+
+.sps-header-content h1 {
+    margin: 0;
+    color: #26364e;
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -.4px;
+}
+
+.sps-header-content p {
+    margin: 5px 0 0;
+    color: #8995a8;
+    font-size: 12px;
+}
+
+.sps-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.sps-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all .25s ease;
+}
+
+.sps-btn:hover {
+    transform: translateY(-2px);
+}
+
+.sps-btn-back {
+    color: #52627a !important;
+    background: #fff;
+    border: 1px solid #e4eaf2;
+}
+
+.sps-btn-back:hover {
+    color: #3975dc !important;
+    border-color: #b9d0f7;
+    background: #f7faff;
+}
+
+/* Overview */
+
+.sps-overview-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding: 27px 30px;
+    border-radius: 16px;
+    color: #fff;
+    background: linear-gradient(115deg, #263f69, #3975c9);
+    box-shadow: 0 8px 23px rgba(44, 91, 158, .15);
+}
+
+.sps-overview-main,
+.sps-overview-priority {
+    position: relative;
+    z-index: 2;
+}
+
+.sps-overview-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 12px;
+    color: #c8dcff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.sps-overview-main h2 {
+    max-width: 680px;
+    margin: 0;
+    color: #fff;
+    font-size: 23px;
+    font-weight: 750;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.sps-overview-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 13px;
+    margin-top: 13px;
+    color: #d5e3f8;
+    font-size: 11px;
+}
+
+.sps-overview-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.sps-meta-divider {
+    width: 4px;
+    height: 4px;
+    background: #a9c6ee;
+    border-radius: 50%;
+}
+
+.sps-overview-priority {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.sps-priority-caption {
+    color: #c8dcff;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: .9px;
+}
+
+.sps-overview-decoration {
+    position: absolute;
+    right: 140px;
+    bottom: -55px;
+    color: rgba(255, 255, 255, .045);
+    font-size: 190px;
+    transform: rotate(-15deg);
+    pointer-events: none;
+}
+
+.sps-priority-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.sps-priority-low {
+    color: #c6ffe2;
+    background: rgba(24, 177, 112, .2);
+    border-color: rgba(151, 255, 206, .3);
+}
+
+.sps-priority-medium {
+    color: #ffe9a8;
+    background: rgba(239, 176, 49, .2);
+    border-color: rgba(255, 224, 151, .3);
+}
+
+.sps-priority-high {
+    color: #ffd1a8;
+    background: rgba(244, 133, 48, .2);
+    border-color: rgba(255, 202, 158, .3);
+}
+
+.sps-priority-critical {
+    color: #ffc4cc;
+    background: rgba(230, 65, 86, .22);
+    border-color: rgba(255, 170, 181, .35);
+}
+
+.sps-priority-default {
+    color: #e1eaff;
+    background: rgba(255, 255, 255, .12);
+    border-color: rgba(255, 255, 255, .2);
+}

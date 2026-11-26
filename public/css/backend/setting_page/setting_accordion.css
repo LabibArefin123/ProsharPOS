@@ -1,0 +1,74 @@
+
+/* =========================================================
+   SETTINGS PAGE - ACCORDION
+========================================================= */
+
+.setting-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+/* Accordion Card */
+
+.setting-accordion > .card {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--setting-border);
+    border-radius: 15px;
+    background: var(--setting-surface);
+    box-shadow: 0 5px 20px rgba(30, 41, 59, 0.045);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.setting-accordion > .card:hover {
+    border-color: #dce3ef;
+    box-shadow: 0 10px 28px rgba(30, 41, 59, 0.075);
+    transform: translateY(-2px);
+}
+
+/* Accordion Header */
+
+.setting-accordion > .card > .card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 76px;
+    padding: 20px 24px;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+
+    transition: filter 0.2s ease;
+}
+
+.setting-accordion > .card > .card-header:hover {
+    filter: brightness(1.045);
+}
+
+.setting-accordion > .card > .card-header h5 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 750;
+    letter-spacing: -0.2px;
+}
+
+/* Accordion Body */
+
+.setting-accordion > .card > .collapse > .card-body {
+    padding: 22px 24px 25px;
+    background: #ffffff;
+}
+
+/* Smooth Collapse */
+
+.setting-accordion .collapsing {
+    transition: height 0.32s ease;
+}

@@ -1,0 +1,122 @@
+
+/* ==========================================
+   Permission Generator Card
+========================================== */
+
+.permission-generator-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8edf4;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.045);
+    transition: box-shadow 0.25s ease;
+}
+
+.permission-generator-card:hover {
+    box-shadow: 0 8px 26px rgba(15, 23, 42, 0.07);
+}
+
+.permission-generator-card .card-header {
+    padding: 22px 24px 14px;
+}
+
+.permission-generator-card .card-header h5 {
+    color: #1e293b;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.permission-generator-card .card-header small {
+    color: #8491a5 !important;
+    font-size: 12px;
+}
+
+.permission-generator-card .card-body {
+    padding: 20px 24px;
+}
+
+.permission-generator-card .card-footer {
+    padding: 14px 24px 22px;
+}
+
+/* ==========================================
+   Resource Input
+========================================== */
+
+.permission-input {
+    height: 46px;
+    padding: 10px 14px;
+    color: #334155;
+    font-size: 14px;
+    background: #fbfcfe;
+    border: 1px solid #dfe5ee;
+    border-radius: 9px;
+    box-shadow: none;
+    transition: all 0.25s ease;
+}
+
+.permission-input::placeholder {
+    color: #a0aaba;
+}
+
+.permission-input:hover {
+    background: #ffffff;
+    border-color: #b9c7dc;
+}
+
+.permission-input:focus {
+    background: #ffffff;
+    border-color: #5285e8;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+    outline: none;
+}
+
+/* ==========================================
+   Permission Counter
+========================================== */
+
+.permission-counter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 13px;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 700;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 30px;
+}
+
+.permission-counter-badge span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    color: #ffffff;
+    font-size: 11px;
+    background: #2563eb;
+    border-radius: 50%;
+}
+
+/* ==========================================
+   Selected Permissions
+========================================== */
+
+.selected-permission-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    min-height: 10px;
+}
+
+.permission-generator-card label {
+    margin-bottom: 9px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+}

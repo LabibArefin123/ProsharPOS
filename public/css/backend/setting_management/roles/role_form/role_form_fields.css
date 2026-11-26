@@ -1,0 +1,78 @@
+.role-form-page .role-form-group label {
+    display: block;
+    margin-bottom: 9px;
+    color: #35435b;
+    font-size: 13px;
+    font-weight: 750;
+}
+.role-form-page .role-form-group label span {
+    color: #e05260;
+}
+.role-form-page .role-form-group .form-control {
+    height: 47px;
+    padding: 0 14px;
+    border: 1px solid #e0e6f0;
+    border-radius: 9px;
+    background: #fbfcfe;
+    color: #34415a;
+    font-size: 13px;
+    box-shadow: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.role-form-page .role-form-group .form-control:focus {
+    border-color: #8293f1;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(82, 103, 233, .1);
+}
+.role-form-page .role-form-group .form-control::placeholder {
+    color: #a6afbf;
+}
+.role-form-page .role-field-error {
+    display: block;
+    margin-top: 7px;
+    color: #dc5966;
+    font-size: 11px;
+}
+.role-form-page .role-permissions-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 31px 2px 17px;
+}
+.role-form-page .role-section-kicker {
+    display: block;
+    margin-bottom: 6px;
+    color: #8793a8;
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 1.3px;
+}
+.role-form-page .role-permissions-heading h3 {
+    margin: 0 0 6px;
+    color: #25324b;
+    font-size: 19px;
+    font-weight: 800;
+}
+.role-form-page .role-permissions-heading h3 i {
+    margin-right: 7px;
+    color: #5267e9;
+}
+.role-form-page .role-permissions-heading p {
+    margin: 0;
+    color: #8591a5;
+    font-size: 11px;
+}
+.role-form-page .role-permission-total {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 13px;
+    border: 1px solid #e1e7ff;
+    border-radius: 25px;
+    background: #f3f5ff;
+    color: #5267d9;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}

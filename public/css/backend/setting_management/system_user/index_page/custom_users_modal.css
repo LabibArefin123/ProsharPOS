@@ -1,0 +1,223 @@
+
+.system-password-modal .modal-content {
+    border: 0;
+    border-radius: 17px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(15,23,42,.2);
+}
+.password-modal-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 23px 24px;
+    background: linear-gradient(125deg,#172554,#1e40af);
+    color: #fff;
+}
+.password-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: rgba(255,255,255,.13);
+    color: #bfdbfe;
+    font-size: 19px;
+}
+.password-modal-header h5 {
+    font-size: 16px;
+    font-weight: 750;
+    margin: 0 0 4px;
+}
+.password-modal-header p {
+    font-size: 11px;
+    color: #cbd5e1;
+    margin: 0;
+}
+.password-modal-close {
+    margin-left: auto;
+    color: #fff;
+    opacity: .8;
+    text-shadow: none;
+    font-size: 25px;
+}
+.password-modal-close:hover {
+    color: #fff;
+    opacity: 1;
+}
+.system-password-modal .modal-body {
+    padding: 23px 25px;
+}
+.password-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e8edf4;
+    border-radius: 12px;
+}
+.password-user-avatar {
+    width: 65px;
+    height: 65px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 50%;
+    padding: 3px;
+    background: #fff;
+    border: 2px solid #bfdbfe;
+    box-shadow: 0 3px 10px rgba(37,99,235,.12);
+}
+.password-user-info {
+    min-width: 0;
+}
+.password-user-info h5 {
+    margin: 0 0 5px;
+    font-size: 15px;
+    font-weight: 750;
+    color: #1e293b;
+}
+.password-user-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #2563eb;
+    font-size: 10px;
+    font-weight: 700;
+}
+.password-user-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+}
+.password-user-meta span {
+    color: #64748b;
+    font-size: 10px;
+    overflow-wrap: anywhere;
+}
+.password-user-meta i {
+    width: 13px;
+    color: #94a3b8;
+}
+.password-modal-divider {
+    height: 1px;
+    background: #edf1f6;
+    margin: 22px 0;
+}
+.password-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 17px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 750;
+}
+.password-section-heading i {
+    color: #2563eb;
+}
+.password-form-group {
+    margin-bottom: 17px;
+}
+.password-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 11px;
+    font-weight: 700;
+}
+.password-input-group .form-control {
+    height: 43px;
+    border: 1px solid #e2e8f0;
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+    box-shadow: none;
+    font-size: 12px;
+    padding: 10px 12px;
+}
+.password-input-group .form-control:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.1);
+}
+.password-input-group .input-group-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+    color: #64748b;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+.password-input-group .input-group-text:hover {
+    color: #2563eb;
+    background: #f8fafc;
+}
+.password-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    padding: 17px 25px;
+    background: #f8fafc;
+    border-top: 1px solid #edf1f6;
+}
+.password-modal-footer .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 15px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    transition: all .2s ease;
+}
+.password-cancel-btn {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+}
+.password-update-btn {
+    background: #dc2626;
+    color: #fff;
+    border: 1px solid #dc2626;
+}
+.password-update-btn:hover {
+    background: #b91c1c;
+    color: #fff;
+    transform: translateY(-1px);
+}
+.password-cancel-btn:hover {
+    background: #f1f5f9;
+}
+@media(max-width:575px) {
+    .system-password-modal .modal-dialog {
+        margin: 10px;
+    }
+    .password-modal-header {
+        padding: 18px;
+    }
+    .system-password-modal .modal-body {
+        padding: 17px;
+    }
+    .password-modal-footer {
+        padding: 14px 17px;
+    }
+    .password-user-profile {
+        padding: 12px;
+        gap: 11px;
+    }
+    .password-user-avatar {
+        width: 53px;
+        height: 53px;
+    }
+    .password-modal-footer .btn {
+        padding: 9px 11px;
+    }
+}

@@ -1,0 +1,130 @@
+
+/* ==========================================
+   Permission DataTable
+========================================== */
+
+#dataTables {
+    width: 100% !important;
+    margin-bottom: 0;
+    border-color: #e8edf3;
+}
+
+#dataTables thead {
+    background: #f8fafc;
+}
+
+#dataTables thead th {
+    padding: 14px 13px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+#dataTables tbody tr {
+    transition: background 0.2s ease;
+}
+
+#dataTables tbody tr:hover {
+    background: #f8fbff;
+}
+
+#dataTables tbody td {
+    padding: 12px 13px;
+    color: #475569;
+    font-size: 13px;
+    vertical-align: middle;
+    border-color: #edf0f5;
+}
+
+#dataTables tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* ==========================================
+   Table Checkboxes
+========================================== */
+
+#dataTables .row-checkbox,
+#dataTables #select-all {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: #2563eb;
+    vertical-align: middle;
+}
+
+#dataTables .row-checkbox:focus,
+#dataTables #select-all:focus {
+    outline: 2px solid rgba(37, 99, 235, 0.2);
+    outline-offset: 2px;
+}
+
+/* ==========================================
+   Responsive Table Wrapper
+========================================== */
+
+.table-responsive {
+    border: 1px solid #e8edf3;
+    border-radius: 11px;
+}
+
+/* ==========================================
+   DataTables Controls
+========================================== */
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+    min-height: 34px;
+    padding: 5px 10px;
+    color: #334155;
+    font-size: 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    outline: none;
+    box-shadow: none;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus,
+.dataTables_wrapper .dataTables_length select:focus {
+    border-color: #60a5fa;
+}
+
+/* ==========================================
+   DataTables Pagination
+========================================== */
+
+.dataTables_wrapper .dataTables_paginate {
+    padding-top: 12px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    margin: 0 2px;
+    color: #64748b !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 6px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    border-color: #dbeafe !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    color: #ffffff !important;
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+}

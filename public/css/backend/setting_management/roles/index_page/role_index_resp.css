@@ -1,0 +1,54 @@
+@media (max-width: 767px) {
+    .role-index-heading {
+        align-items: flex-start;
+    }
+    .role-index-heading-content {
+        align-items: flex-start;
+    }
+    .role-index-heading h1 {
+        font-size: 21px;
+    }
+    .role-index-add-btn {
+        width: 100%;
+    }
+    .role-index-overview {
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+    .role-index-overview-card {
+        min-height: 88px;
+    }
+    .role-index-card-header {
+        padding: 17px;
+    }
+    .role-index-table-wrapper {
+        padding: 5px 12px 15px;
+        overflow-x: auto;
+    }
+    .role-index-table {
+        min-width: 650px;
+    }
+}
+@media (max-width: 420px) {
+    .role-index-heading-icon {
+        width: 47px;
+        height: 47px;
+        flex: 0 0 47px;
+        border-radius: 14px;
+        font-size: 18px;
+    }
+    .role-index-heading p {
+        max-width: 230px;
+        line-height: 1.5;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .role-index-page {
+        animation: none;
+    }
+    .role-index-add-btn,
+    .role-index-table tbody tr,
+    .role-index-action-btn {
+        transition: none;
+    }
+}

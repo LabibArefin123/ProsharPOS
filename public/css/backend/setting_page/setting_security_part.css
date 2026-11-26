@@ -1,0 +1,48 @@
+
+/* =========================================================
+   SETTINGS - SECURITY SECTION
+========================================================= */
+
+#security > .card-header {
+    background: linear-gradient(115deg, #3156c9, #4f70e8) !important;
+    box-shadow: inset 4px 0 0 #a9baff;
+}
+
+#security > .card-header h5::before {
+    content: "\f023";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.13);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 14px;
+}
+
+#security .list-group-item {
+    border-left: 3px solid #6685ed;
+}
+
+#security .list-group-item:hover {
+    border-left-color: #3156c9;
+    background: #f7f9ff;
+}
+
+#security .list-group-item a > i {
+    color: #6685ed !important;
+}
+
+#security .list-group-item:last-child:not(:has(a)) {
+    background: #f8faff;
+    border-left: 3px solid #c4d1ff;
+    color: #65738a;
+    line-height: 1.7;
+}
+
+#security .list-group-item:last-child:not(:has(a)) strong {
+    color: #34476f;
+}

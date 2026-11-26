@@ -1,0 +1,120 @@
+
+/* ==========================================
+   Permission Management Responsive Design
+========================================== */
+
+@media (max-width: 991.98px) {
+
+    .permission-generator-card .card-header,
+    .permission-generator-card .card-body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .permission-modal-content .modal-header,
+    .permission-modal-content .modal-body,
+    .permission-modal-content .modal-footer {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+}
+
+/* ==========================================
+   Tablet Devices
+========================================== */
+
+@media (max-width: 767.98px) {
+
+    .permission-generator-card .card-header {
+        padding-top: 18px;
+    }
+
+    .permission-generator-card .card-body {
+        padding-top: 15px;
+    }
+
+    .generated-permission-list {
+        grid-template-columns: 1fr;
+    }
+
+    #dataTables {
+        min-width: 650px;
+    }
+
+    #dataTables thead th,
+    #dataTables tbody td {
+        padding: 10px;
+    }
+
+    #delete-selected {
+        font-size: 11px;
+    }
+
+}
+
+/* ==========================================
+   Mobile Devices
+========================================== */
+
+@media (max-width: 575.98px) {
+
+    .permission-generator-card {
+        border-radius: 10px;
+    }
+
+    .permission-generator-card .card-header,
+    .permission-generator-card .card-body {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .permission-generator-card .card-footer {
+        padding: 12px 14px 16px;
+    }
+
+    .permission-counter-badge {
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+
+    .permission-input {
+        height: 43px;
+        font-size: 13px;
+    }
+
+    .save-final-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .permission-modal-content {
+        border-radius: 12px;
+    }
+
+    .permission-modal-content .modal-header {
+        padding: 17px 15px 13px;
+    }
+
+    .permission-modal-content .modal-body {
+        max-height: 65vh;
+        padding: 15px;
+    }
+
+    .permission-modal-content .modal-footer {
+        padding: 12px 15px 16px;
+    }
+
+    .permission-modal-content .modal-footer .btn {
+        flex: 1;
+    }
+
+    .permission-modal-content .modal-title {
+        font-size: 16px;
+    }
+
+    .selected-permission-wrapper {
+        gap: 7px;
+    }
+
+}

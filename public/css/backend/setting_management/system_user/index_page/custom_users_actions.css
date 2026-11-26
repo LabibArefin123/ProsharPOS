@@ -1,0 +1,60 @@
+.user-action-group {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.user-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    font-size: 12px;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all 0.22s ease;
+}
+.user-view-btn {
+    background: #e0f2fe;
+    color: #0284c7 !important;
+}
+.user-edit-btn {
+    background: #fef3c7;
+    color: #d97706 !important;
+}
+
+.user-delete-form {
+    display: inline-flex;
+    margin: 0;
+}
+.user-delete-btn {
+    background: #fee2e2;
+    color: #dc2626 !important;
+}
+.user-delete-btn:hover {
+    background: #dc2626;
+    color: #fff !important;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 9px rgba(220, 38, 38, 0.2);
+}
+
+.user-password-btn {
+    background: #fee2e2;
+    color: #dc2626 !important;
+}
+.user-action-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(0.96);
+    box-shadow: 0 4px 9px rgba(15, 23, 42, 0.12);
+}
+.user-password-btn:hover {
+    background: #dc2626;
+    color: #fff !important;
+}
+.user-action-btn:focus {
+    outline: 3px solid rgba(37, 99, 235, 0.13);
+    outline-offset: 2px;
+}

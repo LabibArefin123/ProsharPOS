@@ -1,0 +1,84 @@
+
+@media(max-width:991px) {
+    .system-user-form {
+        padding: 22px;
+    }
+    .user-form-card-header {
+        padding: 20px 22px;
+    }
+}
+@media(max-width:767px) {
+    .user-form-header {
+        align-items: flex-start;
+    }
+    .user-form-heading h1 {
+        font-size: 21px;
+    }
+    .user-form-heading p {
+        max-width: 300px;
+        line-height: 1.6;
+    }
+    .user-form-back-btn {
+        padding: 8px 12px;
+    }
+    .user-form-card-header {
+        padding: 17px;
+    }
+    .system-user-form {
+        padding: 19px 17px;
+    }
+    .user-form-section {
+        padding-bottom: 15px;
+        margin-bottom: 19px;
+    }
+    .system-user-form .form-group {
+        margin-bottom: 17px;
+    }
+}
+@media(max-width:575px) {
+    .user-form-page {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .user-form-header {
+        gap: 13px;
+    }
+    .user-form-heading h1 {
+        font-size: 19px;
+    }
+    .user-form-heading p {
+        font-size: 11px;
+    }
+    .user-form-card {
+        border-radius: 11px;
+    }
+    .user-form-card-icon {
+        width: 39px;
+        height: 39px;
+    }
+    .user-form-card-header h5 {
+        font-size: 14px;
+    }
+    .user-form-card-header p {
+        font-size: 10px;
+    }
+    .system-user-form {
+        padding: 17px 14px;
+    }
+    .user-form-section-heading {
+        gap: 9px;
+        margin-bottom: 17px;
+    }
+    .user-form-section-heading > i {
+        width: 33px;
+        height: 33px;
+    }
+    .user-form-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+    .user-form-footer > a,
+    .user-form-footer > button {
+        width: 100%;
+    }
+}

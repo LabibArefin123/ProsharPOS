@@ -1,0 +1,110 @@
+
+.user-show-profile-cover {
+    position: relative;
+    min-height: 145px;
+    padding: 18px;
+    overflow: hidden;
+    background: linear-gradient(130deg, #1e40af, #2563eb 58%, #60a5fa);
+}
+.user-show-cover-decoration {
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: -45px;
+    top: -100px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 50%;
+    box-shadow: 0 0 0 24px rgba(255,255,255,0.06), 0 0 0 48px rgba(255,255,255,0.04);
+}
+.user-show-account-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    color: #fff;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+.user-show-profile-content {
+    padding: 0 23px 22px;
+}
+.user-show-avatar-wrapper {
+    width: 104px;
+    height: 104px;
+    margin-top: -52px;
+    position: relative;
+    z-index: 2;
+    padding: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(15, 35, 70, 0.13);
+}
+.user-show-avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #edf2fa;
+}
+.user-show-profile-details {
+    padding-top: 14px;
+}
+.user-show-profile-details h2 {
+    color: #17243a;
+    font-size: 21px;
+    font-weight: 800;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+.user-show-username {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #8491a5;
+    font-size: 13px;
+    margin: 7px 0 13px;
+}
+.user-show-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+.user-show-profile-footer {
+    display: grid;
+    grid-template-columns: 0.65fr 1.35fr;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #edf1f7;
+}
+.user-show-profile-footer > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+.user-show-footer-label {
+    color: #9aa5b5;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .8px;
+}
+.user-show-profile-footer strong {
+    color: #344258;
+    font-size: 12px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}

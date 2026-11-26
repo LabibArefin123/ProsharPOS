@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use Yajra\DataTables\Facades\DataTables;
 
 class SettingController extends Controller
 {
@@ -17,13 +17,13 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('backend.setting_management.setting_page.index');
+        return view('backend.setting_management.setting_menu.index');
     }
 
     public function show2FA()
     {
         $user = auth()->user();
-        return view('backend.setting_management.setting.security_setting.2fa', compact('user'));
+        return view('backend.setting_management.setting_menu.security_setting.2fa', compact('user'));
     }
 
     // Toggle 2FA on/off
@@ -94,7 +94,7 @@ class SettingController extends Controller
 
     public function password_policy()
     {
-        return view('backend.setting_management.setting.security_setting.password_policy');
+        return view('backend.setting_management.setting_menu.security_setting.password_policy');
     }
 
     // Show timeout settings page
@@ -103,7 +103,7 @@ class SettingController extends Controller
         // Get current timeout from config or database; default 15 sec
         $timeout = config('session.lifetime') ?? 0.25;
 
-        return view('backend.setting_management.setting.security_setting.timeout', compact('timeout'));
+        return view('backend.setting_management.setting_menu.security_setting.timeout', compact('timeout'));
     }
 
     // Update timeout
@@ -130,14 +130,14 @@ class SettingController extends Controller
 
     public function databaseBackup()
     {
-        return view('backend.setting_management.setting.backup_setting.database_backup');
+        return view('backend.setting_management.setting_menu.backup_setting.database_backup');
     }
 
     public function downloadDatabase()
     {
         try {
             // DB Credentials
-            $db   = env('DB_DATABASE', 'tot_pos');
+            $db   = env('DB_DATABASE', 'dfch_patient');
             $user = env('DB_USERNAME', 'root');
             $pass = env('DB_PASSWORD', '');
             $host = env('DB_HOST', '127.0.0.1');
@@ -145,7 +145,7 @@ class SettingController extends Controller
 
             // File name
             $fileName = $db . '_backup_' . now()->format('Y-m-d_H-i-s') . '.sql';
-            $backupPath = storage_path('app/' . $fileName);
+            $backupPath = storage_path('app/backups/' . $fileName);
 
             // Laragon mysqldump full path
             $mysqldump = 'E:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysqldump.exe';
@@ -171,118 +171,84 @@ class SettingController extends Controller
             }
 
             // Download SQL file
-            return response()->download($backupPath, $fileName)->deleteFileAfterSend(true);
+            return response()->download($backupPath, $fileName);
         } catch (\Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
 
-    public function notificationSettings()
-    {
-        $user = auth()->user(); // or User::first() if global
-        return view('backend.setting_management.setting_menu.notifications_setting.index', compact('user'));
-    }
-
-    public function notificationUpdate(Request $request)
-    {
-        $user = auth()->user(); // or User::first() for global setting
-
-        $user->is_notifications = $request->has('is_notifications');
-        $user->save();
-
-        return back()->with('success', 'Notification settings updated successfully.');
-    }
-
-
-    public function sendTestNotification()
-    {
-        $user = auth()->user();
-
-        if (!$user->is_notifications) {
-            return back()->with('error', 'Notifications are disabled for your account.');
-        }
-
-        try {
-            Mail::raw('This is a test notification email.', function ($message) use ($user) {
-                $message->to($user->email)
-                    ->subject('Test Notification');
-            });
-
-            return back()->with('success', 'Test notification email sent successfully!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Failed to send test email: ' . $e->getMessage());
-        }
-    }
-
     public function logs(Request $request)
     {
-        $logFile = storage_path('logs/laravel.log');
+        // Determine log file: use 'file' query param or default to today's log
+        $fileDate = $request->file ?? now()->format('Y-m-d'); // e.g., '2026-02-15'
+        $logFile  = storage_path("logs/laravel-{$fileDate}.log");
+
+        // Default response data
         $logs = [];
 
+        // Determine date range for filtering
+        $range = $request->range ?? 'today';
+        $start = null;
+        $end   = null;
+
+        switch ($range) {
+            case 'yesterday':
+                $start = Carbon::yesterday()->startOfDay();
+                $end   = Carbon::yesterday()->endOfDay();
+                break;
+            case '7days':
+                $start = now()->subDays(7);
+                $end   = now();
+                break;
+            case '1month':
+                $start = now()->subMonth();
+                $end   = now();
+                break;
+            case '2months':
+                $start = now()->subMonths(2);
+                $end   = now();
+                break;
+            case '3months':
+                $start = now()->subMonths(3);
+                $end   = now();
+                break;
+            case '6months':
+                $start = now()->subMonths(6);
+                $end   = now();
+                break;
+            case '1year':
+                $start = now()->subYear();
+                $end   = now();
+                break;
+            case 'today':
+            default:
+                $start = now()->startOfDay();
+                $end   = now()->endOfDay();
+        }
+
+        // Read log file
         if (file_exists($logFile)) {
-            $allLines = file($logFile);
-            $filtered = [];
+            $allLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-            // Determine range
-            $range = $request->range ?? 'today';
-            $start = null;
-            $end   = null;
-
-            switch ($range) {
-                case 'yesterday':
-                    $start = Carbon::yesterday()->startOfDay();
-                    $end   = Carbon::yesterday()->endOfDay();
-                    break;
-                case '7days':
-                    $start = now()->subDays(7);
-                    $end   = now();
-                    break;
-                case '1month':
-                    $start = now()->subMonth();
-                    $end   = now();
-                    break;
-                case '2months':
-                    $start = now()->subMonths(2);
-                    $end   = now();
-                    break;
-                case '3months':
-                    $start = now()->subMonths(3);
-                    $end   = now();
-                    break;
-                case '6months':
-                    $start = now()->subMonths(6);
-                    $end   = now();
-                    break;
-                case '1year':
-                    $start = now()->subYear();
-                    $end   = now();
-                    break;
-                case 'today':
-                default:
-                    $start = now()->startOfDay();
-                    $end   = now()->endOfDay();
-            }
-
+            $filtered   = [];
             $lineBuffer = '';
             $lineDate   = null;
             $lineLevel  = null;
-            $serial = 1;
+            $serial     = 1;
 
             foreach ($allLines as $line) {
-                preg_match('/\[(.*?)\]\s(\w+)\.([A-Z]+):\s(.*)/', $line, $match);
-
-                if (isset($match[1])) {
-                    // Save previous buffered line
+                if (preg_match('/^\[(.*?)\]\s(\w+)\.([A-Z]+):\s(.*)$/', $line, $match)) {
+                    // Save previous buffered log
                     if ($lineBuffer) {
                         $filtered[] = [
-                            'serial' => $serial++,
+                            'serial'    => $serial++,
                             'timestamp' => $lineDate,
-                            'level' => $lineLevel,
-                            'message' => $lineBuffer
+                            'level'     => $lineLevel,
+                            'message'   => $lineBuffer
                         ];
                     }
 
-                    // New line
+                    // Start new log line
                     try {
                         $lineDate = Carbon::parse($match[1]);
                     } catch (\Exception $e) {
@@ -292,19 +258,18 @@ class SettingController extends Controller
                     $lineLevel  = $match[3] ?? 'INFO';
                     $lineBuffer = $match[4] ?? '';
                 } else {
-                    // Stacktrace or multiline continuation
+                    // Append multiline / stacktrace
                     $lineBuffer .= "\n" . trim($line);
                 }
-
-                // Add last line
             }
 
+            // Add last buffered log
             if ($lineBuffer) {
                 $filtered[] = [
-                    'serial' => $serial++,
+                    'serial'    => $serial++,
                     'timestamp' => $lineDate,
-                    'level' => $lineLevel,
-                    'message' => $lineBuffer
+                    'level'     => $lineLevel,
+                    'message'   => $lineBuffer
                 ];
             }
 
@@ -318,20 +283,74 @@ class SettingController extends Controller
             $logs = array_reverse($logs);
         }
 
-        return view('backend.setting_management.setting.log_setting.log', compact('logs', 'range'));
+        // If AJAX request, return in Yajra DataTables format
+        if ($request->ajax()) {
+
+            return DataTables::of($logs)
+
+                ->addColumn('message_display', function ($log) {
+                    return e(explode("\n", $log['message'])[0]);
+                })
+
+                ->addColumn('details', function ($log) {
+
+                    if (str_contains($log['message'], "\n")) {
+                        return '
+                    <button class="btn btn-sm btn-info" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#trace' . $log['serial'] . '"
+                        aria-expanded="false">
+                        View
+                    </button>
+
+                    <div class="collapse mt-1" id="trace' . $log['serial'] . '">
+                        <pre class="mb-0" style="font-size:12px;">'
+                            . e($log['message']) .
+                            '</pre>
+                    </div>
+                ';
+                    }
+
+                    return '-';
+                })
+
+                ->editColumn('timestamp', function ($log) {
+                    return $log['timestamp']
+                        ? $log['timestamp']->format('Y-m-d H:i:s')
+                        : '-';
+                })
+
+                ->editColumn('level', function ($log) {
+                    $class = $log['level'] === 'ERROR'
+                        ? 'badge bg-danger'
+                        : 'badge bg-secondary';
+
+                    return '<span class="' . $class . '">' . $log['level'] . '</span>';
+                })
+
+                ->rawColumns(['details', 'level'])
+                ->make(true);
+        }
+
+        // Normal page load
+        return view('backend.setting_management.setting_menu.log_setting.log', compact('logs', 'range', 'fileDate'));
     }
 
-    public function clearLogs()
+    public function clearLogs(Request $request)
     {
-        $logFile = storage_path('logs/laravel.log');
+        // Determine which log file to clear
+        $fileDate = $request->file ?? now()->format('Y-m-d'); // default: today
+        $logFile = storage_path("logs/laravel-{$fileDate}.log");
 
         try {
             if (file_exists($logFile)) {
                 file_put_contents($logFile, ''); // Clear the log file
+                return redirect()->route('settings.logs')
+                    ->with('success', "Log file '{$fileDate}' cleared successfully!");
             }
 
             return redirect()->route('settings.logs')
-                ->with('success', 'Logs cleared successfully!');
+                ->with('warning', "Log file '{$fileDate}' does not exist.");
         } catch (\Exception $e) {
             return redirect()->route('settings.logs')
                 ->with('error', 'Failed to clear logs: ' . $e->getMessage());
@@ -341,7 +360,7 @@ class SettingController extends Controller
     public function maintenance()
     {
         $user = User::first(); // assuming one main record to store settings
-        return view('backend.setting_management.setting.backup_setting.maintenance', compact('user'));
+        return view('backend.setting_management.setting_menu.backup_setting.maintenance', compact('user'));
     }
 
     // Update maintenance mode
@@ -360,9 +379,11 @@ class SettingController extends Controller
 
         return back()->with('success', 'Maintenance mode updated successfully.');
     }
+
+
     public function language()
     {
-        return view('backend.setting_management.setting.language_setting.language');
+        return view('backend.setting_management.setting_menu.language_setting.language');
     }
 
     public function updateLanguage(Request $request)
@@ -378,7 +399,7 @@ class SettingController extends Controller
 
     public function dateTime()
     {
-        return view('backend.setting_management.setting.system_setting.date_time');
+        return view('backend.setting_management.setting_menu.system_setting.date_time');
     }
 
     public function updateDateTime(Request $request)
@@ -396,7 +417,7 @@ class SettingController extends Controller
 
     public function theme()
     {
-        return view('backend.setting_management.setting.ui_setting.theme');
+        return view('backend.setting_management.setting_menu.ui_setting.theme');
     }
 
     public function updateTheme(Request $request)

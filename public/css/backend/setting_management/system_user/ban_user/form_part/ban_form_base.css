@@ -1,0 +1,77 @@
+
+.ban-form-container {
+    padding: 8px 0 30px;
+}
+.ban-form-card {
+    overflow: hidden;
+    border: 1px solid #e8edf5;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(30, 55, 90, .055);
+}
+.ban-form-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 26px;
+    border-bottom: 1px solid #edf1f7;
+    background: linear-gradient(110deg, #fff, #f8faff);
+}
+.ban-form-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 13px;
+    background: #fff0f0;
+    color: #dc2626;
+    font-size: 19px;
+}
+.ban-form-card-header h3 {
+    margin: 0 0 5px;
+    color: #26364d;
+    font-size: 16px;
+    font-weight: 800;
+}
+.ban-form-card-header p {
+    margin: 0;
+    color: #98a3b3;
+    font-size: 11px;
+}
+.ban-form-body {
+    padding: 27px 28px;
+}
+.ban-form-divider {
+    height: 1px;
+    margin: 27px 0;
+    background: #edf1f7;
+}
+.ban-form-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 16px 18px;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    background: #fff5f5;
+    color: #b91c1c;
+}
+.ban-alert-icon {
+    padding-top: 2px;
+    font-size: 18px;
+}
+.ban-form-alert strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 800;
+}
+.ban-form-alert ul {
+    margin: 0;
+    padding-left: 17px;
+    font-size: 11px;
+    line-height: 1.8;
+}

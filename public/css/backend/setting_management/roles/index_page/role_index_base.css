@@ -1,0 +1,27 @@
+.role-index-page {
+    --role-index-primary: #4f46e5;
+    --role-index-text: #1e293b;
+    --role-index-muted: #64748b;
+    --role-index-border: #e9edf5;
+    animation: roleIndexFade 0.4s ease both;
+}
+.role-index-page * {
+    box-sizing: border-box;
+}
+@keyframes roleIndexFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.role-index-card {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--role-index-border);
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.035);
+}
