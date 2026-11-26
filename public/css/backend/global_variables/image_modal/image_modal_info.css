@@ -1,0 +1,187 @@
+/* =========================================================
+   GLOBAL IMAGE MODAL - INFORMATION PANEL
+========================================================= */
+
+#global_image .global-image-info-panel {
+    position: relative;
+    z-index: 12;
+    display: none;
+    flex: 0 0 var(--image-info-width);
+    width: var(--image-info-width);
+    max-width: 40%;
+    min-width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: #f8fafc;
+    background: linear-gradient(180deg, #142036, #101a2b);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    scrollbar-width: thin;
+    scrollbar-color: #475569 #142036;
+}
+
+#global_image .global-image-info-panel.is-visible,
+#global_image .global-image-info-panel.is-hiding {
+    display: block;
+}
+
+#global_image .global-image-info-header {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 76px;
+    padding: 14px 16px;
+    background: #142036;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(12px);
+}
+
+#global_image .global-image-info-header > div {
+    flex: 1;
+    min-width: 0;
+}
+
+#global_image .global-image-info-eyebrow {
+    color: #818cf8;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+#global_image .global-image-info-header h5 {
+    margin: 5px 0 0;
+    color: #f8fafc;
+    font-size: 17px;
+    font-weight: 750;
+}
+
+#global_image .global-image-info-close {
+    position: relative;
+    z-index: 20;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.25s ease;
+}
+
+#global_image .global-image-info-close:hover {
+    color: #ffffff;
+    background: #ef4444;
+    border-color: #ef4444;
+    transform: rotate(90deg);
+}
+
+#global_image .global-image-info-close:focus-visible {
+    outline: 3px solid rgba(129, 140, 248, 0.55);
+    outline-offset: 3px;
+}
+
+#global_image .global-image-info-body {
+    padding: 18px;
+}
+
+#global_image .global-image-info-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 125px;
+    margin-bottom: 17px;
+    padding: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+#global_image .global-image-info-preview img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+#global_image .global-image-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+#global_image .global-image-info-label {
+    color: #8493aa;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+#global_image .global-image-info-item strong {
+    color: #e2e8f0;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+#global_image .global-image-info-path {
+    padding-top: 17px;
+}
+
+#global_image .global-image-path-value {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: 8px;
+}
+
+#global_image .global-image-path-value code {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+    color: #a5b4fc;
+    background: rgba(99, 102, 241, 0.09);
+    border: 1px solid rgba(129, 140, 248, 0.15);
+    border-radius: 8px;
+    font-size: 10px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+#global_image #globalImageCopyPath {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    color: #c7d2fe;
+    background: rgba(99, 102, 241, 0.14);
+    border: 1px solid rgba(129, 140, 248, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#global_image #globalImageCopyPath:hover {
+    color: #ffffff;
+    background: #6366f1;
+}

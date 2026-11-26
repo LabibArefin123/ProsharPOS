@@ -4,29 +4,22 @@
 
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
-
         <h1 class="m-0 text-dark">Product List</h1>
-
         <div class="d-flex gap-2">
             <a href="{{ route('products.create') }}" class="btn btn-success btn-sm">
                 <i class="fas fa-plus"></i> Add New
             </a>
-
         </div>
-
     </div>
 @endsection
 
 @section('content')
-
-    {{-- Config for JS --}}
     <div id="bulkConfig" data-delete="{{ route('products.bulkDelete') }}" data-export="{{ route('products.bulkExport') }}"
         data-token="{{ csrf_token() }}" class="d-none">
     </div>
 
     <div class="card">
         <div class="card-body">
-
             <!-- Filter Form -->
             <form method="GET" action="{{ route('products.index') }}" class="row g-3 mb-3">
                 <div class="col-md-3">
@@ -145,7 +138,7 @@
                                     <span class="badge {{ $product->status ? 'bg-success' : 'bg-danger' }}">
                                         {{ $product->status ? 'Active' : 'Inactive' }}
                                     </span>
-                                </td>   
+                                </td>
                                 <td class="text-center">
                                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">
                                         Edit

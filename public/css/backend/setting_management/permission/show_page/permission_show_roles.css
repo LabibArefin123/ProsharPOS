@@ -1,0 +1,40 @@
+/* ==========================================
+   Assigned Roles
+========================================== */
+.permission-show-roles-title {
+    margin-top:30px;
+    padding-top:24px;
+    border-top:1px solid #edf1f6;
+}
+.permission-show-roles {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+.permission-show-role {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 14px;
+    border:1px solid #e0e7ff;
+    border-radius:8px;
+    background:#f5f7ff;
+    color:#4338ca;
+    font-size:12px;
+    font-weight:600;
+}
+.permission-show-role i {
+    font-size:13px;
+}
+.permission-show-empty {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    width:100%;
+    padding:15px;
+    border:1px dashed #dbe3ed;
+    border-radius:9px;
+    background:#fafbfc;
+    color:#94a3b8;
+    font-size:13px;
+}

@@ -78,25 +78,25 @@ return [
         ],
 
         // ================= SYSTEM HEALTH (NEW 🔥) =================
-        [
-            'text' => 'System Health',
-            'icon' => 'fas fa-heartbeat',
-            'submenu' => [
-                [
-                    'text' => 'Health Dashboard',
-                    'route' => 'db.visualizer.index',
-                    'can' => 'db.visualizer.index',
-                    'icon' => 'fas fa-chart-line',
-                    'active' => ['db-visualizer*'],
-                ],
-                [
-                    'text' => 'DB Visualizer (Raw)',
-                    'url'  => '/dbv',
-                    'icon' => 'fas fa-database',
-                    'target' => '_blank',
-                ],
-            ],
-        ],
+        // [
+        //     'text' => 'System Health',
+        //     'icon' => 'fas fa-heartbeat',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Health Dashboard',
+        //             'route' => 'db.visualizer.index',
+        //             'can' => 'db.visualizer.index',
+        //             'icon' => 'fas fa-chart-line',
+        //             'active' => ['db-visualizer*'],
+        //         ],
+        //         [
+        //             'text' => 'DB Visualizer (Raw)',
+        //             'url'  => '/dbv',
+        //             'icon' => 'fas fa-database',
+        //             'target' => '_blank',
+        //         ],
+        //     ],
+        // ],
 
         // ================= SECURITY =================
         [

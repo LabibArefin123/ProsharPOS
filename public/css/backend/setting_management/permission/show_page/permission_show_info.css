@@ -1,0 +1,74 @@
+/* ==========================================
+   Card Body & Information
+========================================== */
+.permission-show-card-body {
+    padding:28px 25px;
+}
+.permission-show-section-title {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:20px;
+    color:#334155;
+    font-size:14px;
+    font-weight:700;
+}
+.permission-show-section-title i {
+    color:#2563eb;
+    font-size:15px;
+}
+.permission-show-grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+}
+.permission-show-item {
+    min-width:0;
+    padding:17px 18px;
+    border:1px solid #edf1f6;
+    border-radius:10px;
+    background:#fafcff;
+    transition:border-color .2s ease,background .2s ease;
+}
+.permission-show-item:hover {
+    border-color:#dbeafe;
+    background:#f8fbff;
+}
+.permission-show-label {
+    display:block;
+    margin-bottom:9px;
+    color:#94a3b8;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.45px;
+    text-transform:uppercase;
+}
+.permission-show-value {
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+    color:#334155;
+    font-size:14px;
+    font-weight:600;
+    overflow-wrap:anywhere;
+}
+.permission-show-value > i {
+    color:#94a3b8;
+    font-size:13px;
+}
+.permission-show-name {
+    color:#2563eb;
+}
+.permission-show-name i {
+    color:#2563eb;
+}
+.permission-show-guard {
+    display:inline-flex;
+    padding:5px 10px;
+    border-radius:6px;
+    background:#eff6ff;
+    color:#2563eb;
+    font-size:12px;
+    font-weight:700;
+}

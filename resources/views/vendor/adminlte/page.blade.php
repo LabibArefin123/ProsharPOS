@@ -28,6 +28,12 @@
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/datatable_part/datatable_resp.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/global_css/global_adminlte_override.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/global_variables/shared_modal/all_modal.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/image_modal/image_modal_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/image_modal/image_modal_content.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/image_modal/image_modal_resp.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/image_modal/image_modal_info.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/global_variables/image_modal/image_modal_animation.css') }}">
 @stop
 
 <!-- start of language auto-translate -->
@@ -77,6 +83,8 @@
         @include('vendor.adminlte.modal.edit_modal')
         <!-- start of delete animation model -->
         @include('vendor.adminlte.modal.delete_modal')
+
+        @include('vendor.adminlte.modal.image_modal')
         @include('sweetalert::alert')
 
         {{-- Preloader Animation (fullscreen mode) --}}

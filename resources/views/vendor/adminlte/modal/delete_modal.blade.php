@@ -1,4 +1,4 @@
-
+e:\laragon\www\personal_porfolio\resources\views\backend\global_modal\image_modal.blade.php
 <div class="modal fade pp-confirm-modal pp-confirm-modal--delete"
     id="deleteConfirmModal"
     tabindex="-1"

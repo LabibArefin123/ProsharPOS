@@ -1,4 +1,4 @@
-{{--  Permissions DataTable --}}    
+{{--  Permissions DataTable --}}
 <div class="table-responsive">
     <table id="dataTables" class="table table-bordered table-striped">
         <thead>
@@ -24,9 +24,13 @@
                     <td> {{ $permission->name }}</td>
                     <td class="text-center"> {{ $permission->guard_name }}</td>
                     <td class="text-center">
-                        <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit me-1"></i>
+                        <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-primary btn-sm">
+
                             Edit
+                        </a>
+                        <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-warning btn-sm">
+
+                            Show
                         </a>
 
                         <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST"
@@ -35,7 +39,7 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm"
                                 onclick="return confirm('Are you sure you want to delete this permission?')">
-                                <i class="fas fa-trash-alt me-1"></i>
+
                                 Delete
                             </button>
                         </form>

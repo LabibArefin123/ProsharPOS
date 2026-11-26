@@ -92,6 +92,15 @@ class PermissionController extends Controller
             'Permissions updated for the role.'
         );
     }
+
+    public function show(Permission $permission)
+    {
+        return view(
+            'backend.setting_management.roles_and_permission.permission.show',
+            compact('permission')
+        );
+    }
+    
     public function edit($id)
     {
         $permission = Permission::findOrFail($id);

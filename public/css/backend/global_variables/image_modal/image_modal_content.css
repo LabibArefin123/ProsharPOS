@@ -1,0 +1,46 @@
+
+/* =========================================================
+   GLOBAL IMAGE MODAL - CONTENT
+========================================================= */
+
+#global_image .global-image-preview {
+    transition:
+        opacity 0.35s ease,
+        transform 0.4s cubic-bezier(0.2, 0.75, 0.25, 1);
+    transform: scale(0.96);
+}
+
+#global_image .global-image-preview.is-loaded {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+#global_image .global-image-spinner {
+    width: 27px;
+    height: 27px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: #818cf8;
+    border-radius: 50%;
+    animation: globalImageSpin 0.8s linear infinite;
+}
+
+@keyframes globalImageSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#global_image .global-image-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 15px;
+    border: 1px dashed rgba(255, 255, 255, 0.035);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+#global_image .global-image-preview.is-loaded {
+    position: relative;
+    z-index: 1;
+}

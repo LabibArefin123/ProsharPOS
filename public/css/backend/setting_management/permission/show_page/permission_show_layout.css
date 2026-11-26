@@ -1,0 +1,67 @@
+/* ==========================================
+   Main Container & Card
+========================================== */
+.permission-show-container {
+    max-width:100%;
+    margin:0 auto;
+    padding:10px 12px 30px;
+}
+.permission-show-card {
+    overflow:hidden;
+    border:1px solid #e8edf4;
+    border-radius:14px;
+    background:#ffffff;
+    box-shadow:0 5px 24px rgba(15,23,42,.045);
+}
+/* ==========================================
+   Card Header
+========================================== */
+.permission-show-card-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:22px 25px;
+    border-bottom:1px solid #edf1f6;
+    background:#ffffff;
+}
+.permission-show-heading {
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+.permission-show-icon {
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    border-radius:12px;
+    background:#eff6ff;
+    color:#2563eb;
+    font-size:19px;
+}
+.permission-show-heading h5 {
+    margin:0;
+    color:#1e293b;
+    font-size:16px;
+    font-weight:700;
+}
+.permission-show-heading p {
+    margin:5px 0 0;
+    color:#94a3b8;
+    font-size:12px;
+}
+.permission-show-status {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:7px 11px;
+    border:1px solid #bbf7d0;
+    border-radius:20px;
+    background:#f0fdf4;
+    color:#15803d;
+    font-size:11px;
+    font-weight:700;
+}
