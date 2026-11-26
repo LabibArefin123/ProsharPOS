@@ -85,213 +85,257 @@ class PaymentController extends Controller
         return view('backend.transaction_management.payment.show', compact('payment'));
     }
 
-
     public function history()
     {
         $user = auth()->user();
-
         $isAdmin = $user->hasRole('admin') || $user->hasRole('accountant');
 
-        /*
-    |--------------------------------------------------------------------------
-    | Load Transactions
-    |--------------------------------------------------------------------------
-    */
+        /* Load Transactions */
+        $transactions = collect()
+            ->merge($this->loadHistoryTransactions(
+                BankDeposit::class,
+                'deposit',
+                ['user'],
+                'user',
+                'amount',
+                'deposit_date',
+                'reference_no',
+                $isAdmin,
+                $user
+            ))
+            ->merge($this->loadHistoryTransactions(
+                BankWithdraw::class,
+                'withdraw',
+                ['user'],
+                'user',
+                'amount',
+                'withdraw_date',
+                'reference_no',
+                $isAdmin,
+                $user
+            ))
+            ->merge($this->loadHistoryTransactions(
+                Payment::class,
+                'payment',
+                ['paidBy'],
+                'paidBy',
+                'paid_amount',
+                'created_at',
+                'invoice_id',
+                $isAdmin,
+                $user,
+                'paid_by'
+            ))
+            ->merge($this->loadHistoryTransactions(
+                SupplierPayment::class,
+                'supplier_payment',
+                ['supplier', 'purchase'],
+                null,
+                'amount',
+                'payment_date',
+                'purchase.reference_no',
+                $isAdmin,
+                $user,
+                null
+            ))
+            ->merge($this->loadHistoryTransactions(
+                Purchase::class,
+                'purchase',
+                ['supplier'],
+                null,
+                'total_amount',
+                'created_at',
+                'reference_no',
+                $isAdmin,
+                $user,
+                null
+            ))
+            ->merge($this->loadHistoryTransactions(
+                PurchaseReturn::class,
+                'purchase_return',
+                ['supplier'],
+                null,
+                'total_amount',
+                'return_date',
+                'reference_no',
+                $isAdmin,
+                $user,
+                null
+            ));
 
-        $loadTransactions = function (
-            $model,
+        /* Sort Transactions  */
+
+        $transactions = $this->sortHistoryTransactions($transactions);
+
+        /* Calculate Running Balances*/
+        $transactions = $this->calculateHistoryBalances(
+            $transactions,
+            $isAdmin,
+            $user
+        );
+
+        /* Pagination*/
+        $pagination = $this->paginateHistoryTransactions($transactions);
+
+        return view(
+            'backend.transaction_management.payment.history',
+            [
+                'transactions' => $pagination['transactions'],
+                'currentPage' => $pagination['currentPage'],
+                'totalPages' => $pagination['totalPages'],
+                'isAdmin' => $isAdmin,
+            ]
+        );
+    }
+
+
+    /* 1. Load Transaction Records*/
+    private function loadHistoryTransactions(
+        $model,
+        string $type,
+        array $relations,
+        ?string $actorRelation,
+        string $amountField,
+        string $dateField,
+        string $descriptionField,
+        bool $isAdmin,
+        $user,
+        ?string $userColumn = 'user_id'
+    ) {
+        $query = $model::query()->with($relations);
+
+        if (!$isAdmin && $userColumn) {
+            $query->where($userColumn, $user->id);
+        }
+
+        return $query->get()->map(function ($item) use (
             $type,
-            $relations,
             $actorRelation,
             $amountField,
             $dateField,
-            $descriptionField,
-            $userColumn = 'user_id'
-        ) use ($isAdmin, $user) {
+            $descriptionField
+        ) {
+            $amount = abs((float) data_get($item, $amountField, 0));
 
-            $query = $model::query()->with($relations);
+            $config = $this->getHistoryTransactionConfig($type);
 
-            // Non-admin users can only see their own user-linked transactions.
-            if (!$isAdmin && $userColumn) {
-                $query->where($userColumn, $user->id);
-            }
+            return (object) [
+                'type' => $type,
 
-            return $query->get()->map(function ($item) use (
-                $type,
-                $actorRelation,
-                $amountField,
-                $dateField,
-                $descriptionField
-            ) {
-                return (object) [
-                    'type' => $type,
+                'date' => data_get($item, $dateField),
 
-                    'date' => $item->{$dateField},
+                'created_at' => $item->created_at,
 
-                    'created_at' => $item->created_at,
+                'amount' => $amount,
 
-                    'amount' => (float) $item->{$amountField},
+                'formatted_amount' => number_format($amount, 2),
 
-                    'currency' => 'BDT',
+                'currency' => 'BDT',
 
-                    'description' => data_get($item, $descriptionField)
-                        ?: ucfirst(str_replace('_', ' ', $type)),
+                'description' => data_get($item, $descriptionField)
+                    ?: ucfirst(str_replace('_', ' ', $type)),
 
-                    // Only actual users belong here.
-                    'user' => $actorRelation
-                        ? data_get($item, $actorRelation)
-                        : null,
+                'user' => $actorRelation
+                    ? data_get($item, $actorRelation)
+                    : null,
 
-                    // Original transaction model.
-                    'source' => $item,
+                'source' => $item,
 
-                    'old_balance' => null,
-                    'new_balance' => null,
-                ];
-            });
-        };
+                'old_balance' => null,
+                'new_balance' => null,
 
-        /*
-    |--------------------------------------------------------------------------
-    | User-Linked Transactions
-    |--------------------------------------------------------------------------
-    */
+                // Presentation data for Blade.
+                'label' => $config['label'],
+                'sign' => $config['sign'],
+                'class' => $config['class'],
+                'icon' => $config['icon'],
+            ];
+        });
+    }
 
-        $deposits = $loadTransactions(
-            BankDeposit::class,
-            'deposit',
-            ['user'],
-            'user',
-            'amount',
-            'deposit_date',
-            'reference_no'
-        );
 
-        $withdraws = $loadTransactions(
-            BankWithdraw::class,
-            'withdraw',
-            ['user'],
-            'user',
-            'amount',
-            'withdraw_date',
-            'reference_no'
-        );
+    /*2. Transaction Presentation Configuration*/
+    private function getHistoryTransactionConfig(string $type): array
+    {
+        $config = [
+            'deposit' => [
+                'label' => 'Deposit',
+                'sign' => '+',
+                'class' => 'deposit',
+                'icon' => 'fa-arrow-down',
+            ],
 
-        $payments = $loadTransactions(
-            Payment::class,
-            'payment',
-            ['paidBy'],
-            'paidBy',
-            'paid_amount',
-            'created_at',
-            'invoice_id',
-            'paid_by'
-        );
+            'withdraw' => [
+                'label' => 'Withdraw',
+                'sign' => '-',
+                'class' => 'withdraw',
+                'icon' => 'fa-arrow-up',
+            ],
 
-        /*
-    |--------------------------------------------------------------------------
-    | Supplier and Purchase Transactions
-    |--------------------------------------------------------------------------
-    */
+            'payment' => [
+                'label' => 'Customer Payment',
+                'sign' => '-',
+                'class' => 'payment',
+                'icon' => 'fa-money-bill-wave',
+            ],
 
-        $supplierPayments = $loadTransactions(
-            SupplierPayment::class,
-            'supplier_payment',
-            ['supplier', 'purchase'],
-            null,
-            'amount',
-            'payment_date',
-            'purchase.reference_no',
-            null
-        );
+            'supplier_payment' => [
+                'label' => 'Supplier Payment',
+                'sign' => '-',
+                'class' => 'supplier-payment',
+                'icon' => 'fa-truck',
+            ],
 
-        $purchases = $loadTransactions(
-            Purchase::class,
-            'purchase',
-            ['supplier'],
-            null,
-            'total_amount',
-            'created_at',
-            'reference_no',
-            null
-        );
+            'purchase' => [
+                'label' => 'Purchase',
+                'sign' => '-',
+                'class' => 'purchase',
+                'icon' => 'fa-cart-shopping',
+            ],
 
-        $returns = $loadTransactions(
-            PurchaseReturn::class,
-            'purchase_return',
-            ['supplier'],
-            null,
-            'total_amount',
-            'return_date',
-            'reference_no',
-            null
-        );
-
-        /*
-    |--------------------------------------------------------------------------
-    | Merge All Transactions
-    |--------------------------------------------------------------------------
-    */
-
-        $transactions = collect()
-            ->merge($deposits)
-            ->merge($withdraws)
-            ->merge($payments)
-            ->merge($supplierPayments)
-            ->merge($purchases)
-            ->merge($returns);
-
-        /*
-    |--------------------------------------------------------------------------
-    | Chronological Sorting
-    |--------------------------------------------------------------------------
-    */
-
-        $sortKey = function ($transaction) {
-            $date = $transaction->date
-                ? \Carbon\Carbon::parse($transaction->date)->format('Ymd')
-                : '00000000';
-
-            $time = $transaction->created_at
-                ? \Carbon\Carbon::parse($transaction->created_at)->format('His')
-                : '000000';
-
-            return $date . $time;
-        };
-
-        $transactions = $transactions
-            ->sortByDesc($sortKey)
-            ->values();
-
-        /*
-    |--------------------------------------------------------------------------
-    | Running Balance Calculation
-    |--------------------------------------------------------------------------
-    |
-    | bank_balances.balance represents the latest/current balance.
-    |
-    | Deposit         = + amount
-    | Withdraw        = - amount
-    | Customer Payment = - amount
-    |
-    | We process newest to oldest to reconstruct historical balances.
-    |
-    */
-
-        $balanceTypes = [
-            'deposit',
-            'withdraw',
-            'payment',
+            'purchase_return' => [
+                'label' => 'Purchase Return',
+                'sign' => '+',
+                'class' => 'purchase-return',
+                'icon' => 'fa-rotate-left',
+            ],
         ];
 
+        return $config[$type] ?? [
+            'label' => ucfirst(str_replace('_', ' ', $type)),
+            'sign' => '',
+            'class' => 'neutral',
+            'icon' => 'fa-circle-info',
+        ];
+    }
+
+
+    /*3. Sort Transactions Chronologically*/
+    private function sortHistoryTransactions($transactions)
+    {
+        return $transactions
+            ->sortByDesc(function ($transaction) {
+                $date = $transaction->date
+                    ? \Carbon\Carbon::parse($transaction->date)->format('Ymd')
+                    : '00000000';
+
+                $time = $transaction->created_at
+                    ? \Carbon\Carbon::parse($transaction->created_at)->format('His')
+                    : '000000';
+
+                return $date . $time;
+            })
+            ->values();
+    }
+
+
+    /*4. Calculate Historical Balances*/
+    private function calculateHistoryBalances($transactions, bool $isAdmin, $user)
+    {
+        $balanceTypes = ['deposit', 'withdraw', 'payment',];
+
         if ($isAdmin) {
-
-            /*
-        |--------------------------------------------------------------------------
-        | Admin / Accountant: Calculate Each User Separately
-        |--------------------------------------------------------------------------
-        */
-
+            // Group user-linked balance transactions by user.
             $userTransactions = $transactions
                 ->filter(function ($transaction) use ($balanceTypes) {
                     return in_array($transaction->type, $balanceTypes)
@@ -305,16 +349,22 @@ class PaymentController extends Controller
                 ->pluck('balance', 'user_id');
 
             $calculatedUserTransactions = $userTransactions->flatMap(
-                function ($userTxs, $userId) use (
-                    $currentBalances,
-                    $sortKey
-                ) {
-                    // Current/latest balance of this particular user.
+                function ($userTxs, $userId) use ($currentBalances) {
+
                     $runningBalance = (float) ($currentBalances[$userId] ?? 0);
 
-                    // Newest transaction first.
                     return $userTxs
-                        ->sortByDesc($sortKey)
+                        ->sortByDesc(function ($transaction) {
+                            $date = $transaction->date
+                                ? \Carbon\Carbon::parse($transaction->date)->format('Ymd')
+                                : '00000000';
+
+                            $time = $transaction->created_at
+                                ? \Carbon\Carbon::parse($transaction->created_at)->format('His')
+                                : '000000';
+
+                            return $date . $time;
+                        })
                         ->values()
                         ->map(function ($transaction) use (&$runningBalance) {
 
@@ -326,21 +376,15 @@ class PaymentController extends Controller
                                 default => 0,
                             };
 
-                            // Balance immediately after this transaction.
                             $transaction->new_balance = $runningBalance;
-
-                            // Balance immediately before this transaction.
                             $transaction->old_balance = $runningBalance - $delta;
-
-                            // Move backward to the previous balance.
                             $runningBalance = $transaction->old_balance;
-
                             return $transaction;
                         });
                 }
             );
 
-            // Supplier and purchase transactions do not affect user balances.
+            // Transactions without user balance calculations.
             $nonUserTransactions = $transactions->filter(
                 fn($transaction) => !in_array(
                     $transaction->type,
@@ -348,80 +392,70 @@ class PaymentController extends Controller
                 )
             );
 
-            $transactions = $calculatedUserTransactions
+            return $calculatedUserTransactions
                 ->merge($nonUserTransactions)
-                ->sortByDesc($sortKey)
+                ->sortByDesc(function ($transaction) {
+                    $date = $transaction->date
+                        ? \Carbon\Carbon::parse($transaction->date)->format('Ymd')
+                        : '00000000';
+
+                    $time = $transaction->created_at
+                        ? \Carbon\Carbon::parse($transaction->created_at)->format('His')
+                        : '000000';
+
+                    return $date . $time;
+                })
                 ->values();
-        } else {
-
-            /*
-        |--------------------------------------------------------------------------
-        | Normal User: Own Running Balance
-        |--------------------------------------------------------------------------
-        */
-
-            $runningBalance = (float) BankBalance::where(
-                'user_id',
-                $user->id
-            )->value('balance');
-
-            $transactions = $transactions->map(
-                function ($transaction) use (&$runningBalance) {
-
-                    if (!in_array($transaction->type, [
-                        'deposit',
-                        'withdraw',
-                        'payment',
-                    ])) {
-                        return $transaction;
-                    }
-
-                    $amount = abs((float) $transaction->amount);
-
-                    $delta = match ($transaction->type) {
-                        'deposit' => $amount,
-                        'withdraw', 'payment' => -$amount,
-                        default => 0,
-                    };
-
-                    $transaction->new_balance = $runningBalance;
-
-                    $transaction->old_balance = $runningBalance - $delta;
-
-                    $runningBalance = $transaction->old_balance;
-
-                    return $transaction;
-                }
-            );
         }
 
-        /*
-    |--------------------------------------------------------------------------
-    | Pagination
-    |--------------------------------------------------------------------------
-    */
+        // Normal user: calculate their own balance.
+        $runningBalance = (float) BankBalance::where('user_id', $user->id)->value('balance');
 
+        return $transactions->map(function ($transaction) use (
+            &$runningBalance,
+            $balanceTypes
+        ) {
+            if (!in_array($transaction->type, $balanceTypes)) {
+                return $transaction;
+            }
+
+            $amount = abs((float) $transaction->amount);
+
+            $delta = match ($transaction->type) {
+                'deposit' => $amount,
+                'withdraw', 'payment' => -$amount,
+                default => 0,
+            };
+
+            $transaction->new_balance = $runningBalance;
+            $transaction->old_balance = $runningBalance - $delta;
+            $runningBalance = $transaction->old_balance;
+            return $transaction;
+        });
+    }
+
+
+    /* 5. Paginate Transaction Records*/
+    private function paginateHistoryTransactions($transactions): array
+    {
         $page = max(1, (int) request()->query('page', 1));
-
         $perPage = 5;
-
         $totalRecords = $transactions->count();
-
         $totalPages = (int) ceil($totalRecords / $perPage);
+
+        // Keep page within the valid range.
+        $totalPages = max(1, $totalPages);
+        $page = min($page, $totalPages);
 
         $transactionsPaginated = $transactions
             ->slice(($page - 1) * $perPage, $perPage)
             ->values();
 
-        return view(
-            'backend.transaction_management.payment.history',
-            [
-                'transactions' => $transactionsPaginated,
-                'currentPage' => $page,
-                'totalPages' => $totalPages,
-                'isAdmin' => $isAdmin,
-            ]
-        );
+        return [
+            'transactions' => $transactionsPaginated,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+        ];
     }
 
     public function flowDiagram()

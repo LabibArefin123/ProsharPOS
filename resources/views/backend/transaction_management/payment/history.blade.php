@@ -22,62 +22,13 @@
             <div class="card-body">
 
                 @forelse($transactions as $tx)
-                    @php
-                        $transactionConfig = [
-                            'deposit' => [
-                                'label' => 'Deposit',
-                                'sign' => '+',
-                                'class' => 'deposit',
-                                'icon' => 'fa-arrow-down',
-                            ],
-                            'withdraw' => [
-                                'label' => 'Withdraw',
-                                'sign' => '-',
-                                'class' => 'withdraw',
-                                'icon' => 'fa-arrow-up',
-                            ],
-                            'payment' => [
-                                'label' => 'Customer Payment',
-                                'sign' => '+',
-                                'class' => 'payment',
-                                'icon' => 'fa-money-bill-wave',
-                            ],
-                            'supplier_payment' => [
-                                'label' => 'Supplier Payment',
-                                'sign' => '-',
-                                'class' => 'supplier-payment',
-                                'icon' => 'fa-truck',
-                            ],
-                            'purchase' => [
-                                'label' => 'Purchase',
-                                'sign' => '-',
-                                'class' => 'purchase',
-                                'icon' => 'fa-cart-shopping',
-                            ],
-                            'purchase_return' => [
-                                'label' => 'Purchase Return',
-                                'sign' => '+',
-                                'class' => 'purchase-return',
-                                'icon' => 'fa-rotate-left',
-                            ],
-                        ];
-
-                        $config = $transactionConfig[$tx->type] ?? [
-                            'label' => ucfirst(str_replace('_', ' ', $tx->type)),
-                            'sign' => '',
-                            'class' => 'neutral',
-                            'icon' => 'fa-circle-info',
-                        ];
-
-                        $amount = abs((float) $tx->amount);
-                    @endphp
-
                     <div class="transaction-card">
 
+                        {{-- Header --}}
                         <div class="transaction-card-header">
                             <div>
                                 <div class="transaction-card-title">
-                                    {{ $tx->description ?: $config['label'] }}
+                                    {{ $tx->description }}
                                 </div>
 
                                 <div class="transaction-card-date">
@@ -92,7 +43,6 @@
                             </div>
 
                             <div class="transaction-card-actor-wrapper">
-
                                 <div class="transaction-card-actor">
                                     @if ($tx->user)
                                         <strong>
@@ -116,37 +66,40 @@
                                 </div>
 
                                 <a href="{{ route('payments.flow-diagram') }}" class="transaction-flow-btn"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction flow diagram">
+                                    data-bs-toggle="tooltip" title="View transaction flow diagram">
 
                                     <i class="fas fa-project-diagram"></i>
                                     <span>Show Flow Diagram</span>
                                 </a>
-
                             </div>
                         </div>
 
+                        {{-- Transaction Amount --}}
                         <div class="transaction-amount-section">
                             <div>
                                 <div class="transaction-amount-label">Transaction Type</div>
 
-                                <span class="transaction-type-badge {{ $config['class'] }}">
-                                    <i class="fas {{ $config['icon'] }}"></i>
-                                    {{ $config['label'] }}
+                                <span class="transaction-type-badge {{ $tx->class }}">
+                                    <i class="fas {{ $tx->icon }}"></i>
+                                    {{ $tx->label }}
                                 </span>
                             </div>
 
                             <div class="text-right">
                                 <div class="transaction-amount-label">Transaction Amount</div>
 
-                                <div class="transaction-amount-value {{ $config['class'] }}">
-                                    {{ $config['sign'] }}৳{{ number_format($amount, 2) }}
+                                <div class="transaction-amount-value {{ $tx->class }}">
+                                    {{ $tx->sign }}৳{{ $tx->formatted_amount }}
                                 </div>
                             </div>
                         </div>
 
+                        {{-- Balance --}}
                         <div class="transaction-balance">
+
                             <div class="transaction-balance-item old">
                                 <span class="transaction-balance-label">Old Balance</span>
+
                                 <span class="transaction-balance-value">
                                     @if ($tx->old_balance !== null)
                                         ৳{{ number_format($tx->old_balance, 2) }}
@@ -158,13 +111,15 @@
 
                             <div class="transaction-balance-item transaction">
                                 <span class="transaction-balance-label">Transaction</span>
+
                                 <span class="transaction-balance-value">
-                                    {{ $config['sign'] }}৳{{ number_format($amount, 2) }}
+                                    {{ $tx->sign }}৳{{ $tx->formatted_amount }}
                                 </span>
                             </div>
 
                             <div class="transaction-balance-item new">
                                 <span class="transaction-balance-label">New Balance</span>
+
                                 <span class="transaction-balance-value">
                                     @if ($tx->new_balance !== null)
                                         ৳{{ number_format($tx->new_balance, 2) }}
@@ -173,8 +128,8 @@
                                     @endif
                                 </span>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 @empty
                     <div class="transaction-empty">
