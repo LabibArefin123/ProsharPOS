@@ -2,6 +2,14 @@
 
 @section('title', 'My Profile')
 
+@section('adminlte_css')
+    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_information.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_actions.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_resp.css') }}">
+@stop
+
 @section('content_header')
     @include('backend.setting_management.user_management.profile.partial.show_page.header')
 @stop
@@ -53,14 +61,6 @@
             </aside>
         </div>
     </div>
-@stop
-
-@section('adminlte_css')
-    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_base.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_header.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_information.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_actions.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/backend/user_profile/show_page/profile_resp.css') }}">
 @stop
 
 @push('js')
