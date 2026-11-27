@@ -1,0 +1,120 @@
+/* =========================================
+   HERO CONTENT AND TYPOGRAPHY
+========================================= */
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 570px;
+    padding: 25px 0;
+}
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 23px;
+    color: #003366;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+.hero-eyebrow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: #ff9900;
+    background: #fff1dc;
+    border-radius: 10px;
+}
+.hero-eyebrow-icon svg {
+    width: 18px;
+    height: 18px;
+}
+.hero-title {
+    margin: 0 0 23px;
+    color: #10243d;
+    font-size: clamp(38px, 4.5vw, 60px);
+    font-weight: 850;
+    line-height: 1.12;
+    letter-spacing: -2px;
+}
+.hero-title span {
+    display: block;
+    color: #ff9900;
+}
+.hero-description {
+    max-width: 510px;
+    margin: 0 0 31px;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.9;
+}
+.hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+.hero-primary-btn,
+.hero-secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 0 23px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+.hero-primary-btn {
+    color: #fff !important;
+    background: #003366;
+    box-shadow: 0 10px 25px rgba(0, 51, 102, 0.16);
+}
+.hero-primary-btn:hover {
+    color: #fff !important;
+    background: #ff9900;
+    transform: translateY(-3px);
+    box-shadow: 0 13px 25px rgba(255, 153, 0, 0.2);
+}
+.hero-primary-btn svg {
+    width: 18px;
+    height: 18px;
+}
+.hero-secondary-btn {
+    color: #003366 !important;
+    border: 1px solid #dce5ef;
+    background: #fff;
+}
+.hero-secondary-btn:hover {
+    color: #ff9900 !important;
+    border-color: #ff9900;
+    transform: translateY(-3px);
+}
+.hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+    color: #718096;
+    font-size: 13px;
+    font-weight: 600;
+}
+.hero-trust-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    color: #159b69;
+    background: #e6f8ef;
+    border-radius: 50%;
+}
+.hero-trust-icon svg {
+    width: 15px;
+    height: 15px;
+}

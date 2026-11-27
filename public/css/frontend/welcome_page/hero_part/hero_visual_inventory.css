@@ -1,0 +1,153 @@
+/* =========================================
+   HERO INVENTORY VISUAL
+========================================= */
+.inventory-heading,
+.insights-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+.inventory-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    color: #64748b;
+    border-radius: 10px;
+    background: #f1f5f9;
+    font-size: 20px;
+}
+.inventory-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 30px 0 25px;
+}
+.inventory-summary > div {
+    padding: 20px;
+    border: 1px solid #e8eef5;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #f8fafc, #fff);
+}
+.inventory-summary small,
+.inventory-summary strong {
+    display: block;
+}
+.inventory-summary small {
+    color: #718198;
+    font-size: 12px;
+    font-weight: 600;
+}
+.inventory-summary strong {
+    margin-top: 9px;
+    color: #10243d;
+    font-size: 27px;
+    font-weight: 850;
+}
+.inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.inventory-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 5px;
+    border-bottom: 1px solid #edf1f5;
+}
+.product-details {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+}
+.product-details strong {
+    color: #10243d;
+    font-size: 13px;
+    font-weight: 750;
+}
+.product-details small {
+    color: #8493a7;
+    font-size: 11px;
+}
+.stock-label {
+    flex-shrink: 0;
+    padding: 8px 11px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 800;
+}
+.stock-good {
+    color: #087e55;
+    background: #e3f7ed;
+}
+.stock-low {
+    color: #a96708;
+    background: #fff1d8;
+}
+.inventory-progress {
+    margin-top: 25px;
+    padding: 17px;
+    border: 1px solid #e8eef5;
+    border-radius: 13px;
+    background: #fbfdff;
+}
+.progress-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 11px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 650;
+}
+.progress-heading strong {
+    color: #003366;
+    font-size: 13px;
+}
+.progress-track {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #e8eef5;
+}
+.progress-track i {
+    display: block;
+    width: 76%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #003366, #ff9900);
+}
+@media (max-width: 576px) {
+    .inventory-heading h3 {
+        font-size: 17px;
+    }
+    .inventory-summary {
+        gap: 9px;
+        margin: 20px 0;
+    }
+    .inventory-summary > div {
+        padding: 13px;
+    }
+    .inventory-summary strong {
+        font-size: 20px;
+    }
+    .inventory-item {
+        gap: 9px;
+        padding: 12px 0;
+    }
+    .product-symbol {
+        width: 34px;
+        height: 34px;
+    }
+    .product-details strong {
+        font-size: 11px;
+    }
+    .stock-label {
+        padding: 6px 7px;
+        font-size: 9px;
+    }
+}

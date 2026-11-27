@@ -1,0 +1,179 @@
+
+/* =========================================
+   HERO VISUAL BASE
+========================================= */
+.hero-visual{
+    position:relative;
+    isolation:isolate;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    width:100%;
+    min-width:0;
+    min-height:550px;
+    padding:35px 0;
+    overflow:visible;
+}
+/* Main dashboard panels */
+.hero-dashboard,
+.inventory-panel,
+.insights-panel{
+    position:relative;
+    z-index:2;
+    flex:0 1 620px;
+    width:calc(100% - 190px);
+    max-width:620px;
+    min-width:0;
+    padding:30px;
+    overflow:visible;
+    border:1px solid #e3eaf2;
+    border-radius:22px;
+    background:#fff;
+    box-shadow:
+        0 30px 75px rgba(16,36,61,.12),
+        0 5px 18px rgba(16,36,61,.04);
+}
+.dashboard-topbar,
+.dashboard-brand,
+.dashboard-status,
+.dashboard-welcome,
+.dashboard-stats,
+.dashboard-stat,
+.chart-heading,
+.dashboard-footer{
+    display:flex;
+    align-items:center;
+}
+.dashboard-topbar,
+.dashboard-welcome,
+.chart-heading{
+    justify-content:space-between;
+}
+.dashboard-brand{
+    gap:11px;
+    color:#10243d;
+    font-size:17px;
+    font-weight:800;
+}
+.dashboard-brand-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    color:#fff;
+    background:#003366;
+    border-radius:11px;
+    box-shadow:0 5px 12px rgba(0,51,102,.18);
+}
+.dashboard-brand-icon svg{
+    width:21px;
+    height:21px;
+}
+.dashboard-status{
+    gap:9px;
+    padding:8px 12px;
+    color:#475569;
+    background:#f4f8fb;
+    border-radius:30px;
+    font-size:11px;
+    font-weight:700;
+}
+.dashboard-status i{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#19b77a;
+    box-shadow:0 0 0 4px #e6f8ef;
+}
+.dashboard-date,
+.chart-heading>span,
+.insights-period{
+    padding:8px 13px;
+    color:#475569;
+    background:#f1f5f9;
+    border-radius:8px;
+    font-size:11px;
+    font-weight:700;
+}
+.stat-icon,
+.floating-icon,
+.product-symbol{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    width:42px;
+    height:42px;
+    border-radius:12px;
+}
+.stat-icon svg,
+.floating-icon svg,
+.product-symbol svg{
+    width:21px;
+    height:21px;
+}
+.stat-orange,
+.orange-icon,
+.product-symbol-orange{
+    color:#d9820c;
+    background:#fff1d8;
+}
+.stat-blue,
+.product-symbol-blue{
+    color:#246bb4;
+    background:#e7f1ff;
+}
+.product-symbol-purple{
+    color:#7651bd;
+    background:#f0eaff;
+}
+.green-icon{
+    color:#087e55;
+    background:#e3f7ed;
+}
+/* =========================================
+   TABLET VISUAL
+========================================= */
+@media(max-width:1200px){
+    .hero-visual{
+        min-height:520px;
+    }
+    .hero-dashboard,
+    .inventory-panel,
+    .insights-panel{
+        width:calc(100% - 145px);
+        padding:23px;
+    }
+}
+/* =========================================
+   MOBILE VISUAL
+========================================= */
+@media(max-width:850px){
+    .hero-visual{
+        justify-content:center;
+        min-height:430px;
+        padding:35px 15px;
+    }
+    .hero-dashboard,
+    .inventory-panel,
+    .insights-panel{
+        flex:0 1 600px;
+        width:calc(100% - 100px);
+        max-width:600px;
+        padding:25px;
+    }
+}
+@media(max-width:576px){
+    .hero-visual{
+        min-height:390px;
+        padding:30px 8px;
+    }
+    .hero-dashboard,
+    .inventory-panel,
+    .insights-panel{
+        width:calc(100% - 55px);
+        padding:15px;
+        border-radius:15px;
+    }
+}

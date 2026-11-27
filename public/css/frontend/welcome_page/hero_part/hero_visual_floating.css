@@ -1,0 +1,157 @@
+
+/* =========================================
+   HERO FLOATING VISUAL CARDS
+========================================= */
+.hero-floating-card,
+.inventory-floating,
+.insights-floating{
+    position:absolute;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    width:max-content;
+    max-width:190px;
+    padding:14px 15px;
+    border:1px solid #e3eaf2;
+    border-radius:14px;
+    background:#fff;
+    box-shadow:0 18px 45px rgba(16,36,61,.20);
+    animation:heroFloat 4s ease-in-out infinite;
+    pointer-events:none;
+}
+/* Dashboard floating cards */
+.floating-card-one{
+    top:105px;
+    right:0;
+}
+.floating-card-two{
+    bottom:105px;
+    right:0;
+    left:auto;
+    animation-delay:1s;
+}
+/* Inventory and insights floating cards */
+.inventory-floating,
+.insights-floating{
+    right:0;
+    bottom:80px;
+}
+.hero-floating-card small,
+.inventory-floating small,
+.insights-floating small{
+    display:block;
+    margin-bottom:5px;
+    color:#718198;
+    font-size:10px;
+    font-weight:600;
+    white-space:nowrap;
+}
+.hero-floating-card strong,
+.inventory-floating strong,
+.insights-floating strong{
+    display:block;
+    color:#10243d;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+}
+@keyframes heroFloat{
+    0%,100%{
+        translate:0 0;
+    }
+    50%{
+        translate:0 -8px;
+    }
+}
+/* =========================================
+   TABLET
+========================================= */
+@media(max-width:1200px){
+    .hero-floating-card,
+    .inventory-floating,
+    .insights-floating{
+        max-width:165px;
+        padding:11px;
+    }
+    .floating-card-one{
+        top:100px;
+    }
+    .floating-card-two{
+        bottom:100px;
+    }
+    .inventory-floating,
+    .insights-floating{
+        bottom:65px;
+    }
+}
+/* =========================================
+   MOBILE
+========================================= */
+@media(max-width:850px){
+    .hero-floating-card,
+    .inventory-floating,
+    .insights-floating{
+        max-width:190px;
+        padding:11px 13px;
+    }
+    .floating-card-one{
+        top:25px;
+        right:0;
+    }
+    .floating-card-two{
+        right:0;
+        bottom:25px;
+    }
+    .inventory-floating,
+    .insights-floating{
+        right:0;
+        bottom:25px;
+    }
+}
+@media(max-width:576px){
+    .hero-floating-card,
+    .inventory-floating,
+    .insights-floating{
+        gap:7px;
+        max-width:155px;
+        padding:8px 9px;
+        border-radius:10px;
+    }
+    .hero-floating-card .floating-icon,
+    .inventory-floating .floating-icon,
+    .insights-floating .floating-icon{
+        width:30px;
+        height:30px;
+    }
+    .hero-floating-card small,
+    .inventory-floating small,
+    .insights-floating small{
+        font-size:8px;
+    }
+    .hero-floating-card strong,
+    .inventory-floating strong,
+    .insights-floating strong{
+        font-size:9px;
+    }
+    .floating-card-one{
+        top:15px;
+        right:0;
+    }
+    .floating-card-two{
+        right:0;
+        bottom:15px;
+    }
+    .inventory-floating,
+    .insights-floating{
+        right:0;
+        bottom:15px;
+    }
+}
+@media(prefers-reduced-motion:reduce){
+    .hero-floating-card,
+    .inventory-floating,
+    .insights-floating{
+        animation:none;
+    }
+}

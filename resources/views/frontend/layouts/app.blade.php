@@ -38,6 +38,19 @@
     <link rel="stylesheet" href="{{ asset('css/frontend/global_page/footer_part/footer_content.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/global_page/footer_part/footer_resp.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_improvement.css') }}">
+
+    {{-- Hero Section in Welcome Page Start --}}
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_content.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_visual_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_visual_dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_visual_inventory.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_visual_insights.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_visual_floating.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_navigation.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_resp.css') }}">
+    {{-- Hero Section in Welcome Page Start --}}
+
     {{-- Feature Section in Welcome Page Start --}}
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_header.css') }}">
@@ -127,10 +140,9 @@
     @endif
 
     {{-- End of second --}}
-
     <script src="{{ asset('js/frontend/welcome_page/custom_qa.js') }}" defer></script>
-
-
+    <script src="{{ asset('js/frontend/welcome_page/hero_part/hero_slider.js') }}"></script>
+    <script src="{{ asset('js/frontend/welcome_page/hero_part/hero_autoplay.js') }}"></script>
 </body>
 
 </html>

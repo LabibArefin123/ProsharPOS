@@ -1,0 +1,158 @@
+/* =========================================
+   PROSHARPOS HERO BASE
+========================================= */
+.proshar-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 760px;
+    padding: 95px 0 45px;
+    overflow: hidden;
+    background: linear-gradient(120deg, #f7faff 0%, #ffffff 48%, #fff8ef 100%);
+}
+.proshar-hero * {
+    box-sizing: border-box;
+}
+.hero-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1500px;
+    padding: 0 35px;
+    margin: 0 auto;
+}
+.hero-slider {
+    position: relative;
+    min-height: 620px;
+    overflow: hidden;
+}
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    padding: 0 10px;
+    visibility: hidden;
+    pointer-events: none;
+}
+.hero-slide.is-active {
+    z-index: 2;
+    visibility: visible;
+    pointer-events: auto;
+}
+.hero-slide.is-exiting {
+    z-index: 1;
+    visibility: visible;
+    pointer-events: none;
+    animation: heroExitToLeft 0.8s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.hero-slide.is-entering {
+    animation: heroEnterFromRight 0.8s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.hero-background-shape {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+}
+.hero-shape-one {
+    top: -220px;
+    right: -130px;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(
+        circle,
+        rgba(255, 153, 0, 0.12),
+        transparent 70%
+    );
+}
+.hero-shape-two {
+    bottom: -270px;
+    left: -160px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(
+        circle,
+        rgba(0, 51, 102, 0.09),
+        transparent 70%
+    );
+}
+@keyframes heroEnterFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes heroExitToLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+/* =========================================
+   RESPONSIVE BASE LAYOUT
+========================================= */
+@media (max-width: 1200px) {
+    .hero-container {
+        padding: 0 25px;
+    }
+    .hero-slide {
+        grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+        gap: 25px;
+        padding: 0 5px;
+    }
+    .hero-slider {
+        min-height: 590px;
+    }
+}
+@media (max-width: 850px) {
+    .proshar-hero {
+        min-height: auto;
+        padding: 65px 0 35px;
+    }
+    .hero-slider {
+        min-height: 1050px;
+    }
+    .hero-slide {
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
+        align-items: start;
+        gap: 20px;
+        padding: 10px 0 20px;
+    }
+}
+@media (max-width: 576px) {
+    .proshar-hero {
+        padding: 45px 0 25px;
+    }
+    .hero-container {
+        padding: 0 17px;
+    }
+    .hero-slider {
+        min-height: 1020px;
+    }
+    .hero-slide {
+        gap: 12px;
+    }
+}
+@media (max-width: 380px) {
+    .hero-slider {
+        min-height: 1060px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-slide.is-entering,
+    .hero-slide.is-exiting {
+        animation: none;
+    }
+}

@@ -1,0 +1,77 @@
+/* =========================================
+   HERO SLIDER NAVIGATION
+========================================= */
+.hero-navigation {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(0, 51, 102, 0.09);
+}
+.hero-slide-indicators {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+.hero-dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    background: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.hero-dot.is-active {
+    width: 32px;
+    background: #ff9900;
+}
+.hero-navigation-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.hero-slide-count {
+    margin-right: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 700;
+}
+.hero-slide-count strong {
+    color: #003366;
+}
+.hero-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    padding: 0;
+    color: #003366;
+    border: 1px solid #dce5ef;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.hero-arrow svg {
+    width: 17px;
+    height: 17px;
+}
+.hero-arrow:hover {
+    color: #fff;
+    border-color: #003366;
+    background: #003366;
+    transform: translateY(-2px);
+}
+.hero-arrow:focus-visible,
+.hero-dot:focus-visible,
+.hero-primary-btn:focus-visible,
+.hero-secondary-btn:focus-visible {
+    outline: 3px solid rgba(255, 153, 0, 0.45);
+    outline-offset: 3px;
+}
