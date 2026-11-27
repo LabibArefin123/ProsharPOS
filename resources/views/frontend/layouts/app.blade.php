@@ -25,6 +25,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/frontend/custom.css') }}">
+    {{-- HEADER CSS --}}
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/header_part/header_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/header_part/header_topbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/header_part/header_brand.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/header_part/header_navigation.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/header_part/header_resp.css') }}">
+
+    {{--  FOOTER CSS --}}
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/footer_part/footer_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/footer_part/footer_brand.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/footer_part/footer_content.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/global_page/footer_part/footer_resp.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/custom_improvement.css') }}">
     {{-- Feature Section in Welcome Page Start --}}
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_base.css') }}">
@@ -117,7 +129,7 @@
     {{-- End of second --}}
 
     <script src="{{ asset('js/frontend/welcome_page/custom_qa.js') }}" defer></script>
-    
+
 
 </body>
 

@@ -1,0 +1,43 @@
+/* ==========================================
+   PREMIUM HEADER BASE
+========================================== */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 5px 25px rgba(15, 23, 42, 0.08);
+}
+.sticky-header .main-header {
+    position: relative;
+    width: 100%;
+    min-height: 82px;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid #edf0f5;
+    background: #ffffff;
+}
+.sticky-header .main-header .container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 35px;
+}
+.sticky-header a {
+    text-decoration: none;
+}
+.sticky-header .navbar-toggler {
+    border: 1px solid #e5eaf1;
+    border-radius: 9px;
+    padding: 8px 11px;
+    outline: none;
+    box-shadow: none;
+}
+.sticky-header .navbar-toggler:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.12);
+}

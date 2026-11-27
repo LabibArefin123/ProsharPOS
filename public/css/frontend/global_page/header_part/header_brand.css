@@ -1,0 +1,28 @@
+/* ==========================================
+   HEADER BRAND / LOGO
+========================================== */
+.sticky-header .navbar-brand{
+    display:flex;
+    align-items:center;
+    flex-shrink:0;
+    padding:0;
+    margin:0;
+}
+.sticky-header .brand-image{
+    display:block;
+    width:200px;
+    height:50px;
+    max-width:100%;
+    max-height:none!important;
+    margin:0!important;
+    padding:0;
+    object-fit:contain;
+    object-position:left center;
+    border-radius:0!important;
+    box-shadow:none!important;
+    opacity:1;
+    transition:opacity .25s ease;
+}
+.sticky-header .navbar-brand:hover .brand-image{
+    opacity:.85;
+}

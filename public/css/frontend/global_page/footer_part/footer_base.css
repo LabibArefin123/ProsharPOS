@@ -1,0 +1,38 @@
+/* ==========================================
+   PREMIUM FOOTER BASE
+========================================== */
+.frontend-footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(125deg, #003366 0%, #082947 55%, #101b2d 100%);
+    color: #ffffff;
+}
+.frontend-footer::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #ff9900, #ffc266, #ff9900);
+}
+.frontend-footer .footer-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 55px 35px 22px;
+}
+.frontend-footer .footer-main {
+    display: grid;
+    grid-template-columns: 1.45fr 0.8fr 0.8fr 1.35fr;
+    gap: 45px;
+    padding-bottom: 35px;
+}
+.frontend-footer a {
+    text-decoration: none;
+}
+.frontend-footer .footer-column {
+    min-width: 0;
+}
