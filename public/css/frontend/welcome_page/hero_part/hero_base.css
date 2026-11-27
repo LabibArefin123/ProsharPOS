@@ -5,7 +5,7 @@
     position: relative;
     isolation: isolate;
     min-height: 760px;
-    padding: 95px 0 45px;
+    padding: 10px 0 45px;
     overflow: hidden;
     background: linear-gradient(120deg, #f7faff 0%, #ffffff 48%, #fff8ef 100%);
 }

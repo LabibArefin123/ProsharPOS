@@ -1,0 +1,65 @@
+/* ==========================================
+   ABOUT SECTION HEADER
+========================================== */
+#about .about-heading{
+    max-width:850px;
+    margin:0 auto 60px;
+    text-align:center;
+}
+#about .about-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:15px;
+    padding:8px 15px;
+    color:#198754;
+    background:#eaf7ef;
+    border:1px solid #d8f0e1;
+    border-radius:50px;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+}
+#about .about-eyebrow i{
+    font-size:13px;
+}
+#about .about-title{
+    margin:0 0 17px;
+    color:#17243a;
+    font-size:clamp(32px,4vw,46px);
+    font-weight:800;
+    line-height:1.2;
+    letter-spacing:-1.5px;
+}
+#about .about-title span{
+    color:#198754;
+}
+#about .about-subtitle{
+    max-width:760px;
+    margin:0 auto;
+    color:#718096;
+    font-size:16px;
+    line-height:1.85;
+}
+@media(max-width:767.98px){
+    #about .about-heading{
+        margin-bottom:38px;
+    }
+    #about .about-title{
+        font-size:32px;
+        letter-spacing:-.8px;
+    }
+    #about .about-subtitle{
+        font-size:15px;
+        line-height:1.75;
+    }
+}
+@media(max-width:480px){
+    #about .about-title{
+        font-size:28px;
+    }
+    #about .about-subtitle{
+        font-size:14px;
+    }
+}

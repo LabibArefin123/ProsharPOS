@@ -1,0 +1,118 @@
+/* ==========================================
+   ABOUT TEXT CONTENT
+========================================== */
+#about .about-content{
+    max-width:620px;
+    margin-left:auto;
+}
+#about .about-content-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:15px;
+    color:#198754;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1.1px;
+    text-transform:uppercase;
+}
+#about .about-content-label i{
+    font-size:14px;
+}
+#about .about-content-title{
+    margin:0 0 22px;
+    color:#17243a;
+    font-size:clamp(25px,3vw,34px);
+    font-weight:800;
+    line-height:1.35;
+    letter-spacing:-.7px;
+}
+#about .about-content-title span{
+    color:#198754;
+}
+#about .about-text p{
+    margin:0 0 17px;
+    color:#64748b;
+    font-size:15px;
+    line-height:1.9;
+    text-align:left;
+}
+#about .about-text p:last-child{
+    margin-bottom:0;
+}
+#about .about-text strong{
+    color:#26364d;
+    font-weight:700;
+}
+/* ==========================================
+   ABOUT FEATURE HIGHLIGHTS
+========================================== */
+#about .about-highlights{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    margin-top:27px;
+}
+#about .about-highlight{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    min-width:0;
+    padding:13px 14px;
+    background:#ffffff;
+    border:1px solid #e9eef3;
+    border-radius:12px;
+    box-shadow:0 5px 18px rgba(23,36,58,.035);
+}
+#about .about-highlight i{
+    display:flex;
+    flex:0 0 34px;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    color:#198754;
+    background:#eaf7ef;
+    border-radius:10px;
+    font-size:14px;
+}
+#about .about-highlight span{
+    color:#34445a;
+    font-size:12px;
+    font-weight:700;
+    line-height:1.45;
+}
+@media(max-width:991.98px){
+    #about .about-content{
+        max-width:720px;
+        margin:0 auto;
+    }
+}
+@media(max-width:767.98px){
+    #about .about-content{
+        text-align:center;
+    }
+    #about .about-content-title{
+        font-size:28px;
+    }
+    #about .about-text p{
+        font-size:14px;
+        line-height:1.8;
+        text-align:left;
+    }
+    #about .about-highlights{
+        gap:10px;
+        margin-top:22px;
+    }
+}
+@media(max-width:480px){
+    #about .about-content-title{
+        font-size:25px;
+    }
+    #about .about-highlights{
+        grid-template-columns:1fr;
+    }
+    #about .about-highlight{
+        padding:11px 12px;
+    }
+}

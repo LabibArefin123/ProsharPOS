@@ -49,7 +49,14 @@
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_visual_floating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_navigation.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/hero_part/hero_resp.css') }}">
-    {{-- Hero Section in Welcome Page Start --}}
+    {{-- Hero Section in Welcome Page End --}}
+
+    {{-- About Section in Welcome Page Start --}}
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/about_part/about_base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/about_part/about_header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/about_part/about_visual.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/about_part/about_content.css') }}">
+    {{-- About Section in Welcome Page End --}}
 
     {{-- Feature Section in Welcome Page Start --}}
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_base.css') }}">
@@ -75,7 +82,8 @@
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_icon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_content.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_cta.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/service_part/custom_service_responsive.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('css/frontend/welcome_page/service_part/custom_service_responsive.css') }}">
     {{-- Service Part in Welcome Page End --}}
     {{-- FAQ Part in Welcome Page Start --}}
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/faq_part/custom_faq_base.css') }}">

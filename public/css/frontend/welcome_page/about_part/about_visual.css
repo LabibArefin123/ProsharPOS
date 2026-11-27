@@ -1,0 +1,126 @@
+/* ==========================================
+   ABOUT IMAGE AREA
+========================================== */
+#about .about-visual {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 18px 18px 0;
+}
+#about .about-image-frame {
+    position: relative;
+    padding: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8edf3;
+    border-radius: 25px;
+    box-shadow: 0 25px 65px rgba(23, 36, 58, 0.12);
+}
+#about .about-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.12/1;
+    object-fit: cover;
+    border-radius: 17px;
+}
+#about .about-image-accent {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 58%;
+    height: 58%;
+    background: linear-gradient(135deg, #198754, #146c43);
+    border-radius: 25px;
+}
+#about .about-image-badge {
+    position: absolute;
+    right: -5px;
+    bottom: 45px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 230px;
+    padding: 15px 19px;
+    background: #ffffff;
+    border: 1px solid #e9eef3;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(23, 36, 58, 0.14);
+}
+#about .about-image-badge-icon {
+    display: flex;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    color: #198754;
+    background: #eaf7ef;
+    border-radius: 12px;
+    font-size: 18px;
+}
+#about .about-image-badge strong {
+    display: block;
+    color: #17243a;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+#about .about-image-badge span {
+    display: block;
+    margin-top: 3px;
+    color: #7b8797;
+    font-size: 11px;
+    line-height: 1.4;
+}
+@media (max-width: 991.98px) {
+    #about .about-visual {
+        max-width: 650px;
+    }
+}
+@media (max-width: 767.98px) {
+    #about .about-visual {
+        max-width: 580px;
+        padding-right: 12px;
+        padding-bottom: 12px;
+    }
+    #about .about-image-frame {
+        padding: 7px;
+        border-radius: 19px;
+    }
+    #about .about-image {
+        border-radius: 13px;
+    }
+    #about .about-image-badge {
+        right: -2px;
+        bottom: 30px;
+        max-width: 205px;
+        padding: 12px 14px;
+    }
+    #about .about-image-badge-icon {
+        flex-basis: 36px;
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+    }
+}
+@media (max-width: 480px) {
+    #about .about-visual {
+        padding-right: 7px;
+        padding-bottom: 8px;
+    }
+    #about .about-image-badge {
+        right: -3px;
+        bottom: 20px;
+        gap: 8px;
+        max-width: 185px;
+        padding: 10px 11px;
+    }
+    #about .about-image-badge strong {
+        font-size: 11px;
+    }
+    #about .about-image-badge span {
+        font-size: 10px;
+    }
+}
