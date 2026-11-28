@@ -1,38 +1,59 @@
 /* ==========================================
    FOOTER BRANDING
 ========================================== */
-@font-face{
-    font-family:'OnStage';
-    src:url('/fonts/OnStage_Regular.ttf') format('truetype');
-    font-weight:normal;
-    font-style:normal;
-    font-display:swap;
+
+.frontend-footer .footer-brand {
+    min-width: 0;
 }
-.frontend-footer .onstage-text{
-    font-family:'OnStage',sans-serif;
-    color:#ff9900;
-    cursor:default;
+
+.frontend-footer .footer-brand-image {
+    display: block;
+    width: 200px;
+    height: 50px;
+    max-width: 100%;
+    margin: 0 0 17px;
+    padding: 0;
+    object-fit: contain;
+    object-position: left center;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    transition: opacity 0.25s ease;
 }
-.frontend-footer .footer-brand-title{
-    display:inline-block;
-    margin:0 0 17px;
-    color:#ff9900;
-    font-family:'OnStage',sans-serif;
-    font-size:34px;
-    font-weight:normal;
-    letter-spacing:.5px;
+
+.frontend-footer .footer-brand-image:hover {
+    opacity: 0.85;
 }
-.frontend-footer .footer-description{
-    max-width:340px;
-    margin:0;
-    color:#c2cfdd;
-    font-size:13px;
-    line-height:1.9;
-    font-weight:400;
+
+.frontend-footer .footer-brand-title {
+    display: inline-block;
+    margin: 0 0 17px;
+    color: #172b42;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
 }
-.frontend-footer .brand-hover{
-    transition:color .25s ease;
+
+.frontend-footer .onstage-text {
+    color: #172b42;
+    font-weight: 600;
+    cursor: default;
+    transition: color 0.25s ease;
 }
-.frontend-footer .brand-hover:hover{
-    color:#ffb84d!important;
+
+.frontend-footer .footer-description {
+    max-width: 340px;
+    margin: 0;
+    color: #52677e;
+    font-size: 13px;
+    line-height: 1.9;
+    font-weight: 400;
+}
+
+.frontend-footer .brand-hover {
+    transition: color 0.25s ease;
+}
+
+.frontend-footer .brand-hover:hover {
+    color: #0877c9 !important;
 }

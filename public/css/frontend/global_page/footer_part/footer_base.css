@@ -1,13 +1,16 @@
 /* ==========================================
    PREMIUM FOOTER BASE
+   SKY BLUE BRAND THEME
 ========================================== */
+
 .frontend-footer {
     position: relative;
     width: 100%;
     overflow: hidden;
-    background: linear-gradient(125deg, #003366 0%, #082947 55%, #101b2d 100%);
-    color: #ffffff;
+    background: linear-gradient(135deg, #eaf6ff 0%, #e2f2ff 55%, #d9edff 100%);
+    color: #172b42;
 }
+
 .frontend-footer::before {
     position: absolute;
     content: "";
@@ -15,8 +18,9 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, #ff9900, #ffc266, #ff9900);
+    background: linear-gradient(90deg, #0877c9, #48b4f5, #0877c9);
 }
+
 .frontend-footer .footer-container {
     position: relative;
     z-index: 1;
@@ -24,15 +28,18 @@
     margin: 0 auto;
     padding: 55px 35px 22px;
 }
+
 .frontend-footer .footer-main {
     display: grid;
     grid-template-columns: 1.45fr 0.8fr 0.8fr 1.35fr;
     gap: 45px;
     padding-bottom: 35px;
 }
+
 .frontend-footer a {
     text-decoration: none;
 }
+
 .frontend-footer .footer-column {
     min-width: 0;
 }

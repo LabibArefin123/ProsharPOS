@@ -1,30 +1,37 @@
 <header class="sticky-header">
     {{-- TOP INFORMATION BAR --}}
+
+    {{-- TOP INFORMATION BAR --}}
     <div class="top-info-bar">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="container-fluid">
+
             {{-- CONTACT INFORMATION --}}
             <div class="contact-info d-none d-md-flex align-items-center">
+
                 <a href="mailto:mdlabibarefin@gmail.com" class="contact-item">
                     <i class="fas fa-envelope"></i>
-                    mdlabibarefin@gmail.com
+                    <span>mdlabibarefin@gmail.com</span>
                 </a>
 
                 <span class="text-white-50">|</span>
 
                 <a href="tel:+8801776197999" class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    +8801776197999
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+8801776197999</span>
                 </a>
 
                 <a href="https://wa.me/8801776197999" target="_blank" rel="noopener noreferrer" class="contact-item">
+
                     <i class="fab fa-whatsapp"></i>
-                    WhatsApp
+                    <span>WhatsApp</span>
                 </a>
+
             </div>
 
             {{-- DATE AND TIME --}}
             <div class="fw-semibold">
                 <i class="far fa-clock"></i>
+
                 <span id="currentDateTime">
                     {{ \Carbon\Carbon::now()->format('l, d F Y, h:i:s A') }}
                 </span>
@@ -32,6 +39,7 @@
 
         </div>
     </div>
+
 
     {{-- MAIN NAVIGATION --}}
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">

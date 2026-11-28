@@ -1,53 +1,110 @@
 /* ==========================================
    HEADER TOP INFORMATION BAR
+   LIGHT SKY BLUE BRAND THEME
 ========================================== */
+
 .sticky-header .top-info-bar {
     position: relative;
     z-index: 2;
-    min-height: 37px;
+    min-height: 42px;
     display: flex;
     align-items: center;
-    background: linear-gradient(105deg, #10243d, #003366);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(105deg, #eaf6ff 0%, #e2f2ff 100%);
+    border-bottom: 1px solid #d9eaf7;
 }
+
 .sticky-header .top-info-bar .container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     max-width: 1600px;
-    min-height: 37px;
+    min-height: 42px;
     margin: 0 auto;
-    padding: 4px 35px;
-    gap: 15px;
+    padding: 5px 35px;
+    gap: 20px;
 }
+
+/* CONTACT INFORMATION */
+
 .sticky-header .contact-info {
+    display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 20px !important;
+    gap: 24px !important;
 }
+
 .sticky-header .contact-item {
     display: inline-flex;
     align-items: center;
-    color: #e7edf5 !important;
-    font-size: 11.5px;
+    justify-content: center;
+    gap: 9px;
+    color: #344b63 !important;
+    font-size: 12px;
     font-weight: 500;
-    letter-spacing: 0.15px;
+    letter-spacing: 0.1px;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-decoration: none;
     transition: color 0.25s ease;
 }
+
+/* ICON SPACING AND ALIGNMENT */
+
 .sticky-header .contact-item i {
-    color: #ff9900;
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 15px;
+    color: #0877c9;
+    font-size: 13px;
+    line-height: 1;
+    transition: transform 0.25s ease;
 }
+
 .sticky-header .contact-item:hover {
-    color: #ffb84d !important;
+    color: #0877c9 !important;
 }
+
+.sticky-header .contact-item:hover i {
+    transform: translateY(-2px);
+}
+
+/* TOP BAR SEPARATOR */
+
 .sticky-header .top-info-bar .text-white-50 {
+    color: #b4c9db !important;
     font-size: 12px;
-    opacity: 0.35;
+    opacity: 0.8;
 }
+
+/* DATE AND TIME */
+
 .sticky-header .top-info-bar .fw-semibold {
-    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #344b63;
     font-size: 11.5px;
     font-weight: 600 !important;
+    letter-spacing: 0.1px;
     white-space: nowrap;
 }
+
 .sticky-header .top-info-bar .fw-semibold i {
-    margin-right: 5px;
-    color: #ff9900;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0877c9;
+    font-size: 13px;
+}
+
+/* ==========================================
+   ACCESSIBILITY
+========================================== */
+
+.sticky-header .contact-item:focus-visible {
+    outline: 2px solid #0877c9;
+    outline-offset: 4px;
+    border-radius: 3px;
 }

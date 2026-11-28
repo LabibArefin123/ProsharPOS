@@ -3,7 +3,10 @@
         <div class="footer-main">
             {{-- BRAND --}}
             <div class="footer-brand">
-                <h3 class="footer-brand-title"> ProsharPOS </h3>
+                <a href="{{ route('welcome') }}" class="footer-brand-link">
+                    <img src="{{ asset('uploads/images/welcome_page/logo.JPG') }}" alt="ProsharPOS Logo"
+                        class="footer-brand-image" width="200" height="50">
+                </a>
                 <p class="footer-description">
                     ProsharPOS helps businesses run smarter and faster.
                     Easily manage sales, inventory, customers, and insights

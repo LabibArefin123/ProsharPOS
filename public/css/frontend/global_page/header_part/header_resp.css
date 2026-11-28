@@ -1,96 +1,32 @@
 /* ==========================================
-   HEADER RESPONSIVE
+   TOP BAR RESPONSIVE
 ========================================== */
-@media(max-width:1199.98px){
-    .sticky-header .main-header .container-fluid{
-        gap:15px;
-        padding-right:25px;
-        padding-left:25px;
+
+@media (max-width: 767.98px) {
+    .sticky-header .top-info-bar .container-fluid {
+        justify-content: center !important;
+        padding: 8px 15px;
     }
-    .sticky-header .navbar-nav{
-        gap:0;
-    }
-    .sticky-header .navbar-nav .nav-link.custom-link{
-        padding:12px 9px;
-        font-size:12px;
-    }
-    .sticky-header .brand-image{
-        width:180px;
-        height:45px;
-    }
-    .sticky-header .header-login{
-        min-width:90px;
-        padding:9px 16px;
+
+    .sticky-header .top-info-bar .fw-semibold {
+        justify-content: center;
+        font-size: 11px;
+        text-align: center;
     }
 }
-@media(max-width:991.98px){
-    .sticky-header .main-header{
-        min-height:75px;
+
+@media (max-width: 480px) {
+    .sticky-header .top-info-bar {
+        min-height: 36px;
     }
-    .sticky-header .main-header .container-fluid{
-        flex-wrap:wrap;
-        padding:12px 22px;
+
+    .sticky-header .top-info-bar .container-fluid {
+        min-height: 36px;
+        padding: 7px 12px;
     }
-    .sticky-header .navbar-collapse{
-        flex-basis:100%;
-        width:100%;
-        order:3;
-        padding:12px 0 5px;
-        border-top:1px solid #edf0f5;
-        margin-top:10px;
-    }
-    .sticky-header .navbar-nav{
-        align-items:stretch;
-        width:100%;
-        gap:2px;
-    }
-    .sticky-header .navbar-nav .nav-item{
-        display:block;
-        width:100%;
-    }
-    .sticky-header .navbar-nav .nav-link.custom-link{
-        padding:11px 14px;
-        border-radius:7px;
-        font-size:13px;
-    }
-    .sticky-header .navbar-nav .nav-link.custom-link::after{
-        display:none;
-    }
-    .sticky-header .navbar-nav .nav-link.custom-link:hover,
-    .sticky-header .navbar-nav .nav-link.custom-link.active{
-        background:#fff7eb;
-        color:#003366;
-    }
-    .sticky-header .header-login{
-        min-height:39px;
-    }
-}
-@media(max-width:767.98px){
-    .sticky-header .top-info-bar .container-fluid{
-        justify-content:center!important;
-        padding:7px 15px;
-    }
-    .sticky-header .top-info-bar .fw-semibold{
-        font-size:11px;
-        text-align:center;
-    }
-}
-@media(max-width:480px){
-    .sticky-header .main-header .container-fluid{
-        padding:10px 14px;
-        gap:10px;
-    }
-    .sticky-header .brand-image{
-        width:155px;
-        height:40px;
-    }
-    .sticky-header .header-login{
-        min-width:auto;
-        min-height:36px;
-        padding:8px 13px;
-        font-size:12px;
-    }
-    .sticky-header .navbar-toggler{
-        padding:6px 9px;
+
+    .sticky-header .top-info-bar .fw-semibold {
+        gap: 7px;
+        font-size: 10.5px;
     }
 }
