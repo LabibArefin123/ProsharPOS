@@ -1,43 +1,58 @@
+
+/* ==========================================
+   FEATURES CONTENT / DECORATION
+========================================== */
+
+/* BACKGROUND CARD NUMBER */
+
 .feature-number {
     position: absolute;
-    right: 18px;
-    bottom: 5px;
-    color: #f4f6fa;
-    font-size: 65px;
+    right: 14px;
+    bottom: 42px;
+    color: rgba(8, 119, 201, 0.045);
+    font-size: 66px;
     font-weight: 900;
     line-height: 1;
+    letter-spacing: -4px;
     pointer-events: none;
-    transition: color 0.35s ease;
+    user-select: none;
+    transition:
+        color 0.4s ease,
+        transform 0.4s ease;
 }
+
 .feature-card:hover .feature-number {
-    color: #f0f4fc;
+    color: rgba(8, 119, 201, 0.085);
+    transform: translateY(-5px);
 }
+
+/* BOTTOM INFORMATION */
+
 .features-bottom {
-    margin-top: 55px;
+    margin-top: 60px;
+    padding: 24px 20px;
+    border: 1px solid #dcecf8;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.65);
 }
-.features-bottom p {
-    margin-bottom: 18px;
-    color: #657187;
-    font-size: 15px;
-    font-weight: 600;
-}
-.features-cta {
-    display: inline-flex;
+
+.features-bottom-icon {
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 13px 27px;
-    border-radius: 8px;
-    background: #3973df;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 7px 18px rgba(57, 115, 223, 0.20);
-    transition: all 0.3s ease;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 12px;
+    border-radius: 11px;
+    background: #e7f4ff;
+    color: #0877c9;
+    font-size: 16px;
 }
-.features-cta:hover {
-    transform: translateY(-3px);
-    background: #285fc5;
-    color: #ffffff;
-    box-shadow: 0 11px 24px rgba(57, 115, 223, 0.28);
+
+.features-bottom p {
+    margin: 0;
+    color: #526e88;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.7;
 }

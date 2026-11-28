@@ -1,9 +1,66 @@
+/* ==========================================
+   PREMIUM FEATURES SECTION
+========================================== */
+
 .features-section {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
-    padding: 90px 0 !important;
-    background: #f7f9fc;
+    padding: 100px 0 !important;
+    background:
+        radial-gradient(
+            circle at 5% 10%,
+            rgba(69, 166, 235, 0.09),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 95% 85%,
+            rgba(8, 119, 201, 0.07),
+            transparent 30%
+        ),
+        linear-gradient(135deg, #f5faff 0%, #edf7ff 50%, #f8fbff 100%);
 }
+
+.features-section::before,
+.features-section::after {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    width: 320px;
+    height: 320px;
+    border: 1px solid rgba(8, 119, 201, 0.08);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.features-section::before {
+    top: -180px;
+    right: -100px;
+    box-shadow:
+        0 0 0 35px rgba(8, 119, 201, 0.025),
+        0 0 0 70px rgba(8, 119, 201, 0.018);
+}
+
+.features-section::after {
+    bottom: -200px;
+    left: -140px;
+    box-shadow:
+        0 0 0 35px rgba(8, 119, 201, 0.025),
+        0 0 0 70px rgba(8, 119, 201, 0.018);
+}
+
 .features-container {
-    max-width: 1250px;
+    position: relative;
+    z-index: 1;
+    max-width: 1300px;
+}
+
+.features-grid {
+    position: relative;
+}
+
+.features-section *,
+.features-section *::before,
+.features-section *::after {
+    box-sizing: border-box;
 }

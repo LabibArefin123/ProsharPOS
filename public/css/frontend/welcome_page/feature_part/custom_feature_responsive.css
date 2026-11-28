@@ -1,80 +1,139 @@
-@media (max-width: 991px) {
-    .features-section {
-        padding: 70px 0 !important;
+
+/* ==========================================
+   FEATURES RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 1199.98px) {
+    .features-container {
+        max-width: 1100px;
     }
-    .features-header {
-        margin-bottom: 40px;
-    }
+
     .feature-card {
-        min-height: 235px;
-        padding: 25px 22px;
+        min-height: 280px;
+        padding: 25px 22px 21px;
     }
 }
-@media (max-width: 767px) {
+
+@media (max-width: 991.98px) {
     .features-section {
-        padding: 60px 0 !important;
+        padding: 75px 0 !important;
     }
+
     .features-header {
-        margin-bottom: 32px;
+        margin-bottom: 45px;
+    }
+
+    .feature-card {
+        min-height: 275px;
+    }
+
+    .features-bottom {
+        margin-top: 45px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .features-section {
+        padding: 65px 0 !important;
+    }
+
+    .features-header {
+        margin-bottom: 38px;
         padding: 0 10px;
     }
+
     .features-title {
-        font-size: 30px;
-        letter-spacing: -0.7px;
+        font-size: 31px;
+        letter-spacing: -0.8px;
     }
+
     .features-description {
         font-size: 14px;
         line-height: 1.8;
     }
+
     .feature-card {
-        min-height: 225px;
-        padding: 24px 20px;
-        border-radius: 13px;
+        min-height: 265px;
+        padding: 25px 21px 21px;
+        border-radius: 16px;
     }
+
     .feature-card h5 {
         font-size: 16px;
     }
+
     .feature-card p {
-        font-size: 13px;
+        font-size: 12.8px;
     }
+
     .features-bottom {
-        margin-top: 40px;
+        margin-top: 35px;
+        padding: 22px 15px;
     }
 }
-@media (max-width: 575px) {
+
+@media (max-width: 575.98px) {
     .features-section {
-        padding: 48px 0 !important;
+        padding: 50px 0 !important;
     }
+
     .features-title {
         font-size: 27px;
     }
+
     .features-label {
-        font-size: 10px;
         padding: 8px 14px;
+        font-size: 10px;
     }
+
+    .features-description {
+        font-size: 13.5px;
+    }
+
+    .features-header-decoration {
+        margin-top: 22px;
+    }
+
     .feature-card {
-        min-height: auto;
-        padding: 24px;
+        min-height: 250px;
+        padding: 23px 22px 20px;
     }
+
+    .feature-card-top {
+        margin-bottom: 20px;
+    }
+
     .feature-icon {
         width: 52px;
         height: 52px;
-        margin-bottom: 18px;
-        font-size: 21px;
+        border-radius: 13px;
+        font-size: 20px;
     }
+
     .feature-number {
-        font-size: 55px;
+        font-size: 56px;
+    }
+
+    .features-bottom {
+        margin-top: 28px;
     }
 }
+
+/* ==========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================== */
+
 @media (prefers-reduced-motion: reduce) {
-    .feature-card,
-    .feature-icon,
-    .feature-number,
-    .features-cta {
-        transition: none;
+    .features-section *,
+    .features-section *::before,
+    .features-section *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
-    .feature-card:hover,
-    .features-cta:hover {
+
+    .feature-card:hover {
         transform: none;
     }
 }

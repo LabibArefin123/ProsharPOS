@@ -64,6 +64,7 @@
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_card.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_icon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_content.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_animation.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontend/welcome_page/feature_part/custom_feature_responsive.css') }}">
     {{-- Feature Section in Welcome Page End --}}
     {{-- Blog Section in Welcome Page Start --}}
@@ -151,6 +152,11 @@
     <script src="{{ asset('js/frontend/welcome_page/custom_qa.js') }}" defer></script>
     <script src="{{ asset('js/frontend/welcome_page/hero_part/hero_slider.js') }}"></script>
     <script src="{{ asset('js/frontend/welcome_page/hero_part/hero_autoplay.js') }}"></script>
+
+    {{-- FEATURES ANIMATIONS --}}
+    <script src="{{ asset('js/frontend/welcome_page/feature_part/feature_scroll_animation.js') }}" defer></script>
+    <script src="{{ asset('js/frontend/welcome_page/feature_part/feature_card_interaction.js') }}" defer></script>
+    <script src="{{ asset('js/frontend/welcome_page/feature_part/feature_animation_controller.js') }}" defer></script>
 </body>
 
 </html>
